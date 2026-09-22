@@ -1,0 +1,14 @@
+{
+  "name": "zipspeed-by-anakinyoo",
+  "version": "44.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "build": "node build.mjs",
+    "test": "node --test",
+    "audit": "node audit.mjs",
+    "check": "npm run audit && npm test && npm run build"
+  }
+}
