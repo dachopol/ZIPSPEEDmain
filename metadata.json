@@ -1,7 +1,7 @@
 {
   "name": "Zipspeed by AnakinYoo",
-  "version": "45.0.0",
-  "description": "Minimal 3D clay-style browser/Android WebView speed test using measured HTTP transfers. No synthetic network measurements.",
+  "version": "46.0.0",
+  "description": "Minimal 3D clay-style browser/Android WebView speed test with centralized design tokens and measured HTTP network results only.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "Measured HTTP latency and jitter indicator",

@@ -887,7 +887,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
   
-    /* v45 MINIMAL 3D CLAY DESIGN SYSTEM */
+    /* v46 MINIMAL 3D CLAY DESIGN SYSTEM */
     :root {
       --bg-base:#F5F7FB; --bg-surface:#FFFFFF; --bg-card:#FFFFFF; --bg-card-hover:#F8FAFF;
       --border-subtle:rgba(15,23,42,.08); --border-focus:#3B82F6;
@@ -947,6 +947,98 @@
     .table-wrapper{border-radius:20px}.history-table th{background:#F8FAFC;color:#475569}.history-table td{border-color:#EEF2F7}
     @media(max-width:640px){.app-shell{padding-inline:12px}header.app-header{align-items:flex-start}.header-actions{width:100%;justify-content:flex-end}.gauge-section{border-radius:28px}.card-metric,.panel-card,.chart-section,.history-section{border-radius:24px}.history-actions{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.btn-secondary{width:100%;justify-content:center}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
+
+  
+    /* v46 TOKEN LOCK + NUMERIC + GLASS QUALITY GATE */
+    :root {
+      --brand-blue: #3B82F6;
+      --surface-radius: 28px;
+      --glass-blur: 40px;
+      --glass-fill: rgba(255,255,255,0.84);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --radius-lg: 28px;
+    }
+
+    .live-speed-value,
+    .metric-main-value,
+    .metric-unit,
+    .history-table,
+    .clay-info-value,
+    #liveSpeedDisplay,
+    #valDownload,
+    #valUpload,
+    #valPing,
+    #valJitter {
+      font-variant-numeric: tabular-nums lining-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1;
+    }
+
+    .glass-lite {
+      background: var(--glass-fill);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+      backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    }
+
+    .guarantee-banner {
+      background: rgba(255,255,255,0.84);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+      backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    }
+
+    [data-theme="dark"] .guarantee-banner {
+      background: rgba(23,32,51,0.84);
+    }
+
+    .gauge-section,
+    .card-metric,
+    .chart-section,
+    .panel-card,
+    .history-section {
+      border-radius: var(--surface-radius);
+    }
+
+    .btn-go {
+      min-width: 88px;
+      min-height: 88px;
+      aspect-ratio: 1;
+      touch-action: manipulation;
+    }
+
+    .metric-subtext,
+    .map-safe-note,
+    .guarantee-banner {
+      text-wrap: pretty;
+    }
+
+    @media (max-width: 380px) {
+      .brand-title { font-size: 1.12rem; }
+      .brand-badge { display: none; }
+      .header-actions { gap: 8px; }
+      .btn-icon { min-width: 44px; padding: 0 10px; }
+      .gauge-section { padding-inline: 10px; }
+      .telemetry-grid,
+      .analysis-grid,
+      .utility-grid { grid-template-columns: minmax(0,1fr); }
+      .metric-main-value { font-size: 1.9rem; }
+    }
+
+    @media (min-width: 900px) {
+      .gauge-section {
+        padding-block: 44px;
+      }
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .guarantee-banner,
+      .glass-lite {
+        background: var(--bg-card);
+      }
+    }
 
   </style>
 </head>
@@ -1313,7 +1405,7 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <div>Zipspeed v45 &bull; Measured HTTP throughput, latency and jitter &bull; No synthetic speed values</div>
+      <div>Zipspeed v46 &bull; Measured HTTP throughput, latency and jitter &bull; No synthetic speed values</div>
       <div>Zero fabricated numbers &bull; Real measured bytes and elapsed time</div>
     </footer>
   </div>

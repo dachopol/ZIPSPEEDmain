@@ -1,4 +1,4 @@
-# Zipspeed Design System — v45
+# Zipspeed Design System — v46
 
 ## Direction
 Minimal 3D speed-test interface with white clay material, soft shadows, restrained glass, and a clean iOS-style information hierarchy.
@@ -12,11 +12,11 @@ Minimal 3D speed-test interface with white clay material, soft shadows, restrain
 | Surface | `#FFFFFF` |
 | Main text | `#14213D` |
 | Muted text | `#64748B` |
-| Large radius | `28px` |
-| Blur target | `40px` where supported |
+| Large radius | `28px` runtime token (`--surface-radius`) |
+| Blur target | `40px` runtime token (`--glass-blur`) with fallback |
 | Glass presence | about 5% |
 | Spacing base | 4 / 8 px |
-| Number style | mono/tabular |
+| Number style | mono + tabular/lining numerals |
 | Primary action | single GO/STOP circular or pill control |
 
 ## Visual Rules

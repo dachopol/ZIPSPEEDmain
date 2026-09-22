@@ -30,9 +30,12 @@ const appletHtml = await fs.readFile('app/applet/index.html', 'utf8');
 if (rootHtml !== appletHtml) throw new Error('Root and applet index.html differ');
 const androidHtml = await fs.readFile('app/src/main/assets/index.html', 'utf8');
 if (rootHtml !== androidHtml) throw new Error('Root and Android asset index.html differ');
-if (!rootHtml.includes('#3B82F6')) throw new Error('v45 blue design token missing');
-if (!rootHtml.includes('v45 MINIMAL 3D CLAY DESIGN SYSTEM')) throw new Error('v45 clay design marker missing');
+if (!rootHtml.includes('#3B82F6')) throw new Error('v46 blue design token missing');
+if (!rootHtml.includes('v46 MINIMAL 3D CLAY DESIGN SYSTEM')) throw new Error('v46 clay design marker missing');
 if ((rootHtml.match(/id="goBtn"/g) || []).length !== 1) throw new Error('Expected exactly one GO control');
 if (rootHtml.includes('id="mainTestBtn"')) throw new Error('Duplicate START TEST control must not return');
+if (!rootHtml.includes('font-variant-numeric: tabular-nums')) throw new Error('Tabular numeric rendering missing');
+if (!rootHtml.includes('--glass-blur: 40px')) throw new Error('40px glass blur design token missing');
+if (!rootHtml.includes('--surface-radius: 28px')) throw new Error('28px surface radius design token missing');
 
 console.log('Audit passed: no known synthetic result flow and mirrors are synchronized.');

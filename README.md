@@ -1,8 +1,8 @@
-# Zipspeed by AnakinYoo — v45
+# Zipspeed by AnakinYoo — v46
 
 AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUILD RULES.
 
-## What changed in v43
+## Measurement integrity foundation
 
 - Removed fixed/demo speed results from the production test flow.
 - GO / STOP now controls real HTTP measurements.
@@ -18,13 +18,18 @@ AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUIL
 - Fixed duplicate `isTestRunning` declaration and duplicate touch/click execution paths.
 - Added the missing root `src/measurement.mjs` so the root app can actually load its measurement module.
 
-## v45 UI / platform update
+## v46 UI / platform update
+- Centralized design tokens: #3B82F6, 28px radius, 40px glass blur, 4/8px spacing base.
+- Added tabular numeric rendering for live/metric/history numbers.
+- Kept glass usage restrained to selected hierarchy surfaces with fallback when backdrop blur is unsupported.
+- Added extra compact-phone layout protection below 380px.
+- Removed tracked Gradle cache/build artifacts from source control.
 - Minimal 3D white-clay material, soft shadows, and blue accent `#3B82F6`.
 - One GO/STOP primary control.
 - Status, Map-safe, and Settings panels added without fabricating coordinates or status.
 - Android WebView hardened for file access, mixed content, Safe Browsing, and packaged-origin navigation.
 - Android backup disabled for local WebView data.
-- Version synchronized to 45.0.0 / versionCode 45.
+- Version synchronized to 46.0.0 / versionCode 46.
 
 ## Run locally
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## v46 — 2026-09-22
+- Locked design tokens in runtime CSS: #3B82F6, radius 28px, blur 40px, 4/8px spacing base.
+- Added tabular/lining numeric rendering for measurement values.
+- Added compact-phone breakpoint and glass fallback.
+- Kept one GO/STOP control and Real Data Only measurement flow.
+- Removed tracked .gradle cache/build artifacts from source control.
+- Synchronized web/Android version to 46.0.0 / versionCode 46.
+
+
 ## v45 — 2026-09-22
 - Minimal 3D white-clay UI with soft shadows and #3B82F6 accent.
 - One GO/STOP primary control; duplicate START TEST removed.
