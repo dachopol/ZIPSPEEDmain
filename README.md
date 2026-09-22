@@ -1,4 +1,4 @@
-# Zipspeed by AnakinYoo — v47
+# Zipspeed by AnakinYoo — v43
 
 AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUILD RULES.
 
@@ -18,7 +18,7 @@ AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUIL
 - Fixed duplicate `isTestRunning` declaration and duplicate touch/click execution paths.
 - Added the missing root `src/measurement.mjs` so the root app can actually load its measurement module.
 
-## v46 UI / platform update
+## Internal UI/platform milestone (formerly v46)
 - Centralized design tokens: #3B82F6, 28px radius, 40px glass blur, 4/8px spacing base.
 - Added tabular numeric rendering for live/metric/history numbers.
 - Kept glass usage restrained to selected hierarchy surfaces with fallback when backdrop blur is unsupported.
@@ -29,9 +29,9 @@ AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUIL
 - Status, Map-safe, and Settings panels added without fabricating coordinates or status.
 - Android WebView hardened for file access, mixed content, Safe Browsing, and packaged-origin navigation.
 - Android backup disabled for local WebView data.
-- Version synchronized to 46.0.0 / versionCode 46.
+- Those UI changes are included in the current Play release v43; internal milestone numbering is not a published version.
 
-## v47 competitive build
+## Internal competitive-feature milestone (formerly v47)
 - Google Play benchmark set researched: Speedtest by Ookla, Opensignal, FAST; Meteor as supplemental reference.
 - Added Quick profile: 3 MiB down + 1 MiB up + 3 HTTP-latency probes.
 - Standard profile remains 10 MiB down + 5 MiB up + 6 probes.
@@ -84,3 +84,8 @@ A complete default run transfers approximately 10 MiB down + 5 MiB up, plus smal
 ## AI Studio structure
 
 The same app is mirrored at `app/applet/` for AI Studio compatibility. Root and applet copies are kept synchronized by the build/audit workflow.
+
+## Release numbering lock
+- Current Google Play release: **versionCode 43 / versionName 43.0.0**.
+- Internal development milestone labels do not change Play versioning.
+- Any future Play upload must increment versionCode above the latest code accepted by Play Console.

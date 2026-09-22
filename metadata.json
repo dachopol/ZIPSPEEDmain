@@ -1,6 +1,6 @@
 {
   "name": "Zipspeed by AnakinYoo",
-  "version": "47.0.0",
+  "version": "43.0.0",
   "description": "Measured HTTP speed-test app with minimal 3D clay UI, Quick/Standard real-data profiles, share/export, and truthful network diagnostics.",
   "requestFramePermissions": [],
   "majorCapabilities": [

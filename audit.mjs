@@ -44,3 +44,36 @@ if (!rootHtml.includes("downloadBytes: 10 * 1024 * 1024")) throw new Error('Stan
 if (/^\s*btnActionLabel\.textContent\s*=/m.test(rootHtml)) throw new Error('Null btnActionLabel regression');
 
 console.log('Audit passed: no known synthetic result flow and mirrors are synchronized.');
+
+
+// Play release version lock: keep every active publish surface aligned.
+const EXPECTED_VERSION = '43.0.0';
+const EXPECTED_VERSION_CODE = 43;
+
+const metadata = JSON.parse(await fs.readFile('metadata.json', 'utf8'));
+const versionInfo = JSON.parse(await fs.readFile('version.json', 'utf8'));
+const pkg = JSON.parse(await fs.readFile('package.json', 'utf8'));
+const appGradle = await fs.readFile('app/build.gradle.kts', 'utf8');
+
+for (const [name, value] of [
+  ['metadata.json', metadata.version],
+  ['version.json', versionInfo.version],
+  ['package.json', pkg.version],
+]) {
+  if (value !== EXPECTED_VERSION) {
+    throw new Error(`${name}: expected release version ${EXPECTED_VERSION}, found ${value}`);
+  }
+}
+if (!appGradle.includes(`versionCode = ${EXPECTED_VERSION_CODE}`)) {
+  throw new Error(`app/build.gradle.kts: expected versionCode ${EXPECTED_VERSION_CODE}`);
+}
+if (!appGradle.includes(`versionName = "${EXPECTED_VERSION}"`)) {
+  throw new Error(`app/build.gradle.kts: expected versionName ${EXPECTED_VERSION}`);
+}
+for (const file of files) {
+  const text = await fs.readFile(file, 'utf8');
+  if (!text.includes('Zipspeed v43')) {
+    throw new Error(`${file}: public release label must be Zipspeed v43`);
+  }
+}
+console.log('Release version lock passed: Play release v43 is consistent.');

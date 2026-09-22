@@ -1,6 +1,11 @@
 # Changelog
 
-## v47 — 2026-09-22
+## Play release v43 — consolidated
+- Current publish target is **versionCode 43 / versionName 43.0.0** for the existing Play Console app.
+- Features developed under internal labels v45–v47 are folded into this v43 release candidate; those labels were development milestones, not published Play releases.
+- No feature rollback is implied by resetting the publish number to 43.
+
+## Internal milestone v47 — 2026-09-22
 - Added researched Top3 benchmark set: Ookla, Opensignal, FAST; Meteor supplemental.
 - Added Quick/Standard real-data test profiles.
 - Added sharing of latest completed measured result with clipboard fallback.
@@ -9,7 +14,7 @@
 - Synchronized app/web version to 47.0.0 / versionCode 47.
 
 
-## v46 — 2026-09-22
+## Internal milestone v46 — 2026-09-22
 - Locked design tokens in runtime CSS: #3B82F6, radius 28px, blur 40px, 4/8px spacing base.
 - Added tabular/lining numeric rendering for measurement values.
 - Added compact-phone breakpoint and glass fallback.
@@ -18,7 +23,7 @@
 - Synchronized web/Android version to 46.0.0 / versionCode 46.
 
 
-## v45 — 2026-09-22
+## Internal milestone v45 — 2026-09-22
 - Minimal 3D white-clay UI with soft shadows and #3B82F6 accent.
 - One GO/STOP primary control; duplicate START TEST removed.
 - Added truthful Status, Map-safe, and Settings panels with TH/EN copy.
