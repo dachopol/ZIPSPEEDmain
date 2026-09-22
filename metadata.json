@@ -1,1 +1,15 @@
-{"name":"Zipspeed by AnakinYoo","version":"50.0.0","description":"Clean-rebuild mobile-first HTTP speed and network-health app. Real measured data only; no legacy UI.","requestFramePermissions":[],"majorCapabilities":["Measured HTTP latency and jitter indicator","Measured HTTP download/upload throughput","Quick and Standard measured test profiles","Provider edge/client metadata","Streaming suitability estimate from measured throughput","Local completed-test history, share and export","TH/EN and light/dark UI"]}
+{
+  "name": "Zipspeed by AnakinYoo",
+  "version": "51.0.0",
+  "description": "Premium minimal instrument-style HTTP speed and network-health app. Real measured data only.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "Measured HTTP latency and jitter indicator",
+    "Measured HTTP download/upload throughput",
+    "Quick and Standard measured test profiles",
+    "Provider edge/client metadata",
+    "Streaming suitability estimate from measured throughput",
+    "Local completed-test history, share and export",
+    "TH/EN and light/dark UI"
+  ]
+}

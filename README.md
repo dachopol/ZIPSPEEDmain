@@ -1,6 +1,15 @@
-# Zipspeed by AnakinYoo — v50 Clean Rebuild
+# Zipspeed by AnakinYoo — v51 Premium Instrument UI
 
-This version is a clean rebuild. The legacy dashboard/UI was not reused.
+This version keeps the clean-rebuild engine but replaces the visual layer with a premium instrument-style interface.
+
+## v51 visual quality
+- Premium instrument-cluster gauge with restrained depth.
+- Integrated metric deck instead of many floating clay cards.
+- Glass used only on navigation/control surfaces.
+- SVG-only icons; no emoji UI.
+- Cleaner typography, tighter spacing, quieter shadows.
+- Light mode is the primary visual target; dark mode remains supported.
+- Real measurement logic is unchanged.
 
 ## Product
 A mobile-first internet speed and network-health app that reports measured HTTP performance clearly without fabricated network facts.

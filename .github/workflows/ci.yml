@@ -1,4 +1,4 @@
-name: Zipspeed v50 clean checks
+name: Zipspeed v51 premium checks
 on:
   push: { branches: [main] }
   pull_request: { branches: [main] }
@@ -25,6 +25,6 @@ jobs:
       - run: gradle :app:assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
         with:
-          name: zipspeed-v50-clean-debug-apk
+          name: zipspeed-v51-premium-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error

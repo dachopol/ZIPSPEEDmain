@@ -6,8 +6,8 @@ android {
         applicationId = "com.aistudio.zipspeed.zskt"
         minSdk = 24
         targetSdk = 36
-        versionCode = 50
-        versionName = "50.0.0"
+        versionCode = 51
+        versionName = "51.0.0"
     }
     buildTypes { release { isMinifyEnabled = false } }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
