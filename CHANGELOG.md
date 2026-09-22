@@ -1,5 +1,14 @@
 # Changelog
 
+## v47 — 2026-09-22
+- Added researched Top3 benchmark set: Ookla, Opensignal, FAST; Meteor supplemental.
+- Added Quick/Standard real-data test profiles.
+- Added sharing of latest completed measured result with clipboard fallback.
+- Copy/share no longer use incomplete UI values.
+- Fixed null btnActionLabel reference after single-button GO/STOP redesign.
+- Synchronized app/web version to 47.0.0 / versionCode 47.
+
+
 ## v46 — 2026-09-22
 - Locked design tokens in runtime CSS: #3B82F6, radius 28px, blur 40px, 4/8px spacing base.
 - Added tabular/lining numeric rendering for measurement values.

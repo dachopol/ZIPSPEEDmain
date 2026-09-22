@@ -1348,11 +1348,14 @@
         <div class="clay-info-list">
           <div class="clay-info-row"><span class="clay-info-label" id="lblSettingLanguage">Language</span><span class="clay-info-value" id="settingLanguageValue">English</span></div>
           <div class="clay-info-row"><span class="clay-info-label" id="lblSettingTheme">Theme</span><span class="clay-info-value" id="settingThemeValue">Light</span></div>
-          <div class="clay-info-row"><span class="clay-info-label" id="lblSettingDataUse">Default data use</span><span class="clay-info-value">≈ 15 MiB + overhead</span></div>
+          <div class="clay-info-row"><span class="clay-info-label" id="lblSettingDataUse">Estimated payload</span><span class="clay-info-value" id="settingDataUseValue">≈ 15 MiB + overhead</span></div>
+          <div class="clay-info-row"><span class="clay-info-label" id="lblTestProfile">Test profile</span><span class="clay-info-value" id="testProfileValue">Standard</span></div>
         </div>
         <div class="settings-actions">
           <button id="settingsLangBtn" class="settings-action" type="button">TH / EN</button>
           <button id="settingsThemeBtn" class="settings-action" type="button">Light / Dark</button>
+          <button id="profileQuickBtn" class="settings-action" type="button" aria-pressed="false">Quick</button>
+          <button id="profileStandardBtn" class="settings-action" type="button" aria-pressed="true">Standard</button>
         </div>
       </div>
     </section>
@@ -1365,7 +1368,10 @@
           <span id="titleHistory">Test History (Completed Only)</span>
         </div>
         <div class="history-actions">
-          <button id="copySummaryBtn" class="btn-secondary" title="Copy latest result to clipboard">
+          <button id="shareResultBtn" class="btn-secondary" title="Share latest completed result">
+            <span>↗</span> <span id="btnShareLabel">Share</span>
+          </button>
+          <button id="copySummaryBtn" class="btn-secondary" title="Copy latest completed result">
             <span>📋</span> <span id="btnCopyLabel">Copy Result</span>
           </button>
           <button id="exportCsvBtn" class="btn-secondary" title="Export CSV file">
@@ -1405,7 +1411,7 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <div>Zipspeed v46 &bull; Measured HTTP throughput, latency and jitter &bull; No synthetic speed values</div>
+      <div>Zipspeed v47 &bull; Measured HTTP throughput, latency and jitter &bull; No synthetic speed values</div>
       <div>Zero fabricated numbers &bull; Real measured bytes and elapsed time</div>
     </footer>
   </div>
@@ -1471,6 +1477,24 @@
     let uploadPayloadBuffer = null;
     let chartSamples = [];
     let counterId = 0;
+    let currentProfile = localStorage.getItem('zipspeed_profile') || 'standard';
+    const TEST_PROFILES = Object.freeze({
+      quick: Object.freeze({
+        id: 'quick',
+        latencyProbes: 3,
+        minSuccessfulLatencyProbes: 2,
+        downloadBytes: 3 * 1024 * 1024,
+        uploadBytes: 1 * 1024 * 1024
+      }),
+      standard: Object.freeze({
+        id: 'standard',
+        latencyProbes: 6,
+        minSuccessfulLatencyProbes: 3,
+        downloadBytes: 10 * 1024 * 1024,
+        uploadBytes: 5 * 1024 * 1024
+      })
+    });
+    if (!TEST_PROFILES[currentProfile]) currentProfile = 'standard';
 
     // Load History from localStorage
     try {
@@ -1520,6 +1544,14 @@
         videoTitle: 'Streaming Suitability',
         historyTitle: 'Test History (Completed Only)',
         copyResult: 'Copy Result',
+        shareResult: 'Share',
+        testProfile: 'Test profile',
+        quickProfile: 'Quick',
+        standardProfile: 'Standard',
+        estimatedPayload: 'Estimated payload',
+        profileLockedToast: 'Stop the active test before changing profile.',
+        noCompletedResultToast: 'No completed result is available yet.',
+        sharedToast: 'Share sheet opened for the latest completed result.',
         clear: 'Clear',
         dateCol: 'Date & Time',
         downCol: 'Download',
@@ -1574,6 +1606,14 @@
         videoTitle: 'ความเหมาะสมในการดูสตรีมมิ่ง',
         historyTitle: 'ประวัติการทดสอบ (เฉพาะรอบที่สมบูรณ์)',
         copyResult: 'คัดลอกผลลัพธ์',
+        shareResult: 'แชร์',
+        testProfile: 'รูปแบบทดสอบ',
+        quickProfile: 'แบบเร็ว',
+        standardProfile: 'มาตรฐาน',
+        estimatedPayload: 'ปริมาณข้อมูลโดยประมาณ',
+        profileLockedToast: 'หยุดการทดสอบก่อนเปลี่ยนรูปแบบ',
+        noCompletedResultToast: 'ยังไม่มีผลทดสอบที่สมบูรณ์สำหรับแชร์',
+        sharedToast: 'เปิดหน้าต่างแชร์ผลล่าสุดแล้ว',
         clear: 'ล้างประวัติ',
         dateCol: 'วันและเวลา',
         downCol: 'ดาวน์โหลด',
@@ -1694,6 +1734,8 @@
       document.getElementById('titleVideo').textContent = t.videoTitle;
       document.getElementById('titleHistory').textContent = t.historyTitle;
       document.getElementById('btnCopyLabel').textContent = t.copyResult;
+      const shareLabel = document.getElementById('btnShareLabel');
+      if (shareLabel) shareLabel.textContent = t.shareResult;
       document.getElementById('btnClearLabel').textContent = t.clear;
       document.getElementById('thDate').textContent = t.dateCol;
       document.getElementById('thDown').textContent = t.downCol;
@@ -1709,19 +1751,24 @@
       optionalText('statusIntegrity', t.integrityValue); optionalText('titleMap', t.mapTitle);
       optionalText('lblMapEdge', t.mapEdge); optionalText('lblMapClientArea', t.mapClientArea); optionalText('mapSafeNote', t.mapSafeNote);
       optionalText('titleSettings', t.settingsTitle); optionalText('lblSettingLanguage', t.settingLanguage);
-      optionalText('lblSettingTheme', t.settingTheme); optionalText('lblSettingDataUse', t.settingDataUse);
+      optionalText('lblSettingTheme', t.settingTheme); optionalText('lblSettingDataUse', t.estimatedPayload);
+      optionalText('lblTestProfile', t.testProfile);
       optionalText('settingLanguageValue', lang === 'th' ? t.thaiName : t.englishName);
       optionalText('settingThemeValue', currentTheme === 'dark' ? t.darkTheme : t.lightTheme);
+      optionalText('testProfileValue', currentProfile === 'quick' ? t.quickProfile : t.standardProfile);
+      optionalText('profileQuickBtn', t.quickProfile);
+      optionalText('profileStandardBtn', t.standardProfile);
+      updateProfileUi();
 
       if (!isTestRunning) {
-        btnActionLabel.textContent = t.startTest;
+        if (btnActionLabel) btnActionLabel.textContent = t.startTest;
         testPhaseBadge.textContent = t.ready;
         if (goBtn) {
           const span = goBtn.querySelector('span');
           if (span) span.textContent = 'GO';
         }
       } else {
-        btnActionLabel.textContent = t.stopTest;
+        if (btnActionLabel) btnActionLabel.textContent = t.stopTest;
         if (goBtn) {
           const span = goBtn.querySelector('span');
           if (span) span.textContent = 'STOP';
@@ -1949,10 +1996,37 @@
 
     // Test Control and State — real HTTP measurements only.
     const SPEED_ENDPOINT = 'https://speed.cloudflare.com';
-    const LATENCY_PROBES = 6;
-    const DOWNLOAD_BYTES = 10 * 1024 * 1024;
-    const UPLOAD_BYTES = 5 * 1024 * 1024;
-    const MIN_SUCCESSFUL_LATENCY_PROBES = 3;
+
+    function getTestProfile() {
+      return TEST_PROFILES[currentProfile] || TEST_PROFILES.standard;
+    }
+
+    function updateProfileUi() {
+      const profile = getTestProfile();
+      const t = I18N[currentLang];
+      const label = document.getElementById('testProfileValue');
+      const dataUse = document.getElementById('settingDataUseValue');
+      const quickBtn = document.getElementById('profileQuickBtn');
+      const standardBtn = document.getElementById('profileStandardBtn');
+      if (label) label.textContent = profile.id === 'quick' ? t.quickProfile : t.standardProfile;
+      if (dataUse) {
+        const mib = (profile.downloadBytes + profile.uploadBytes) / (1024 * 1024);
+        dataUse.textContent = `≈ ${mib.toFixed(0)} MiB + overhead`;
+      }
+      quickBtn?.setAttribute('aria-pressed', String(profile.id === 'quick'));
+      standardBtn?.setAttribute('aria-pressed', String(profile.id === 'standard'));
+    }
+
+    function applyTestProfile(profileId) {
+      if (isTestRunning) {
+        showToast(I18N[currentLang].profileLockedToast);
+        return;
+      }
+      if (!TEST_PROFILES[profileId]) return;
+      currentProfile = profileId;
+      localStorage.setItem('zipspeed_profile', profileId);
+      updateProfileUi();
+    }
 
     function setRunButtons(running) {
       if (mainTestBtn) mainTestBtn.classList.toggle('state-running', running);
@@ -2030,6 +2104,9 @@
     }
 
     async function measureHttpLatency(runId) {
+      const profile = getTestProfile();
+      const latencyProbes = profile.latencyProbes;
+      const minSuccessfulLatencyProbes = profile.minSuccessfulLatencyProbes;
       const samples = [];
       let failed = 0;
       testPhaseBadge.textContent = I18N[currentLang].measuringPing;
@@ -2038,7 +2115,7 @@
       cardJitter.classList.add('active-test');
       statusPing.textContent = 'Testing...';
 
-      for (let i = 0; i < LATENCY_PROBES; i += 1) {
+      for (let i = 0; i < latencyProbes; i += 1) {
         ensureActive(runId);
         const started = performance.now();
         try {
@@ -2060,21 +2137,21 @@
         subPingProbes.textContent = `${samples.length} / ${i + 1} ${I18N[currentLang].probes}`;
         const failPctNow = calculateProbeFailPct(failed, i + 1);
         subProbeFail.textContent = `${I18N[currentLang].probeFail}: ${failPctNow === null ? '--' : failPctNow.toFixed(1)}%`;
-        progressFill.style.width = `${5 + ((i + 1) / LATENCY_PROBES) * 20}%`;
+        progressFill.style.width = `${5 + ((i + 1) / latencyProbes) * 20}%`;
       }
 
-      if (samples.length < MIN_SUCCESSFUL_LATENCY_PROBES) {
-        throw new Error(`HTTP latency unavailable: ${samples.length}/${LATENCY_PROBES} probes succeeded`);
+      if (samples.length < minSuccessfulLatencyProbes) {
+        throw new Error(`HTTP latency unavailable: ${samples.length}/${latencyProbes} probes succeeded`);
       }
 
       const latency = calculateMedian(samples);
       const jitter = calculateJitter(samples);
-      const failPct = calculateProbeFailPct(failed, LATENCY_PROBES);
+      const failPct = calculateProbeFailPct(failed, latencyProbes);
       if (latency === null || jitter === null || failPct === null) throw new Error('HTTP latency calculation failed');
 
       valPing.textContent = latency.toFixed(1);
       valJitter.textContent = jitter.toFixed(1);
-      subPingProbes.textContent = `${samples.length} / ${LATENCY_PROBES} ${I18N[currentLang].probes}`;
+      subPingProbes.textContent = `${samples.length} / ${latencyProbes} ${I18N[currentLang].probes}`;
       subProbeFail.textContent = `${I18N[currentLang].probeFail}: ${failPct.toFixed(1)}%`;
       statusPing.textContent = 'OK';
       cardPing.classList.remove('active-test');
@@ -2083,6 +2160,7 @@
     }
 
     async function measureDownload(runId) {
+      const downloadBytes = getTestProfile().downloadBytes;
       testPhaseBadge.textContent = I18N[currentLang].testingDown;
       testPhaseBadge.setAttribute('data-phase', 'download');
       cardDownload.classList.add('active-test');
@@ -2090,7 +2168,7 @@
 
       const started = performance.now();
       const response = await fetchWithTimeout(
-        `${SPEED_ENDPOINT}/__down?bytes=${DOWNLOAD_BYTES}&ts=${Date.now()}`,
+        `${SPEED_ENDPOINT}/__down?bytes=${downloadBytes}&ts=${Date.now()}`,
         { method: 'GET' },
         30000
       );
@@ -2115,7 +2193,7 @@
               if (chartSamples.length % 2 === 0) drawChart();
             }
             subDownloadTransferred.textContent = `${(received / 1048576).toFixed(1)} MB ${I18N[currentLang].transferred}`;
-            progressFill.style.width = `${25 + Math.min(40, (received / DOWNLOAD_BYTES) * 40)}%`;
+            progressFill.style.width = `${25 + Math.min(40, (received / downloadBytes) * 40)}%`;
             lastPaint = now;
           }
         }
@@ -2125,7 +2203,7 @@
       }
 
       const elapsed = performance.now() - started;
-      if (received !== DOWNLOAD_BYTES) throw new Error(`Download payload incomplete: ${received}/${DOWNLOAD_BYTES} bytes`);
+      if (received !== downloadBytes) throw new Error(`Download payload incomplete: ${received}/${downloadBytes} bytes`);
       const mbps = calculateThroughput(received, elapsed);
       if (mbps === null || mbps <= 0) throw new Error('Download throughput unavailable');
       setGaugeSpeed(mbps);
@@ -2140,12 +2218,13 @@
     }
 
     function measureUpload(runId) {
+      const uploadBytes = getTestProfile().uploadBytes;
       testPhaseBadge.textContent = I18N[currentLang].testingUp;
       testPhaseBadge.setAttribute('data-phase', 'upload');
       cardUpload.classList.add('active-test');
       statusUpload.textContent = 'Testing...';
 
-      const payload = getUploadChunk(UPLOAD_BYTES);
+      const payload = getUploadChunk(uploadBytes);
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         const started = performance.now();
@@ -2172,7 +2251,7 @@
         xhr.upload.onprogress = event => {
           if (!isTestRunning || runId !== counterId) return;
           const now = performance.now();
-          const loaded = Math.min(event.loaded || 0, UPLOAD_BYTES);
+          const loaded = Math.min(event.loaded || 0, uploadBytes);
           const mbps = calculateThroughput(loaded, now - started);
           if (mbps !== null && loaded > 0) {
             setGaugeSpeed(mbps);
@@ -2181,7 +2260,7 @@
             if (chartSamples.length % 2 === 0) drawChart();
           }
           subUploadSent.textContent = `${(loaded / 1048576).toFixed(1)} MB ${I18N[currentLang].sent}`;
-          progressFill.style.width = `${65 + Math.min(30, (loaded / UPLOAD_BYTES) * 30)}%`;
+          progressFill.style.width = `${65 + Math.min(30, (loaded / uploadBytes) * 30)}%`;
         };
         xhr.upload.onload = () => { uploadFinishedAt = performance.now(); };
         xhr.onload = () => {
@@ -2264,6 +2343,7 @@
           ping: latency.latency,
           jitter: latency.jitter,
           probeFailPct: latency.failPct,
+          profile: currentProfile,
           serverColo: metadata?.serverColo && metadata.serverColo !== '--' ? metadata.serverColo : '',
           timestamp: new Date().toISOString()
         };
@@ -2298,27 +2378,62 @@
     window.startTest = startTest;
     window.executeSpeedTest = startTest;
 
-    // Copy Results
-    function copyResultToClipboard() {
-      const down = valDownload.textContent;
-      const up = valUpload.textContent;
-      const ping = valPing.textContent;
-      const jitter = valJitter.textContent;
-      const server = valServerLocation.textContent;
+    // Share / Copy latest completed real result
+    function latestCompletedResult() {
+      return [...testHistory].reverse().find(isResultEligibleForHistory) || null;
+    }
 
-      const text = `Zipspeed Truthful Speed Test:\n` +
-                   `Download: ${down} Mbps\n` +
-                   `Upload: ${up} Mbps\n` +
-                   `Ping: ${ping} ms\n` +
-                   `Jitter: ${jitter} ms\n` +
-                   `Server: ${server}\n` +
-                   `Timestamp: ${new Date().toISOString()}`;
+    function formatCompletedResult(record) {
+      if (!record) return null;
+      const profileLabel = record.profile === 'quick' ? 'Quick' : 'Standard';
+      return `Zipspeed measured result\n` +
+             `Download: ${record.down.toFixed(1)} Mbps\n` +
+             `Upload: ${record.up.toFixed(1)} Mbps\n` +
+             `HTTP latency: ${record.ping.toFixed(1)} ms\n` +
+             `Jitter: ${record.jitter.toFixed(1)} ms\n` +
+             `HTTP probe fail: ${record.probeFailPct.toFixed(1)}%\n` +
+             `Edge: ${record.serverColo || '--'}\n` +
+             `Profile: ${profileLabel}\n` +
+             `Timestamp: ${record.timestamp}`;
+    }
 
-      navigator.clipboard.writeText(text).then(() => {
+    async function shareLatestResult() {
+      const record = latestCompletedResult();
+      const text = formatCompletedResult(record);
+      if (!text) {
+        showToast(I18N[currentLang].noCompletedResultToast);
+        return;
+      }
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: 'Zipspeed', text });
+          showToast(I18N[currentLang].sharedToast);
+          return;
+        } catch (error) {
+          if (error?.name === 'AbortError') return;
+        }
+      }
+      try {
+        await navigator.clipboard.writeText(text);
         showToast(I18N[currentLang].copiedToast);
-      }).catch(() => {
+      } catch {
         showToast('Clipboard access denied.');
-      });
+      }
+    }
+
+    async function copyResultToClipboard() {
+      const record = latestCompletedResult();
+      const text = formatCompletedResult(record);
+      if (!text) {
+        showToast(I18N[currentLang].noCompletedResultToast);
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(I18N[currentLang].copiedToast);
+      } catch {
+        showToast('Clipboard access denied.');
+      }
     }
 
     // Export CSV
@@ -2327,9 +2442,9 @@
         showToast('No history to export.');
         return;
       }
-      let csv = 'Timestamp,Download_Mbps,Upload_Mbps,Ping_ms,Jitter_ms,ProbeFail_pct,Server_Colo\n';
+      let csv = 'Timestamp,Profile,Download_Mbps,Upload_Mbps,Ping_ms,Jitter_ms,ProbeFail_pct,Server_Colo\n';
       testHistory.forEach(item => {
-        csv += `"${item.timestamp}",${item.down},${item.up},${item.ping},${item.jitter},${item.probeFailPct},"${item.serverColo || ''}"\n`;
+        csv += `"${item.timestamp}","${item.profile || 'standard'}",${item.down},${item.up},${item.ping},${item.jitter},${item.probeFailPct},"${item.serverColo || ''}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -2382,6 +2497,7 @@
     [goBtn].filter(Boolean).forEach(btn => {
       btn.addEventListener('click', startTest);
     });
+    document.getElementById('shareResultBtn')?.addEventListener('click', shareLatestResult);
     document.getElementById('copySummaryBtn').addEventListener('click', copyResultToClipboard);
     document.getElementById('exportCsvBtn').addEventListener('click', exportHistoryCsv);
     document.getElementById('exportJsonBtn').addEventListener('click', exportHistoryJson);
@@ -2404,6 +2520,8 @@
     document.getElementById('settingsThemeBtn')?.addEventListener('click', () => {
       applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
+    document.getElementById('profileQuickBtn')?.addEventListener('click', () => applyTestProfile('quick'));
+    document.getElementById('profileStandardBtn')?.addEventListener('click', () => applyTestProfile('standard'));
 
     // Methodology Modal
     const modal = document.getElementById('methodologyModal');
@@ -2420,6 +2538,7 @@
     // Initialize App
     applyTheme(currentTheme);
     applyLanguage(currentLang);
+    updateProfileUi();
     updateOnlineStatus();
     resizeCanvas();
     renderHistoryTable();

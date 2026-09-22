@@ -10,8 +10,8 @@ android {
         applicationId = "com.aistudio.zipspeed.zskt"
         minSdk = 24
         targetSdk = 36
-        versionCode = 46
-        versionName = "46.0.0"
+        versionCode = 47
+        versionName = "47.0.0"
     }
 
     buildTypes {

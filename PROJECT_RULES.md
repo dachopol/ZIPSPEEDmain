@@ -95,7 +95,14 @@ Comparison dimensions:
 - user friction;
 - useful diagnostics.
 
-**TO VERIFY:** Top1 / Top2 / Top3 competitors have not been explicitly selected by the owner. Do not invent or rank competitors until they are confirmed or researched from current evidence.
+Competitor reference set (Google Play snapshot researched 2026-09-22; install band primary, review volume tie-breaker):
+1. **Speedtest by Ookla** — 100M+ installs, 4.6★, ~1.49M reviews.
+2. **Opensignal Internet Speed Test** — 10M+ installs, 4.2★, ~441K reviews.
+3. **FAST Speed Test** — 10M+ installs, 4.2★, ~49.9K reviews.
+
+Supplemental benchmark: **Meteor by Opensignal** — 5M+ installs, 4.8★, ~134K reviews; useful reference for app-use suitability.
+
+This is a dated research ranking method for product benchmarking, not a claim of universal superiority. Re-verify before future market claims.
 
 ### NON-NEGOTIABLE
 - No Fake.

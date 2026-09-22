@@ -1,4 +1,4 @@
-# Zipspeed by AnakinYoo — v46
+# Zipspeed by AnakinYoo — v47
 
 AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUILD RULES.
 
@@ -30,6 +30,14 @@ AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUIL
 - Android WebView hardened for file access, mixed content, Safe Browsing, and packaged-origin navigation.
 - Android backup disabled for local WebView data.
 - Version synchronized to 46.0.0 / versionCode 46.
+
+## v47 competitive build
+- Google Play benchmark set researched: Speedtest by Ookla, Opensignal, FAST; Meteor as supplemental reference.
+- Added Quick profile: 3 MiB down + 1 MiB up + 3 HTTP-latency probes.
+- Standard profile remains 10 MiB down + 5 MiB up + 6 probes.
+- Added Web Share API for the latest completed measured result with clipboard fallback.
+- Copy/share now use only completed history-eligible results instead of potentially incomplete on-screen values.
+- Fixed a null UI reference left after the duplicate START TEST button was removed.
 
 ## Run locally
 

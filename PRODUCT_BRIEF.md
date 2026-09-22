@@ -34,9 +34,16 @@ Open → GO → network metadata → HTTP latency/jitter → download → upload
 - No production Play Store readiness claim until release verification.
 
 ## Competitive Goal
-**TO VERIFY:** The owner has not yet named Top1 / Top2 / Top3 products.
 
-When selected, compare only on documented criteria:
+Google Play benchmark set researched 2026-09-22:
+1. Speedtest by Ookla.
+2. Opensignal Internet Speed Test.
+3. FAST Speed Test.
+Supplemental: Meteor Speed Test.
+
+Selection method: install band first, review volume as tie-breaker, then direct product relevance.
+
+Compare only on documented criteria:
 - task completion speed;
 - measurement integrity;
 - UX friction;

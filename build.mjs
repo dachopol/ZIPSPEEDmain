@@ -11,4 +11,4 @@ for (const file of ['index.html', 'metadata.json', 'package.json']) {
 }
 await fs.copyFile(path.join(root, 'src', 'measurement.mjs'), path.join(dist, 'src', 'measurement.mjs'));
 
-console.log('Zipspeed v46 static build created in dist/');
+console.log('Zipspeed v47 static build created in dist/');

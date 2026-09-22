@@ -37,5 +37,10 @@ if (rootHtml.includes('id="mainTestBtn"')) throw new Error('Duplicate START TEST
 if (!rootHtml.includes('font-variant-numeric: tabular-nums')) throw new Error('Tabular numeric rendering missing');
 if (!rootHtml.includes('--glass-blur: 40px')) throw new Error('40px glass blur design token missing');
 if (!rootHtml.includes('--surface-radius: 28px')) throw new Error('28px surface radius design token missing');
+if (!rootHtml.includes('id="profileQuickBtn"') || !rootHtml.includes('id="profileStandardBtn"')) throw new Error('Test profile controls missing');
+if (!rootHtml.includes('function shareLatestResult()')) throw new Error('Share result flow missing');
+if (!rootHtml.includes("downloadBytes: 3 * 1024 * 1024")) throw new Error('Quick profile payload missing');
+if (!rootHtml.includes("downloadBytes: 10 * 1024 * 1024")) throw new Error('Standard profile payload missing');
+if (/^\s*btnActionLabel\.textContent\s*=/m.test(rootHtml)) throw new Error('Null btnActionLabel regression');
 
 console.log('Audit passed: no known synthetic result flow and mirrors are synchronized.');
