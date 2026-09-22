@@ -1,7 +1,14 @@
 {
   "name": "Zipspeed by AnakinYoo",
-  "version": "43.0.0",
-  "description": "Browser-based HTTP internet speed and latency test using measured transfers. No synthetic speed values.",
+  "version": "45.0.0",
+  "description": "Minimal 3D clay-style browser/Android WebView speed test using measured HTTP transfers. No synthetic network measurements.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "Measured HTTP latency and jitter indicator",
+    "Measured HTTP download and upload throughput",
+    "Cloudflare edge/client metadata",
+    "Streaming suitability estimate from measured throughput",
+    "Local completed-test history and export",
+    "Truthful status/map-safe/settings panels"
+  ]
 }

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Zipspeed - Truthful Internet Speed Test</title>
+  <title>Zipspeed — Minimal 3D Speed Test</title>
   <meta name="description" content="Truthful, accurate internet speed test using Cloudflare endpoints with zero fabricated measurements.">
-  <meta name="theme-color" content="#090d16">
+  <meta name="theme-color" content="#F5F7FB">
   
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://speed.cloudflare.com" crossorigin>
@@ -886,6 +886,68 @@
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
+  
+    /* v45 MINIMAL 3D CLAY DESIGN SYSTEM */
+    :root {
+      --bg-base:#F5F7FB; --bg-surface:#FFFFFF; --bg-card:#FFFFFF; --bg-card-hover:#F8FAFF;
+      --border-subtle:rgba(15,23,42,.08); --border-focus:#3B82F6;
+      --text-main:#14213D; --text-muted:#64748B; --text-dim:#94A3B8;
+      --accent-cyan:#3B82F6; --accent-cyan-glow:rgba(59,130,246,.20);
+      --accent-violet:#7C3AED; --accent-green:#16A34A; --accent-green-glow:rgba(22,163,74,.16);
+      --accent-orange:#D97706; --accent-rose:#E11D48; --gauge-track:#E8EEF8; --gauge-active:#3B82F6;
+      --radius-sm:14px; --radius-md:22px; --radius-lg:32px;
+      --shadow-card:-10px -10px 24px rgba(255,255,255,.95),14px 16px 34px rgba(37,55,86,.12),inset 2px 2px 0 rgba(255,255,255,.96),inset -2px -2px 0 rgba(148,163,184,.10);
+      --shadow-clay-button:0 16px 28px rgba(59,130,246,.24),inset 0 2px 0 rgba(255,255,255,.55),inset 0 -5px 10px rgba(23,80,180,.18);
+    }
+    [data-theme="dark"] {
+      --bg-base:#0F172A; --bg-surface:#172033; --bg-card:#1B263B; --bg-card-hover:#22304A;
+      --border-subtle:rgba(255,255,255,.09); --text-main:#F8FAFC; --text-muted:#CBD5E1; --text-dim:#94A3B8;
+      --gauge-track:#2A3955;
+      --shadow-card:-8px -8px 20px rgba(35,48,74,.78),14px 16px 30px rgba(0,0,0,.32),inset 1px 1px 0 rgba(255,255,255,.05),inset -2px -2px 0 rgba(0,0,0,.12);
+    }
+    body {
+      background:radial-gradient(circle at 10% 0%,rgba(59,130,246,.08),transparent 34rem),
+                 radial-gradient(circle at 100% 16%,rgba(124,58,237,.05),transparent 30rem),
+                 var(--bg-base);
+      color:var(--text-main); letter-spacing:-.008em;
+    }
+    .app-shell {max-width:1160px;padding:clamp(12px,3vw,28px) clamp(12px,4vw,28px) 56px;gap:clamp(16px,2.6vw,26px);}
+    header.app-header {border:0;border-radius:24px;background:var(--bg-card);padding:12px 14px;box-shadow:var(--shadow-card);}
+    .brand-icon {background:#fff;border:1px solid rgba(59,130,246,.10);border-radius:14px;box-shadow:0 9px 24px rgba(59,130,246,.14),inset 0 1px 0 #fff;}
+    .brand-icon svg {fill:#3B82F6}.brand-title{font-weight:750;letter-spacing:-.035em}.brand-badge{background:#EFF6FF;border-color:#DBEAFE;color:#2563EB}
+    .btn-icon,.btn-secondary {border:1px solid rgba(15,23,42,.06);background:var(--bg-card);color:var(--text-main);border-radius:14px;box-shadow:-4px -4px 10px rgba(255,255,255,.9),6px 7px 14px rgba(51,65,85,.11),inset 1px 1px 0 rgba(255,255,255,.96);}
+    .btn-icon:hover,.btn-secondary:hover{color:#2563EB;border-color:rgba(59,130,246,.25);transform:translateY(-1px)}
+    .btn-icon:focus-visible,.btn-secondary:focus-visible,.btn-go:focus-visible{outline:3px solid rgba(59,130,246,.32);outline-offset:3px}
+    .guarantee-banner,.gauge-section,.card-metric,.chart-section,.panel-card,.history-section,.modal-card{background:var(--bg-card);border:1px solid rgba(15,23,42,.055);box-shadow:var(--shadow-card)}
+    .guarantee-banner{border-left:0;border-radius:20px}.gauge-section{border-radius:34px;overflow:visible;padding:clamp(22px,6vw,42px) clamp(14px,4vw,28px)}
+    .gauge-section::before{content:"";position:absolute;width:min(68vw,420px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.10),rgba(59,130,246,0) 70%);pointer-events:none}
+    .gauge-container{max-width:390px}.live-speed-value{color:#14213D;font-size:clamp(2.7rem,12vw,4.2rem);letter-spacing:-.06em}[data-theme="dark"] .live-speed-value{color:var(--text-main)}
+    .test-phase-badge{background:#F1F5F9;border-color:#E2E8F0;color:#475569}
+    .btn-go{position:relative;width:clamp(82px,24vw,96px);height:clamp(82px,24vw,96px);border:0;background:linear-gradient(145deg,#60A5FA 0%,#3B82F6 52%,#2563EB 100%);box-shadow:var(--shadow-clay-button);color:#fff;font-size:clamp(1.25rem,5vw,1.65rem);border-radius:50%}
+    .btn-go::before{content:"";position:absolute;inset:8px 12px auto;height:28%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+    .btn-go.state-running{background:linear-gradient(145deg,#FB7185,#E11D48);box-shadow:0 16px 28px rgba(225,29,72,.22),inset 0 2px 0 rgba(255,255,255,.48)}
+    .action-row{margin-top:6px}.btn-primary-action{display:none!important}
+    .progress-track{background:#E8EEF8;height:7px;box-shadow:inset 2px 2px 5px rgba(51,65,85,.10)}.progress-fill{background:linear-gradient(90deg,#60A5FA,#3B82F6)}
+    .telemetry-grid,.analysis-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:clamp(12px,2.4vw,20px)}
+    .card-metric,.panel-card,.chart-section,.history-section{border-radius:28px}.card-metric{min-height:150px;padding:20px}
+    .metric-main-value{font-size:clamp(1.9rem,8vw,2.65rem);letter-spacing:-.05em}.metric-icon{width:36px;height:36px;border-radius:12px;background:#EFF6FF;display:inline-grid;place-items:center}
+    .active-test{border-color:rgba(59,130,246,.30)!important;box-shadow:0 18px 38px rgba(59,130,246,.14),inset 0 1px 0 rgba(255,255,255,.95)!important}
+    .chart-container{border-radius:20px;background:linear-gradient(180deg,rgba(59,130,246,.035),rgba(255,255,255,0))}
+    .video-item,.metadata-item,.clay-info-row{background:#F8FAFC;border:1px solid #EEF2F7;border-radius:16px}
+    [data-theme="dark"] .video-item,[data-theme="dark"] .metadata-item,[data-theme="dark"] .clay-info-row{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.07)}
+    .utility-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(12px,2.4vw,20px)}
+    .clay-info-list{display:grid;gap:10px;margin-top:12px}.clay-info-row{padding:13px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .clay-info-label{color:var(--text-muted);font-size:.82rem}.clay-info-value{color:var(--text-main);font-weight:700;text-align:right}
+    .map-safe-visual{min-height:130px;margin-top:12px;border-radius:22px;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%,rgba(59,130,246,.14),rgba(59,130,246,0) 62%),#F8FAFC;border:1px solid #EEF2F7;overflow:hidden;position:relative}
+    .map-safe-orb{width:78px;height:78px;border-radius:50%;background:linear-gradient(145deg,#fff,#E8F0FF);box-shadow:-8px -8px 18px rgba(255,255,255,.95),10px 12px 22px rgba(59,130,246,.15),inset -6px -8px 16px rgba(59,130,246,.10);display:grid;place-items:center;color:#3B82F6;font-size:1.8rem}
+    .map-safe-note{margin-top:10px;color:var(--text-muted);font-size:.78rem;line-height:1.5}
+    .settings-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .settings-action{min-height:48px;border:1px solid #E5EAF3;border-radius:16px;background:#fff;color:#1E293B;font-weight:700;box-shadow:0 8px 18px rgba(51,65,85,.08),inset 0 1px 0 #fff;cursor:pointer}
+    .settings-action:focus-visible{outline:3px solid rgba(59,130,246,.28);outline-offset:2px}
+    .table-wrapper{border-radius:20px}.history-table th{background:#F8FAFC;color:#475569}.history-table td{border-color:#EEF2F7}
+    @media(max-width:640px){.app-shell{padding-inline:12px}header.app-header{align-items:flex-start}.header-actions{width:100%;justify-content:flex-end}.gauge-section{border-radius:28px}.card-metric,.panel-card,.chart-section,.history-section{border-radius:24px}.history-actions{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.btn-secondary{width:100%;justify-content:center}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
+
   </style>
 </head>
 <body>
@@ -1002,12 +1064,8 @@
 
       <!-- Action Row -->
       <div class="action-row z-20 pointer-events-auto">
-        <button id="goBtn" class="btn-go z-20 pointer-events-auto" aria-label="GO" title="Start speed test (GO)">
+        <button id="goBtn" class="btn-go z-20 pointer-events-auto" aria-label="Start speed test" title="Start or stop speed test">
           <span>GO</span>
-        </button>
-        <button id="mainTestBtn" class="btn-primary-action z-20 pointer-events-auto" aria-label="Start speed test">
-          <span id="btnActionIcon" aria-hidden="true">▶</span>
-          <span id="btnActionLabel">START TEST</span>
         </button>
       </div>
 
@@ -1173,6 +1231,40 @@
       </div>
     </section>
 
+
+    <!-- v45 Status / Map-safe / Settings -->
+    <section class="utility-grid" aria-label="Status, map and settings">
+      <div class="panel-card">
+        <div class="section-header"><div class="section-title"><span>◉</span><span id="titleStatus">Connection Status</span></div></div>
+        <div class="clay-info-list">
+          <div class="clay-info-row"><span class="clay-info-label" id="lblBrowserNetwork">Browser network hint</span><span class="clay-info-value" id="statusBrowser">--</span></div>
+          <div class="clay-info-row"><span class="clay-info-label" id="lblEndpointStatus">Measurement endpoint</span><span class="clay-info-value" id="statusEndpoint">--</span></div>
+          <div class="clay-info-row"><span class="clay-info-label" id="lblDataIntegrity">Result integrity</span><span class="clay-info-value" id="statusIntegrity">2xx + measured bytes</span></div>
+        </div>
+      </div>
+      <div class="panel-card">
+        <div class="section-header"><div class="section-title"><span>⌖</span><span id="titleMap">Map / Location</span></div></div>
+        <div class="map-safe-visual" aria-hidden="true"><div class="map-safe-orb">◎</div></div>
+        <div class="clay-info-list">
+          <div class="clay-info-row"><span class="clay-info-label" id="lblMapEdge">Provider edge code</span><span class="clay-info-value" id="mapEdgeValue">--</span></div>
+          <div class="clay-info-row"><span class="clay-info-label" id="lblMapClientArea">Provider client area</span><span class="clay-info-value" id="mapClientAreaValue">--</span></div>
+        </div>
+        <p class="map-safe-note" id="mapSafeNote">No verified coordinates are supplied by the current measurement flow, so Zipspeed does not invent a map pin.</p>
+      </div>
+      <div class="panel-card">
+        <div class="section-header"><div class="section-title"><span>⚙</span><span id="titleSettings">Settings</span></div></div>
+        <div class="clay-info-list">
+          <div class="clay-info-row"><span class="clay-info-label" id="lblSettingLanguage">Language</span><span class="clay-info-value" id="settingLanguageValue">English</span></div>
+          <div class="clay-info-row"><span class="clay-info-label" id="lblSettingTheme">Theme</span><span class="clay-info-value" id="settingThemeValue">Light</span></div>
+          <div class="clay-info-row"><span class="clay-info-label" id="lblSettingDataUse">Default data use</span><span class="clay-info-value">≈ 15 MiB + overhead</span></div>
+        </div>
+        <div class="settings-actions">
+          <button id="settingsLangBtn" class="settings-action" type="button">TH / EN</button>
+          <button id="settingsThemeBtn" class="settings-action" type="button">Light / Dark</button>
+        </div>
+      </div>
+    </section>
+
     <!-- Test History Section -->
     <section class="history-section" aria-label="Test history logs">
       <div class="section-header">
@@ -1221,7 +1313,7 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <div>Zipspeed v43 &bull; Measured HTTP throughput, latency and jitter &bull; No synthetic speed values</div>
+      <div>Zipspeed v45 &bull; Measured HTTP throughput, latency and jitter &bull; No synthetic speed values</div>
       <div>Zero fabricated numbers &bull; Real measured bytes and elapsed time</div>
     </footer>
   </div>
@@ -1280,7 +1372,7 @@
 
     // State Variables
     let currentLang = localStorage.getItem('zipspeed_lang') || 'en';
-    let currentTheme = localStorage.getItem('zipspeed_theme') || 'dark';
+    let currentTheme = localStorage.getItem('zipspeed_theme') || 'light';
     let isTestRunning = false;
     let abortController = null;
     let testHistory = [];
@@ -1344,6 +1436,13 @@
         jitterCol: 'Jitter',
         failCol: 'Probe Fail %',
         serverCol: 'Server Colo',
+        statusTitle: 'Connection Status', browserNetwork: 'Browser network hint', endpointStatus: 'Measurement endpoint',
+        dataIntegrity: 'Result integrity', integrityValue: '2xx + measured bytes',
+        mapTitle: 'Map / Location', mapEdge: 'Provider edge code', mapClientArea: 'Provider client area',
+        mapSafeNote: 'No verified coordinates are supplied by the current measurement flow, so Zipspeed does not invent a map pin.',
+        settingsTitle: 'Settings', settingLanguage: 'Language', settingTheme: 'Theme', settingDataUse: 'Default data use',
+        lightTheme: 'Light', darkTheme: 'Dark', englishName: 'English', thaiName: 'ไทย',
+        endpointChecking: 'Checking…', endpointOk: 'Reachable', endpointUnavailable: 'Unavailable',
         emptyHistory: 'No completed test records yet. Run a full test to record history.',
         copiedToast: 'Result copied to clipboard!',
         clearedToast: 'History cleared successfully.',
@@ -1391,6 +1490,13 @@
         jitterCol: 'จิตเตอร์',
         failCol: 'ล้มเหลว %',
         serverCol: 'ดาต้าเซ็นเตอร์',
+        statusTitle: 'สถานะการเชื่อมต่อ', browserNetwork: 'สถานะเครือข่ายจากเบราว์เซอร์', endpointStatus: 'ปลายทางวัดผล',
+        dataIntegrity: 'ความถูกต้องของผล', integrityValue: 'HTTP 2xx + ไบต์ที่วัดจริง',
+        mapTitle: 'แผนที่ / ตำแหน่ง', mapEdge: 'รหัส Edge จากผู้ให้บริการ', mapClientArea: 'พื้นที่ผู้ใช้จากผู้ให้บริการ',
+        mapSafeNote: 'ระบบวัดปัจจุบันไม่มีพิกัดที่ยืนยันได้ จึงไม่สร้างหมุดแผนที่ขึ้นเอง',
+        settingsTitle: 'การตั้งค่า', settingLanguage: 'ภาษา', settingTheme: 'ธีม', settingDataUse: 'การใช้ข้อมูลโดยประมาณ',
+        lightTheme: 'สว่าง', darkTheme: 'มืด', englishName: 'English', thaiName: 'ไทย',
+        endpointChecking: 'กำลังตรวจ…', endpointOk: 'เชื่อมต่อได้', endpointUnavailable: 'ใช้งานไม่ได้',
         emptyHistory: 'ยังไม่มีประวัติการทดสอบ กดปุ่มเริ่มทดสอบเพื่อบันทึกประวัติ',
         copiedToast: 'คัดลอกผลการทดสอบแล้ว!',
         clearedToast: 'ล้างประวัติการทดสอบเรียบร้อยแล้ว',
@@ -1466,6 +1572,8 @@
       localStorage.setItem('zipspeed_theme', theme);
       const icon = document.getElementById('themeIcon');
       if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+      const themeValue = document.getElementById('settingThemeValue');
+      if (themeValue) themeValue.textContent = I18N[currentLang]?.[theme === 'dark' ? 'darkTheme' : 'lightTheme'] || theme;
       drawChart();
     }
 
@@ -1503,6 +1611,15 @@
       document.getElementById('thProbeFail').textContent = t.failCol;
       document.getElementById('thServer').textContent = t.serverCol;
       document.getElementById('historyEmpty').textContent = t.emptyHistory;
+      const optionalText = (id, value) => { const node = document.getElementById(id); if (node) node.textContent = value; };
+      optionalText('titleStatus', t.statusTitle); optionalText('lblBrowserNetwork', t.browserNetwork);
+      optionalText('lblEndpointStatus', t.endpointStatus); optionalText('lblDataIntegrity', t.dataIntegrity);
+      optionalText('statusIntegrity', t.integrityValue); optionalText('titleMap', t.mapTitle);
+      optionalText('lblMapEdge', t.mapEdge); optionalText('lblMapClientArea', t.mapClientArea); optionalText('mapSafeNote', t.mapSafeNote);
+      optionalText('titleSettings', t.settingsTitle); optionalText('lblSettingLanguage', t.settingLanguage);
+      optionalText('lblSettingTheme', t.settingTheme); optionalText('lblSettingDataUse', t.settingDataUse);
+      optionalText('settingLanguageValue', lang === 'th' ? t.thaiName : t.englishName);
+      optionalText('settingThemeValue', currentTheme === 'dark' ? t.darkTheme : t.lightTheme);
 
       if (!isTestRunning) {
         btnActionLabel.textContent = t.startTest;
@@ -1746,8 +1863,8 @@
     const MIN_SUCCESSFUL_LATENCY_PROBES = 3;
 
     function setRunButtons(running) {
-      mainTestBtn.classList.toggle('state-running', running);
-      btnActionLabel.textContent = running ? I18N[currentLang].stopTest : I18N[currentLang].startTest;
+      if (mainTestBtn) mainTestBtn.classList.toggle('state-running', running);
+      if (btnActionLabel) btnActionLabel.textContent = running ? I18N[currentLang].stopTest : I18N[currentLang].startTest;
       if (goBtn) {
         goBtn.classList.toggle('state-running', running);
         const span = goBtn.querySelector('span');
@@ -1783,6 +1900,8 @@
     }
 
     async function loadNetworkMetadata(runId) {
+      const endpointState = document.getElementById('statusEndpoint');
+      if (endpointState) endpointState.textContent = I18N[currentLang].endpointChecking;
       try {
         const response = await fetchWithTimeout(`${SPEED_ENDPOINT}/meta?ts=${Date.now()}`, {
           method: 'GET',
@@ -1796,6 +1915,11 @@
         valServerLocation.textContent = meta.serverColo;
         valClientIp.textContent = meta.clientIp;
         valClientAsn.textContent = meta.clientAsn;
+        const mapEdge = document.getElementById('mapEdgeValue');
+        const mapClientArea = document.getElementById('mapClientAreaValue');
+        if (mapEdge) mapEdge.textContent = meta.serverColo || '--';
+        if (mapClientArea) mapClientArea.textContent = meta.clientArea || '--';
+        if (endpointState) { endpointState.textContent = I18N[currentLang].endpointOk; endpointState.style.color = 'var(--accent-green)'; }
         return meta;
       } catch (error) {
         if (error?.name === 'AbortError') throw error;
@@ -1804,6 +1928,11 @@
         valServerLocation.textContent = '--';
         valClientIp.textContent = '--';
         valClientAsn.textContent = '--';
+        const mapEdge = document.getElementById('mapEdgeValue');
+        const mapClientArea = document.getElementById('mapClientAreaValue');
+        if (mapEdge) mapEdge.textContent = '--';
+        if (mapClientArea) mapClientArea.textContent = '--';
+        if (endpointState) { endpointState.textContent = I18N[currentLang].endpointUnavailable; endpointState.style.color = 'var(--accent-rose)'; }
         return null;
       }
     }
@@ -2147,20 +2276,18 @@
     // Network Status Listener
     function updateOnlineStatus() {
       const el = document.getElementById('liveNetworkStatus');
-      if (navigator.onLine) {
-        el.textContent = I18N[currentLang].online;
-        el.style.color = 'var(--accent-green)';
-      } else {
-        el.textContent = I18N[currentLang].offline;
-        el.style.color = 'var(--accent-rose)';
-      }
+      const cardStatus = document.getElementById('statusBrowser');
+      const textValue = navigator.onLine ? I18N[currentLang].online : I18N[currentLang].offline;
+      const statusColor = navigator.onLine ? 'var(--accent-green)' : 'var(--accent-rose)';
+      if (el) { el.textContent = textValue; el.style.color = statusColor; }
+      if (cardStatus) { cardStatus.textContent = textValue; cardStatus.style.color = statusColor; }
     }
 
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
 
     // One activation path per button. Native click handles touch and keyboard activation.
-    [goBtn, mainTestBtn].filter(Boolean).forEach(btn => {
+    [goBtn].filter(Boolean).forEach(btn => {
       btn.addEventListener('click', startTest);
     });
     document.getElementById('copySummaryBtn').addEventListener('click', copyResultToClipboard);
@@ -2177,6 +2304,13 @@
     document.getElementById('langToggleBtn').addEventListener('click', () => {
       applyLanguage(currentLang === 'en' ? 'th' : 'en');
       updateOnlineStatus();
+    });
+
+    document.getElementById('settingsLangBtn')?.addEventListener('click', () => {
+      applyLanguage(currentLang === 'en' ? 'th' : 'en'); updateOnlineStatus();
+    });
+    document.getElementById('settingsThemeBtn')?.addEventListener('click', () => {
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
 
     // Methodology Modal

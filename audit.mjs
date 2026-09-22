@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 
-const files = ['index.html', 'app/applet/index.html'];
+const files = ['index.html', 'app/applet/index.html', 'app/src/main/assets/index.html'];
 const forbidden = [
   'Mock speed',
   "valPing.textContent = '12.4'",
@@ -28,5 +28,11 @@ if (rootMeasurement !== appletMeasurement) throw new Error('Root and applet meas
 const rootHtml = await fs.readFile('index.html', 'utf8');
 const appletHtml = await fs.readFile('app/applet/index.html', 'utf8');
 if (rootHtml !== appletHtml) throw new Error('Root and applet index.html differ');
+const androidHtml = await fs.readFile('app/src/main/assets/index.html', 'utf8');
+if (rootHtml !== androidHtml) throw new Error('Root and Android asset index.html differ');
+if (!rootHtml.includes('#3B82F6')) throw new Error('v45 blue design token missing');
+if (!rootHtml.includes('v45 MINIMAL 3D CLAY DESIGN SYSTEM')) throw new Error('v45 clay design marker missing');
+if ((rootHtml.match(/id="goBtn"/g) || []).length !== 1) throw new Error('Expected exactly one GO control');
+if (rootHtml.includes('id="mainTestBtn"')) throw new Error('Duplicate START TEST control must not return');
 
 console.log('Audit passed: no known synthetic result flow and mirrors are synchronized.');

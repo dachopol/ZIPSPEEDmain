@@ -1,5 +1,14 @@
 # Changelog
 
+## v45 — 2026-09-22
+- Minimal 3D white-clay UI with soft shadows and #3B82F6 accent.
+- One GO/STOP primary control; duplicate START TEST removed.
+- Added truthful Status, Map-safe, and Settings panels with TH/EN copy.
+- No fake coordinates or random network metrics.
+- Hardened Android WebView and disabled app backup.
+- Synchronized app/web version to 45.0.0 / versionCode 45.
+
+
 ## v43 — 2026-09-22
 
 ### Version update

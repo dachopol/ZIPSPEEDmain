@@ -1,4 +1,4 @@
-# Zipspeed by AnakinYoo — v44
+# Zipspeed by AnakinYoo — v45
 
 AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUILD RULES.
 
@@ -17,6 +17,14 @@ AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUIL
 - Added build, test, and anti-fake audit scripts.
 - Fixed duplicate `isTestRunning` declaration and duplicate touch/click execution paths.
 - Added the missing root `src/measurement.mjs` so the root app can actually load its measurement module.
+
+## v45 UI / platform update
+- Minimal 3D white-clay material, soft shadows, and blue accent `#3B82F6`.
+- One GO/STOP primary control.
+- Status, Map-safe, and Settings panels added without fabricating coordinates or status.
+- Android WebView hardened for file access, mixed content, Safe Browsing, and packaged-origin navigation.
+- Android backup disabled for local WebView data.
+- Version synchronized to 45.0.0 / versionCode 45.
 
 ## Run locally
 
