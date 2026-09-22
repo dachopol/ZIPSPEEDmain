@@ -1,10 +1,10 @@
 # Changelog
 
-## v44 — 2026-09-22
+## v43 — 2026-09-22
 
 ### Version update
-- Public app version changed to **Zipspeed v44**.
-- Package/metadata semantic version changed to **44.0.0** so npm tooling remains valid.
+- Public app version changed to **Zipspeed v43**.
+- Package/metadata semantic version changed to **43.0.0** so npm tooling remains valid.
 - Measurement logic and v3.1.0 fixes are retained unchanged.
 
 ## 3.1.0 — 2026-09-22

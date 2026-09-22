@@ -2,7 +2,7 @@
 
 AI Studio / browser speed-test app rebuilt to follow the project MASTER APP BUILD RULES.
 
-## What changed in v44
+## What changed in v43
 
 - Removed fixed/demo speed results from the production test flow.
 - GO / STOP now controls real HTTP measurements.

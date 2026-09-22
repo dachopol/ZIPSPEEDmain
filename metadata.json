@@ -1,6 +1,6 @@
 {
   "name": "Zipspeed by AnakinYoo",
-  "version": "44.0.0",
+  "version": "43.0.0",
   "description": "Browser-based HTTP internet speed and latency test using measured transfers. No synthetic speed values.",
   "requestFramePermissions": [],
   "majorCapabilities": []
