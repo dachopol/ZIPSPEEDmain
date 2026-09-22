@@ -1,24 +1,31 @@
 # Zipspeed v45 Update Report
 
+Date: 2026-09-22
+
 ## PASS
 - Real-data measurement flow preserved.
 - Single GO/STOP primary action enforced.
-- Root, AI Studio applet, and Android asset HTML synchronized.
+- Root / AI Studio applet / Android asset HTML synchronized.
 - TH/EN copy added for Status / Map-safe / Settings.
+- Minimal 3D white-clay UI with blue accent #3B82F6 applied.
 - Version synchronized to 45.0.0 / versionCode 45.
+- GitHub Actions web quality gate passed: audit + unit tests + static build.
+- Android debug build passed with AGP 9.1.1, Gradle 9.3.1, JDK 17.
 - Android WebView source hardened.
+- Android backup disabled.
 
 ## FIX
-- Minimal 3D white-clay UI with soft shadows and #3B82F6 accent.
 - Removed duplicate START TEST control.
-- Added truthful Status, Map-safe, Settings panels.
-- Disabled Android backup.
-- Added GitHub Actions web audit/test/build workflow.
+- Fixed initial CI failure caused by npm cache requiring a missing lockfile.
+- Switched CI to Node 24 without npm cache dependency.
+- Added Android assembleDebug verification.
+- Added truthful Status / Map-safe / Settings panels.
+- Map-safe never fabricates coordinates or a map pin.
 
 ## GAP
-- Android Gradle build is not executed because this repo has no trusted Gradle wrapper committed.
 - No emulator screenshot evidence yet.
 - No physical-device network accuracy evidence yet.
+- No signed release AAB yet.
 - AdMob / Play Billing are not implemented and are not simulated.
 
 ## ASSUMPTION
@@ -26,16 +33,16 @@
 - History remains device-local WebView storage.
 
 ## TO VERIFY
-- GitHub Actions check after push.
-- AI Studio pull/sync.
+- Download and install debug APK on a real Android device.
 - Small-screen, large-font and orientation behavior.
-- Real Android device GO/STOP on Wi-Fi and cellular.
+- GO/STOP on Wi-Fi and cellular.
+- AI Studio pull/sync rendering.
 - Final Privacy Policy / Data Safety before release.
 
 ## UNVERIFIED
-- APK/AAB build.
-- Emulator rendering.
-- Physical-device measurement accuracy.
+- Real-device accuracy.
+- Release signing.
+- Release AAB.
 - Play Console upload/review.
 
 ## N/A
