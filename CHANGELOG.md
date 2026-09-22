@@ -1,60 +1,11 @@
 # Changelog
 
-## Play release v43 — consolidated
-- Current publish target is **versionCode 43 / versionName 43.0.0** for the existing Play Console app.
-- Features developed under internal labels v45–v47 are folded into this v43 release candidate; those labels were development milestones, not published Play releases.
-- No feature rollback is implied by resetting the publish number to 43.
-
-## Internal milestone v47 — 2026-09-22
-- Added researched Top3 benchmark set: Ookla, Opensignal, FAST; Meteor supplemental.
-- Added Quick/Standard real-data test profiles.
-- Added sharing of latest completed measured result with clipboard fallback.
-- Copy/share no longer use incomplete UI values.
-- Fixed null btnActionLabel reference after single-button GO/STOP redesign.
-- Synchronized app/web version to 47.0.0 / versionCode 47.
-
-
-## Internal milestone v46 — 2026-09-22
-- Locked design tokens in runtime CSS: #3B82F6, radius 28px, blur 40px, 4/8px spacing base.
-- Added tabular/lining numeric rendering for measurement values.
-- Added compact-phone breakpoint and glass fallback.
-- Kept one GO/STOP control and Real Data Only measurement flow.
-- Removed tracked .gradle cache/build artifacts from source control.
-- Synchronized web/Android version to 46.0.0 / versionCode 46.
-
-
-## Internal milestone v45 — 2026-09-22
-- Minimal 3D white-clay UI with soft shadows and #3B82F6 accent.
-- One GO/STOP primary control; duplicate START TEST removed.
-- Added truthful Status, Map-safe, and Settings panels with TH/EN copy.
-- No fake coordinates or random network metrics.
-- Hardened Android WebView and disabled app backup.
-- Synchronized app/web version to 45.0.0 / versionCode 45.
-
-
-## v43 — 2026-09-22
-
-### Version update
-- Public app version changed to **Zipspeed v43**.
-- Package/metadata semantic version changed to **43.0.0** so npm tooling remains valid.
-- Measurement logic and v3.1.0 fixes are retained unchanged.
-
-## 3.1.0 — 2026-09-22
-
-### Critical fixes
-- Removed deterministic demo results (1000/500 Mbps, 12.4 ms, 1.2 ms and sample metadata) from the production flow.
-- Replaced animation-only speed sweep with measured HTTP latency/download/upload.
-- Fixed duplicate `let isTestRunning` declaration that caused module parse failure.
-- Removed duplicate inline + JavaScript touch/click start handlers that could trigger the control twice.
-- Added missing root `src/measurement.mjs`, fixing the broken root import.
-- Replaced header-based metadata assumptions with parsing of Cloudflare `/meta` JSON.
-- Stopped treating client city/country as server location; only edge `colo` is shown in the server/edge field.
-- Removed incorrect RFC 1889/3550 jitter claim; UI now calls it an HTTP-latency jitter indicator.
-
-### Project/build fixes
-- Updated package version from 3.0.1 to 3.1.0.
-- Added `build.mjs`, unit tests and `audit.mjs`.
-- Removed unused/misleading Android Gradle files and `.gradle` cache from the web package.
-- Removed unused Gemini/geolocation capability declarations.
-- Added static-server security headers and limited local server methods to GET/HEAD/OPTIONS.
-- Kept root and `app/applet` app copies synchronized.
+## v50 — 2026-09-23 — Clean Rebuild
+- Rebuilt UI and app logic from scratch.
+- Removed legacy dark dashboard, Precision Mode, Ad-Free control, duplicate Start Test, legacy server-change UI and old navigation.
+- Added a new minimal 3D white-clay mobile UI.
+- Kept only evidence-based capabilities.
+- Added Quick/Standard real-data profiles, history, share/export, status, video suitability, map-safe state, TH/EN, light/dark.
+- Replaced legacy measurement module with a new deterministic helper module.
+- Added new tests and anti-legacy audit.
+- VersionCode 50 / versionName 50.0.0.

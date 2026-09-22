@@ -1,83 +1,16 @@
-import fs from 'node:fs/promises';
-
-const files = ['index.html', 'app/applet/index.html', 'app/src/main/assets/index.html'];
-const forbidden = [
-  'Mock speed',
-  "valPing.textContent = '12.4'",
-  "valDownload.textContent = '1000.0'",
-  "valUpload.textContent = '500.0'",
-  "valServerLocation.textContent = 'Bangkok (BKK)'",
-  "valClientIp.textContent = '203.0.113.195'",
-  'Math.random()'
-];
-
-for (const file of files) {
-  const text = await fs.readFile(file, 'utf8');
-  for (const token of forbidden) {
-    if (text.includes(token)) throw new Error(`${file}: forbidden synthetic token: ${token}`);
-  }
-  const stateDecls = (text.match(/let\s+isTestRunning\s*=/g) || []).length;
-  if (stateDecls !== 1) throw new Error(`${file}: expected exactly one isTestRunning declaration, found ${stateDecls}`);
-  if (!text.includes("from './src/measurement.mjs'")) throw new Error(`${file}: measurement module import missing`);
-}
-
-const rootMeasurement = await fs.readFile('src/measurement.mjs', 'utf8');
-const appletMeasurement = await fs.readFile('app/applet/src/measurement.mjs', 'utf8');
-if (rootMeasurement !== appletMeasurement) throw new Error('Root and applet measurement modules differ');
-
-const rootHtml = await fs.readFile('index.html', 'utf8');
-const appletHtml = await fs.readFile('app/applet/index.html', 'utf8');
-if (rootHtml !== appletHtml) throw new Error('Root and applet index.html differ');
-const androidHtml = await fs.readFile('app/src/main/assets/index.html', 'utf8');
-if (rootHtml !== androidHtml) throw new Error('Root and Android asset index.html differ');
-if (!rootHtml.includes('#3B82F6')) throw new Error('v46 blue design token missing');
-if (!rootHtml.includes('v46 MINIMAL 3D CLAY DESIGN SYSTEM')) throw new Error('v46 clay design marker missing');
-if ((rootHtml.match(/id="goBtn"/g) || []).length !== 1) throw new Error('Expected exactly one GO control');
-if (rootHtml.includes('id="mainTestBtn"')) throw new Error('Duplicate START TEST control must not return');
-if (!rootHtml.includes('font-variant-numeric: tabular-nums')) throw new Error('Tabular numeric rendering missing');
-if (!rootHtml.includes('--glass-blur: 40px')) throw new Error('40px glass blur design token missing');
-if (!rootHtml.includes('--surface-radius: 28px')) throw new Error('28px surface radius design token missing');
-if (!rootHtml.includes('id="profileQuickBtn"') || !rootHtml.includes('id="profileStandardBtn"')) throw new Error('Test profile controls missing');
-if (!rootHtml.includes('function shareLatestResult()')) throw new Error('Share result flow missing');
-if (!rootHtml.includes("downloadBytes: 3 * 1024 * 1024")) throw new Error('Quick profile payload missing');
-if (!rootHtml.includes("downloadBytes: 10 * 1024 * 1024")) throw new Error('Standard profile payload missing');
-if (/^\s*btnActionLabel\.textContent\s*=/m.test(rootHtml)) throw new Error('Null btnActionLabel regression');
-
-console.log('Audit passed: no known synthetic result flow and mirrors are synchronized.');
-
-
-// Play release version lock: keep every active publish surface aligned.
-const EXPECTED_VERSION = '43.0.0';
-const EXPECTED_VERSION_CODE = 43;
-
-const metadata = JSON.parse(await fs.readFile('metadata.json', 'utf8'));
-const versionInfo = JSON.parse(await fs.readFile('version.json', 'utf8'));
-const pkg = JSON.parse(await fs.readFile('package.json', 'utf8'));
-const appGradle = await fs.readFile('app/build.gradle.kts', 'utf8');
-
-for (const [name, value] of [
-  ['metadata.json', metadata.version],
-  ['version.json', versionInfo.version],
-  ['package.json', pkg.version],
-]) {
-  if (value !== EXPECTED_VERSION) {
-    throw new Error(`${name}: expected release version ${EXPECTED_VERSION}, found ${value}`);
-  }
-}
-if (!appGradle.includes(`versionCode = ${EXPECTED_VERSION_CODE}`)) {
-  throw new Error(`app/build.gradle.kts: expected versionCode ${EXPECTED_VERSION_CODE}`);
-}
-if (!appGradle.includes(`versionName = "${EXPECTED_VERSION}"`)) {
-  throw new Error(`app/build.gradle.kts: expected versionName ${EXPECTED_VERSION}`);
-}
-for (const file of files) {
-  const text = await fs.readFile(file, 'utf8');
-  if (!text.includes('Zipspeed v43')) {
-    throw new Error(`${file}: public release label must be Zipspeed v43`);
-  }
-}
-console.log('Release version lock passed: Play release v43 is consistent.');
-
-if (!rootHtml.includes('function createLinkedRequestScope(timeoutMs)')) throw new Error('Download streaming abort scope missing');
-if (!rootHtml.includes("xhr.timeout = currentProfile === 'quick' ? 60000 : 180000")) throw new Error('Slow-network upload timeout policy missing');
-if (!rootHtml.includes("const timeoutMs = currentProfile === 'quick' ? 60000 : 180000")) throw new Error('Slow-network download timeout policy missing');
+import fs from"node:fs/promises";
+const groups=[["index.html","app/applet/index.html","app/src/main/assets/index.html"],["src/styles.css","app/applet/src/styles.css","app/src/main/assets/src/styles.css"],["src/app.mjs","app/applet/src/app.mjs","app/src/main/assets/src/app.mjs"],["src/measurement.mjs","app/applet/src/measurement.mjs","app/src/main/assets/src/measurement.mjs"]];
+for(const g of groups){const t=await Promise.all(g.map(f=>fs.readFile(f,"utf8")));if(!t.every(x=>x===t[0]))throw new Error("Mirror mismatch: "+g.join(", "))}
+const html=await fs.readFile("index.html","utf8"),css=await fs.readFile("src/styles.css","utf8"),app=await fs.readFile("src/app.mjs","utf8"),m=await fs.readFile("src/measurement.mjs","utf8");
+for(const token of["Precision Mode","Ad-Free","Cloudflare Anycast","Speed & Network","Math.random()","Mock speed"]){for(const[name,text]of[["html",html],["css",css],["app",app],["measurement",m]])if(text.includes(token))throw new Error(name+": legacy token "+token)}
+if((html.match(/id="goButton"/g)||[]).length!==1)throw new Error("Expected exactly one GO/STOP control");
+if(!css.includes("--blue:#3B82F6")||!css.includes("--radius:28px")||!css.includes("--blur:40px"))throw new Error("Design tokens missing");
+if(!css.includes("font-variant-numeric:tabular-nums"))throw new Error("Tabular numerals missing");
+if(!app.includes('ENDPOINT="https://speed.cloudflare.com"'))throw new Error("Measurement endpoint missing");
+if(!app.includes("navigator.share"))throw new Error("Share flow missing");
+if(!app.includes("document.hidden&&running"))throw new Error("Background cancellation missing");
+if(!m.includes("downloadBytes:3*1024*1024")||!m.includes("downloadBytes:10*1024*1024"))throw new Error("Profiles missing");
+const pkg=JSON.parse(await fs.readFile("package.json","utf8")),meta=JSON.parse(await fs.readFile("metadata.json","utf8")),ver=JSON.parse(await fs.readFile("version.json","utf8")),gradle=await fs.readFile("app/build.gradle.kts","utf8");
+for(const[name,value]of[["package",pkg.version],["metadata",meta.version],["version",ver.version]])if(value!=="50.0.0")throw new Error(name+" version mismatch");
+if(!gradle.includes("versionCode = 50")||!gradle.includes('versionName = "50.0.0"'))throw new Error("Android version mismatch");
+console.log("Zipspeed v50 clean rebuild audit passed.");
