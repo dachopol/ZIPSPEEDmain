@@ -77,3 +77,7 @@ for (const file of files) {
   }
 }
 console.log('Release version lock passed: Play release v43 is consistent.');
+
+if (!rootHtml.includes('function createLinkedRequestScope(timeoutMs)')) throw new Error('Download streaming abort scope missing');
+if (!rootHtml.includes("xhr.timeout = currentProfile === 'quick' ? 60000 : 180000")) throw new Error('Slow-network upload timeout policy missing');
+if (!rootHtml.includes("const timeoutMs = currentProfile === 'quick' ? 60000 : 180000")) throw new Error('Slow-network download timeout policy missing');

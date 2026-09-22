@@ -2065,6 +2065,33 @@
       }
     }
 
+    function createLinkedRequestScope(timeoutMs) {
+      const child = new AbortController();
+      const parentSignal = abortController?.signal;
+      let timedOut = false;
+      const relayAbort = () => child.abort();
+
+      if (parentSignal) {
+        if (parentSignal.aborted) child.abort();
+        else parentSignal.addEventListener('abort', relayAbort, { once: true });
+      }
+
+      const timer = setTimeout(() => {
+        timedOut = true;
+        child.abort();
+      }, timeoutMs);
+
+      return {
+        signal: child.signal,
+        parentSignal,
+        get timedOut() { return timedOut; },
+        cleanup() {
+          clearTimeout(timer);
+          parentSignal?.removeEventListener('abort', relayAbort);
+        }
+      };
+    }
+
     async function loadNetworkMetadata(runId) {
       const endpointState = document.getElementById('statusEndpoint');
       if (endpointState) endpointState.textContent = I18N[currentLang].endpointChecking;
@@ -2161,60 +2188,76 @@
 
     async function measureDownload(runId) {
       const downloadBytes = getTestProfile().downloadBytes;
+      const timeoutMs = currentProfile === 'quick' ? 60000 : 180000;
       testPhaseBadge.textContent = I18N[currentLang].testingDown;
       testPhaseBadge.setAttribute('data-phase', 'download');
       cardDownload.classList.add('active-test');
       statusDownload.textContent = 'Testing...';
 
+      const scope = createLinkedRequestScope(timeoutMs);
       const started = performance.now();
-      const response = await fetchWithTimeout(
-        `${SPEED_ENDPOINT}/__down?bytes=${downloadBytes}&ts=${Date.now()}`,
-        { method: 'GET' },
-        30000
-      );
-      if (!response.ok) throw new Error(`Download HTTP ${response.status}`);
-
       let received = 0;
       let lastPaint = 0;
-      if (response.body?.getReader) {
-        const reader = response.body.getReader();
-        while (true) {
-          ensureActive(runId);
-          const { done, value } = await reader.read();
-          if (done) break;
-          received += value?.byteLength || 0;
-          const now = performance.now();
-          if (now - lastPaint >= 100) {
-            const mbps = calculateThroughput(received, now - started);
-            if (mbps !== null) {
-              setGaugeSpeed(mbps);
-              valDownload.textContent = mbps.toFixed(1);
-              chartSamples.push({ phase: 'download', mbps });
-              if (chartSamples.length % 2 === 0) drawChart();
-            }
-            subDownloadTransferred.textContent = `${(received / 1048576).toFixed(1)} MB ${I18N[currentLang].transferred}`;
-            progressFill.style.width = `${25 + Math.min(40, (received / downloadBytes) * 40)}%`;
-            lastPaint = now;
-          }
-        }
-      } else {
-        const buffer = await response.arrayBuffer();
-        received = buffer.byteLength;
-      }
 
-      const elapsed = performance.now() - started;
-      if (received !== downloadBytes) throw new Error(`Download payload incomplete: ${received}/${downloadBytes} bytes`);
-      const mbps = calculateThroughput(received, elapsed);
-      if (mbps === null || mbps <= 0) throw new Error('Download throughput unavailable');
-      setGaugeSpeed(mbps);
-      valDownload.textContent = mbps.toFixed(1);
-      subDownloadTransferred.textContent = `${(received / 1048576).toFixed(1)} MB ${I18N[currentLang].transferred}`;
-      statusDownload.textContent = 'OK';
-      cardDownload.classList.remove('active-test');
-      progressFill.style.width = '65%';
-      chartSamples.push({ phase: 'download', mbps });
-      drawChart();
-      return { mbps, bytes: received };
+      try {
+        const response = await fetch(
+          `${SPEED_ENDPOINT}/__down?bytes=${downloadBytes}&ts=${Date.now()}`,
+          { method: 'GET', signal: scope.signal, cache: 'no-store' }
+        );
+        if (!response.ok) throw new Error(`Download HTTP ${response.status}`);
+
+        if (response.body?.getReader) {
+          const reader = response.body.getReader();
+          while (true) {
+            ensureActive(runId);
+            const { done, value } = await reader.read();
+            if (done) break;
+            received += value?.byteLength || 0;
+
+            const now = performance.now();
+            if (now - lastPaint >= 100) {
+              const mbps = calculateThroughput(received, now - started);
+              if (mbps !== null) {
+                setGaugeSpeed(mbps);
+                valDownload.textContent = mbps.toFixed(1);
+                chartSamples.push({ phase: 'download', mbps });
+                if (chartSamples.length % 2 === 0) drawChart();
+              }
+              subDownloadTransferred.textContent = `${(received / 1048576).toFixed(1)} MB ${I18N[currentLang].transferred}`;
+              progressFill.style.width = `${25 + Math.min(40, (received / downloadBytes) * 40)}%`;
+              lastPaint = now;
+            }
+          }
+        } else {
+          const buffer = await response.arrayBuffer();
+          received = buffer.byteLength;
+        }
+
+        ensureActive(runId);
+        const elapsed = performance.now() - started;
+        if (received !== downloadBytes) {
+          throw new Error(`Download payload incomplete: ${received}/${downloadBytes} bytes`);
+        }
+
+        const mbps = calculateThroughput(received, elapsed);
+        if (mbps === null || mbps <= 0) throw new Error('Download throughput unavailable');
+
+        setGaugeSpeed(mbps);
+        valDownload.textContent = mbps.toFixed(1);
+        subDownloadTransferred.textContent = `${(received / 1048576).toFixed(1)} MB ${I18N[currentLang].transferred}`;
+        statusDownload.textContent = 'OK';
+        cardDownload.classList.remove('active-test');
+        progressFill.style.width = '65%';
+        chartSamples.push({ phase: 'download', mbps });
+        drawChart();
+        return { mbps, bytes: received };
+      } catch (error) {
+        if (scope.parentSignal?.aborted) throw new DOMException('Aborted', 'AbortError');
+        if (scope.timedOut) throw new Error('Download request timed out');
+        throw error;
+      } finally {
+        scope.cleanup();
+      }
     }
 
     function measureUpload(runId) {
@@ -2244,7 +2287,7 @@
         };
 
         xhr.open('POST', `${SPEED_ENDPOINT}/__up?ts=${Date.now()}`, true);
-        xhr.timeout = 30000;
+        xhr.timeout = currentProfile === 'quick' ? 60000 : 180000;
         xhr.responseType = 'arraybuffer';
         abortController?.signal.addEventListener('abort', onAbort, { once: true });
 
