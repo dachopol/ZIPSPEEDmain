@@ -113,3 +113,27 @@ export function diagnosticFlags(result){
   if(Number.isFinite(variation)&&variation>DIAGNOSTIC_THRESHOLDS.variation)add("variation",variation,DIAGNOSTIC_THRESHOLDS.variation,"above","%");
   return flags;
 }
+
+
+function pctChange(current,previous){
+  const a=Number(current),b=Number(previous);
+  if(!Number.isFinite(a)||!Number.isFinite(b)||b===0)return null;
+  return((a-b)/Math.abs(b))*100;
+}
+
+export function compareResults(current,previous){
+  if(!current||!previous)return null;
+  const required=["downloadMbps","uploadMbps","latencyMs","jitterMs","probeFailPct"];
+  if(required.some(key=>!Number.isFinite(Number(current[key]))||!Number.isFinite(Number(previous[key]))))return null;
+  return{
+    downloadPct:pctChange(current.downloadMbps,previous.downloadMbps),
+    uploadPct:pctChange(current.uploadMbps,previous.uploadMbps),
+    latencyDeltaMs:Number(current.latencyMs)-Number(previous.latencyMs),
+    jitterDeltaMs:Number(current.jitterMs)-Number(previous.jitterMs),
+    probeFailDeltaPct:Number(current.probeFailPct)-Number(previous.probeFailPct),
+    currentTimestamp:current.timestamp,
+    previousTimestamp:previous.timestamp,
+    profile:current.profile||"standard",
+    connectionMode:current.connectionMode||"single"
+  };
+}

@@ -476,3 +476,45 @@ body{overflow-x:clip}
 .privacy-grid p{margin:6px 0 0;color:var(--muted);font-size:.64rem;line-height:1.45;overflow-wrap:anywhere}
 [data-theme="dark"] .privacy-panel,[data-theme="dark"] .privacy-grid article{background:#111B2D;border-color:var(--line)}
 @media(max-width:520px){.privacy-grid{grid-template-columns:1fr}}
+
+
+/* v60 history intelligence */
+.history-comparison{
+  margin-bottom:12px;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:linear-gradient(180deg,var(--surface),var(--surface-2));
+  box-shadow:var(--depth-1);
+}
+.history-comparison-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:12px;
+  align-items:start;
+}
+.history-comparison h2{margin:4px 0 0;font-size:.98rem;letter-spacing:-.02em}
+.history-comparison>p{margin:7px 0 0;color:var(--muted);font-size:.68rem;line-height:1.4}
+.comparison-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.comparison-grid article{
+  min-width:0;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface-2);
+  display:grid;
+  gap:5px;
+}
+.comparison-grid span{color:var(--muted);font-size:.64rem;line-height:1.25;overflow-wrap:anywhere}
+.comparison-grid strong{font-family:var(--mono);font-size:.92rem;font-variant-numeric:tabular-nums}
+[data-theme="dark"] .history-comparison,[data-theme="dark"] .comparison-grid article{background:#111B2D}
+@media(max-width:520px){
+  .history-comparison-head{grid-template-columns:1fr}
+  .history-comparison-head .status-chip{justify-self:start}
+  .comparison-grid{grid-template-columns:1fr}
+}

@@ -193,9 +193,22 @@
     <div class="page-actions">
       <button id="shareButton" class="secondary-button" type="button">Share</button>
       <button id="exportButton" class="secondary-button" type="button">Export JSON</button>
+      <button id="exportCsvButton" class="secondary-button" type="button">Export CSV</button>
       <button id="clearButton" class="secondary-button danger" type="button">Clear</button>
     </div>
   </header>
+  <section id="historyComparison" class="history-comparison" aria-live="polite">
+    <div class="history-comparison-head">
+      <div><span class="kicker" id="compareEyebrow">Comparison</span><h2 id="compareTitle">Latest vs previous matching test</h2></div>
+      <span id="compareContext" class="status-chip neutral">--</span>
+    </div>
+    <p id="compareNote">Needs two completed tests with the same profile and connection mode.</p>
+    <div class="comparison-grid">
+      <article><span id="compareDownloadLabel">Download change</span><strong id="compareDownloadValue">--</strong></article>
+      <article><span id="compareUploadLabel">Upload change</span><strong id="compareUploadValue">--</strong></article>
+      <article><span id="compareLatencyLabel">Latency change</span><strong id="compareLatencyValue">--</strong></article>
+    </div>
+  </section>
   <div id="historyList" class="history-list"></div>
   <p id="historyEmpty" class="empty-state">No completed tests yet.</p>
 </section>

@@ -1,5 +1,13 @@
 # Changelog
 
+## v60 — 2026-09-23 — History intelligence + CSV export
+- Added latest-vs-previous comparison restricted to the same test profile and connection mode.
+- Added deterministic download/upload percentage change and latency delta.
+- Added CSV export for completed local history with correct CSV escaping.
+- Added TH/EN comparison UI and responsive layout.
+- Added unit tests plus browser runtime proof with seeded local-only history.
+
+
 ## v59 — 2026-09-23 — Privacy transparency + release evidence
 - Added visible TH/EN Privacy & Data facts derived from current source behavior.
 - Clarified that measurement traffic reaches the listed provider and that client IP/ISP metadata are not written into Zipspeed local history.

@@ -155,3 +155,17 @@ Implementation target:
 - Produce machine-readable release evidence.
 - Keep external Privacy Policy, Play Data Safety, signing and Play upload explicitly TO VERIFY/UNVERIFIED until checked.
 - Re-score only after v59 source/build/runtime/release evidence passes.
+
+
+## Loop 6 — history intelligence + CSV
+
+Baseline after Loop 5: **79.0 / 100** pending v59 re-score refinement; v59 CI evidence is PASS.
+
+Selected because Server/Coverage remains externally blocked and History/Share/Export can improve with truthful local data.
+
+Implementation target:
+- Compare the latest result only with the previous completed result using the same profile and connection mode.
+- Show download/upload percentage delta and latency delta without claiming causation.
+- Export completed history as CSV in addition to JSON.
+- Keep all analysis local and add no new tracking/data destination.
+- Re-score only after v60 unit/build/browser-runtime evidence passes.

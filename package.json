@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "59.0.0",
+  "version": "60.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 59,
-    "channel": "privacy-release-evidence",
+    "versionCode": 60,
+    "channel": "history-intelligence",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

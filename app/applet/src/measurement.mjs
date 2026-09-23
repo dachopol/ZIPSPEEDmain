@@ -34,3 +34,44 @@ export function mergeHistoryRecords(...lists){
   }
   return [...byKey.values()].sort((a,b)=>Date.parse(a.timestamp)-Date.parse(b.timestamp)).slice(-100);
 }
+
+
+function csvCell(value){
+  if(value===null||value===undefined)return "";
+  const text=String(value);
+  return /[",\n\r]/.test(text)?`"${text.replaceAll('"','""')}"`:text;
+}
+
+export function latestComparablePair(records){
+  if(!Array.isArray(records)||records.length<2)return null;
+  const valid=records.filter(isCompleteResult);
+  if(valid.length<2)return null;
+  const current=valid.at(-1);
+  const profile=current.profile||"standard";
+  const mode=current.connectionMode||"single";
+  for(let i=valid.length-2;i>=0;i--){
+    const candidate=valid[i];
+    if((candidate.profile||"standard")===profile&&(candidate.connectionMode||"single")===mode){
+      return{current,previous:candidate};
+    }
+  }
+  return null;
+}
+
+export function historyToCsv(records){
+  if(!Array.isArray(records))return null;
+  const valid=records.filter(isCompleteResult);
+  if(!valid.length)return null;
+  const columns=[
+    "timestamp","profile","connectionMode","streamCount",
+    "downloadMbps","uploadMbps","latencyMs","jitterMs","probeFailPct",
+    "loadedLatencyMs","loadedLatencySampleCount",
+    "throughputVariationPct","throughputMinMbps","throughputMaxMbps","throughputSampleCount",
+    "edge"
+  ];
+  const rows=[columns.join(",")];
+  for(const item of valid){
+    rows.push(columns.map(key=>csvCell(item[key]??"")).join(","));
+  }
+  return rows.join("\n");
+}

@@ -1,6 +1,6 @@
 import test from"node:test";
-import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags}from"../src/quality.mjs";
-import{defaultServer,serverLocationLabel}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords}from"../src/measurement.mjs";
+import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults}from"../src/quality.mjs";
+import{defaultServer,serverLocationLabel}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
 test("latency stats use measured samples",()=>{assert.equal(median([30,10,20]),20);assert.equal(latencyJitter([10,12,15]),2.5);assert.equal(probeFailPercent(1,4),25)});
@@ -77,4 +77,30 @@ test("connection modes preserve total transfer bytes",()=>{
     }
   }
   assert.equal(splitTransferBytes(0,4),null);
+});
+
+
+test("history comparison uses matching profile and mode",()=>{
+  const base=(timestamp,downloadMbps,profile="quick",connectionMode="single")=>({completed:true,aborted:false,downloadMbps,uploadMbps:10,latencyMs:20,jitterMs:2,probeFailPct:0,profile,connectionMode,timestamp});
+  const records=[
+    base("2026-09-23T00:00:00.000Z",50),
+    base("2026-09-23T00:30:00.000Z",70,"standard","single"),
+    base("2026-09-23T01:00:00.000Z",75,"quick","multi"),
+    base("2026-09-23T02:00:00.000Z",100)
+  ];
+  const pair=latestComparablePair(records);
+  assert.equal(pair.current.downloadMbps,100);
+  assert.equal(pair.previous.downloadMbps,50);
+  const comparison=compareResults(pair.current,pair.previous);
+  assert.equal(comparison.downloadPct,100);
+  assert.equal(comparison.profile,"quick");
+  assert.equal(comparison.connectionMode,"single");
+});
+
+test("history CSV exports completed records and escapes cells",()=>{
+  const record={completed:true,aborted:false,downloadMbps:100,uploadMbps:20,latencyMs:15,jitterMs:2,probeFailPct:0,profile:"quick",connectionMode:"single",streamCount:1,edge:'BKK,"edge"',timestamp:"2026-09-23T00:00:00.000Z"};
+  const csv=historyToCsv([record]);
+  assert.ok(csv.startsWith("timestamp,profile,connectionMode"));
+  assert.ok(csv.includes('"BKK,""edge"""'));
+  assert.equal(historyToCsv([]),null);
 });

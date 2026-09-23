@@ -203,6 +203,29 @@ try{
     const privacyVisible=await cdp.evaluate(`(()=>{const el=document.querySelector(".privacy-panel");if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&document.querySelector("#privacyCommerceBody")?.textContent?.trim().length>0})()`);
     assert(privacyVisible,`Privacy panel missing at ${width}px`);
 
+    if(width===360){
+      const historyProof=await cdp.evaluate(`(()=>{
+        const base={completed:true,aborted:false,uploadMbps:10,latencyMs:20,jitterMs:2,probeFailPct:0,profile:"quick",connectionMode:"single",streamCount:1,edge:"BKK"};
+        localStorage.setItem("zipspeed_history",JSON.stringify([
+          {...base,downloadMbps:50,timestamp:"2026-09-23T00:00:00.000Z"},
+          {...base,downloadMbps:100,timestamp:"2026-09-23T01:00:00.000Z"}
+        ]));
+        return true;
+      })()`);
+      assert(historyProof,`History seed failed at ${width}px`);
+      await cdp.send("Page.reload",{ignoreCache:true});
+      await sleep(500);
+      await cdp.evaluate(`document.querySelector('[data-target="history"]')?.click()`);
+      const compareState=await cdp.evaluate(`(()=>({
+        download:document.querySelector("#compareDownloadValue")?.textContent?.trim(),
+        context:document.querySelector("#compareContext")?.textContent?.trim(),
+        csvVisible:!!document.querySelector("#exportCsvButton")?.getBoundingClientRect().width
+      }))()`);
+      assert(compareState.download==="+100.0%",`History comparison runtime failed: ${compareState.download}`);
+      assert(compareState.context&&compareState.context!=="--",`History comparison context missing`);
+      assert(compareState.csvVisible,`CSV export control missing`);
+    }
+
     const toggles=await cdp.evaluate(`(()=>{
       const beforeTheme=document.documentElement.dataset.theme;
       const beforeLang=document.documentElement.lang;
