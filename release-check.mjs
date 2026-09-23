@@ -68,7 +68,9 @@ const evidence={
     manualCountryDiscovery:true,
     regionLanguageCoupled:false,
     browserNetworkHintsStored:false,
-    browserNetworkHintsNewDestination:false
+    browserNetworkHintsNewDestination:false,
+    historyConsistencyLocalOnly:true,
+    historyConsistencyNewDestination:false
   },
   storeReview:{
     privacyPolicy:"TO VERIFY against current external policy",

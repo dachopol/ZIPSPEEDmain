@@ -1,6 +1,6 @@
 import test from"node:test";
 import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact}from"../src/quality.mjs";
-import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse,normalizeCountryCode,buildMlabLocateUrl}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv,parseBrowserConnection}from"../src/measurement.mjs";
+import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse,normalizeCountryCode,buildMlabLocateUrl}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv,parseBrowserConnection,comparableHistoryStats}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
 test("latency stats use measured samples",()=>{assert.equal(median([30,10,20]),20);assert.equal(latencyJitter([10,12,15]),2.5);assert.equal(probeFailPercent(1,4),25)});
@@ -170,4 +170,29 @@ test("browser network info remains explicitly estimated",()=>{
 test("upload load impact diagnostic is evidence-based",()=>{
   const result={downloadMbps:100,uploadMbps:20,latencyMs:20,jitterMs:2,probeFailPct:0,throughputVariationPct:5,loadedLatencyDeltaMs:10,uploadLoadedLatencyDeltaMs:80};
   assert.deepEqual(diagnosticFlags(result).map(x=>x.id),["uploadLoadImpact"]);
+});
+
+
+test("comparable history stats never mix profile or connection mode",()=>{
+  const base=(timestamp,downloadMbps,uploadMbps,latencyMs,profile="quick",connectionMode="single")=>({
+    completed:true,aborted:false,downloadMbps,uploadMbps,latencyMs,jitterMs:2,probeFailPct:0,profile,connectionMode,timestamp
+  });
+  const records=[
+    base("2026-09-23T00:00:00.000Z",50,10,30),
+    base("2026-09-23T00:10:00.000Z",500,100,5,"standard","single"),
+    base("2026-09-23T00:20:00.000Z",400,80,8,"quick","multi"),
+    base("2026-09-23T00:30:00.000Z",100,20,20),
+    base("2026-09-23T00:40:00.000Z",75,15,25)
+  ];
+  const stats=comparableHistoryStats(records,5);
+  assert.equal(stats.sampleCount,3);
+  assert.equal(stats.profile,"quick");
+  assert.equal(stats.connectionMode,"single");
+  assert.equal(stats.medianDownloadMbps,75);
+  assert.equal(stats.medianUploadMbps,15);
+  assert.equal(stats.medianLatencyMs,25);
+  assert.equal(stats.minDownloadMbps,50);
+  assert.equal(stats.maxDownloadMbps,100);
+  assert.equal(stats.downloadSpreadMbps,50);
+  assert.equal(comparableHistoryStats([records[0]],5),null);
 });

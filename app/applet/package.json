@@ -5,7 +5,7 @@
   "type": "module",
   "zipspeed": {
     "versionCode": 67,
-    "channel": "three-phase-latency",
+    "channel": "comparable-history-consistency",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

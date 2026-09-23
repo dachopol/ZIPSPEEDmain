@@ -3,23 +3,24 @@
 Updated: 2026-09-23
 
 ## PASS
-- v66 latest-source Web/unit/build, Browser Runtime, real-network Cloudflare Single+Multi, M-Lab discovery, Android lint/debug/release compile and release-source checks passed.
-- v67 keeps idle, download-loaded and upload-loaded HTTP latency as separate evidence fields.
-- Upload-loaded probes use the existing measurement endpoint and do not add a new provider or permission.
+- v66 latest-source Web/unit/build, Browser Runtime, real-network Cloudflare Single+Multi, real M-Lab discovery, Android lint/debug/release compile and release-source checks passed.
+- Browser network hints remain optional/local and are not saved into completed test History.
+- v67 comparable-history calculations use completed local results only and never mix profile or connection mode.
 
 ## FIX
-- Added upload-loaded HTTP latency and upload-load delta instead of treating download load as the only loaded-latency condition.
-- History CSV/share can carry both loaded-latency phases when measured.
+- Added median-based recent comparable statistics so users can interpret repeated tests without manually scanning rows.
+- Added explicit matching sample count and download spread.
+- No new permission, network destination or background monitoring was added.
 
 ## GAP
-- Multi-provider measurement remains blocked by consent/external Privacy/Data Safety review.
-- No real playback-quality test.
-- No verified coverage dataset.
+- Comparable-history statistics require at least two matching completed tests; otherwise values stay "--".
+- M-Lab NDT7 measurement remains disabled pending explicit data-policy consent + external privacy/Data Safety review.
+- No real playback-quality test or verified coverage dataset.
 - Physical Android runtime and Play signing/upload remain unproven.
 
 ## TO VERIFY
 - v67 Web/unit/build/runtime/real-network/Android/release-source CI.
-- Physical Android behavior for upload-loaded probes.
+- Physical Android runtime.
 - External Privacy Policy / Play Data Safety.
 
 ## UNVERIFIED

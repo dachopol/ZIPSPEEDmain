@@ -299,6 +299,17 @@ try{
       assert(compareState.download==="+100.0%",`History comparison runtime failed: ${compareState.download}`);
       assert(compareState.context&&compareState.context!=="--",`History comparison context missing`);
       assert(compareState.csvVisible,`CSV export control missing`);
+      const consistencyState=await cdp.evaluate(`(()=>({
+        count:document.querySelector("#consistencyCountValue")?.textContent?.trim(),
+        down:document.querySelector("#consistencyDownValue")?.textContent?.trim(),
+        up:document.querySelector("#consistencyUpValue")?.textContent?.trim(),
+        latency:document.querySelector("#consistencyLatencyValue")?.textContent?.trim(),
+        spread:document.querySelector("#consistencySpreadValue")?.textContent?.trim()
+      }))()`);
+      assert(consistencyState.count==="2",`Comparable history stats runtime failed: ${JSON.stringify(consistencyState)}`);
+      assert(consistencyState.down==="75.0 Mbps",`Comparable median download mismatch: ${JSON.stringify(consistencyState)}`);
+      assert(consistencyState.up==="10.0 Mbps"&&consistencyState.latency==="20.0 ms",`Comparable median context mismatch: ${JSON.stringify(consistencyState)}`);
+      assert(consistencyState.spread==="50.0 Mbps",`Comparable spread mismatch: ${JSON.stringify(consistencyState)}`);
       const evidenceVisible=await cdp.evaluate(`(()=>{const el=document.querySelector("#measurementEvidence");return !!el&&el.getBoundingClientRect().width>0&&document.querySelector("#evidencePayloadValue")?.textContent?.trim().length>0})()`);
       assert(evidenceVisible,`Measurement evidence UI missing`);
     }

@@ -276,3 +276,17 @@ Implementation target:
 - Persist sample count and loaded-minus-idle delta when measurable.
 - Add real-network evidence checks for both Single and Multi.
 - Re-score only after v67 gates pass.
+
+
+## Loop 13 — comparable history consistency
+
+### Re-score after Loop 12
+v66 passed all automated gates. Internal evidence score moved from **86.4 → 87.3 / 100**. Browser context is evidence-labeled and does not count as measured throughput.
+
+Implementation target:
+- Analyze only local completed tests matching the latest profile + connection mode.
+- Show sample count and median download/upload/latency plus download spread.
+- Use at most five recent comparable records.
+- Make no continuous-monitoring or causal claim.
+- Add no network destination or permission.
+- Re-score only after v67 gates pass.

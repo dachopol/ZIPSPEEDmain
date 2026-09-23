@@ -89,3 +89,35 @@ export function parseBrowserConnection(input){
   if(type===null&&effectiveType===null&&downlinkMbps===null&&rttMs===null&&saveData===null)return null;
   return{type,effectiveType,downlinkMbps,rttMs,saveData};
 }
+
+
+export function comparableHistoryStats(records,limit=5){
+  if(!Array.isArray(records))return null;
+  const valid=records.filter(isCompleteResult);
+  if(valid.length<2)return null;
+  const latest=valid.at(-1);
+  const profile=latest.profile||"standard";
+  const connectionMode=latest.connectionMode||"single";
+  const maxCount=Math.max(2,Math.min(20,Math.floor(Number(limit))||5));
+  const comparable=valid.filter(item=>
+    (item.profile||"standard")===profile&&
+    (item.connectionMode||"single")===connectionMode
+  ).slice(-maxCount);
+  if(comparable.length<2)return null;
+  const down=comparable.map(item=>Number(item.downloadMbps));
+  const up=comparable.map(item=>Number(item.uploadMbps));
+  const latency=comparable.map(item=>Number(item.latencyMs));
+  return{
+    sampleCount:comparable.length,
+    profile,
+    connectionMode,
+    medianDownloadMbps:median(down),
+    medianUploadMbps:median(up),
+    medianLatencyMs:median(latency),
+    minDownloadMbps:Math.min(...down),
+    maxDownloadMbps:Math.max(...down),
+    downloadSpreadMbps:Math.max(...down)-Math.min(...down),
+    firstTimestamp:comparable[0].timestamp,
+    latestTimestamp:comparable.at(-1).timestamp
+  };
+}
