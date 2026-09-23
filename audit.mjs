@@ -57,6 +57,9 @@ if (!app.includes("defaultServer()") || !app.includes("networkHealthIndex") || !
 if (!servers.includes('baseUrl:"https://speed.cloudflare.com"')) throw new Error("Verified endpoint registry missing");
 if (!servers.includes("region:null") || !servers.includes("coordinates:null")) throw new Error("Server registry must not invent location");
 if (!quality.includes("down*0.30") || !quality.includes("latency*0.25")) throw new Error("Documented deterministic health model missing");
+if (!quality.includes("throughputStats") || !quality.includes("diagnosticFlags")) throw new Error("Measured diagnostics helpers missing");
+if (!html.includes('id="variationValue"') || !html.includes('id="flagsValue"')) throw new Error("Measured diagnostics UI missing");
+if (!app.includes("throughputVariationPct") || !app.includes("sampleMbps=calculateMbps")) throw new Error("Interval throughput diagnostics integration missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");
 if (!app.includes('const HISTORY_KEY="zipspeed_history"')) throw new Error("Stable history key missing");
 if (!app.includes("mergeHistoryRecords")) throw new Error("History migration missing");

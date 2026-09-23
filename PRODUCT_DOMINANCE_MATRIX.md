@@ -58,3 +58,31 @@ The iteration may stop only when:
 | current | TO VERIFY | TO VERIFY | TO VERIFY | TO VERIFY | TO VERIFY | build/runtime evidence required |
 
 Scores in this ledger must be updated from evidence, never from planned work.
+
+
+## Loop 1 — measured diagnostics
+
+Evidence date: 2026-09-23
+
+### Baseline before implementation
+Internal evidence-based Zipspeed score: **65.8 / 100**.
+This score is a product-assessment baseline, not a lab accuracy claim. Runtime-sensitive categories are capped because real-device runtime evidence is still incomplete.
+
+Current target benchmark is Speedtest by Ookla based on its current Google Play feature evidence. Provisional 9-grid target: **89.6 / 100**. This target remains an internal benchmark and must not be used as a public superiority claim.
+
+### Top GAP selected
+1. Measurement/diagnostic explainability.
+2. Runtime-sensitive UX proof.
+3. Server/coverage capability.
+
+Loop 1 implements GAP #1 because it is fully controllable under X + Y + Z without inventing infrastructure.
+
+### Implemented
+- Interval-throughput samples for the live trace.
+- Throughput variation, min/max and sample count.
+- Deterministic measured diagnostic flags.
+- Actual-value threshold reasons for use-case results.
+- Stale-result clearing at the beginning of a new test.
+
+### Expected score impact
+Only re-score after CI/runtime evidence. Planned work does not increase the score.

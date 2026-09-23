@@ -1,5 +1,14 @@
 # Changelog
 
+## v56 — 2026-09-23 — Measured diagnostics loop
+- Changed the live download trace to interval-throughput samples instead of cumulative-average samples.
+- Added deterministic throughput statistics: sample count, min/max and coefficient-of-variation percentage.
+- Added measured diagnostic flags with explicit Zipspeed thresholds.
+- Added per-use-case failure reasons using the actual measured value and threshold.
+- Reset health/diagnostic output while a new test is running to avoid showing stale current-test results.
+- Added unit tests and audit guards for the diagnostics model.
+
+
 ## v55 — 2026-09-23 — Maximum product upgrade
 - Added Zipspeed Health Index based only on measured HTTP metrics with a documented deterministic formula.
 - Added browsing/video-call/gaming/4K suitability with explicit thresholds.

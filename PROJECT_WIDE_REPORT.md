@@ -5,29 +5,32 @@ Updated: 2026-09-23
 ## PASS
 - GitHub Remote / main / package ID verified before update.
 - Real-data measurement engine retained.
-- Zipspeed Health Index uses deterministic measured inputs only.
-- Use-case suitability uses explicit thresholds and is labeled as suitability, not actual app/playback testing.
-- Verified endpoint registry contains only the currently used real endpoint and keeps location unknown.
-- X+Y+Z rules added to source of truth.
+- Health Index remains deterministic from measured HTTP metrics.
+- Live download chart now uses interval throughput samples rather than cumulative-average samples.
+- Throughput variation/min/max/sample count derive only from transferred bytes and monotonic elapsed time.
+- Use-case limitation reasons expose actual measured value versus threshold.
+- Diagnostic flags use documented deterministic thresholds.
 
 ## FIX
-- Converted raw speed results into explainable health/use-case outputs.
-- Added server architecture without fake region selection.
-- Added testable formula boundaries and server-truth tests.
-- Added visible health UI without adding a second primary action.
+- Removed misleading cumulative-average behavior from the live consistency trace.
+- Current-test Health output now clears while a new test runs instead of showing the previous result.
+- Added evidence-oriented explanation below each use-case result.
+- Added measured diagnostics UI and tests.
 
 ## GAP
 - Multi-region server directory still requires additional authorized endpoints.
 - No real video playback test.
-- No verified coverage map dataset.
+- No verified coverage dataset.
+- No single-vs-multi connection capacity mode yet.
 - Signed release/Play upload remain unverified.
 
 ## TO VERIFY
 - Web audit/tests/build.
 - Android lint/debug build.
 - Android release bundle compile.
-- AI Studio Preview health panel/layout.
-- Real-device GO/STOP/result/health rendering.
+- Runtime at small-phone/tablet widths.
+- Real-network GO/STOP and interval-throughput trace.
+- Real-device share/export.
 - Play signing/API/Data Safety/Privacy Policy/screenshots.
 
 ## UNVERIFIED

@@ -1,5 +1,5 @@
 import test from"node:test";
-import{networkHealthIndex,healthBand,useCaseSuitability}from"../src/quality.mjs";
+import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags}from"../src/quality.mjs";
 import{defaultServer,serverLocationLabel}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
@@ -42,4 +42,23 @@ test("server directory does not invent location",()=>{
   assert.equal(server.baseUrl,"https://speed.cloudflare.com");
   assert.equal(serverLocationLabel(server),null);
   assert.equal(server.coordinates,null);
+});
+
+
+test("throughput stats use interval samples deterministically",()=>{
+  const steady=throughputStats([10,10,10,10]);
+  assert.equal(steady.sampleCount,4);
+  assert.equal(steady.variationPct,0);
+  assert.equal(steady.minMbps,10);
+  assert.equal(steady.maxMbps,10);
+  const mixed=throughputStats([10,20]);
+  assert.equal(mixed.meanMbps,15);
+  assert.ok(Math.abs(mixed.variationPct-33.3333333333)<0.001);
+});
+
+test("diagnostic flags only fire from measured threshold crossings",()=>{
+  const strong={downloadMbps:100,uploadMbps:20,latencyMs:20,jitterMs:3,probeFailPct:0,throughputVariationPct:5};
+  assert.equal(diagnosticFlags(strong).length,0);
+  const weak={downloadMbps:2,uploadMbps:1,latencyMs:220,jitterMs:60,probeFailPct:50,throughputVariationPct:60};
+  assert.deepEqual(diagnosticFlags(weak).map(x=>x.id),["download","upload","latency","jitter","probeFail","variation"]);
 });

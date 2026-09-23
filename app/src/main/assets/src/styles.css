@@ -420,3 +420,33 @@ body{overflow-x:clip}
   .health-score span{justify-self:start}
 }
 @media(max-width:350px){.usecase-grid{grid-template-columns:1fr}}
+
+
+/* v56 measured diagnostics */
+.usecase-card small{
+  min-height:2.2em;
+  color:var(--muted);
+  font-size:.62rem;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+.diagnostic-strip{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.diagnostic-strip>div{
+  min-width:0;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface-2);
+  display:grid;
+  gap:4px;
+}
+.diagnostic-strip span{color:var(--muted);font-size:.64rem;line-height:1.25;overflow-wrap:anywhere}
+.diagnostic-strip strong{font-family:var(--mono);font-size:.86rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.diagnostic-strip small{color:var(--muted);font-size:.58rem;line-height:1.2}
+[data-theme="dark"] .diagnostic-strip>div{background:#0F192A;border-color:var(--line)}
+@media(max-width:520px){.diagnostic-strip{grid-template-columns:1fr}}

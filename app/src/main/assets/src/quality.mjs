@@ -65,3 +65,51 @@ export function useCaseSuitability(result){
   }
   return Object.entries(USE_CASE_RULES).map(([id,rule])=>({id,...pass(result,rule),rule}));
 }
+
+
+export function throughputStats(samples){
+  if(!Array.isArray(samples))return null;
+  const values=samples.map(Number).filter(v=>Number.isFinite(v)&&v>0);
+  if(values.length<2)return null;
+  const mean=values.reduce((a,b)=>a+b,0)/values.length;
+  if(!(mean>0))return null;
+  const sorted=[...values].sort((a,b)=>a-b);
+  const mid=Math.floor(sorted.length/2);
+  const medianValue=sorted.length%2?sorted[mid]:(sorted[mid-1]+sorted[mid])/2;
+  const variance=values.reduce((sum,v)=>sum+(v-mean)**2,0)/values.length;
+  const variationPct=Math.sqrt(variance)/mean*100;
+  return{
+    sampleCount:values.length,
+    meanMbps:mean,
+    medianMbps:medianValue,
+    minMbps:sorted[0],
+    maxMbps:sorted.at(-1),
+    variationPct
+  };
+}
+
+export const DIAGNOSTIC_THRESHOLDS=Object.freeze({
+  download:5,
+  upload:3,
+  latency:150,
+  jitter:30,
+  probeFail:20,
+  variation:35
+});
+
+export function diagnosticFlags(result){
+  if(!result||typeof result!=="object")return[];
+  const flags=[];
+  const add=(id,value,threshold,direction,unit)=>{
+    if(Number.isFinite(value))flags.push({id,value,threshold,direction,unit});
+  };
+  const down=Number(result.downloadMbps),up=Number(result.uploadMbps),lat=Number(result.latencyMs),
+    jit=Number(result.jitterMs),probe=Number(result.probeFailPct),variation=Number(result.throughputVariationPct);
+  if(Number.isFinite(down)&&down<DIAGNOSTIC_THRESHOLDS.download)add("download",down,DIAGNOSTIC_THRESHOLDS.download,"below","Mbps");
+  if(Number.isFinite(up)&&up<DIAGNOSTIC_THRESHOLDS.upload)add("upload",up,DIAGNOSTIC_THRESHOLDS.upload,"below","Mbps");
+  if(Number.isFinite(lat)&&lat>DIAGNOSTIC_THRESHOLDS.latency)add("latency",lat,DIAGNOSTIC_THRESHOLDS.latency,"above","ms");
+  if(Number.isFinite(jit)&&jit>DIAGNOSTIC_THRESHOLDS.jitter)add("jitter",jit,DIAGNOSTIC_THRESHOLDS.jitter,"above","ms");
+  if(Number.isFinite(probe)&&probe>DIAGNOSTIC_THRESHOLDS.probeFail)add("probeFail",probe,DIAGNOSTIC_THRESHOLDS.probeFail,"above","%");
+  if(Number.isFinite(variation)&&variation>DIAGNOSTIC_THRESHOLDS.variation)add("variation",variation,DIAGNOSTIC_THRESHOLDS.variation,"above","%");
+  return flags;
+}
