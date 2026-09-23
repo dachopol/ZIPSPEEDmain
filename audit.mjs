@@ -40,6 +40,11 @@ if (!versionBadgeMarkup || versionBadgeMarkup[1].trim() !== "v--") throw new Err
 if (!css.includes("--blue:#3B82F6") || !css.includes("--radius:28px") || !css.includes("--blur:40px")) throw new Error("Design tokens missing");
 if (!css.includes("font-variant-numeric:tabular-nums")) throw new Error("Tabular numerals missing");
 if (!html.includes('class="instrument-shell"') || !html.includes('class="metric-deck"')) throw new Error("Premium instrument hierarchy missing");
+if (!html.includes("instrument-depth-back") || !html.includes("instrument-depth-front")) throw new Error("Premium instrument depth layers missing");
+if (!css.includes("grid-template-rows:35% auto minmax(10px,3%) auto 1fr")) throw new Error("Anti-overlap instrument grid missing");
+if (!css.includes("@media(max-width:350px)") || !css.includes(".metric-deck{grid-template-columns:1fr}")) throw new Error("Small-phone anti-overlap fallback missing");
+if (!css.includes("scroll-padding-bottom:var(--page-bottom-space)") || !css.includes(".toast{bottom:calc(var(--nav-height) + var(--nav-edge) + 18px)}")) throw new Error("Bottom navigation overlap protection missing");
+if (app.includes("clay-card")) throw new Error("Legacy clay-card runtime class returned");
 
 if (!app.includes('ENDPOINT="https://speed.cloudflare.com"')) throw new Error("Measurement endpoint missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");

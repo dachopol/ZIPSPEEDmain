@@ -1,5 +1,15 @@
 # Changelog
 
+## v54 — 2026-09-23 — Visual depth + anti-overlap
+- Reworked the speed instrument overlay into explicit grid rows so live value and GO/STOP cannot occupy the same layout slot.
+- Added layered instrument depth surfaces, restrained shadows and material highlights without changing measurement logic.
+- Added narrow-phone fallbacks for header, metrics, status/settings rows and history items.
+- Added bottom-navigation/toast safe spacing and page scroll padding.
+- Removed the stale runtime clay-card class.
+- Added static audit guards for anti-overlap structure.
+- Benchmarked current product principles against Speedtest, Opensignal, FAST and Meteor without copying UI/assets.
+
+
 ## v53 — 2026-09-23 — Runtime version sync
 - Bumped canonical version to 53.0.0 / versionCode 53 in package.json.
 - Added a visible Preview version badge loaded from package.json at runtime.

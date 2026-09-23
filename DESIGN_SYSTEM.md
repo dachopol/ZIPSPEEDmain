@@ -1,7 +1,28 @@
 # Zipspeed Design System — Current
 
 ## Direction
-Premium minimal instrument interface: precise, quiet, readable and trustworthy.
+Premium minimal instrument interface: precise, dimensional, quiet, readable and trustworthy.
+
+## Depth hierarchy
+- Layer 0: page background / ambient light.
+- Layer 1: cards and content groups.
+- Layer 2: instrument outer surface.
+- Layer 3: instrument inner surface and gauge.
+- Layer 4: live reading.
+- Layer 5: primary GO/STOP action.
+- Glass remains limited to navigation and compact controls.
+
+Depth must come from material separation, layered shadows and highlights—not from overlapping text or controls.
+
+## Anti-overlap rules
+- Instrument reading and GO/STOP occupy separate CSS Grid rows.
+- Bottom navigation reserves page-bottom space and toast clearance.
+- Header uses `minmax(0,1fr) auto` so brand and actions negotiate width safely.
+- Status/settings/history stack vertically on narrow screens.
+- Metrics fall back 4 → 2 → 1 columns as width decreases.
+- Long text wraps before truncation.
+- Every flex/grid child that can contain text must permit `min-width:0`.
+- Decorative depth layers are pointer-events:none and never intercept taps.
 
 ## Core tokens
 | Token | Value |
@@ -17,22 +38,17 @@ Premium minimal instrument interface: precise, quiet, readable and trustworthy.
 | Number style | mono + tabular/lining |
 | Primary action | one GO/STOP pill |
 
-## Hierarchy
-Header → connection status → speed instrument → metric deck → live trace.  
-Secondary screens use a heading followed by a vertical list/card group.
-
-## Responsive
-- Mobile first.
-- No horizontal scrolling.
-- Text wraps before truncation.
-- 44px-class minimum interactive target.
-- 2×2 metrics on phones; 4-across when space allows.
-- Safe-area padding.
-- Font scaling must not hide essential actions.
+## Responsive checkpoints
+- ≤350: 1-column metrics.
+- ≤440: stacked status/settings/history and compact header.
+- ≤520: stacked stage status/profile metadata.
+- ≤620: 2-column metrics.
+- ≥900: expanded instrument/content spacing.
 
 ## Accessibility
 - Visible focus state.
-- ARIA current/pressed state for navigation, profile and GO/STOP.
+- 44px-class controls where feasible.
+- ARIA current/pressed state.
 - Reduced-motion support.
 - Dynamic states translated with selected screen language.
 - Unknown/unavailable remains `--`.

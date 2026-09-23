@@ -28,3 +28,10 @@ Open → GO → provider metadata → HTTP latency/jitter → download → uploa
 - No real video playback-quality test.
 - No AdMob/Play Billing integration.
 - No Play release-success claim until signing/upload/review are verified.
+
+## Competitive product principles
+- Preserve one-tap clarity associated with leading speed-test products.
+- Keep core metrics visible without forcing users through technical screens.
+- Pair measured metrics with understandable suitability information.
+- Keep Zipspeed differentiated through truthful-data rules, low visual clutter and dimensional instrument presentation.
+- Do not copy competitor UI, artwork or proprietary measurement claims.

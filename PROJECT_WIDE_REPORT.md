@@ -5,29 +5,33 @@ Updated: 2026-09-23
 ## PASS
 - GitHub Remote / main / package ID verified before update.
 - package.json remains the single active version source.
-- Preview version UI now derives from package.json instead of hardcoded text.
-- AI Studio and Android package metadata mirrors are audit-enforced.
-- Real-data measurement implementation retained.
-- CI naming no longer duplicates current version.
+- Real-data measurement engine retained.
+- Anti-overlap source changes applied to header, instrument, metrics, rows, history, bottom nav and toast.
+- Premium depth layers are decorative only and cannot intercept taps.
+- Competitor work used only as product-principle benchmark.
 
 ## FIX
-- Added visible runtime version badge.
-- Removed active v52 labels from README, roadmap, design-system heading and CI artifact naming.
-- Added package mirror validation and UI anti-hardcode audit.
+- Separated instrument reading and GO/STOP into independent grid rows.
+- Added narrow-screen stacking and one-column extreme-small-phone metric fallback.
+- Added explicit bottom navigation/toast clearance.
+- Added layered instrument depth and card elevation without adding fake states.
+- Removed stale runtime clay-card class.
+- Added anti-overlap audit guards.
 
 ## GAP
-- Runtime Preview of the latest commit still requires verification.
-- Signed release AAB / Play upload are not verified.
-- Ads/Billing/global server directory/video playback/coverage map remain outside current implemented scope.
+- Runtime screenshots for the latest source are not yet verified.
+- Signed release/Play upload remain unverified.
+- Global server directory, real playback test and coverage map are not implemented.
 
 ## TO VERIFY
 - Web audit/tests/build.
-- Android lint/debug build.
+- Android lint/debug.
 - Android release bundle compile.
-- AI Studio Preview shows the package.json version.
-- Real-device runtime flow and version display.
-- Release signing/API/Data Safety/Privacy Policy/screenshots.
+- AI Studio Preview at 320/360/412 widths.
+- Font scaling and Thai/English.
+- Real phone portrait/landscape.
+- GO/STOP tap targets and no overlap during live values.
 
 ## UNVERIFIED
-- Real-device runtime for this exact commit.
+- Real-device visual/runtime result for this exact commit.
 - Play upload/publication.
