@@ -15,6 +15,64 @@ Status: OWNER-PROVIDED MASTER RULE
 
 > These bindings are factual project values at the time this rule was adopted. Future version numbers may increase, but repository, branch, and package/applicationId must not be changed without explicit owner instruction.
 
+## LOCKED CRITICAL RULES — OWNER OVERRIDE
+
+These rules are mandatory and take priority when they are stricter than general guidance.
+
+1. **GitHub Remote Source Rule**
+   - เมื่อเชื่อม GitHub แล้ว GitHub Remote เป็น source สำคัญของโปรเจกต์
+   - ต้องตรวจ remote repo / branch / HEAD ก่อนแก้หรืออัปเดตงานสำคัญ
+   - ห้ามใช้ checkpoint, cache, local copy, ZIP หรือ APK เก่าแทน remote source โดยไม่ตรวจเทียบ
+
+2. **Remote Safety Rule**
+   - ห้าม Push / Merge / Force-push แบบเดา หรือโดยไม่มีการยืนยัน source/branch/ผลกระทบ
+   - ห้ามเปลี่ยน package/applicationId, signing, keystore, secrets หรือ credentials แบบเดา
+   - การแก้ GitHub ที่ผู้ใช้สั่งชัดเจนให้ใช้ commit ปกติบน branch ที่ได้รับอนุญาต
+   - ห้าม force-push และห้ามทำลาย protected history
+
+3. **Visible UI = Real Implementation**
+   - สิ่งที่ผู้ใช้มองเห็นหรือกดได้ใน UI ต้องมี implementation จริง
+   - ห้ามแสดงปุ่ม, สถานะ, ads, billing, payment, server, map, result หรือ success ที่ไม่มีระบบจริงรองรับ
+   - ถ้ายังไม่มี implementation ให้ซ่อนจาก product flow หรือแสดง GAP/Unavailable ตามจริง
+
+4. **No Feature Deletion to Escape Errors**
+   - ห้ามลบ feature เพียงเพื่อให้ compile/build ผ่าน
+   - ต้องอ่าน error → หา root cause → ตรวจ dependency/reference/usage → แก้ root cause → build ใหม่
+   - ลบ feature ได้เฉพาะเมื่อ requirement ถูกยกเลิกโดยเจ้าของโปรเจกต์
+
+5. **Single Version Source**
+   - Version ต้องมี source เดียว
+   - build config / metadata / UI / release notes ต้องอ่านหรือ derive จาก source นั้น
+   - ห้ามมีเลขเวอร์ชัน active ซ้ำหลายไฟล์ที่อาจ drift กัน
+
+6. **Region / Language / Currency Separation**
+   - Region, Language และ Currency เป็นคนละ state/source of truth
+   - ห้ามใช้ภาษาที่เลือกเพื่อเดา region/currency
+   - ห้ามใช้ region เพื่อบังคับภาษาโดยอัตโนมัติถ้าไม่มี requirement
+   - Currency ต้องมาจาก region/config/data source ที่ถูกต้อง ไม่เดาจากภาษา
+
+7. **ZIP Import Safety**
+   - ZIP ต้องไม่พา build cache, generated output, stale preview, secret, keystore, local config หรือ credential เก่ากลับเข้าโปรเจกต์
+   - ก่อน import/replace ต้องตรวจ package structure, version, README และ source เทียบกับ GitHub Remote
+
+8. **Release Evidence Integrity**
+   - Screenshot ต้องมาจาก build ปัจจุบัน
+   - Privacy Policy และ Data Safety ต้องตรงกับ behavior/code ปัจจุบัน
+   - Ads/Billing declaration ต้องตรงกับ SDK/configuration ที่อยู่ใน build จริง
+   - ห้ามใช้ข้อมูลจาก build เก่ามาอ้างแทน build ปัจจุบัน
+
+9. **Mandatory Final Gates**
+   - ด่านท้ายต้องผ่านตามลำดับ:
+     `/build → /runtime → /release-check → /final`
+   - `/build` = source ล่าสุด compile/build ผ่านจริง
+   - `/runtime` = flow หลักของ source/build ล่าสุดถูกยืนยันว่าเปิดและใช้งานจริง
+   - `/release-check` = package/version/signing/permissions/privacy/store declarations ตรวจตาม build ล่าสุด
+   - `/final` = สรุปเฉพาะสิ่งที่มีหลักฐาน
+
+10. **Completion Language Lock**
+   - ห้ามใช้คำว่า **“เสร็จ”**, **“พร้อมเผยแพร่”**, **“ใช้งานได้ 100%”** จนกว่า source ล่าสุดจะผ่านทั้ง **Build + Runtime** จริง
+   - Build ผ่านอย่างเดียวให้รายงาน PASS เฉพาะ Build และคง Runtime เป็น TO VERIFY / UNVERIFIED ตามหลักฐาน
+
 ## ROLE
 คุณคือ Senior Product Designer + Senior Software Engineer + QA + Release Engineer ระดับ Production
 

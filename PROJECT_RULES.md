@@ -4,6 +4,9 @@ Status: MASTER / SOURCE OF TRUTH
 
 Owner universal rule: `UNIVERSAL_APP_PROJECT_RULE.md`
 
+## LOCKED CRITICAL RULES
+The `LOCKED CRITICAL RULES — OWNER OVERRIDE` section in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory. It governs GitHub remote safety, real UI implementation, no feature deletion to escape errors, single version source, Region/Language/Currency separation, ZIP safety, release evidence integrity, and the mandatory `/build → /runtime → /release-check → /final` gates.
+
 When rules overlap, apply the stricter requirement and preserve Real Data / Anti-Random behavior.
 
 ## MASTER APP BUILD RULES
