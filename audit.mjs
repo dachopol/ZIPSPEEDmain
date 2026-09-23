@@ -84,5 +84,6 @@ if (!activity.includes("MIXED_CONTENT_NEVER_ALLOW")) throw new Error("WebView mi
 
 if (!server.includes("path.relative(root, candidate)")) throw new Error("Server path traversal hardening missing");
 if (!server.includes("Content-Security-Policy")) throw new Error("Server CSP missing");
+if (!server.includes("connect-src \'self\' https://speed.cloudflare.com;")) throw new Error("CSP must allow same-origin runtime metadata plus measurement endpoint");
 
 console.log(`Zipspeed ${pkg.version} project audit passed.`);

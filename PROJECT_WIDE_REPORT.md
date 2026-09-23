@@ -12,6 +12,7 @@ Updated: 2026-09-23
 - Diagnostic flags use documented deterministic thresholds.
 
 ## FIX
+- CSP now permits same-origin runtime metadata fetches (`'self'`) plus the explicit Cloudflare measurement endpoint; this fixes Preview version loading under the app server.
 - Removed misleading cumulative-average behavior from the live consistency trace.
 - Current-test Health output now clears while a new test runs instead of showing the previous result.
 - Added evidence-oriented explanation below each use-case result.

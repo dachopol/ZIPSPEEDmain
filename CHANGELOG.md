@@ -3,6 +3,7 @@
 ## v56 — 2026-09-23 — Measured diagnostics loop
 - Added an automated real-browser runtime gate using Chrome DevTools Protocol with no extra runtime dependency.
 - Hardened the runtime gate with module-readiness polling, captured Chrome runtime/console errors and explicit Node syntax checks.
+- Fixed CSP to allow same-origin package/version metadata while retaining the explicit external measurement endpoint.
 - Runtime gate checks 320/360/412/768 px for overflow, header/GO/nav overlap, touch target, version badge, navigation, language/theme toggles and GO→STOP events.
 - Runtime gate captures current-build screenshots and a JSON evidence report as a GitHub artifact.
 - Changed the live download trace to interval-throughput samples instead of cumulative-average samples.
