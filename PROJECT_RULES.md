@@ -223,3 +223,19 @@ Use these exact project-state meanings:
 - **TO VERIFY** = a defined verification step remains.
 - **UNVERIFIED** = not tested or evidence unavailable.
 - **N/A** = not applicable to the current scope.
+
+
+## STALE-STATE / OLD-ARTIFACT CLEANUP RULE
+Every update must include a stale-state cleanup check before it can be considered complete.
+
+Required on every update:
+- Treat the current `main` branch as Source of Truth unless the user explicitly changes it.
+- Search for obsolete version markers, legacy package/namespace values, duplicate UI copies, old preview files, stale mirrors, deprecated build outputs and old cache identifiers.
+- Remove or replace obsolete active files that can affect build, runtime, preview, Android assets or release output.
+- Synchronize all intentional mirrors so they are byte-identical where the project requires mirroring.
+- Invalidate or version-bust browser/preview caches when static assets change.
+- Clean/rebuild after changes that affect build config, bundled assets or preview entrypoints.
+- Do not keep an old active copy “just in case” if it can be loaded by AI Studio, Android, CI or release tooling.
+- Historical documentation may remain only when clearly archived and unable to affect runtime/build.
+- Before final delivery, verify that the active source contains no stale version/package/UI references that contradict the current release.
+- If stale artifacts cannot be removed safely, report them as GAP / TO VERIFY and do not call the update complete.
