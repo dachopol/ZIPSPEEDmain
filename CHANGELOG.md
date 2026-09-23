@@ -1,5 +1,13 @@
 # Changelog
 
+## v53 — 2026-09-23 — Runtime version sync
+- Bumped canonical version to 53.0.0 / versionCode 53 in package.json.
+- Added a visible Preview version badge loaded from package.json at runtime.
+- Mirrored package.json into AI Studio and Android assets and audit-checks exact equality.
+- Removed current-version numbers from active CI naming and active docs where duplication could drift.
+- Added audit protection against hardcoded version text in UI.
+
+
 ## v52 — 2026-09-23 — Project-wide quality update
 - Made package.json the single version source; Android Gradle reads versionName/versionCode from it.
 - Added package-lock.json and reproducible npm ci.

@@ -16,7 +16,7 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(59,130,246,.25);outl
 .brand{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;min-width:0}
 .brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#0F172A;box-shadow:0 8px 22px rgba(15,23,42,.14)}
 .brand-mark svg{width:26px;height:26px;fill:#fff}
-.brand-copy{display:grid;gap:3px;min-width:0}.brand-copy strong{font-size:1.18rem;letter-spacing:-.035em}.brand-copy small{font-size:.74rem;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
+.brand-copy{display:grid;gap:3px;min-width:0}.brand-title-row{display:flex;align-items:center;gap:7px;min-width:0}.brand-copy strong{font-size:1.18rem;letter-spacing:-.035em}.version-badge{display:inline-flex;align-items:center;min-height:22px;padding:3px 7px;border:1px solid var(--line);border-radius:999px;background:var(--surface-2);color:var(--muted);font-family:var(--mono);font-size:.62rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}.brand-copy small{font-size:.74rem;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
 .header-actions{display:flex;gap:8px}.control-button{min-height:44px;min-width:44px;padding:0 11px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.76);color:var(--text);font-weight:780;box-shadow:0 7px 18px rgba(37,55,86,.05);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 .control-button.icon-only{display:grid;place-items:center}.control-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
@@ -80,7 +80,7 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(59,130,246,.25);outl
 [data-theme="dark"]{--bg:#0B1220;--surface:#111B2D;--surface-2:#101A2A;--text:#F4F7FB;--muted:#9EABC0;--line:rgba(255,255,255,.075);--glass:rgba(17,27,45,.78);--shadow-main:0 28px 70px rgba(0,0,0,.26),0 3px 12px rgba(0,0,0,.18);--shadow-soft:0 12px 34px rgba(0,0,0,.16)}
 [data-theme="dark"] body{background:linear-gradient(180deg,#0B1220,#0D1626 40%,#0B1220)}
 [data-theme="dark"] .brand-mark{background:#F8FAFC}[data-theme="dark"] .brand-mark svg{fill:#0F172A}
-[data-theme="dark"] .control-button,[data-theme="dark"] .speed-stage,[data-theme="dark"] .trace-panel,[data-theme="dark"] .video-card,[data-theme="dark"] .status-list,[data-theme="dark"] .settings-card,[data-theme="dark"] .status-row,[data-theme="dark"] .setting-row,[data-theme="dark"] .secondary-button,[data-theme="dark"] .history-item{background:#111B2D;border-color:var(--line)}
+[data-theme="dark"] .version-badge,[data-theme="dark"] .control-button,[data-theme="dark"] .speed-stage,[data-theme="dark"] .trace-panel,[data-theme="dark"] .video-card,[data-theme="dark"] .status-list,[data-theme="dark"] .settings-card,[data-theme="dark"] .status-row,[data-theme="dark"] .setting-row,[data-theme="dark"] .secondary-button,[data-theme="dark"] .history-item{background:#111B2D;border-color:var(--line)}
 [data-theme="dark"] .speed-stage{border-color:rgba(255,255,255,.07)}
 [data-theme="dark"] .gauge-rim{fill:#111B2D;stroke:#22314A}[data-theme="dark"] .gauge-inner{fill:#0F192A;stroke:#18263C}[data-theme="dark"] .gauge-track{stroke:#24324A}[data-theme="dark"] .gauge-ticks path{stroke:#4B5C75}
 [data-theme="dark"] .segmented{background:#162238;border-color:#21314C}[data-theme="dark"] .segment.active{background:#22314A;color:#8FC0FF}

@@ -1,6 +1,6 @@
 # Zipspeed Competitive Roadmap
 
-## P0 — current v52
+## P0 — current
 - Real Quick / Standard profiles.
 - One GO/STOP action.
 - Measured latency/jitter/download/upload.

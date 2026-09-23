@@ -1,4 +1,4 @@
-# Zipspeed Design System — v52
+# Zipspeed Design System — Current
 
 ## Direction
 Premium minimal instrument interface: precise, quiet, readable and trustworthy.
