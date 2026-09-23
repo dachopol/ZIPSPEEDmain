@@ -287,3 +287,57 @@ Use these exact project-state meanings:
 - ต้องรายงาน **GAP / TO VERIFY** ตามจริง
 - ห้ามถือว่ารอบงานผ่าน Final QA
 - ห้ามใช้คำว่า **“เสร็จ”**, **“พร้อมเผยแพร่”** หรือ **“ใช้งานได้ 100%”**
+
+
+## LOCKED COMPETITOR BENCHMARK / SCORE RULE
+Use the project 9-grid benchmark for every substantial product update.
+
+### Benchmark set
+Primary reference products:
+- Speedtest by Ookla
+- Opensignal Internet Speed Test
+- FAST Speed Test
+- Meteor by Opensignal
+
+The benchmark set or market facts must be re-verified before use when they may have changed.
+
+### Scoring model
+Use the weights defined in `PRODUCT_DOMINANCE_MATRIX.md`:
+- Measurement truth / reliability — 18%
+- Server / coverage capability — 15%
+- One-tap UX / readability — 14%
+- Visual hierarchy / premium depth — 10%
+- Diagnostics / network context — 10%
+- History / share / export — 8%
+- Use-case interpretation — 8%
+- Engineering / runtime / release — 10%
+- Trust / privacy / transparency — 7%
+
+Total = 100%.
+
+### Evidence rule
+- Score only verified capability that exists in current active source.
+- Planned work, mock UI, screenshots without runtime proof, fake/random data, unavailable services, unverified native behavior and stale artifacts receive no credit.
+- Missing evidence must be GAP / TO VERIFY / UNVERIFIED, never guessed.
+- Runtime-sensitive categories may only receive runtime credit after the matching runtime gate passes.
+- Release-sensitive categories may only receive release credit after the matching release gate passes.
+- Competitor scores must use the same rubric, evidence window and interpretation as Zipspeed.
+- Do not use review stars/install counts as direct quality points; they are market context only.
+- Never manipulate weights after seeing results to make Zipspeed win.
+
+### Update loop
+For every substantial update:
+`Current score → competitor benchmark → delta → Top-3 GAP → implement highest truthful controllable GAP → test/build/runtime → stale-state cleanup → re-score`
+
+### Completion report
+Report:
+- Zipspeed weighted score
+- highest evidence-supported competitor benchmark score
+- delta
+- per-grid score/evidence
+- Top-3 remaining GAP
+- evidence date
+- test/build/runtime proof
+- stale-state cleanup result
+
+Scores are internal product-assessment metrics only and must not be published as claims that Zipspeed is universally more accurate, faster, safer or better than another product.
