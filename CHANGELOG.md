@@ -1,5 +1,13 @@
 # Changelog
 
+## v63 — 2026-09-23 — Accessibility proof
+- Raised secondary action and brand touch areas to the 44px-class target.
+- Strengthened visible keyboard focus styling and added prefers-contrast support.
+- Browser runtime now checks visible interactive controls for accessible names.
+- Runtime now rejects duplicate IDs and visible interactive targets below 44×44px.
+- Runtime verifies a keyboard Tab focus indicator in Chrome.
+
+
 ## v62 — 2026-09-23 — Measurement evidence
 - Saved validated download/upload payload bytes for completed tests.
 - Saved measured download/upload/overall test durations using monotonic runtime timing.

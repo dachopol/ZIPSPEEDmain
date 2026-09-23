@@ -181,6 +181,26 @@ try{
     assert(snapshot.goVisible&&snapshot.navVisible,`Critical control hidden at ${width}px`);
     assert(snapshot.goWidth>=44&&snapshot.goHeight>=44,`GO touch target too small at ${width}px`);
 
+    const accessibility=await cdp.evaluate(`(()=>{
+      const visible=el=>{
+        const style=getComputedStyle(el),r=el.getBoundingClientRect();
+        return style.display!=="none"&&style.visibility!=="hidden"&&r.width>0&&r.height>0;
+      };
+      const interactives=[...document.querySelectorAll('button,a[href]')].filter(visible);
+      const unnamed=interactives.filter(el=>!(el.getAttribute("aria-label")||el.getAttribute("title")||el.textContent||"").trim()).map(el=>el.id||el.tagName);
+      const undersized=interactives.filter(el=>{
+        const r=el.getBoundingClientRect();
+        return r.width<44||r.height<44;
+      }).map(el=>({id:el.id||el.className||el.tagName,width:el.getBoundingClientRect().width,height:el.getBoundingClientRect().height}));
+      const ids=[...document.querySelectorAll("[id]")].map(el=>el.id);
+      const duplicates=[...new Set(ids.filter((id,index)=>ids.indexOf(id)!==index))];
+      return{count:interactives.length,unnamed,undersized,duplicates};
+    })()`);
+    assert(accessibility.count>0,`No interactive controls found at ${width}px`);
+    assert(accessibility.unnamed.length===0,`Accessible name missing at ${width}px: ${accessibility.unnamed.join(", ")}`);
+    assert(accessibility.undersized.length===0,`Touch target below 44px at ${width}px: ${JSON.stringify(accessibility.undersized)}`);
+    assert(accessibility.duplicates.length===0,`Duplicate IDs at ${width}px: ${accessibility.duplicates.join(", ")}`);
+
     const navState=await cdp.evaluate(`(()=>{
       document.querySelector('[data-target="status"]')?.click();
       return document.querySelector(".view.active")?.dataset?.view||null;
@@ -206,6 +226,17 @@ try{
     assert(privacyVisible,`Privacy panel missing at ${width}px`);
 
     if(width===360){
+      await cdp.evaluate(`document.body.focus()`);
+      await cdp.send("Input.dispatchKeyEvent",{type:"keyDown",key:"Tab",code:"Tab"});
+      await cdp.send("Input.dispatchKeyEvent",{type:"keyUp",key:"Tab",code:"Tab"});
+      const focusState=await cdp.evaluate(`(()=>{
+        const el=document.activeElement;
+        if(!el||el===document.body)return null;
+        const style=getComputedStyle(el);
+        return{tag:el.tagName,id:el.id||"",outlineStyle:style.outlineStyle,outlineWidth:style.outlineWidth};
+      })()`);
+      assert(focusState&&focusState.outlineStyle!=="none"&&parseFloat(focusState.outlineWidth)>=2,`Keyboard focus indicator missing: ${JSON.stringify(focusState)}`);
+
       const historyProof=await cdp.evaluate(`(()=>{
         const base={completed:true,aborted:false,uploadMbps:10,latencyMs:20,jitterMs:2,probeFailPct:0,profile:"quick",connectionMode:"single",streamCount:1,edge:"BKK"};
         localStorage.setItem("zipspeed_history",JSON.stringify([

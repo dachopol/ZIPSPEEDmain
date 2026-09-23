@@ -193,3 +193,14 @@ Implementation target:
 - Persist endpoint ID/provider and mode provenance while keeping IP/ISP out of local history.
 - Expose the evidence in History and exports.
 - Raise Measurement Truth / Trust only after real-network and build evidence passes.
+
+
+## Loop 9 — accessibility proof
+
+Baseline after Loop 8: **82.6 / 100** internal evidence-based score.
+
+Implementation target:
+- Enforce 44px-class visible interactive targets.
+- Verify accessible names and duplicate-ID absence at runtime.
+- Verify keyboard focus visibility.
+- Raise One-tap UX / Visual / Engineering evidence only after CI passes.

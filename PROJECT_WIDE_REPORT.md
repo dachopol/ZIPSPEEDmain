@@ -3,25 +3,25 @@
 Updated: 2026-09-23
 
 ## PASS
-- v61 Web/unit/build, Browser Runtime, real-network Single+Multi, Android lint/debug/release compile and release-source checks passed.
-- v62 records transfer evidence only after exact byte-length validation succeeds.
-- Timing evidence derives from performance.now()-based measurement flow.
-- Endpoint provenance derives from the active verified server registry.
-- No IP/ISP fields are added to local History.
+- v62 Web/unit/build, Browser Runtime, real-network Single+Multi, Android lint/debug/release compile and release-source checks passed.
+- Accessibility changes do not alter measurement logic or data handling.
 
 ## FIX
-- Completed results now carry enough measurement provenance to audit payload size, duration, endpoint and mode.
-- History exposes latest measurement evidence instead of hiding method details in implementation only.
+- Secondary buttons raised from 42px to 44px minimum height.
+- Brand link receives a 44px minimum touch area.
+- Focus-visible contrast is stronger and high-contrast preference gets an explicit fallback.
+- Runtime accessibility proof now covers names, touch targets, duplicate IDs and keyboard focus.
 
 ## GAP
-- Multi-region server capability requires additional authorized/provider infrastructure.
+- Multi-region server capability requires authorized/provider infrastructure.
 - No real playback-quality test.
 - No verified coverage dataset.
-- Physical Android runtime and Play signing/upload remain unproven.
+- Physical Android accessibility/runtime and Play signing/upload remain unproven.
 
 ## TO VERIFY
-- v62 Web/unit/build, Browser Runtime, real-network, Android and release-source CI.
-- External Privacy Policy / Play Data Safety / physical Android runtime.
+- v63 Web/unit/build, Browser Runtime, real-network, Android and release-source CI.
+- Physical Android TalkBack/accessibility behavior.
+- External Privacy Policy / Play Data Safety / Play signing.
 
 ## UNVERIFIED
 - Signed Play publication.

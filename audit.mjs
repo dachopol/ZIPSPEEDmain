@@ -83,6 +83,8 @@ if (!measurement.includes("downloadBytes:3*1024*1024") || !measurement.includes(
 if (!measurement.includes("CONNECTION_MODES") || !measurement.includes("splitTransferBytes")) throw new Error("Connection mode transfer plan missing");
 if (!html.includes('id="connectionModeSetting"') || !app.includes("connectionModeId") || !app.includes("currentXhrs")) throw new Error("Connection mode implementation missing");
 if (!runtimeCheck.includes("Connection mode toggle failed")) throw new Error("Runtime connection-mode proof missing");
+if (!runtimeCheck.includes("Accessible name missing") || !runtimeCheck.includes("Duplicate IDs") || !runtimeCheck.includes("Keyboard focus indicator missing")) throw new Error("Accessibility runtime proof missing");
+if (!css.includes(".secondary-button{min-height:44px") || !css.includes("min-height:44px")) throw new Error("44px touch-target floor missing");
 
 if (!/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(pkg.version)) throw new Error("Invalid canonical semver");
 if (!Number.isInteger(pkg.zipspeed?.versionCode) || pkg.zipspeed.versionCode < 1) throw new Error("Invalid canonical versionCode");
