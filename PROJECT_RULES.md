@@ -2,6 +2,10 @@
 
 Status: MASTER / SOURCE OF TRUTH
 
+Owner universal rule: `UNIVERSAL_APP_PROJECT_RULE.md`
+
+When rules overlap, apply the stricter requirement and preserve Real Data / Anti-Random behavior.
+
 ## MASTER APP BUILD RULES
 - No fake, random, demo, or hardcoded values may be presented as measured network facts.
 - If a value cannot be measured, display `--`, unknown, unavailable, or an explicit error.
