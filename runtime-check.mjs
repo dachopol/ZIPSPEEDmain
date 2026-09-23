@@ -187,6 +187,20 @@ try{
     })()`);
     assert(navState==="status",`Navigation failed at ${width}px`);
 
+    const modeToggle=await cdp.evaluate(`(()=>{
+      document.querySelector('[data-target="settings"]')?.click();
+      const value=document.querySelector("#connectionModeValue");
+      const button=document.querySelector("#connectionModeSetting");
+      const before=value?.textContent?.trim()||null;
+      button?.click();
+      const after=value?.textContent?.trim()||null;
+      button?.click();
+      const restored=value?.textContent?.trim()||null;
+      return{before,after,restored,scrollWidth:document.documentElement.scrollWidth,innerWidth:window.innerWidth};
+    })()`);
+    assert(modeToggle.before&&modeToggle.after&&modeToggle.before!==modeToggle.after&&modeToggle.restored===modeToggle.before,`Connection mode toggle failed at ${width}px`);
+    assert(modeToggle.scrollWidth<=modeToggle.innerWidth+1,`Settings overflow at ${width}px`);
+
     const toggles=await cdp.evaluate(`(()=>{
       const beforeTheme=document.documentElement.dataset.theme;
       const beforeLang=document.documentElement.lang;
@@ -221,7 +235,7 @@ try{
 
     const image=await cdp.send("Page.captureScreenshot",{format:"png",captureBeyondViewport:false});
     await fs.writeFile(path.join(ARTIFACT_DIR,`runtime-${width}.png`),Buffer.from(image.data,"base64"));
-    results.push({width,height,...snapshot,navigation:"PASS",themeLanguage:"PASS",goStop:"PASS"});
+    results.push({width,height,...snapshot,navigation:"PASS",connectionMode:"PASS",themeLanguage:"PASS",goStop:"PASS"});
   }
 
   cdp.socket.close();

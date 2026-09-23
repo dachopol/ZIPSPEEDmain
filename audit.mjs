@@ -70,6 +70,9 @@ if (!app.includes("mergeHistoryRecords")) throw new Error("History migration mis
 if (!app.includes("zipspeedStopForLifecycle")) throw new Error("Lifecycle STOP hook missing");
 
 if (!measurement.includes("downloadBytes:3*1024*1024") || !measurement.includes("downloadBytes:10*1024*1024")) throw new Error("Test profiles missing");
+if (!measurement.includes("CONNECTION_MODES") || !measurement.includes("splitTransferBytes")) throw new Error("Connection mode transfer plan missing");
+if (!html.includes('id="connectionModeSetting"') || !app.includes("connectionModeId") || !app.includes("currentXhrs")) throw new Error("Connection mode implementation missing");
+if (!runtimeCheck.includes("Connection mode toggle failed")) throw new Error("Runtime connection-mode proof missing");
 
 if (!/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(pkg.version)) throw new Error("Invalid canonical semver");
 if (!Number.isInteger(pkg.zipspeed?.versionCode) || pkg.zipspeed.versionCode < 1) throw new Error("Invalid canonical versionCode");

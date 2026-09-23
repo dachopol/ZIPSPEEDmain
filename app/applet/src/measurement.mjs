@@ -2,6 +2,16 @@ export const TEST_PROFILES=Object.freeze({
 quick:Object.freeze({id:"quick",latencyProbes:3,minLatencySuccess:2,downloadBytes:3*1024*1024,uploadBytes:1*1024*1024}),
 standard:Object.freeze({id:"standard",latencyProbes:6,minLatencySuccess:3,downloadBytes:10*1024*1024,uploadBytes:5*1024*1024})
 });
+export const CONNECTION_MODES=Object.freeze({
+single:Object.freeze({id:"single",streams:1}),
+multi:Object.freeze({id:"multi",streams:4})
+});
+export function splitTransferBytes(totalBytes,streamCount){
+  const total=Math.floor(Number(totalBytes)),count=Math.floor(Number(streamCount));
+  if(!Number.isFinite(total)||!Number.isFinite(count)||total<=0||count<=0||count>total)return null;
+  const base=Math.floor(total/count),remainder=total%count;
+  return Array.from({length:count},(_,index)=>base+(index<remainder?1:0));
+}
 export function calculateMbps(bytes,elapsedMs){if(!Number.isFinite(bytes)||!Number.isFinite(elapsedMs)||bytes<0||elapsedMs<=0)return null;return(bytes*8)/(elapsedMs*1000)}
 export function median(values){if(!Array.isArray(values))return null;const a=values.filter(v=>Number.isFinite(v)&&v>=0).sort((x,y)=>x-y);if(!a.length)return null;const m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2}
 export function latencyJitter(values){if(!Array.isArray(values))return null;const a=values.filter(v=>Number.isFinite(v)&&v>=0);if(a.length<2)return null;let total=0;for(let i=1;i<a.length;i++)total+=Math.abs(a[i]-a[i-1]);return total/(a.length-1)}

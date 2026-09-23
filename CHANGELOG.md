@@ -1,5 +1,14 @@
 # Changelog
 
+## v57 — 2026-09-23 — Single/Multi connection measurement
+- Added explicit Single (1 stream) and Multi (4 streams) throughput modes.
+- Multi mode divides the existing profile byte budget across streams; total planned payload bytes remain unchanged.
+- Download aggregates real bytes across concurrent fetch streams using one monotonic elapsed interval.
+- Upload aggregates real bytes across concurrent XHR streams and STOP aborts all active streams.
+- Saved results/history/share output now records connection mode and stream count.
+- Added TH/EN Settings control, transfer-plan unit tests, audit checks and browser-runtime toggle proof.
+
+
 ## v56 — 2026-09-23 — Measured diagnostics loop
 - Added an automated real-browser runtime gate using Chrome DevTools Protocol with no extra runtime dependency.
 - Hardened the runtime gate with module-readiness polling, captured Chrome runtime/console errors and explicit Node syntax checks.

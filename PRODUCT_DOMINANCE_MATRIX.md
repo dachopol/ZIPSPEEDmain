@@ -90,6 +90,11 @@ Only re-score after CI/runtime evidence. Planned work does not increase the scor
 
 ## Loop 2 — automated browser runtime proof
 
+### Re-score after evidence
+Browser runtime + Web/Android build evidence passed on 2026-09-23. Internal score moved from **68.6 → 73.6 / 100**. This does not count as Android real-device or Play release proof.
+
+
+
 Goal: raise evidence quality in One-tap UX / Visual / Engineering without claiming real-device coverage.
 
 Implemented:
@@ -102,3 +107,16 @@ Implemented:
 Scoring rule:
 - CI runtime PASS may raise browser-runtime evidence only.
 - It does not count as real-device network measurement, native Android runtime or Play release evidence.
+
+
+## Loop 3 — connection modes
+
+Selected after the server/coverage GAP was classified as externally blocked without additional authorized infrastructure.
+
+Implementation target:
+- Single mode = one real HTTP transfer stream.
+- Multi mode = four concurrent real HTTP transfer streams.
+- Total payload byte budget remains identical to the selected Quick/Standard profile.
+- Result provenance records mode/stream count.
+- Browser runtime must verify the Settings toggle.
+- Score changes only after test/build/runtime evidence passes.

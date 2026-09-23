@@ -12,6 +12,7 @@ Open → GO → provider metadata → HTTP latency/jitter → download → uploa
 - Measured HTTP latency and HTTP-jitter indicator.
 - Measured HTTP download/upload throughput.
 - Quick and Standard profiles.
+- Single / Multi connection throughput modes with unchanged total profile payload budget.
 - Provider edge/client metadata.
 - Realtime throughput graph.
 - Streaming suitability estimate from measured download.

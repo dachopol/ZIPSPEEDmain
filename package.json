@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "56.0.0",
+  "version": "57.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 56,
-    "channel": "measured-diagnostics",
+    "versionCode": 57,
+    "channel": "connection-modes",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

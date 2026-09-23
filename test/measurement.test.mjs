@@ -1,6 +1,6 @@
 import test from"node:test";
 import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags}from"../src/quality.mjs";
-import{defaultServer,serverLocationLabel}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords}from"../src/measurement.mjs";
+import{defaultServer,serverLocationLabel}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
 test("latency stats use measured samples",()=>{assert.equal(median([30,10,20]),20);assert.equal(latencyJitter([10,12,15]),2.5);assert.equal(probeFailPercent(1,4),25)});
@@ -61,4 +61,20 @@ test("diagnostic flags only fire from measured threshold crossings",()=>{
   assert.equal(diagnosticFlags(strong).length,0);
   const weak={downloadMbps:2,uploadMbps:1,latencyMs:220,jitterMs:60,probeFailPct:50,throughputVariationPct:60};
   assert.deepEqual(diagnosticFlags(weak).map(x=>x.id),["download","upload","latency","jitter","probeFail","variation"]);
+});
+
+
+test("connection modes preserve total transfer bytes",()=>{
+  assert.equal(CONNECTION_MODES.single.streams,1);
+  assert.equal(CONNECTION_MODES.multi.streams,4);
+  for(const total of[1024,3*1024*1024,5*1024*1024]){
+    for(const streams of[1,4]){
+      const parts=splitTransferBytes(total,streams);
+      assert.equal(parts.length,streams);
+      assert.equal(parts.reduce((a,b)=>a+b,0),total);
+      assert.ok(parts.every(x=>Number.isInteger(x)&&x>0));
+      assert.ok(Math.max(...parts)-Math.min(...parts)<=1);
+    }
+  }
+  assert.equal(splitTransferBytes(0,4),null);
 });

@@ -450,3 +450,9 @@ body{overflow-x:clip}
 .diagnostic-strip small{color:var(--muted);font-size:.58rem;line-height:1.2}
 [data-theme="dark"] .diagnostic-strip>div{background:#0F192A;border-color:var(--line)}
 @media(max-width:520px){.diagnostic-strip{grid-template-columns:1fr}}
+
+
+/* v57 connection mode */
+#connectionModeValue{overflow-wrap:anywhere}
+#connectionModeSetting[aria-pressed="true"]{border-color:rgba(59,130,246,.28);background:#EEF4FF;color:#245FD5}
+[data-theme="dark"] #connectionModeSetting[aria-pressed="true"]{background:rgba(59,130,246,.18);color:#8FC0FF;border-color:rgba(143,192,255,.18)}

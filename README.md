@@ -23,6 +23,7 @@ Premium mobile-first internet speed and network-health app using measured HTTP d
 - Download/upload calculated from transferred bytes and monotonic elapsed time.
 - Quick: 3 MiB down + 1 MiB up + 3 probes.
 - Standard: 10 MiB down + 5 MiB up + 6 probes.
+- Single / Multi connection measurement: 1 or 4 concurrent streams using the same total profile payload bytes.
 - Provider metadata: client IP, ASN/ISP, edge code and client area.
 - Streaming suitability is an estimate from measured download speed, not playback.
 - No fake coordinates, packet loss, ads, billing, revenue or server status.

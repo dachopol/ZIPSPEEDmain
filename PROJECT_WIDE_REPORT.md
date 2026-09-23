@@ -4,40 +4,34 @@ Updated: 2026-09-23
 
 ## PASS
 - GitHub Remote / main / package ID verified before update.
-- Real-data measurement engine retained.
-- Health Index remains deterministic from measured HTTP metrics.
-- Live download chart now uses interval throughput samples rather than cumulative-average samples.
-- Throughput variation/min/max/sample count derive only from transferred bytes and monotonic elapsed time.
-- Use-case limitation reasons expose actual measured value versus threshold.
-- Diagnostic flags use documented deterministic thresholds.
+- Browser runtime gate passed on the prior source at 320/360/412/768 px and exposed/fixed the same-origin CSP bug.
+- Real-data measurement engine retains exact transferred-byte + monotonic-time rules.
+- Single/Multi connection plans keep the same profile payload budget and split bytes deterministically.
+- Multi download/upload aggregates actual bytes across concurrent streams.
+- STOP/lifecycle cancellation covers all active upload streams.
+- Health/use-case/diagnostic derivations remain deterministic.
 
 ## FIX
-- CSP now permits same-origin runtime metadata fetches (`'self'`) plus the explicit Cloudflare measurement endpoint; this fixes Preview version loading under the app server.
-- Removed misleading cumulative-average behavior from the live consistency trace.
-- Current-test Health output now clears while a new test runs instead of showing the previous result.
-- Added evidence-oriented explanation below each use-case result.
-- Added measured diagnostics UI and tests.
+- Same-origin runtime metadata is allowed by CSP while external connect remains limited to the measurement endpoint.
+- Added explicit connection-mode control rather than silently changing measurement behavior.
+- Added result/history/share provenance for Single vs Multi mode.
 
 ## GAP
 - Multi-region server directory still requires additional authorized endpoints.
 - No real video playback test.
 - No verified coverage dataset.
-- No single-vs-multi connection capacity mode yet.
-- Signed release/Play upload remain unverified.
-
-## PASS
-- Automated Chrome runtime gate is now part of CI for 320/360/412/768 px.
-- Runtime evidence includes current-build screenshots and JSON report when the CI job passes.
+- No loaded-latency-under-transfer metric yet.
+- Real Android device runtime and Play signing/upload remain unverified.
 
 ## TO VERIFY
-- Web audit/tests/build.
+- Web syntax/audit/tests/build for v57.
+- Browser runtime including connection-mode toggle.
 - Android lint/debug build.
 - Android release bundle compile.
-- Runtime at small-phone/tablet widths.
-- Real-network GO/STOP and interval-throughput trace.
-- Real-device share/export.
+- Real network completion in both Single and Multi modes.
+- Real-device Wi-Fi/cellular runtime.
 - Play signing/API/Data Safety/Privacy Policy/screenshots.
 
 ## UNVERIFIED
-- Real-device runtime of this exact source.
-- Play publication.
+- Real-device Single/Multi measurement accuracy.
+- Signed Play publication.
