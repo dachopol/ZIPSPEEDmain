@@ -35,7 +35,8 @@ for (const token of ["Precision Mode", "Ad-Free", "Cloudflare Anycast", "Speed &
 if ((html.match(/id="goButton"/g) || []).length !== 1) throw new Error("Expected exactly one GO/STOP control");
 if (!html.includes('id="appVersion"') || !css.includes(".version-badge")) throw new Error("Visible preview version badge missing");
 if (!app.includes('fetch("./package.json"') || !app.includes("loadAppVersion")) throw new Error("Preview must load version from package.json");
-if (/v\d+(?:\.\d+){0,2}/.test(html)) throw new Error("UI must not hardcode an app version");
+const versionBadgeMarkup = html.match(/<span id="appVersion"[^>]*>([^<]*)<\/span>/);
+if (!versionBadgeMarkup || versionBadgeMarkup[1].trim() !== "v--") throw new Error("Preview version badge must start unresolved and load package.json at runtime");
 if (!css.includes("--blue:#3B82F6") || !css.includes("--radius:28px") || !css.includes("--blur:40px")) throw new Error("Design tokens missing");
 if (!css.includes("font-variant-numeric:tabular-nums")) throw new Error("Tabular numerals missing");
 if (!html.includes('class="instrument-shell"') || !html.includes('class="metric-deck"')) throw new Error("Premium instrument hierarchy missing");
