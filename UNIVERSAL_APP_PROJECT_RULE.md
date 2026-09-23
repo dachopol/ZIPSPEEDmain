@@ -421,17 +421,65 @@ ZIP เป็นเพียงหนึ่งรูปแบบส่งมอ�
 จนกว่า build/runtime ของ source ล่าสุดจะผ่านจริง
 
 
-## STALE-STATE / OLD-ARTIFACT CLEANUP RULE
-ทุกการอัปเดตต้องตรวจและเคลียร์ของเก่าก่อนถือว่างานเสร็จ
 
-บังคับทุกครั้ง:
-- ใช้ branch `main` ปัจจุบันเป็น Source of Truth เว้นแต่ผู้ใช้สั่งเปลี่ยน
-- ค้นหา version marker เก่า, package/namespace เก่า, UI ซ้ำ, preview เก่า, mirror เก่า, build output เก่า และ cache identifier เก่า
-- ลบหรือแทนที่ไฟล์เก่าที่ active และยังมีโอกาสถูก Build / Runtime / Preview / Android / Release เรียกใช้
-- ไฟล์ mirror ที่ตั้งใจให้เหมือนกันต้องตรงกันทั้งไฟล์
-- เมื่อ static asset เปลี่ยน ต้อง invalidate cache หรือทำ cache-busting
-- เมื่อแก้ build config, bundled asset หรือ preview entrypoint ต้อง Clean/Rebuild
-- ห้ามเก็บ active copy รุ่นเก่าไว้ “เผื่อใช้” หาก AI Studio, Android, CI หรือ release tooling ยังมองเห็นไฟล์นั้นได้
-- เอกสารประวัติรุ่นเก่าเก็บได้เฉพาะใน archive ที่ไม่กระทบ runtime/build
-- ก่อนส่งมอบต้องตรวจว่า source active ไม่มี version/package/UI เก่าที่ขัดกับรุ่นปัจจุบัน
-- ถ้าล้างของเก่าไม่ได้อย่างปลอดภัย ให้รายงานเป็น GAP / TO VERIFY และห้ามถือว่างานเสร็จ
+## LOCKED OLD-STATE CLEANUP / ANTI-STALE ARTIFACT RULE
+
+กฎนี้บังคับใช้กับ **ทุกการอัปเดต** ก่อนจะถือว่างานรอบนั้นผ่าน Final QA
+
+### Source of Truth
+- Branch `main` ปัจจุบันของ GitHub Remote คือ **Source of Truth** เว้นแต่เจ้าของโปรเจกต์สั่งเปลี่ยนอย่างชัดเจน
+- ห้ามให้ local copy, AI Studio checkpoint, ZIP, preview, cache, generated output, APK/AAB หรือ artifact เก่ามีสิทธิ์เหนือ `main`
+- ก่อนแก้/เขียนทับ ต้องตรวจ HEAD และ active source ปัจจุบันก่อน
+
+### Mandatory old-state cleanup
+ทุกการอัปเดตต้องค้นหาและเคลียร์สิ่งเก่าที่อาจยังถูกโหลด/Build/Preview/Release ได้ รวมถึง:
+- version/versionCode/versionName marker รุ่นเก่าที่ active
+- namespace / package / applicationId เก่าหรือผิดตัว
+- UI ซ้ำ, component ซ้ำ, entrypoint ซ้ำ หรือหน้า active รุ่นเก่า
+- preview/checkpoint รุ่นเก่า
+- mirror ที่ไม่ตรงกับ Source of Truth
+- cache/cache key/cache identifier รุ่นเก่า
+- build output / generated bundle / dist / APK / AAB รุ่นเก่าที่อาจถูกหยิบใช้ผิด
+- active file รุ่นเก่าที่ AI Studio, Android, WebView, CI, build system หรือ release tooling ยังสามารถมองเห็นหรือเลือกใช้ได้
+
+ห้ามเก็บ active copy รุ่นเก่าไว้ “เผื่อใช้” ถ้ามันยังมีโอกาสถูกระบบหยิบไปใช้แทน source ปัจจุบัน  
+เอกสารประวัติหรือไฟล์ archive เก็บได้เฉพาะเมื่อแยกชัดและไม่สามารถกระทบ Build / Runtime / Preview / Release
+
+### Mirror integrity
+- Mirror ที่ตั้งใจให้เป็นสำเนาเดียวกันต้อง **ตรงกันทั้งไฟล์ (byte-identical)** หลังการอัปเดต
+- ต้องตรวจทุก active mirror ที่มีอยู่จริงใน tree ปัจจุบัน ไม่ยึดรายชื่อ mirror เก่าจาก checkpoint
+- ถ้า mirror ต่างกันโดยไม่ได้ตั้งใจ ให้ถือเป็น **FIX**
+- ถ้ายังยืนยันความตรงกันไม่ได้ ให้รายงาน **TO VERIFY**
+- ถ้าล้าง/ซิงก์ไม่ได้อย่างปลอดภัย ให้รายงาน **GAP** และห้ามผ่าน Final QA
+
+### Static asset cache-busting
+- เมื่อ static asset เปลี่ยน ต้องทำ cache invalidation / cache-busting ที่ตรวจสอบย้อนกลับได้
+- ใช้แนวทางที่ deterministic เช่น content hash, revisioned filename, versioned query หรือ manifest revision ตาม architecture ปัจจุบัน
+- ห้ามปล่อย entrypoint อ้าง asset revision เก่าหลัง source เปลี่ยน
+- ห้ามใช้ random query/string เพื่อหลบ cache
+
+### Clean / Rebuild requirement
+เมื่อมีการเปลี่ยนอย่างน้อยหนึ่งรายการต่อไปนี้ ต้อง **Clean / Rebuild** จาก source ปัจจุบัน:
+- build configuration
+- bundled/static asset
+- Android asset
+- app/preview entrypoint
+- mirror ที่ถูก bundle เข้า runtime
+- dependency/plugin ที่มีผลต่อ output
+
+ห้ามใช้ build output เก่ามายืนยัน source ใหม่
+
+### Completion gate
+ก่อน Final QA ต้องตรวจอย่างน้อย:
+1. `main` HEAD ตรงกับ commit ที่รายงาน
+2. active version/package/namespace ไม่มีของเก่าขัดกับ source ปัจจุบัน
+3. ไม่มี duplicate active UI/entrypoint รุ่นเก่าที่ระบบอาจโหลด
+4. active mirrors ตรงกันทั้งไฟล์ตามที่กำหนด
+5. static asset ที่เปลี่ยนมี cache-bust/invalidation
+6. build config/asset/entrypoint ที่เปลี่ยนได้รับ Clean/Rebuild
+7. build/runtime evidence มาจาก source ล่าสุด ไม่ใช่ cache/artifact รุ่นเก่า
+
+ถ้าข้อใดล้างหรือยืนยันไม่ได้:
+- ต้องรายงาน **GAP / TO VERIFY** ตามจริง
+- ห้ามถือว่ารอบงานผ่าน Final QA
+- ห้ามใช้คำว่า **“เสร็จ”**, **“พร้อมเผยแพร่”** หรือ **“ใช้งานได้ 100%”**
