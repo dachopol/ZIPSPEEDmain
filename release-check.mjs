@@ -39,7 +39,9 @@ if(!html.includes('class="privacy-panel"'))fail("Visible privacy transparency pa
 if(!metadata.requestFramePermissions||metadata.requestFramePermissions.length!==0)fail("Frame permission declaration changed");
 
 const endpointMatches=[...servers.matchAll(/baseUrl:"(https:\/\/[^"]+)"/g)].map(m=>m[1]);
+const discoveryMatches=[...servers.matchAll(/discoveryUrl:(?:MLAB_LOCATE_URL|"([^"]+)")/g)].map(m=>m[1]||"https://locate.measurementlab.net/v2/nearest/ndt/ndt7");
 if(endpointMatches.length<1)fail("No measurement endpoint found");
+if(!servers.includes("measurementEnabled:false")||!app.includes("discoverMlabServers")||!html.includes('id="privacyDiscoveryBody"'))fail("M-Lab discovery/privacy declaration drift");
 
 const evidence={
   generatedAt:new Date().toISOString(),
@@ -60,7 +62,9 @@ const evidence={
     userInitiatedShare:true,
     adsSdkDetected:false,
     billingSdkDetected:false,
-    measurementEndpoints:endpointMatches
+    measurementEndpoints:endpointMatches,
+    optionalDiscoveryEndpoints:discoveryMatches,
+    mlabNdt7MeasurementEnabled:false
   },
   storeReview:{
     privacyPolicy:"TO VERIFY against current external policy",

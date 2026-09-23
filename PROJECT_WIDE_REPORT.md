@@ -3,24 +3,27 @@
 Updated: 2026-09-23
 
 ## PASS
-- v63 Web/unit/build, Browser Runtime, real-network Single+Multi, Android lint/debug/release compile and release-source checks passed.
-- Accessibility runtime proof covers visible interactive names, duplicate IDs, touch-target floor and keyboard focus.
-- v64 adds failure-path proof without weakening existing success-path/real-network gates.
+- v63 latest-source Web/unit/build, Browser Runtime, real-network Single+Multi, Android lint/debug/release compile and release-source checks passed.
+- M-Lab integration in v64 is discovery-only: no NDT7 measurement is run and no M-Lab access-token URL is retained.
+- Discovery is user-triggered and the standard browser runtime asserts zero automatic Locate API requests.
 
 ## FIX
-- Automated QA now proves incomplete offline measurements are not stored as completed results.
-- Runtime proof checks that GO exits the running state and exposes an error when network measurement fails.
+- Added a second verified provider capability without pretending it is an active speed-test provider.
+- Added truthful server machine/city/country display from M-Lab Locate v2 response only.
+- Privacy/release evidence now accounts for the optional M-Lab discovery destination.
 
 ## GAP
-- Multi-region server capability requires additional authorized/provider infrastructure.
+- M-Lab NDT7 measurement remains disabled until explicit data-policy consent plus Privacy Policy/Data Safety review are implemented.
+- Manual worldwide region selection is not implemented.
 - No real playback-quality test.
 - No verified coverage dataset.
-- Physical Android offline/recovery behavior and Play signing/upload remain unproven.
+- Physical Android runtime and Play signing/upload remain unproven.
 
 ## TO VERIFY
-- v64 full CI including Browser Runtime and real-network smoke.
-- Physical Android Wi-Fi/cellular loss and recovery.
-- External Privacy Policy / Play Data Safety / Play signing.
+- v64 Web/unit/build.
+- v64 Browser Runtime and real-network M-Lab discovery smoke.
+- v64 Android lint/debug/release compile and release-source check.
+- External Privacy Policy / Play Data Safety for the new optional discovery destination.
 
 ## UNVERIFIED
 - Signed Play publication.

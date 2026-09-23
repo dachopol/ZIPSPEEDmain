@@ -26,7 +26,7 @@ const server = http.createServer(async (req, res) => {
   res.setHeader("Permissions-Policy", "geolocation=(), camera=(), microphone=()");
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://speed.cloudflare.com; img-src 'self' data:; object-src 'none'; base-uri 'none'"
+    "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://speed.cloudflare.com https://locate.measurementlab.net; img-src 'self' data:; object-src 'none'; base-uri 'none'"
   );
 
   if (!["GET", "HEAD"].includes(req.method || "GET")) {

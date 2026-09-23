@@ -5,7 +5,7 @@
   "type": "module",
   "zipspeed": {
     "versionCode": 64,
-    "channel": "failure-offline-proof",
+    "channel": "verified-provider-discovery",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

@@ -1,5 +1,13 @@
 # Changelog
 
+## v64 — 2026-09-23 — Verified provider discovery
+- Added user-triggered M-Lab Locate v2 discovery for nearby NDT7 servers.
+- Discovery never runs automatically and does not run an M-Lab speed measurement.
+- Parser keeps machine/city/country and capability booleans only; access-token URLs are not retained.
+- Added visible TH/EN privacy disclosure for the optional M-Lab network destination.
+- Added CSP, unit, browser-runtime, real-network discovery-smoke and release-evidence guards.
+
+
 ## v64 — 2026-09-23 — Failure/offline proof
 - Added Chrome runtime network emulation proof after the app shell is loaded.
 - CI verifies GO exits running state when measurement requests fail offline.

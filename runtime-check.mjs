@@ -232,6 +232,8 @@ try{
       assert(offlineState.count===beforeOffline,`Offline/incomplete result was saved: before=${beforeOffline} after=${offlineState.count}`);
       assert(offlineState.phase&&offlineState.phase!=="READY"&&offlineState.phase!=="พร้อม",`Offline failure did not expose error state: ${JSON.stringify(offlineState)}`);
     }
+    const automaticMlabRequests=await cdp.evaluate(`performance.getEntriesByType("resource").filter(x=>x.name.includes("locate.measurementlab.net")).length`);
+    assert(automaticMlabRequests===0,`M-Lab discovery must not auto-run at ${width}px`);
     const ipVersionPresent=await cdp.evaluate(`!!document.querySelector("#ipVersionValue")`);
     assert(ipVersionPresent,`IP version UI missing at ${width}px`);
 
@@ -374,11 +376,33 @@ try{
     return latest;
   }
 
+  async function runMlabDiscoverySmoke(){
+    await cdp.send("Page.navigate",{url:BASE+"/"});
+    for(let attempt=0;attempt<60;attempt++){
+      const ready=await cdp.evaluate(`typeof window.zipspeedStopForLifecycle==="function"`);
+      if(ready)break;
+      await sleep(100);
+    }
+    await cdp.evaluate(`document.querySelector('[data-target="status"]')?.click();document.querySelector("#mlabDiscoverButton")?.click()`);
+    const deadline=Date.now()+20000;
+    while(Date.now()<deadline){
+      const state=await cdp.evaluate(`(()=>({
+        state:document.querySelector("#mlabDiscoveryState")?.dataset?.state||"",
+        count:document.querySelectorAll("#mlabDiscoveryList .provider-server-row").length
+      }))()`);
+      if(state.state==="ready"&&state.count>0)return state;
+      if(state.state==="error")throw new Error("M-Lab discovery returned error state");
+      await sleep(200);
+    }
+    throw new Error("M-Lab discovery smoke timed out");
+  }
+
   let realNetwork=null;
   if(process.env.ZIPSPEED_REAL_NETWORK_SMOKE==="1"){
     const single=await runRealNetworkTest("single");
     const multi=await runRealNetworkTest("multi");
-    realNetwork={single,multi};
+    const mlabDiscovery=await runMlabDiscoverySmoke();
+    realNetwork={single,multi,mlabDiscovery};
     await fs.writeFile(path.join(ARTIFACT_DIR,"real-network-report.json"),JSON.stringify({version:pkg.version,checkedAt:new Date().toISOString(),single,multi},null,2));
     console.log("Real-network Quick smoke passed for Single and Multi modes.");
   }

@@ -1,6 +1,6 @@
 import test from"node:test";
 import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact}from"../src/quality.mjs";
-import{defaultServer,serverLocationLabel}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv}from"../src/measurement.mjs";
+import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
 test("latency stats use measured samples",()=>{assert.equal(median([30,10,20]),20);assert.equal(latencyJitter([10,12,15]),2.5);assert.equal(probeFailPercent(1,4),25)});
@@ -126,4 +126,20 @@ test("measurement evidence fields survive CSV export",()=>{
   assert.ok(csv.includes("endpointId,measurementProvider"));
   assert.ok(csv.includes("3145728,1048576,500,400,1600"));
   assert.ok(csv.includes("cloudflare-speed,Cloudflare"));
+});
+
+
+test("M-Lab locate parser keeps verified discovery metadata only",()=>{
+  assert.equal(MLAB_LOCATE_URL,"https://locate.measurementlab.net/v2/nearest/ndt/ndt7");
+  const parsed=parseMlabLocateResponse({results:[{
+    machine:"mlab1.example",
+    location:{city:"Bangkok",country:"TH"},
+    urls:{
+      "wss:///ndt/v7/download":"wss://secret.example/download?access_token=secret",
+      "wss:///ndt/v7/upload":"wss://secret.example/upload?access_token=secret"
+    }
+  }]});
+  assert.deepEqual(parsed,[{machine:"mlab1.example",city:"Bangkok",country:"TH",downloadAvailable:true,uploadAvailable:true}]);
+  assert.equal(JSON.stringify(parsed).includes("access_token"),false);
+  assert.deepEqual(parseMlabLocateResponse({results:[]}),[]);
 });

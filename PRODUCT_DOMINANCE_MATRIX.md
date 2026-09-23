@@ -197,6 +197,9 @@ Implementation target:
 
 ## Loop 9 — accessibility proof
 
+### Re-score after Loop 9
+v63 latest-source CI passed after correcting the 320px touch-target regression. Internal evidence score: **84.0 / 100**. Physical-device accessibility remains unverified.
+
 Baseline after Loop 8: **82.6 / 100** internal evidence-based score.
 
 Implementation target:
@@ -215,3 +218,19 @@ Implementation target:
 - Prove incomplete/failed tests never enter completed History.
 - Preserve a visible error state and restore network for subsequent interaction tests.
 - Raise Engineering / Trust evidence only after runtime CI passes.
+
+
+## Loop 10 — verified provider discovery
+
+Baseline: **84.0 / 100** internal evidence-based score.
+
+Selected to improve Server / Coverage capability without inventing regions or silently enabling a privacy-sensitive measurement provider.
+
+Implementation target:
+- Use M-Lab Locate API v2 only after an explicit user action.
+- Display only server data returned by Locate v2.
+- Do not retain access-token URLs.
+- Do not run NDT7 measurement in this build.
+- Add privacy/CSP/release evidence for the new optional network destination.
+- Real-network CI must prove Locate discovery returns at least one server.
+- Re-score only after v64 gates pass.
