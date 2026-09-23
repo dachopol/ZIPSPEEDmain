@@ -196,3 +196,9 @@ test("comparable history stats never mix profile or connection mode",()=>{
   assert.equal(stats.downloadSpreadMbps,50);
   assert.equal(comparableHistoryStats([records[0]],5),null);
 });
+
+
+test("upload throughput variation diagnostic uses measured samples",()=>{
+  const result={downloadMbps:100,uploadMbps:20,latencyMs:20,jitterMs:2,probeFailPct:0,throughputVariationPct:5,uploadThroughputVariationPct:50};
+  assert.deepEqual(diagnosticFlags(result).map(x=>x.id),["uploadVariation"]);
+});

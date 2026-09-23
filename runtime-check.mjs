@@ -181,6 +181,8 @@ try{
     assert(!snapshot.navGoOverlap,`Bottom nav overlaps GO at ${width}px`);
     assert(snapshot.goVisible&&snapshot.navVisible,`Critical control hidden at ${width}px`);
     assert(snapshot.goWidth>=44&&snapshot.goHeight>=44,`GO touch target too small at ${width}px`);
+    const uploadConsistencyUi=await cdp.evaluate(`!!document.querySelector("#uploadVariationValue")&&!!document.querySelector("#uploadRangeValue")`);
+    assert(uploadConsistencyUi,`Upload consistency UI missing at ${width}px`);
 
     const accessibility=await cdp.evaluate(`(()=>{
       const visible=el=>{
@@ -399,6 +401,7 @@ try{
     if(!latest.endpointId||!latest.measurementProvider)throw new Error(`Real network endpoint provenance missing for ${mode}`);
     if(Number(latest.loadedLatencySampleCount)>0){if(!Number.isFinite(Number(latest.loadedLatencyMs))||!Number.isFinite(Number(latest.loadedLatencyDeltaMs)))throw new Error(`Real network download-loaded latency delta mismatch for ${mode}`);}
     if(Number(latest.uploadLoadedLatencySampleCount)>0){if(!Number.isFinite(Number(latest.uploadLoadedLatencyMs))||!Number.isFinite(Number(latest.uploadLoadedLatencyDeltaMs)))throw new Error(`Real network upload-loaded latency delta mismatch for ${mode}`);}
+    if(Number(latest.uploadThroughputSampleCount)>0){for(const key of["uploadThroughputVariationPct","uploadThroughputMinMbps","uploadThroughputMaxMbps"]){if(!Number.isFinite(Number(latest[key])))throw new Error(`Real network upload consistency missing for ${mode}: ${key}`);}}
     return latest;
   }
 

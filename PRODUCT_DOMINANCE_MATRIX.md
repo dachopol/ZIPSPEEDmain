@@ -290,3 +290,16 @@ Implementation target:
 - Make no continuous-monitoring or causal claim.
 - Add no network destination or permission.
 - Re-score only after v67 gates pass.
+
+
+## Loop 14 — bidirectional throughput consistency
+
+### Re-score after Loop 13
+v67 passed all automated gates. Internal evidence score moved from **87.0 → 88.1 / 100**. The score remains internal and does not imply superiority in global coverage, video testing or outage data.
+
+Implementation target:
+- Add upload interval-throughput samples from actual uploaded bytes and elapsed time.
+- Keep download and upload consistency separate.
+- Persist upload variation/min/max/sample count only when enough samples exist.
+- Add real-network evidence guards.
+- Re-score only after v68 gates pass.

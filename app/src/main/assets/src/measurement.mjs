@@ -65,8 +65,8 @@ export function historyToCsv(records){
   const columns=[
     "timestamp","profile","connectionMode","streamCount","endpointId","measurementProvider",
     "downloadMbps","uploadMbps","downloadBytes","uploadBytes","downloadDurationMs","uploadDurationMs","testDurationMs","latencyMs","jitterMs","probeFailPct",
-    "loadedLatencyMs","loadedLatencySampleCount","loadedLatencyDeltaMs","uploadLoadedLatencyMs","uploadLoadedLatencySampleCount","uploadLoadedLatencyDeltaMs","loadedLatencyDeltaMs",
-    "throughputVariationPct","throughputMinMbps","throughputMaxMbps","throughputSampleCount",
+    "loadedLatencyMs","loadedLatencySampleCount","loadedLatencyDeltaMs","uploadLoadedLatencyMs","uploadLoadedLatencySampleCount","uploadLoadedLatencyDeltaMs",
+    "throughputVariationPct","throughputMinMbps","throughputMaxMbps","throughputSampleCount","uploadThroughputVariationPct","uploadThroughputMinMbps","uploadThroughputMaxMbps","uploadThroughputSampleCount",
     "edge"
   ];
   const rows=[columns.join(",")];

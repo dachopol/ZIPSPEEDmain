@@ -95,7 +95,8 @@ export const DIAGNOSTIC_THRESHOLDS=Object.freeze({
   jitter:30,
   probeFail:20,
   variation:35,
-  loadImpact:50
+  loadImpact:50,
+  uploadVariation:35
 });
 
 export function diagnosticFlags(result){
@@ -105,13 +106,14 @@ export function diagnosticFlags(result){
     if(Number.isFinite(value))flags.push({id,value,threshold,direction,unit});
   };
   const down=Number(result.downloadMbps),up=Number(result.uploadMbps),lat=Number(result.latencyMs),
-    jit=Number(result.jitterMs),probe=Number(result.probeFailPct),variation=Number(result.throughputVariationPct),impact=Number(result.loadedLatencyDeltaMs),uploadImpact=Number(result.uploadLoadedLatencyDeltaMs);
+    jit=Number(result.jitterMs),probe=Number(result.probeFailPct),variation=Number(result.throughputVariationPct),uploadVariation=Number(result.uploadThroughputVariationPct),impact=Number(result.loadedLatencyDeltaMs),uploadImpact=Number(result.uploadLoadedLatencyDeltaMs);
   if(Number.isFinite(down)&&down<DIAGNOSTIC_THRESHOLDS.download)add("download",down,DIAGNOSTIC_THRESHOLDS.download,"below","Mbps");
   if(Number.isFinite(up)&&up<DIAGNOSTIC_THRESHOLDS.upload)add("upload",up,DIAGNOSTIC_THRESHOLDS.upload,"below","Mbps");
   if(Number.isFinite(lat)&&lat>DIAGNOSTIC_THRESHOLDS.latency)add("latency",lat,DIAGNOSTIC_THRESHOLDS.latency,"above","ms");
   if(Number.isFinite(jit)&&jit>DIAGNOSTIC_THRESHOLDS.jitter)add("jitter",jit,DIAGNOSTIC_THRESHOLDS.jitter,"above","ms");
   if(Number.isFinite(probe)&&probe>DIAGNOSTIC_THRESHOLDS.probeFail)add("probeFail",probe,DIAGNOSTIC_THRESHOLDS.probeFail,"above","%");
   if(Number.isFinite(variation)&&variation>DIAGNOSTIC_THRESHOLDS.variation)add("variation",variation,DIAGNOSTIC_THRESHOLDS.variation,"above","%");
+  if(Number.isFinite(uploadVariation)&&uploadVariation>DIAGNOSTIC_THRESHOLDS.uploadVariation)add("uploadVariation",uploadVariation,DIAGNOSTIC_THRESHOLDS.uploadVariation,"above","%");
   if(Number.isFinite(impact)&&impact>DIAGNOSTIC_THRESHOLDS.loadImpact)add("loadImpact",impact,DIAGNOSTIC_THRESHOLDS.loadImpact,"above","ms");
   if(Number.isFinite(uploadImpact)&&uploadImpact>DIAGNOSTIC_THRESHOLDS.loadImpact)add("uploadLoadImpact",uploadImpact,DIAGNOSTIC_THRESHOLDS.loadImpact,"above","ms");
   return flags;

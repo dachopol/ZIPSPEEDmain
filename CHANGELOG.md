@@ -1,5 +1,13 @@
 # Changelog
 
+## v68 — 2026-09-23 — Bidirectional throughput consistency
+- Added upload interval-throughput samples from real XHR upload progress bytes and monotonic elapsed time.
+- Added upload variation, min/max range and sample count separately from download consistency.
+- Added upload-variation diagnostic flag with explicit Zipspeed threshold.
+- Added share/CSV provenance and real-network evidence guards.
+- Fixed a duplicate loadedLatencyDeltaMs column in CSV export.
+
+
 ## v67 — 2026-09-23 — Three-phase latency
 - Added upload-loaded HTTP latency probes while upload requests are active.
 - Preserved idle HTTP latency and download-loaded HTTP latency as separate measurements.
