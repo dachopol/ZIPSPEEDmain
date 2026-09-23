@@ -33,3 +33,28 @@ Prioritize high-weight missing capability only when a truthful data source is av
 **X = Truth + Y = Experience + Z = Proof**
 
 The intended advantage is not “more features at any cost.” It is useful measured information, lower friction and evidence-backed behavior.
+
+
+## Mandatory improvement loop
+
+After every substantial development round:
+
+`Measure → 9-Grid Score → Top-3 GAP → X/Y/Z Prioritize → Implement → Test/Build/Runtime → Re-score → Repeat`
+
+### Target
+Use the highest evidence-supported competitor weighted score measured with the same rubric and evidence window as the target benchmark.
+
+### Exit gate
+The iteration may stop only when:
+- Zipspeed weighted score is greater than or equal to the target;
+- Truth/reliability/trust floors have not regressed;
+- latest-source build is PASS;
+- runtime-sensitive score claims have runtime evidence;
+- remaining unsupported capabilities remain explicitly GAP rather than simulated.
+
+### Evidence ledger template
+| Loop | Evidence date | Zipspeed score | Target score | Delta | Top GAP | Proof |
+|---|---|---:|---:|---:|---|---|
+| current | TO VERIFY | TO VERIFY | TO VERIFY | TO VERIFY | TO VERIFY | build/runtime evidence required |
+
+Scores in this ledger must be updated from evidence, never from planned work.

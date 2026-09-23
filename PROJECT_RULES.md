@@ -13,6 +13,12 @@ When rules overlap, apply the stricter requirement and preserve Real Data / Anti
 ## 9-GRID COMPETITIVE GATE
 The locked 9-grid gate in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory for competitor scoring, GAP prioritization and X+Y+Z feature decisions. Scores require evidence; missing evidence is never filled by assumption.
 
+## ITERATIVE COMPETITIVE LOOP
+The locked iterative loop in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory after substantial product changes:
+`Measure → Score → GAP → Prioritize → Implement → Prove → Re-score → Repeat`.
+
+Do not stop on a higher total score if Truth, core-flow reliability, privacy/trust, build evidence or required runtime evidence regresses. External blockers remain GAP; they are never replaced by fake implementation.
+
 ## MASTER APP BUILD RULES
 - No fake, random, demo, or hardcoded values may be presented as measured network facts.
 - If a value cannot be measured, display `--`, unknown, unavailable, or an explicit error.

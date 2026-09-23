@@ -147,6 +147,75 @@ These rules are mandatory and take priority when they are stricter than general 
 - ห้ามคัดลอก UI/assets/copy ของคู่แข่ง
 - เป้าหมายคือ measurable product quality ไม่ใช่การเลียนแบบ
 
+## ITERATIVE COMPETITIVE IMPROVEMENT LOOP — LOCKED
+
+กฎนี้บังคับใช้หลังงานพัฒนา/แก้ไขแต่ละรอบ และทำงานร่วมกับ 9-Grid + X/Y/Z
+
+### Objective
+พัฒนา Zipspeed แบบวนลูป:
+**Measure → Score → Find GAP → Prioritize → Implement → Test → Build → Runtime Verify → Re-score → Repeat**
+
+เป้าหมายคือให้คะแนนถ่วงน้ำหนักรวมของ Zipspeed **สูงกว่าหรือเท่ากับ Target Benchmark** ภายใต้หลักฐานช่วงเวลาเดียวกันและเกณฑ์ 9 ช่องเดียวกัน
+
+### Target Benchmark
+- Target = คะแนน weighted 9-grid สูงสุดของคู่เทียบที่มีหลักฐานปัจจุบันเพียงพอในรอบนั้น
+- ต้องใช้เกณฑ์/น้ำหนัก/ช่วงข้อมูลเดียวกันกับ Zipspeed
+- ถ้าคู่เทียบบางช่องไม่มีหลักฐาน ให้ใช้ N/A/TO VERIFY และห้ามเติมคะแนนเอง
+- ห้ามเปลี่ยนน้ำหนักหรือเกณฑ์กลางรอบเพื่อให้ Zipspeed ชนะ
+- ก่อนเริ่มรอบใหม่ที่อิงตลาด ต้อง re-verify competitor evidence ที่มีผลต่อคะแนน
+
+### Loop steps
+1. **MEASURE** — รวบรวม evidence ปัจจุบันของ Zipspeed และคู่เทียบ
+2. **SCORE** — ให้คะแนน 0–10 ต่อช่องด้วยหลักฐาน; คำนวณ weighted score
+3. **GAP** — หาอย่างน้อย Top 3 GAP จาก `weight × evidence deficit × user impact`
+4. **PRIORITIZE** — เลือกงานที่เพิ่มคะแนนโดยไม่ละเมิด X/Y/Z และไม่ทำลาย flow เดิม
+5. **IMPLEMENT** — ทำ source จริง; Visible UI ต้องมี implementation จริง
+6. **PROVE** — static check/unit test/build; runtime เมื่อแตะ primary flow/UI
+7. **RE-SCORE** — ให้คะแนนใหม่จาก evidence หลังแก้เท่านั้น
+8. **REPEAT** — ถ้ายังต่ำกว่า Target ให้เริ่มรอบใหม่ทันทีภายใน scope/เครื่องมือ/สิทธิ์ที่มี
+
+### Stop condition
+ลูปหยุดได้เมื่อครบทุกข้อ:
+- Zipspeed weighted score ≥ Target Benchmark
+- ไม่มี X/Truth violation
+- ไม่มี critical regression ใน GO/STOP, measurement integrity, responsive layout, privacy/security หรือ release identity
+- Build ของ source ล่าสุด PASS
+- ช่องที่อ้างคะแนนจาก runtime ต้องมี runtime evidence; ถ้ายังไม่มีให้คง TO VERIFY และห้ามนับเป็นคะแนนที่พิสูจน์แล้ว
+
+### Anti-gaming
+- ห้ามเพิ่มคะแนนจากความรู้สึก, mockup, roadmap, planned feature หรือเอกสารที่ยังไม่มี implementation
+- ห้ามสร้าง fake endpoint/region/map/packet loss/playback/ads/billing/revenue เพื่อเพิ่มคะแนน
+- ห้ามลดคะแนนคู่แข่งโดยไม่มีหลักฐาน
+- ห้ามซ่อน GAP ด้วยการเปลี่ยน rubric หลังเห็นผล
+- ห้ามเพิ่ม feature ที่คะแนนดีขึ้นแต่ทำให้ X/Truth ตก
+- คะแนนที่ไม่มี runtime evidence ในมิติ runtime-sensitive ต้องถูก cap ตามระดับหลักฐานจริง
+
+### External blocker rule
+ถ้า GAP ต้องใช้สิ่งที่ไม่มีสิทธิ์/ข้อมูล/โครงสร้างจริง เช่น authorized server infrastructure, signing key, Play Console permission หรือ verified dataset:
+- ระบุ **GAP / TO VERIFY / UNVERIFIED** ตามจริง
+- ห้ามปลอมสิ่งทดแทน
+- พัฒนาส่วนที่ทำได้ต่อใน GAP ถัดไปที่มีผลคะแนนสูงสุด
+- ลูปถือว่ายังไม่ถึง Target จน blocker ถูกแก้หรือ Target Benchmark ถูกประเมินใหม่ด้วยหลักฐานที่เทียบกันได้
+
+### No-regression floor
+คะแนนรวมที่สูงขึ้นไม่อนุญาตให้แลกกับการลดลงของ:
+- Measurement Truth / Reliability
+- One-tap core flow reliability
+- Trust / Privacy / Transparency
+โดยไม่มีเหตุผลเชิงผลิตภัณฑ์ที่มีหลักฐานและการอนุมัติจาก owner
+
+### Reporting each loop
+ทุก loop ต้องบันทึก:
+- Zipspeed score ก่อน/หลัง
+- Target score + evidence date
+- Top 3 GAP
+- สิ่งที่ implement
+- tests/build/runtime evidence
+- score delta รายช่อง
+- blockers / remaining GAP
+- next loop priority
+
+
 ## ROLE
 คุณคือ Senior Product Designer + Senior Software Engineer + QA + Release Engineer ระดับ Production
 
