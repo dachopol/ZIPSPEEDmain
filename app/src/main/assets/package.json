@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "61.0.0",
+  "version": "62.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 61,
-    "channel": "load-impact-ip-version",
+    "versionCode": 62,
+    "channel": "measurement-evidence",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

@@ -118,3 +118,12 @@ test("load impact is deterministic from measured idle and loaded latency",()=>{
   assert.equal(loadImpact(20,90).band,"high");
   assert.equal(loadImpact(null,50),null);
 });
+
+
+test("measurement evidence fields survive CSV export",()=>{
+  const record={completed:true,aborted:false,downloadMbps:100,uploadMbps:20,downloadBytes:3145728,uploadBytes:1048576,downloadDurationMs:500,uploadDurationMs:400,testDurationMs:1600,endpointId:"cloudflare-speed",measurementProvider:"Cloudflare",latencyMs:15,jitterMs:2,probeFailPct:0,profile:"quick",connectionMode:"single",streamCount:1,timestamp:"2026-09-23T00:00:00.000Z"};
+  const csv=historyToCsv([record]);
+  assert.ok(csv.includes("endpointId,measurementProvider"));
+  assert.ok(csv.includes("3145728,1048576,500,400,1600"));
+  assert.ok(csv.includes("cloudflare-speed,Cloudflare"));
+});

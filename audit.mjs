@@ -72,6 +72,7 @@ if (!html.includes('class="privacy-panel"') || !app.includes("privacyCommerceBod
 if (!ci.includes("release-source-check:") || !pkg.scripts?.["release:check"]) throw new Error("Release source evidence gate missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");
 if (!measurement.includes("latestComparablePair") || !measurement.includes("historyToCsv") || !quality.includes("compareResults")) throw new Error("History intelligence helpers missing");
+if (!html.includes('id="measurementEvidence"') || !app.includes("downloadDurationMs") || !app.includes("measurementProvider")) throw new Error("Measurement evidence implementation missing");
 if (!html.includes('id="historyComparison"') || !html.includes('id="exportCsvButton"')) throw new Error("History comparison/CSV UI missing");
 if (!runtimeCheck.includes("History comparison runtime failed")) throw new Error("History comparison runtime proof missing");
 if (!app.includes('const HISTORY_KEY="zipspeed_history"')) throw new Error("Stable history key missing");

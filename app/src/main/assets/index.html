@@ -199,6 +199,18 @@
       <button id="clearButton" class="secondary-button danger" type="button">Clear</button>
     </div>
   </header>
+  <section id="measurementEvidence" class="measurement-evidence" aria-live="polite">
+    <div class="measurement-evidence-head">
+      <div><span class="kicker" id="evidenceEyebrow">Measurement Evidence</span><h2 id="evidenceTitle">Latest completed test</h2></div>
+      <span id="evidenceEndpoint" class="status-chip neutral">--</span>
+    </div>
+    <div class="evidence-grid">
+      <article><span id="evidencePayloadLabel">Validated payload</span><strong id="evidencePayloadValue">--</strong></article>
+      <article><span id="evidenceDurationLabel">Test duration</span><strong id="evidenceDurationValue">--</strong></article>
+      <article><span id="evidenceModeLabel">Measurement mode</span><strong id="evidenceModeValue">--</strong></article>
+    </div>
+    <p id="evidenceNote">Payload bytes are recorded only after transfer-length validation succeeds.</p>
+  </section>
   <section id="historyComparison" class="history-comparison" aria-live="polite">
     <div class="history-comparison-head">
       <div><span class="kicker" id="compareEyebrow">Comparison</span><h2 id="compareTitle">Latest vs previous matching test</h2></div>

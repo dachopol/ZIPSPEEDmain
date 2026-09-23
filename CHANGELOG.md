@@ -1,5 +1,14 @@
 # Changelog
 
+## v62 — 2026-09-23 — Measurement evidence
+- Saved validated download/upload payload bytes for completed tests.
+- Saved measured download/upload/overall test durations using monotonic runtime timing.
+- Saved endpoint ID/provider and connection provenance without adding client IP/ISP to local history.
+- Added a responsive Measurement Evidence panel to History.
+- Added evidence fields to CSV/share output.
+- Added real-network assertions for bytes, durations and endpoint provenance.
+
+
 ## v61 — 2026-09-23 — Load impact + IP version
 - Added measured load-latency delta: loaded HTTP latency minus idle HTTP latency.
 - Added Low/Moderate/High Zipspeed load-impact bands with explicit product thresholds; not a universal standard.

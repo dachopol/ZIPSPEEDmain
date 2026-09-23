@@ -226,6 +226,8 @@ try{
       assert(compareState.download==="+100.0%",`History comparison runtime failed: ${compareState.download}`);
       assert(compareState.context&&compareState.context!=="--",`History comparison context missing`);
       assert(compareState.csvVisible,`CSV export control missing`);
+      const evidenceVisible=await cdp.evaluate(`(()=>{const el=document.querySelector("#measurementEvidence");return !!el&&el.getBoundingClientRect().width>0&&document.querySelector("#evidencePayloadValue")?.textContent?.trim().length>0})()`);
+      assert(evidenceVisible,`Measurement evidence UI missing`);
     }
 
     const toggles=await cdp.evaluate(`(()=>{
@@ -309,6 +311,8 @@ try{
     }
     if(latest.connectionMode!==mode)throw new Error(`Real network mode mismatch: expected ${mode}, got ${latest.connectionMode}`);
     if(Number(latest.streamCount)!==(mode==="multi"?4:1))throw new Error(`Real network stream count mismatch for ${mode}`);
+    for(const key of["downloadBytes","uploadBytes","downloadDurationMs","uploadDurationMs","testDurationMs"]){if(!Number.isFinite(Number(latest[key]))||Number(latest[key])<=0)throw new Error(`Real network measurement evidence missing for ${mode}: ${key}`);}
+    if(!latest.endpointId||!latest.measurementProvider)throw new Error(`Real network endpoint provenance missing for ${mode}`);
     if(Number(latest.loadedLatencySampleCount)>0){if(!Number.isFinite(Number(latest.loadedLatencyMs))||!Number.isFinite(Number(latest.loadedLatencyDeltaMs)))throw new Error(`Real network loaded latency delta mismatch for ${mode}`);}
     return latest;
   }

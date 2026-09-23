@@ -182,3 +182,14 @@ Implementation target:
 - Label Low/Moderate/High as Zipspeed product thresholds, not universal standards.
 - Display IPv4/IPv6 only when provider-returned client IP supports the classification.
 - Re-score only after v61 automated and real-network evidence passes.
+
+
+## Loop 8 — measurement evidence
+
+Baseline after Loop 7: **81.5 / 100** internal evidence-based score.
+
+Implementation target:
+- Persist validated payload bytes and monotonic timing evidence for completed tests.
+- Persist endpoint ID/provider and mode provenance while keeping IP/ISP out of local history.
+- Expose the evidence in History and exports.
+- Raise Measurement Truth / Trust only after real-network and build evidence passes.
