@@ -3,27 +3,26 @@
 Updated: 2026-09-23
 
 ## PASS
-- v63 latest-source Web/unit/build, Browser Runtime, real-network Single+Multi, Android lint/debug/release compile and release-source checks passed.
-- M-Lab integration in v64 is discovery-only: no NDT7 measurement is run and no M-Lab access-token URL is retained.
-- Discovery is user-triggered and the standard browser runtime asserts zero automatic Locate API requests.
+- v64 latest-source Web/unit/build, Browser Runtime, real-network Cloudflare Single+Multi, real M-Lab Locate discovery, Android lint/debug/release compile and release-source checks passed.
+- M-Lab discovery remains explicit user action and NDT7 measurement remains disabled.
+- v65 country targeting derives only from user-entered ISO code; it is not inferred from language.
 
 ## FIX
-- Added a second verified provider capability without pretending it is an active speed-test provider.
-- Added truthful server machine/city/country display from M-Lab Locate v2 response only.
-- Privacy/release evidence now accounts for the optional M-Lab discovery destination.
+- Added explicit country targeting to verified provider discovery.
+- Region and language are runtime-tested as independent state.
+- Privacy text now states that an entered country code is sent to M-Lab Locate.
 
 ## GAP
-- M-Lab NDT7 measurement remains disabled until explicit data-policy consent plus Privacy Policy/Data Safety review are implemented.
-- Manual worldwide region selection is not implemented.
+- M-Lab NDT7 measurement remains disabled until explicit data-policy consent + external privacy/Data Safety review.
+- Discovered M-Lab servers are not selectable as Zipspeed measurement endpoints yet.
 - No real playback-quality test.
 - No verified coverage dataset.
 - Physical Android runtime and Play signing/upload remain unproven.
 
 ## TO VERIFY
-- v64 Web/unit/build.
-- v64 Browser Runtime and real-network M-Lab discovery smoke.
-- v64 Android lint/debug/release compile and release-source check.
-- External Privacy Policy / Play Data Safety for the new optional discovery destination.
+- v65 Web/unit/build/runtime/real-network/Android/release-source CI.
+- External Privacy Policy / Play Data Safety.
+- Physical Android behavior.
 
 ## UNVERIFIED
 - Signed Play publication.

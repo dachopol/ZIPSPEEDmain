@@ -64,7 +64,9 @@ const evidence={
     billingSdkDetected:false,
     measurementEndpoints:endpointMatches,
     optionalDiscoveryEndpoints:discoveryMatches,
-    mlabNdt7MeasurementEnabled:false
+    mlabNdt7MeasurementEnabled:false,
+    manualCountryDiscovery:true,
+    regionLanguageCoupled:false
   },
   storeReview:{
     privacyPolicy:"TO VERIFY against current external policy",

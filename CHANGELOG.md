@@ -1,5 +1,13 @@
 # Changelog
 
+## v65 — 2026-09-23 — Region-aware verified discovery
+- Added optional ISO 3166-1 alpha-2 country targeting for M-Lab Locate v2.
+- Uses `strict=true` only when a country code is explicitly entered.
+- Region selection stays independent from language and currency state.
+- Added TH/EN validation/hints, responsive 44px input, unit tests and runtime separation proof.
+- M-Lab remains discovery-only; no NDT7 measurement is enabled.
+
+
 ## v64 — 2026-09-23 — Verified provider discovery
 - Hardened Chrome profile cleanup in runtime CI by waiting for process exit and retrying recursive removal.
 - Added user-triggered M-Lab Locate v2 discovery for nearby NDT7 servers.

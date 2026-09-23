@@ -60,6 +60,7 @@ if (app.includes("clay-card")) throw new Error("Legacy clay-card runtime class r
 if (!app.includes("defaultServer()") || !app.includes("networkHealthIndex") || !app.includes("useCaseSuitability")) throw new Error("Measured health/server integration missing");
 if (!servers.includes('baseUrl:"https://speed.cloudflare.com"')) throw new Error("Verified endpoint registry missing");
 if (!servers.includes("MLAB_LOCATE_URL") || !servers.includes("measurementEnabled:false") || !servers.includes("parseMlabLocateResponse")) throw new Error("M-Lab verified discovery registry missing");
+if (!servers.includes("buildMlabLocateUrl") || !servers.includes('url.searchParams.set("strict","true")')) throw new Error("Region discovery must stay separate and strict");
 if (!servers.includes("region:null") || !servers.includes("coordinates:null")) throw new Error("Server registry must not invent location");
 if (!quality.includes("down*0.30") || !quality.includes("latency*0.25")) throw new Error("Documented deterministic health model missing");
 if (!quality.includes("throughputStats") || !quality.includes("diagnosticFlags") || !quality.includes("loadImpact")) throw new Error("Measured diagnostics helpers missing");
@@ -70,7 +71,8 @@ if (!html.includes('id="loadImpactValue"') || !app.includes("loadedLatencyDeltaM
 if (!html.includes('id="ipVersionValue"') || !measurement.includes("ipVersion")) throw new Error("IP version implementation missing");
 if (!runtimeCheck.includes("runRealNetworkTest") || !ci.includes("real-network-smoke:")) throw new Error("Real-network runtime proof job missing");
 if (!html.includes('class="privacy-panel"') || !app.includes("privacyCommerceBody")) throw new Error("Privacy transparency implementation missing");
-if (!html.includes('id="mlabDiscoverButton"') || !html.includes('id="privacyDiscoveryBody"') || !app.includes("discoverMlabServers")) throw new Error("Optional M-Lab discovery UI/privacy implementation missing");
+if (!html.includes('id="mlabDiscoverButton"') || !html.includes('id="mlabCountryInput"') || !html.includes('id="privacyDiscoveryBody"') || !app.includes("discoverMlabServers")) throw new Error("Optional M-Lab discovery UI/privacy implementation missing");
+if (!runtimeCheck.includes("Region/language separation failed")) throw new Error("Region/language separation runtime proof missing");
 if (!ci.includes("release-source-check:") || !pkg.scripts?.["release:check"]) throw new Error("Release source evidence gate missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");
 if (!measurement.includes("latestComparablePair") || !measurement.includes("historyToCsv") || !quality.includes("compareResults")) throw new Error("History intelligence helpers missing");

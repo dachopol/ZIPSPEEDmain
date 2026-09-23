@@ -190,8 +190,15 @@
         <h2 id="providerDiscoveryTitle">M-Lab nearest NDT7 servers</h2>
         <p id="providerDiscoveryNote">Only contacts M-Lab Locate API after you tap Discover. This build does not run an M-Lab NDT7 measurement.</p>
       </div>
-      <button id="mlabDiscoverButton" class="secondary-button" type="button">Discover</button>
+      <div class="provider-discovery-actions">
+        <label class="country-code-field" for="mlabCountryInput">
+          <span id="mlabCountryLabel">Country code</span>
+          <input id="mlabCountryInput" type="text" inputmode="text" maxlength="2" autocomplete="off" autocapitalize="characters" aria-describedby="mlabCountryHint" placeholder="TH">
+        </label>
+        <button id="mlabDiscoverButton" class="secondary-button" type="button">Discover</button>
+      </div>
     </div>
+    <p id="mlabCountryHint" class="provider-country-hint">Optional ISO 3166-1 alpha-2. Blank = nearest.</p>
     <div id="mlabDiscoveryState" class="provider-discovery-state">Not requested</div>
     <div id="mlabDiscoveryList" class="provider-discovery-list"></div>
   </section>
@@ -263,7 +270,7 @@
       <article><strong id="privacyHistoryTitle">Local history</strong><p id="privacyHistoryBody">Completed test history is stored locally on this device. Client IP and ISP metadata are not written into Zipspeed history.</p></article>
       <article><strong id="privacyPermissionsTitle">Device permissions</strong><p id="privacyPermissionsBody">This Android build requests internet/network-state access and does not request camera, microphone or device location permissions.</p></article>
       <article><strong id="privacyCommerceTitle">Ads & billing</strong><p id="privacyCommerceBody">No advertising or billing SDK is present in this build. Store declarations must be updated before either is added.</p></article>
-      <article><strong id="privacyDiscoveryTitle">Optional M-Lab discovery</strong><p id="privacyDiscoveryBody">Only when you tap Discover, Zipspeed contacts the M-Lab Locate API to list nearby NDT7 servers. This build does not run an M-Lab measurement.</p></article>
+      <article><strong id="privacyDiscoveryTitle">Optional M-Lab discovery</strong><p id="privacyDiscoveryBody">Only when you tap Discover, Zipspeed contacts the M-Lab Locate API to list NDT7 servers. If you enter a country code, that code is sent as a Locate query parameter. This build does not run an M-Lab measurement.</p></article>
     </div>
   </section>
   <article class="truth-panel"><span class="truth-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></span><div><h2 id="methodTitle">Measurement truth</h2><p id="methodText">Throughput uses actual transferred bytes and elapsed time. Failed or incomplete tests are not saved.</p></div></article>

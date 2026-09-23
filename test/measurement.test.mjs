@@ -1,6 +1,6 @@
 import test from"node:test";
 import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact}from"../src/quality.mjs";
-import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv}from"../src/measurement.mjs";
+import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse,normalizeCountryCode,buildMlabLocateUrl}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
 test("latency stats use measured samples",()=>{assert.equal(median([30,10,20]),20);assert.equal(latencyJitter([10,12,15]),2.5);assert.equal(probeFailPercent(1,4),25)});
@@ -142,4 +142,15 @@ test("M-Lab locate parser keeps verified discovery metadata only",()=>{
   assert.deepEqual(parsed,[{machine:"mlab1.example",city:"Bangkok",country:"TH",downloadAvailable:true,uploadAvailable:true}]);
   assert.equal(JSON.stringify(parsed).includes("access_token"),false);
   assert.deepEqual(parseMlabLocateResponse({results:[]}),[]);
+});
+
+
+test("M-Lab country discovery is explicit and language-independent",()=>{
+  assert.equal(normalizeCountryCode("th"),"TH");
+  assert.equal(normalizeCountryCode(" TH "),"TH");
+  assert.equal(normalizeCountryCode("thai"),null);
+  assert.equal(buildMlabLocateUrl(""),MLAB_LOCATE_URL);
+  const url=new URL(buildMlabLocateUrl("th"));
+  assert.equal(url.searchParams.get("country"),"TH");
+  assert.equal(url.searchParams.get("strict"),"true");
 });

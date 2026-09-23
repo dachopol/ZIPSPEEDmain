@@ -53,3 +53,20 @@ export function parseMlabLocateResponse(input){
     };
   }).filter(item=>item.machine).slice(0,4);
 }
+
+
+export function normalizeCountryCode(value){
+  const text=String(value??"").trim().toUpperCase();
+  if(!text)return"";
+  return /^[A-Z]{2}$/.test(text)?text:null;
+}
+
+export function buildMlabLocateUrl(countryCode=""){
+  const code=normalizeCountryCode(countryCode);
+  if(code===null)return null;
+  if(!code)return MLAB_LOCATE_URL;
+  const url=new URL(MLAB_LOCATE_URL);
+  url.searchParams.set("country",code);
+  url.searchParams.set("strict","true");
+  return url.toString();
+}

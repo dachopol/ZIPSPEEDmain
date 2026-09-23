@@ -234,3 +234,16 @@ Implementation target:
 - Add privacy/CSP/release evidence for the new optional network destination.
 - Real-network CI must prove Locate discovery returns at least one server.
 - Re-score only after v64 gates pass.
+
+
+## Loop 11 — region-aware provider discovery
+
+### Re-score after Loop 10
+v64 passed all automated gates including a real M-Lab Locate API discovery. Internal evidence score moved from **84.0 → 85.6 / 100**. This reflects discovery capability only, not M-Lab measurement capability.
+
+Implementation target:
+- Optional explicit ISO country code for M-Lab Locate v2.
+- Use strict country targeting only from user input.
+- Never infer region from app language or currency.
+- Keep NDT7 measurement disabled.
+- Re-score only after v65 automated gates pass.

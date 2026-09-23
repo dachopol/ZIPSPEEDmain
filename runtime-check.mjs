@@ -232,6 +232,18 @@ try{
       assert(offlineState.count===beforeOffline,`Offline/incomplete result was saved: before=${beforeOffline} after=${offlineState.count}`);
       assert(offlineState.phase&&offlineState.phase!=="READY"&&offlineState.phase!=="พร้อม",`Offline failure did not expose error state: ${JSON.stringify(offlineState)}`);
     }
+    const regionLanguageSeparation=await cdp.evaluate(`(()=>{
+      document.querySelector('[data-target="status"]')?.click();
+      const input=document.querySelector("#mlabCountryInput");
+      if(!input)return null;
+      input.value="TH";input.dispatchEvent(new Event("input",{bubbles:true}));
+      const before=input.value;
+      document.querySelector("#langButton")?.click();
+      const after=input.value;
+      document.querySelector("#langButton")?.click();
+      return{before,after};
+    })()`);
+    assert(regionLanguageSeparation?.before==="TH"&&regionLanguageSeparation.after==="TH",`Region/language separation failed at ${width}px`);
     const automaticMlabRequests=await cdp.evaluate(`performance.getEntriesByType("resource").filter(x=>x.name.includes("locate.measurementlab.net")).length`);
     assert(automaticMlabRequests===0,`M-Lab discovery must not auto-run at ${width}px`);
     const ipVersionPresent=await cdp.evaluate(`!!document.querySelector("#ipVersionValue")`);

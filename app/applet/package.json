@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "64.0.0",
+  "version": "65.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 64,
-    "channel": "verified-provider-discovery",
+    "versionCode": 65,
+    "channel": "region-aware-discovery",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {
