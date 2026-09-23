@@ -1,4 +1,16 @@
-export const QUALITY_MODEL_VERSION="1.0";
+export const QUALITY_MODEL_VERSION="1.1";
+export const HEALTH_MODEL=Object.freeze({
+  downloadTargetMbps:100,
+  uploadTargetMbps:20,
+  latencyIdealMs:25,
+  latencyWorstMs:180,
+  jitterIdealMs:5,
+  jitterWorstMs:45,
+  probeFailIdealPct:0,
+  probeFailWorstPct:40,
+  weights:Object.freeze({download:0.30,upload:0.20,latency:0.25,jitter:0.15,probeFail:0.10}),
+  bands:Object.freeze({excellent:85,good:70,fair:50})
+});
 
 function clamp(value,min=0,max=100){
   return Math.max(min,Math.min(max,value));
@@ -18,26 +30,26 @@ function lowerIsBetter(value,ideal,worst){
 
 export function networkHealthIndex(result){
   if(!result||typeof result!=="object")return null;
-  const down=higherIsBetter(Number(result.downloadMbps),100);
-  const up=higherIsBetter(Number(result.uploadMbps),20);
-  const latency=lowerIsBetter(Number(result.latencyMs),25,180);
-  const jitter=lowerIsBetter(Number(result.jitterMs),5,45);
-  const probe=lowerIsBetter(Number(result.probeFailPct),0,40);
+  const down=higherIsBetter(Number(result.downloadMbps),HEALTH_MODEL.downloadTargetMbps);
+  const up=higherIsBetter(Number(result.uploadMbps),HEALTH_MODEL.uploadTargetMbps);
+  const latency=lowerIsBetter(Number(result.latencyMs),HEALTH_MODEL.latencyIdealMs,HEALTH_MODEL.latencyWorstMs);
+  const jitter=lowerIsBetter(Number(result.jitterMs),HEALTH_MODEL.jitterIdealMs,HEALTH_MODEL.jitterWorstMs);
+  const probe=lowerIsBetter(Number(result.probeFailPct),HEALTH_MODEL.probeFailIdealPct,HEALTH_MODEL.probeFailWorstPct);
   if([down,up,latency,jitter,probe].some(v=>v===null))return null;
   return Math.round(
-    down*0.30+
-    up*0.20+
-    latency*0.25+
-    jitter*0.15+
-    probe*0.10
+    down*HEALTH_MODEL.weights.download+
+    up*HEALTH_MODEL.weights.upload+
+    latency*HEALTH_MODEL.weights.latency+
+    jitter*HEALTH_MODEL.weights.jitter+
+    probe*HEALTH_MODEL.weights.probeFail
   );
 }
 
 export function healthBand(index){
   if(!Number.isFinite(index))return "unknown";
-  if(index>=85)return "excellent";
-  if(index>=70)return "good";
-  if(index>=50)return "fair";
+  if(index>=HEALTH_MODEL.bands.excellent)return "excellent";
+  if(index>=HEALTH_MODEL.bands.good)return "good";
+  if(index>=HEALTH_MODEL.bands.fair)return "fair";
   return "limited";
 }
 
