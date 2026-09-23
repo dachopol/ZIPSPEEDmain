@@ -419,3 +419,19 @@ ZIP เป็นเพียงหนึ่งรูปแบบส่งมอ�
 
 ห้ามใช้คำว่า “เสร็จ / พร้อมเผยแพร่ / ใช้งานได้ 100%”  
 จนกว่า build/runtime ของ source ล่าสุดจะผ่านจริง
+
+
+## STALE-STATE / OLD-ARTIFACT CLEANUP RULE
+ทุกการอัปเดตต้องตรวจและเคลียร์ของเก่าก่อนถือว่างานเสร็จ
+
+บังคับทุกครั้ง:
+- ใช้ branch `main` ปัจจุบันเป็น Source of Truth เว้นแต่ผู้ใช้สั่งเปลี่ยน
+- ค้นหา version marker เก่า, package/namespace เก่า, UI ซ้ำ, preview เก่า, mirror เก่า, build output เก่า และ cache identifier เก่า
+- ลบหรือแทนที่ไฟล์เก่าที่ active และยังมีโอกาสถูก Build / Runtime / Preview / Android / Release เรียกใช้
+- ไฟล์ mirror ที่ตั้งใจให้เหมือนกันต้องตรงกันทั้งไฟล์
+- เมื่อ static asset เปลี่ยน ต้อง invalidate cache หรือทำ cache-busting
+- เมื่อแก้ build config, bundled asset หรือ preview entrypoint ต้อง Clean/Rebuild
+- ห้ามเก็บ active copy รุ่นเก่าไว้ “เผื่อใช้” หาก AI Studio, Android, CI หรือ release tooling ยังมองเห็นไฟล์นั้นได้
+- เอกสารประวัติรุ่นเก่าเก็บได้เฉพาะใน archive ที่ไม่กระทบ runtime/build
+- ก่อนส่งมอบต้องตรวจว่า source active ไม่มี version/package/UI เก่าที่ขัดกับรุ่นปัจจุบัน
+- ถ้าล้างของเก่าไม่ได้อย่างปลอดภัย ให้รายงานเป็น GAP / TO VERIFY และห้ามถือว่างานเสร็จ
