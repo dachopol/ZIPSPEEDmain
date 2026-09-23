@@ -246,6 +246,8 @@ try{
     assert(regionLanguageSeparation?.before==="TH"&&regionLanguageSeparation.after==="TH",`Region/language separation failed at ${width}px`);
     const automaticMlabRequests=await cdp.evaluate(`performance.getEntriesByType("resource").filter(x=>x.name.includes("locate.measurementlab.net")).length`);
     assert(automaticMlabRequests===0,`M-Lab discovery must not auto-run at ${width}px`);
+    const browserContextPresent=await cdp.evaluate(`(()=>{const panel=document.querySelector("#browserNetworkPanel");return !!panel&&panel.getBoundingClientRect().width>0&&!!document.querySelector("#browserDownlinkValue")&&!!document.querySelector("#browserRttValue")})()`);
+    assert(browserContextPresent,`Browser network context UI missing at ${width}px`);
     const ipVersionPresent=await cdp.evaluate(`!!document.querySelector("#ipVersionValue")`);
     assert(ipVersionPresent,`IP version UI missing at ${width}px`);
 

@@ -33,7 +33,7 @@ const gradleLower=gradle.toLowerCase();
 for(const token of commerceTokens)if(gradleLower.includes(token))fail("Ads/Billing dependency detected; update privacy/store declarations: "+token);
 
 if(!app.includes('const HISTORY_KEY="zipspeed_history"')||!app.includes("localStorage.setItem(HISTORY_KEY"))fail("Local-history implementation changed");
-if(/clientIp\s*:|isp\s*:/.test(app.match(/const result=\{[\s\S]*?timestamp:new Date\(\)\.toISOString\(\)\}/)?.[0]||""))fail("IP/ISP unexpectedly added to saved result");
+if(/clientIp\s*:|isp\s*:|effectiveType\s*:|downlinkMbps\s*:|saveData\s*:/.test(app.match(/const result=\{[\s\S]*?timestamp:new Date\(\)\.toISOString\(\)\}/)?.[0]||""))fail("Privacy-sensitive/browser hint fields unexpectedly added to saved result");
 if(!app.includes("navigator.share"))fail("User-initiated share path missing");
 if(!html.includes('class="privacy-panel"'))fail("Visible privacy transparency panel missing");
 if(!metadata.requestFramePermissions||metadata.requestFramePermissions.length!==0)fail("Frame permission declaration changed");
@@ -66,7 +66,9 @@ const evidence={
     optionalDiscoveryEndpoints:discoveryMatches,
     mlabNdt7MeasurementEnabled:false,
     manualCountryDiscovery:true,
-    regionLanguageCoupled:false
+    regionLanguageCoupled:false,
+    browserNetworkHintsStored:false,
+    browserNetworkHintsNewDestination:false
   },
   storeReview:{
     privacyPolicy:"TO VERIFY against current external policy",

@@ -183,6 +183,20 @@
     <article class="status-row"><span id="endpointLabel">Measurement endpoint</span><strong id="endpointValue">--</strong></article>
     <article class="status-row"><span id="integrityLabel">Result integrity</span><strong id="integrityValue">HTTP 2xx + measured bytes</strong></article>
   </div>
+  <section id="browserNetworkPanel" class="browser-network-panel" aria-labelledby="browserNetworkTitle">
+    <div>
+      <span class="kicker" id="browserNetworkEyebrow">Browser Network Hint</span>
+      <h2 id="browserNetworkTitle">Connection context from this browser</h2>
+      <p id="browserNetworkNote">Browser-provided estimates only. These values are not Zipspeed test results and may be unavailable.</p>
+    </div>
+    <div class="browser-network-grid">
+      <article><span id="browserTypeLabel">Connection type</span><strong id="browserTypeValue">--</strong></article>
+      <article><span id="browserEffectiveLabel">Effective type</span><strong id="browserEffectiveValue">--</strong></article>
+      <article><span id="browserDownlinkLabel">Browser downlink estimate</span><strong id="browserDownlinkValue">--</strong></article>
+      <article><span id="browserRttLabel">Browser RTT estimate</span><strong id="browserRttValue">--</strong></article>
+      <article><span id="browserSaveDataLabel">Data saver</span><strong id="browserSaveDataValue">--</strong></article>
+    </div>
+  </section>
   <section class="provider-discovery-panel" aria-labelledby="providerDiscoveryTitle">
     <div class="provider-discovery-head">
       <div>
@@ -270,6 +284,7 @@
       <article><strong id="privacyHistoryTitle">Local history</strong><p id="privacyHistoryBody">Completed test history is stored locally on this device. Client IP and ISP metadata are not written into Zipspeed history.</p></article>
       <article><strong id="privacyPermissionsTitle">Device permissions</strong><p id="privacyPermissionsBody">This Android build requests internet/network-state access and does not request camera, microphone or device location permissions.</p></article>
       <article><strong id="privacyCommerceTitle">Ads & billing</strong><p id="privacyCommerceBody">No advertising or billing SDK is present in this build. Store declarations must be updated before either is added.</p></article>
+      <article><strong id="privacyBrowserTitle">Browser network hint</strong><p id="privacyBrowserBody">When available, browser connection estimates are displayed locally. Zipspeed does not save these hints in History or send them to a new destination.</p></article>
       <article><strong id="privacyDiscoveryTitle">Optional M-Lab discovery</strong><p id="privacyDiscoveryBody">Only when you tap Discover, Zipspeed contacts the M-Lab Locate API to list NDT7 servers. If you enter a country code, that code is sent as a Locate query parameter. This build does not run an M-Lab measurement.</p></article>
     </div>
   </section>

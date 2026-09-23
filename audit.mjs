@@ -69,10 +69,12 @@ if (!app.includes("throughputVariationPct") || !app.includes("sampleMbps=calcula
 if (!app.includes("measureLoadedHttpLatency") || !html.includes('id="loadedLatencyValue"')) throw new Error("Loaded latency implementation missing");
 if (!html.includes('id="loadImpactValue"') || !app.includes("loadedLatencyDeltaMs")) throw new Error("Load impact implementation missing");
 if (!html.includes('id="ipVersionValue"') || !measurement.includes("ipVersion")) throw new Error("IP version implementation missing");
+if (!html.includes('id="browserNetworkPanel"') || !measurement.includes("parseBrowserConnection") || !app.includes("renderBrowserNetworkInfo")) throw new Error("Browser network context implementation missing");
 if (!runtimeCheck.includes("runRealNetworkTest") || !ci.includes("real-network-smoke:")) throw new Error("Real-network runtime proof job missing");
 if (!html.includes('class="privacy-panel"') || !app.includes("privacyCommerceBody")) throw new Error("Privacy transparency implementation missing");
 if (!html.includes('id="mlabDiscoverButton"') || !html.includes('id="mlabCountryInput"') || !html.includes('id="privacyDiscoveryBody"') || !app.includes("discoverMlabServers")) throw new Error("Optional M-Lab discovery UI/privacy implementation missing");
 if (!runtimeCheck.includes("Region/language separation failed")) throw new Error("Region/language separation runtime proof missing");
+if (!runtimeCheck.includes("Browser network context UI missing")) throw new Error("Browser network context runtime proof missing");
 if (!ci.includes("release-source-check:") || !pkg.scripts?.["release:check"]) throw new Error("Release source evidence gate missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");
 if (!measurement.includes("latestComparablePair") || !measurement.includes("historyToCsv") || !quality.includes("compareResults")) throw new Error("History intelligence helpers missing");

@@ -75,3 +75,17 @@ export function historyToCsv(records){
   }
   return rows.join("\n");
 }
+
+
+export function parseBrowserConnection(input){
+  if(!input||typeof input!=="object")return null;
+  const cleanText=value=>typeof value==="string"&&value.trim()?value.trim():null;
+  const finite=value=>Number.isFinite(Number(value))&&Number(value)>=0?Number(value):null;
+  const type=cleanText(input.type);
+  const effectiveType=cleanText(input.effectiveType);
+  const downlinkMbps=finite(input.downlink);
+  const rttMs=finite(input.rtt);
+  const saveData=typeof input.saveData==="boolean"?input.saveData:null;
+  if(type===null&&effectiveType===null&&downlinkMbps===null&&rttMs===null&&saveData===null)return null;
+  return{type,effectiveType,downlinkMbps,rttMs,saveData};
+}

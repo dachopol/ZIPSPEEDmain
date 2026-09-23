@@ -1,6 +1,6 @@
 import test from"node:test";
 import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact}from"../src/quality.mjs";
-import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse,normalizeCountryCode,buildMlabLocateUrl}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv}from"../src/measurement.mjs";
+import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse,normalizeCountryCode,buildMlabLocateUrl}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv,parseBrowserConnection}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
 test("latency stats use measured samples",()=>{assert.equal(median([30,10,20]),20);assert.equal(latencyJitter([10,12,15]),2.5);assert.equal(probeFailPercent(1,4),25)});
@@ -153,4 +153,15 @@ test("M-Lab country discovery is explicit and language-independent",()=>{
   const url=new URL(buildMlabLocateUrl("th"));
   assert.equal(url.searchParams.get("country"),"TH");
   assert.equal(url.searchParams.get("strict"),"true");
+});
+
+
+test("browser network info remains explicitly estimated",()=>{
+  assert.deepEqual(parseBrowserConnection({type:"wifi",effectiveType:"4g",downlink:12.5,rtt:50,saveData:false}),{
+    type:"wifi",effectiveType:"4g",downlinkMbps:12.5,rttMs:50,saveData:false
+  });
+  assert.deepEqual(parseBrowserConnection({effectiveType:"3g",downlink:0,rtt:0,saveData:true}),{
+    type:null,effectiveType:"3g",downlinkMbps:0,rttMs:0,saveData:true
+  });
+  assert.equal(parseBrowserConnection({}),null);
 });

@@ -642,3 +642,36 @@ button:focus-visible,a:focus-visible{
   .country-code-field{min-width:96px}
   .country-code-field input{width:96px}
 }
+
+
+/* v66 browser network context */
+.browser-network-panel{
+  margin-top:12px;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:linear-gradient(180deg,var(--surface),var(--surface-2));
+  box-shadow:var(--depth-1);
+}
+.browser-network-panel h2{margin:5px 0 0;font-size:1rem;letter-spacing:-.025em}
+.browser-network-panel>div>p{margin:6px 0 0;color:var(--muted);font-size:.7rem;line-height:1.45}
+.browser-network-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+.browser-network-grid article{
+  min-width:0;
+  display:grid;
+  gap:5px;
+  padding:10px 11px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface-2);
+}
+.browser-network-grid span{color:var(--muted);font-size:.61rem;line-height:1.25;overflow-wrap:anywhere}
+.browser-network-grid strong{font-family:var(--mono);font-size:.78rem;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+[data-theme="dark"] .browser-network-panel,[data-theme="dark"] .browser-network-grid article{background:#111B2D}
+@media(max-width:760px){.browser-network-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:440px){.browser-network-grid{grid-template-columns:1fr}}

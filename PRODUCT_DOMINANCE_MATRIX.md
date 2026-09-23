@@ -247,3 +247,16 @@ Implementation target:
 - Never infer region from app language or currency.
 - Keep NDT7 measurement disabled.
 - Re-score only after v65 automated gates pass.
+
+
+## Loop 12 — browser network context
+
+### Re-score after Loop 11
+v65 passed all automated gates. Internal evidence score moved from **85.6 → 86.4 / 100**. Region-aware discovery improved verified discovery usability but still does not count as M-Lab measurement coverage.
+
+Implementation target:
+- Show browser connection hints only when provided by the runtime.
+- Label downlink/RTT as browser estimates, not measured Zipspeed results.
+- Store none of these fields in History.
+- Add no permission and no new destination.
+- Re-score only after v66 gates pass.

@@ -1,5 +1,12 @@
 # Changelog
 
+## v66 — 2026-09-23 — Browser network context
+- Added optional browser-provided connection context: type, effective type, estimated downlink, estimated RTT and Data Saver state.
+- Labels clearly state these are browser estimates, not Zipspeed speed-test results.
+- Values remain local UI context and are not saved in History or sent to a new destination.
+- Added TH/EN UI, parser tests, runtime proof and release-evidence guards.
+
+
 ## v65 — 2026-09-23 — Region-aware verified discovery
 - Added optional ISO 3166-1 alpha-2 country targeting for M-Lab Locate v2.
 - Uses `strict=true` only when a country code is explicitly entered.
