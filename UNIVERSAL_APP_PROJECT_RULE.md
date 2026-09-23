@@ -483,3 +483,55 @@ ZIP เป็นเพียงหนึ่งรูปแบบส่งมอ�
 - ต้องรายงาน **GAP / TO VERIFY** ตามจริง
 - ห้ามถือว่ารอบงานผ่าน Final QA
 - ห้ามใช้คำว่า **“เสร็จ”**, **“พร้อมเผยแพร่”** หรือ **“ใช้งานได้ 100%”**
+
+
+## LOCKED COMPETITOR BENCHMARK / SCORE RULE
+ทุกการอัปเดตผลิตภัณฑ์ที่มีนัยสำคัญต้องเทียบคู่แข่งและวัดคะแนนด้วย 9-Grid เดียวกัน
+
+### ชุดคู่แข่งอ้างอิง
+- Speedtest by Ookla
+- Opensignal Internet Speed Test
+- FAST Speed Test
+- Meteor by Opensignal
+
+ข้อมูลตลาด/คุณสมบัติของคู่แข่งที่อาจเปลี่ยนต้องตรวจใหม่ก่อนใช้
+
+### น้ำหนักคะแนน
+ยึด `PRODUCT_DOMINANCE_MATRIX.md`:
+- Measurement truth / reliability — 18%
+- Server / coverage capability — 15%
+- One-tap UX / readability — 14%
+- Visual hierarchy / premium depth — 10%
+- Diagnostics / network context — 10%
+- History / share / export — 8%
+- Use-case interpretation — 8%
+- Engineering / runtime / release — 10%
+- Trust / privacy / transparency — 7%
+รวม 100%
+
+### กฎหลักฐาน
+- ให้คะแนนเฉพาะความสามารถที่มีจริงใน active source ปัจจุบันและมีหลักฐานตรวจสอบได้
+- งานที่ยังเป็นแผน, mock, UI หลอก, screenshot ที่ไม่มี runtime proof, Fake/Random, service ที่ยังไม่มี, native behavior ที่ยังไม่ยืนยัน และ artifact เก่า = ห้ามได้คะแนน
+- ไม่มีหลักฐานให้เป็น GAP / TO VERIFY / UNVERIFIED ห้ามเดาคะแนน
+- หมวด runtime ให้คะแนน runtime ได้เมื่อ runtime gate ที่เกี่ยวข้องผ่านจริง
+- หมวด release ให้คะแนน release ได้เมื่อ release gate ที่เกี่ยวข้องผ่านจริง
+- คู่แข่งทุกตัวต้องใช้ rubric, evidence window และเกณฑ์ตีความเดียวกับ Zipspeed
+- Rating/จำนวนติดตั้งใช้เป็น market context เท่านั้น ห้ามแปลงเป็นคะแนนคุณภาพโดยตรง
+- ห้ามปรับน้ำหนักย้อนหลังเพื่อทำให้ Zipspeed ชนะ
+
+### วงรอบบังคับ
+ทุก substantial update:
+`คะแนนปัจจุบัน → คะแนนคู่แข่ง → Delta → Top-3 GAP → เลือก GAP ที่ทำได้จริงโดยไม่ Fake → Implement → Test/Build/Runtime → เคลียร์ของเก่า → Re-score`
+
+### รายงานบังคับ
+ต้องรายงาน:
+- คะแนนถ่วงน้ำหนัก Zipspeed
+- คะแนน benchmark สูงสุดที่มีหลักฐานรองรับ
+- Delta
+- คะแนน/หลักฐานราย Grid
+- Top-3 GAP ที่เหลือ
+- วันที่หลักฐาน
+- ผล Test/Build/Runtime
+- ผลเคลียร์ stale/old artifact
+
+คะแนนนี้เป็น internal product assessment เท่านั้น ห้ามใช้เป็นคำโฆษณาว่า Zipspeed แม่นกว่า เร็วกว่า ปลอดภัยกว่า หรือดีกว่าคู่แข่งโดยรวม
