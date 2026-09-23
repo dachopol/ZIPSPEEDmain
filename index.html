@@ -120,6 +120,26 @@
       </article>
     </div>
 
+    <section id="healthPanel" class="health-panel" aria-live="polite">
+      <div class="health-summary">
+        <div>
+          <span class="kicker" id="healthEyebrow">Network Health</span>
+          <h2 id="healthTitle">Measured connection index</h2>
+          <p id="healthNote">Derived from this HTTP test. Not a universal network rating.</p>
+        </div>
+        <div class="health-score" aria-label="Network health index">
+          <strong id="healthValue">--</strong><small>/100</small>
+          <span id="healthBand">--</span>
+        </div>
+      </div>
+      <div id="useCaseGrid" class="usecase-grid">
+        <article class="usecase-card"><span id="useBrowsingLabel">Browsing</span><strong id="useBrowsingValue">--</strong></article>
+        <article class="usecase-card"><span id="useCallLabel">Video call</span><strong id="useCallValue">--</strong></article>
+        <article class="usecase-card"><span id="useGamingLabel">Gaming</span><strong id="useGamingValue">--</strong></article>
+        <article class="usecase-card"><span id="use4kLabel">4K streaming</span><strong id="use4kValue">--</strong></article>
+      </div>
+    </section>
+
     <article class="trace-panel">
       <div class="trace-head">
         <div><span class="kicker" id="chartEyebrow">Live</span><h2 id="chartTitle">Throughput</h2></div>
@@ -150,6 +170,8 @@
     <article class="status-row"><span id="ispLabel">ISP / ASN</span><strong id="ispValue">--</strong></article>
     <article class="status-row"><span id="edgeLabel">Provider edge</span><strong id="edgeValue">--</strong></article>
     <article class="status-row"><span id="areaLabel">Client area</span><strong id="areaValue">--</strong></article>
+    <article class="status-row"><span id="serviceLabel">Test service</span><strong id="serviceValue">--</strong></article>
+    <article class="status-row"><span id="serverLocationLabel">Server location</span><strong id="serverLocationValue">--</strong></article>
     <article class="status-row"><span id="endpointLabel">Measurement endpoint</span><strong id="endpointValue">--</strong></article>
     <article class="status-row"><span id="integrityLabel">Result integrity</span><strong id="integrityValue">HTTP 2xx + measured bytes</strong></article>
   </div>

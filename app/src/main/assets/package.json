@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "54.0.0",
+  "version": "55.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 54,
-    "channel": "visual-depth-anti-overlap",
+    "versionCode": 55,
+    "channel": "maximum-product-upgrade",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

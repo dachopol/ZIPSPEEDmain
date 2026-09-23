@@ -336,3 +336,87 @@ body{overflow-x:clip}
 [data-theme="dark"] .metric{
   background:linear-gradient(180deg,rgba(17,27,45,.96),rgba(14,24,41,.96));
 }
+
+/* v55 measured health + use-case layer */
+.health-panel{
+  margin-top:14px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,251,255,.96));
+  box-shadow:var(--depth-1);
+}
+.health-summary{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:18px;
+  align-items:center;
+}
+.health-summary>div{min-width:0}
+.health-summary h2{margin:5px 0 0;font-size:1rem;letter-spacing:-.025em}
+.health-summary p{margin:6px 0 0;color:var(--muted);font-size:.72rem;line-height:1.45}
+.health-score{
+  min-width:104px;
+  display:grid;
+  grid-template-columns:auto auto;
+  justify-content:end;
+  align-items:baseline;
+  gap:3px;
+  text-align:right;
+}
+.health-score strong{
+  font-family:var(--mono);
+  font-size:2rem;
+  line-height:1;
+  letter-spacing:-.06em;
+  font-variant-numeric:tabular-nums;
+}
+.health-score small{color:var(--muted);font-size:.7rem;font-weight:800}
+.health-score span{
+  grid-column:1/-1;
+  justify-self:end;
+  margin-top:4px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#F1F4F8;
+  color:#69768A;
+  font-size:.65rem;
+  font-weight:850;
+}
+.health-score span.excellent,.usecase-card strong.good{background:#ECFDF3;color:#15803D}
+.health-score span.good{background:#EEF7FF;color:#2563EB}
+.health-score span.fair{background:#FFF7E8;color:#B45309}
+.health-score span.limited,.usecase-card strong.bad{background:#FEF2F2;color:#B91C1C}
+.usecase-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:14px;
+}
+.usecase-card{
+  min-width:0;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:var(--surface-2);
+  display:grid;
+  gap:7px;
+}
+.usecase-card span{font-size:.68rem;color:var(--muted);line-height:1.25;overflow-wrap:anywhere}
+.usecase-card strong{
+  justify-self:start;
+  padding:4px 7px;
+  border-radius:999px;
+  background:#F1F4F8;
+  color:#69768A;
+  font-size:.64rem;
+  font-weight:850;
+}
+[data-theme="dark"] .health-panel,[data-theme="dark"] .usecase-card{background:#111B2D;border-color:var(--line)}
+@media(max-width:620px){.usecase-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:440px){
+  .health-summary{grid-template-columns:1fr;align-items:start}
+  .health-score{justify-content:start;text-align:left}
+  .health-score span{justify-self:start}
+}
+@media(max-width:350px){.usecase-grid{grid-template-columns:1fr}}

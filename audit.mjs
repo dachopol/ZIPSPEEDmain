@@ -5,6 +5,8 @@ const mirrors = [
   ["src/styles.css", "app/applet/src/styles.css", "app/src/main/assets/src/styles.css"],
   ["src/app.mjs", "app/applet/src/app.mjs", "app/src/main/assets/src/app.mjs"],
   ["src/measurement.mjs", "app/applet/src/measurement.mjs", "app/src/main/assets/src/measurement.mjs"],
+  ["src/quality.mjs", "app/applet/src/quality.mjs", "app/src/main/assets/src/quality.mjs"],
+  ["src/servers.mjs", "app/applet/src/servers.mjs", "app/src/main/assets/src/servers.mjs"],
   ["package.json", "app/applet/package.json", "app/src/main/assets/package.json"],
   ["server.mjs", "app/applet/server.mjs"]
 ];
@@ -18,6 +20,8 @@ const html = await fs.readFile("index.html", "utf8");
 const css = await fs.readFile("src/styles.css", "utf8");
 const app = await fs.readFile("src/app.mjs", "utf8");
 const measurement = await fs.readFile("src/measurement.mjs", "utf8");
+const quality = await fs.readFile("src/quality.mjs", "utf8");
+const servers = await fs.readFile("src/servers.mjs", "utf8");
 const server = await fs.readFile("server.mjs", "utf8");
 const pkg = JSON.parse(await fs.readFile("package.json", "utf8"));
 const lock = JSON.parse(await fs.readFile("package-lock.json", "utf8"));
@@ -34,6 +38,7 @@ for (const token of ["Precision Mode", "Ad-Free", "Cloudflare Anycast", "Speed &
 
 if ((html.match(/id="goButton"/g) || []).length !== 1) throw new Error("Expected exactly one GO/STOP control");
 if (!html.includes('id="appVersion"') || !css.includes(".version-badge")) throw new Error("Visible preview version badge missing");
+if (!html.includes('id="healthPanel"') || !html.includes('id="useCaseGrid"')) throw new Error("Visible measured health UI missing");
 if (!app.includes('fetch("./package.json"') || !app.includes("loadAppVersion")) throw new Error("Preview must load version from package.json");
 const versionBadgeMarkup = html.match(/<span id="appVersion"[^>]*>([^<]*)<\/span>/);
 if (!versionBadgeMarkup || versionBadgeMarkup[1].trim() !== "v--") throw new Error("Preview version badge must start unresolved and load package.json at runtime");
@@ -46,7 +51,10 @@ if (!css.includes("@media(max-width:350px)") || !css.includes(".metric-deck{grid
 if (!css.includes("scroll-padding-bottom:var(--page-bottom-space)") || !css.includes(".toast{bottom:calc(var(--nav-height) + var(--nav-edge) + 18px)}")) throw new Error("Bottom navigation overlap protection missing");
 if (app.includes("clay-card")) throw new Error("Legacy clay-card runtime class returned");
 
-if (!app.includes('ENDPOINT="https://speed.cloudflare.com"')) throw new Error("Measurement endpoint missing");
+if (!app.includes("defaultServer()") || !app.includes("networkHealthIndex") || !app.includes("useCaseSuitability")) throw new Error("Measured health/server integration missing");
+if (!servers.includes('baseUrl:"https://speed.cloudflare.com"')) throw new Error("Verified endpoint registry missing");
+if (!servers.includes("region:null") || !servers.includes("coordinates:null")) throw new Error("Server registry must not invent location");
+if (!quality.includes("down*0.30") || !quality.includes("latency*0.25")) throw new Error("Documented deterministic health model missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");
 if (!app.includes('const HISTORY_KEY="zipspeed_history"')) throw new Error("Stable history key missing");
 if (!app.includes("mergeHistoryRecords")) throw new Error("History migration missing");

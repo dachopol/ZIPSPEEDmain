@@ -15,6 +15,9 @@ Open → GO → provider metadata → HTTP latency/jitter → download → uploa
 - Provider edge/client metadata.
 - Realtime throughput graph.
 - Streaming suitability estimate from measured download.
+- Zipspeed Health Index derived deterministically from measured download/upload/latency/jitter/HTTP probe failure.
+- Browsing, video-call, gaming and 4K suitability from published deterministic thresholds.
+- Verified endpoint registry with unknown location retained when not evidenced.
 - Local completed-test history with migration.
 - Share and JSON export.
 - TH/EN, light/dark.

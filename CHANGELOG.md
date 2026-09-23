@@ -1,5 +1,14 @@
 # Changelog
 
+## v55 — 2026-09-23 — Maximum product upgrade
+- Added Zipspeed Health Index based only on measured HTTP metrics with a documented deterministic formula.
+- Added browsing/video-call/gaming/4K suitability with explicit thresholds.
+- Added verified endpoint registry architecture without invented region/city/coordinates.
+- Added Health/Use-case UI and TH/EN text.
+- Added unit tests for health formula, suitability and server-location truthfulness.
+- Locked X = Truth, Y = Experience, Z = Proof competitive rules into project source of truth.
+
+
 ## v54 — 2026-09-23 — Visual depth + anti-overlap
 - Reworked the speed instrument overlay into explicit grid rows so live value and GO/STOP cannot occupy the same layout slot.
 - Added layered instrument depth surfaces, restrained shadows and material highlights without changing measurement logic.

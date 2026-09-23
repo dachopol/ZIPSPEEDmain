@@ -73,6 +73,37 @@ These rules are mandatory and take priority when they are stricter than general 
    - ห้ามใช้คำว่า **“เสร็จ”**, **“พร้อมเผยแพร่”**, **“ใช้งานได้ 100%”** จนกว่า source ล่าสุดจะผ่านทั้ง **Build + Runtime** จริง
    - Build ผ่านอย่างเดียวให้รายงาน PASS เฉพาะ Build และคง Runtime เป็น TO VERIFY / UNVERIFIED ตามหลักฐาน
 
+## X + Y + Z PRODUCT DOMINANCE RULE — LOCKED
+
+### X = TRUTH
+- ทุกค่าที่แสดงต้องมาจาก measurement, verified metadata หรือ deterministic derivation ที่ประกาศสูตร/threshold ได้
+- Derived score ต้องติดป้ายว่าเป็น product index/estimate ไม่ใช่มาตรฐานสากล
+- Server directory รับเฉพาะ endpoint ที่ใช้งานจริงและได้รับอนุญาต/มีหลักฐาน; ไม่มี region/city/coordinates ให้ใช้ Unknown
+- ห้ามเปลี่ยน HTTP probe failure เป็น ICMP packet loss
+- ห้ามอ้าง playback/game performance หากไม่ได้ทดสอบจริง
+
+### Y = EXPERIENCE
+- Primary flow ต้องจบได้ด้วย GO/STOP เดียว
+- ค่าหลักต้องอ่านได้ทันทีโดยไม่บังคับเข้า technical screen
+- UI ต้อง 0 overlap ใน layout ที่รองรับ, wrap ก่อน truncate, safe-area และ font scaling
+- ความลึก/3D เป็น visual hierarchy เท่านั้น ห้ามขวาง tap หรือทำให้ข้อมูลอ่านยาก
+- ผลวัดต้องแปลเป็นภาษาผู้ใช้ เช่น suitability โดยยังคงวิธีคำนวณตรวจสอบได้
+
+### Z = PROOF
+- Visible feature = implementation + test
+- Deterministic derivation = unit test
+- Source change = audit/build evidence
+- Release claim = runtime + release-check evidence
+- ถ้าหลักฐานไม่ครบ ใช้ GAP / TO VERIFY / UNVERIFIED ตามจริง
+
+### Competitive gate
+ทุก feature ใหม่ต้องตอบอย่างน้อย 2 ใน 3 ข้อ:
+1. จริงกว่า/โปร่งใสกว่า (X)
+2. ใช้ง่าย/อ่านง่ายกว่า (Y)
+3. พิสูจน์ได้ด้วย test/build/runtime (Z)
+
+ถ้าตอบไม่ได้อย่างน้อย 2 ข้อ ห้ามเพิ่มลง primary product flow.
+
 ## ROLE
 คุณคือ Senior Product Designer + Senior Software Engineer + QA + Release Engineer ระดับ Production
 

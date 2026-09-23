@@ -1,6 +1,9 @@
 # Zipspeed Competitive Roadmap
 
 ## P0 — current
+- X+Y+Z competitive gate.
+- Zipspeed Health Index and measured use-case suitability.
+- Verified endpoint registry (currently only the proven active endpoint; no invented regions).
 - Real Quick / Standard profiles.
 - One GO/STOP action.
 - Measured latency/jitter/download/upload.

@@ -4,34 +4,32 @@ Updated: 2026-09-23
 
 ## PASS
 - GitHub Remote / main / package ID verified before update.
-- package.json remains the single active version source.
 - Real-data measurement engine retained.
-- Anti-overlap source changes applied to header, instrument, metrics, rows, history, bottom nav and toast.
-- Premium depth layers are decorative only and cannot intercept taps.
-- Competitor work used only as product-principle benchmark.
+- Zipspeed Health Index uses deterministic measured inputs only.
+- Use-case suitability uses explicit thresholds and is labeled as suitability, not actual app/playback testing.
+- Verified endpoint registry contains only the currently used real endpoint and keeps location unknown.
+- X+Y+Z rules added to source of truth.
 
 ## FIX
-- Separated instrument reading and GO/STOP into independent grid rows.
-- Added narrow-screen stacking and one-column extreme-small-phone metric fallback.
-- Added explicit bottom navigation/toast clearance.
-- Added layered instrument depth and card elevation without adding fake states.
-- Removed stale runtime clay-card class.
-- Added anti-overlap audit guards.
+- Converted raw speed results into explainable health/use-case outputs.
+- Added server architecture without fake region selection.
+- Added testable formula boundaries and server-truth tests.
+- Added visible health UI without adding a second primary action.
 
 ## GAP
-- Runtime screenshots for the latest source are not yet verified.
+- Multi-region server directory still requires additional authorized endpoints.
+- No real video playback test.
+- No verified coverage map dataset.
 - Signed release/Play upload remain unverified.
-- Global server directory, real playback test and coverage map are not implemented.
 
 ## TO VERIFY
 - Web audit/tests/build.
-- Android lint/debug.
+- Android lint/debug build.
 - Android release bundle compile.
-- AI Studio Preview at 320/360/412 widths.
-- Font scaling and Thai/English.
-- Real phone portrait/landscape.
-- GO/STOP tap targets and no overlap during live values.
+- AI Studio Preview health panel/layout.
+- Real-device GO/STOP/result/health rendering.
+- Play signing/API/Data Safety/Privacy Policy/screenshots.
 
 ## UNVERIFIED
-- Real-device visual/runtime result for this exact commit.
-- Play upload/publication.
+- Real-device runtime of this exact source.
+- Play publication.

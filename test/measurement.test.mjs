@@ -1,4 +1,6 @@
-import test from"node:test";import assert from"node:assert/strict";import{TEST_PROFILES,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords}from"../src/measurement.mjs";
+import test from"node:test";
+import{networkHealthIndex,healthBand,useCaseSuitability}from"../src/quality.mjs";
+import{defaultServer,serverLocationLabel}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
 test("latency stats use measured samples",()=>{assert.equal(median([30,10,20]),20);assert.equal(latencyJitter([10,12,15]),2.5);assert.equal(probeFailPercent(1,4),25)});
@@ -15,4 +17,29 @@ test("history migration merges valid records and removes duplicates",()=>{
   assert.equal(merged.length,2);
   assert.equal(merged[0].downloadMbps,100);
   assert.equal(merged[1].downloadMbps,120);
+});
+
+test("health index is deterministic and bounded",()=>{
+  const result={downloadMbps:100,uploadMbps:20,latencyMs:25,jitterMs:5,probeFailPct:0};
+  assert.equal(networkHealthIndex(result),100);
+  assert.equal(healthBand(100),"excellent");
+  assert.equal(healthBand(75),"good");
+  assert.equal(healthBand(60),"fair");
+  assert.equal(healthBand(20),"limited");
+});
+
+test("use-case suitability evaluates measured thresholds",()=>{
+  const strong={downloadMbps:100,uploadMbps:20,latencyMs:20,jitterMs:3,probeFailPct:0};
+  const all=useCaseSuitability(strong);
+  assert.equal(all.length,4);
+  assert.ok(all.every(x=>x.supported===true));
+  const weak={downloadMbps:2,uploadMbps:0.5,latencyMs:220,jitterMs:60,probeFailPct:50};
+  assert.ok(useCaseSuitability(weak).every(x=>x.supported===false));
+});
+
+test("server directory does not invent location",()=>{
+  const server=defaultServer();
+  assert.equal(server.baseUrl,"https://speed.cloudflare.com");
+  assert.equal(serverLocationLabel(server),null);
+  assert.equal(server.coordinates,null);
 });
