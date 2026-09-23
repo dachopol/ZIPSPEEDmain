@@ -310,7 +310,7 @@ body{overflow-x:clip}
   .brand-mark{width:34px;height:34px}
   .brand-copy strong{font-size:.94rem}
   .version-badge{min-height:20px}
-  .header-actions .control-button{min-width:42px;min-height:42px}
+  .header-actions .control-button{min-width:44px;min-height:44px}
   .instrument-shell{width:100%}
   .live-reading span{font-size:2.45rem}
   .go-pill{min-width:116px;min-height:48px}
