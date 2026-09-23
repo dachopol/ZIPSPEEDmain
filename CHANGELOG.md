@@ -1,6 +1,9 @@
 # Changelog
 
 ## v56 — 2026-09-23 — Measured diagnostics loop
+- Added an automated real-browser runtime gate using Chrome DevTools Protocol with no extra runtime dependency.
+- Runtime gate checks 320/360/412/768 px for overflow, header/GO/nav overlap, touch target, version badge, navigation, language/theme toggles and GO→STOP events.
+- Runtime gate captures current-build screenshots and a JSON evidence report as a GitHub artifact.
 - Changed the live download trace to interval-throughput samples instead of cumulative-average samples.
 - Added deterministic throughput statistics: sample count, min/max and coefficient-of-variation percentage.
 - Added measured diagnostic flags with explicit Zipspeed thresholds.

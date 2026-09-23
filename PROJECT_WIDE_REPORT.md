@@ -24,6 +24,10 @@ Updated: 2026-09-23
 - No single-vs-multi connection capacity mode yet.
 - Signed release/Play upload remain unverified.
 
+## PASS
+- Automated Chrome runtime gate is now part of CI for 320/360/412/768 px.
+- Runtime evidence includes current-build screenshots and JSON report when the CI job passes.
+
 ## TO VERIFY
 - Web audit/tests/build.
 - Android lint/debug build.

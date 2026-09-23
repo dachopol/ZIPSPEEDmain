@@ -86,3 +86,19 @@ Loop 1 implements GAP #1 because it is fully controllable under X + Y + Z withou
 
 ### Expected score impact
 Only re-score after CI/runtime evidence. Planned work does not increase the score.
+
+
+## Loop 2 — automated browser runtime proof
+
+Goal: raise evidence quality in One-tap UX / Visual / Engineering without claiming real-device coverage.
+
+Implemented:
+- Chrome headless runtime execution against the actual local app server.
+- Responsive checks at 320/360/412/768 px.
+- Horizontal-overflow and key-overlap assertions.
+- Version badge, navigation, theme/language and GO→STOP interaction assertions.
+- Screenshot + JSON evidence artifacts.
+
+Scoring rule:
+- CI runtime PASS may raise browser-runtime evidence only.
+- It does not count as real-device network measurement, native Android runtime or Play release evidence.
