@@ -24,6 +24,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci --ignore-scripts
+      - run: node --check src/app.mjs && node --check src/quality.mjs && node --check src/measurement.mjs && node --check runtime-check.mjs
       - run: npm run check
 
   web-runtime:

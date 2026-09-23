@@ -106,8 +106,22 @@ try{
   const target=targets.find(item=>item.type==="page");
   if(!target?.webSocketDebuggerUrl)throw new Error("No Chrome page target");
   const cdp=await connectCdp(target.webSocketDebuggerUrl);
+  const runtimeErrors=[];
+  cdp.socket.addEventListener("message",event=>{
+    try{
+      const message=JSON.parse(String(event.data));
+      if(message.method==="Runtime.exceptionThrown"){
+        const detail=message.params?.exceptionDetails;
+        runtimeErrors.push(detail?.exception?.description||detail?.text||"Runtime exception");
+      }
+      if(message.method==="Log.entryAdded"&&message.params?.entry?.level==="error"){
+        runtimeErrors.push(message.params.entry.text||"Console error");
+      }
+    }catch{}
+  });
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
+  await cdp.send("Log.enable");
 
   const pkg=JSON.parse(await fs.readFile("package.json","utf8"));
   const expectedVersion=`v${pkg.version}`;
@@ -119,8 +133,21 @@ try{
     await cdp.send("Emulation.setDeviceMetricsOverride",{
       width,height,deviceScaleFactor:1,mobile:width<700
     });
+    runtimeErrors.length=0;
     await cdp.send("Page.navigate",{url:BASE+"/"});
-    await sleep(900);
+    let ready=false;
+    for(let attempt=0;attempt<60;attempt++){
+      const state=await cdp.evaluate(`(()=>({
+        readyState:document.readyState,
+        version:document.querySelector("#appVersion")?.textContent?.trim()||null,
+        appReady:typeof window.zipspeedStopForLifecycle==="function"
+      }))()`);
+      if(state?.readyState==="complete"&&state?.version===${JSON.stringify(expectedVersion)}&&state?.appReady){ready=true;break}
+      await sleep(100);
+    }
+    if(!ready){
+      throw new Error(`App module did not become ready at ${width}px. Runtime errors: ${runtimeErrors.join(" | ")||"none captured"}`);
+    }
 
     const snapshot=await cdp.evaluate(`(()=>{
       const rect=selector=>{
