@@ -8,8 +8,10 @@ const gradle=await fs.readFile("app/build.gradle.kts","utf8");
 const app=await fs.readFile("src/app.mjs","utf8");
 const html=await fs.readFile("index.html","utf8");
 const servers=await fs.readFile("src/servers.mjs","utf8");
+const playConsoleCheck=await fs.readFile("play-console-check.mjs","utf8");
 
 const fail=message=>{throw new Error(message)};
+if(!playConsoleCheck.includes("MOBILE_TARGET_API_MIN=36")||!playConsoleCheck.includes("closedTesting"))fail("Play Console test gate missing current policy snapshot checks");
 const permissionMatches=[...manifest.matchAll(/<uses-permission\s+android:name="([^"]+)"/g)].map(m=>m[1]).sort();
 const allowedPermissions=["android.permission.ACCESS_NETWORK_STATE","android.permission.INTERNET"].sort();
 if(JSON.stringify(permissionMatches)!==JSON.stringify(allowedPermissions))fail("Android permission set changed; privacy/Data Safety evidence must be reviewed");

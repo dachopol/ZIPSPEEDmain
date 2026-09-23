@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "70.0.0",
+  "version": "71.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 70,
-    "channel": "release-integrity",
+    "versionCode": 71,
+    "channel": "play-console-test-gate",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {
@@ -16,6 +16,7 @@
     "audit": "node audit.mjs",
     "check": "npm run audit && npm test && npm run build",
     "runtime:check": "node runtime-check.mjs",
-    "release:check": "node release-check.mjs"
+    "release:check": "node release-check.mjs",
+    "play:check": "node play-console-check.mjs"
   }
 }

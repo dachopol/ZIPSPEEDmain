@@ -1,5 +1,12 @@
 # Changelog
 
+## v71 — 2026-09-23 — Play Console test gate
+- Classified the current candidate as a TEST BUILD for Play testing-track evaluation.
+- Added a source-verifiable Play Console gate for target API 36, package identity, versionCode range, cleartext, AAB compile gate and privacy transparency.
+- Added machine-readable Play Console evidence artifact.
+- Added explicit TO VERIFY items for tester/account rules, Data Safety, content rating, target audience, package registration, signing and Play upload.
+
+
 ## v70 — 2026-09-23 — Release integrity
 - Added explicit source evidence for absence/presence of release signing configuration.
 - Prepared exact Privacy Policy replacement text aligned with current Cloudflare measurement, optional M-Lab discovery, local history and current Android permissions.

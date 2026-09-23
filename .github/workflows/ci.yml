@@ -24,7 +24,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: node --check src/app.mjs && node --check src/quality.mjs && node --check src/measurement.mjs && node --check runtime-check.mjs && node --check release-check.mjs
+      - run: node --check src/app.mjs && node --check src/quality.mjs && node --check src/measurement.mjs && node --check runtime-check.mjs && node --check release-check.mjs && node --check play-console-check.mjs
       - run: npm run check
 
   web-runtime:
@@ -79,6 +79,24 @@ jobs:
         with:
           name: zipspeed-release-evidence
           path: release-evidence/
+          if-no-files-found: error
+          retention-days: 14
+
+  play-console-test-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run play:check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zipspeed-play-console-evidence
+          path: play-console-evidence/
           if-no-files-found: error
           retention-days: 14
 

@@ -2,47 +2,40 @@
 
 Updated: 2026-09-23
 
-## Source candidate
+## TEST BUILD
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Candidate versionName/versionCode: canonical `package.json`.
-- Gradle and Preview derive version from that source.
+- Candidate version/versionCode: canonical `package.json`.
+- Current release posture: **testing-track candidate**, not production-ready by claim.
 
 ## PASS — source/build evidence
 - Web/unit/static build gates.
 - Browser runtime/responsive/accessibility gates.
 - Real-network Single + Multi smoke.
-- Optional M-Lab Locate discovery smoke.
 - Android lint/debug build.
 - Android release bundle compile.
 - Release-source evidence gate.
-- Android permission source = INTERNET + ACCESS_NETWORK_STATE.
+- Play Console test-source gate.
+- targetSdk 36 / compileSdk 36.
+- Android permissions limited to INTERNET + ACCESS_NETWORK_STATE.
 - No current AdMob/Google Mobile Ads/Play Billing dependency.
 
 ## FIX — external Privacy Policy
-The inspected external policy is stale relative to the current build. It still claims Advertising ID, AdMob/Firebase Analytics and optional ACCESS_FINE_LOCATION. Those claims do not match current source.
+The inspected external policy is stale relative to the current build. Exact replacement guidance remains in `PRIVACY_POLICY_UPDATE_v70.md`. The separate privacy-policy repository is not changed by this commit.
 
-Exact replacement guidance is in `PRIVACY_POLICY_UPDATE_v70.md`.
+## TO VERIFY — Play Console
+- Live highest versionCode/drafts.
+- Account type and whether the 12-testers/14-days production-access rule applies.
+- Developer identity + package registration.
+- Closed-test tester continuity if applicable.
+- Privacy Policy field + final policy content.
+- Data Safety for the active track.
+- Ads declaration, App access, Target audience and IARC content rating.
+- Play App Signing/upload key and signed AAB.
+- Current-build store listing assets and pre-launch report.
 
-Per Remote Safety rules, the separate `dachopol/privacy-policy` repository has **not** been modified by this release-check pass.
-
-## TO VERIFY — Play Data Safety
-Implementation-backed draft evidence is in `DATA_SAFETY_DRAFT_v70.md`.
-Final answers still require review against current Google Play definitions and the final published Privacy Policy.
-
-## UNVERIFIED — signing / Play publication
-- Current Gradle has no explicit release signing configuration.
-- A successful `bundleRelease` compile is not evidence of a signed Play-uploadable AAB.
-- Android Publisher authorization and successful Play upload are unverified.
-- Physical Android Wi-Fi/cellular runtime and TalkBack remain unverified.
-- Store screenshots from the current build remain TO VERIFY.
-
-## Last observed Play evidence
-- Track observed: Internal testing.
-- Last observed Play versionCode: 42.
-- Observed release label: 0.0.0.42 / bundle 42.
-- Target SDK observed: 36.
-- Package ID matched current source.
-
-Live Play Console state remains TO VERIFY until fresh evidence is available.
+## UNVERIFIED
+- Signed Play-uploadable AAB.
+- Successful Play upload/review/publication.
+- Physical Android Wi-Fi/cellular/TalkBack runtime.
