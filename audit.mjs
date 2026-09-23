@@ -50,7 +50,7 @@ if (!measurement.includes("mergeHistoryRecords")) throw new Error("History merge
 
 if (pkg.version !== "52.0.0" || pkg.zipspeed?.versionCode !== 52) throw new Error("package.json canonical version mismatch");
 if (metadata.versionSource !== "package.json" || Object.hasOwn(metadata, "version")) throw new Error("metadata must reference canonical version only");
-if (!gradle.includes('packageInt("versionCode")') || !gradle.includes('packageString("version")')) throw new Error("Gradle must read version from package.json");
+if (!gradle.includes("versionCodeFromPackage") || !gradle.includes("versionNameFromPackage")) throw new Error("Gradle must read version from package.json");
 try {
   await fs.access("version.json");
   throw new Error("version.json must not exist; package.json is the single version source");
