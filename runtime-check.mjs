@@ -142,7 +142,7 @@ try{
         version:document.querySelector("#appVersion")?.textContent?.trim()||null,
         appReady:typeof window.zipspeedStopForLifecycle==="function"
       }))()`);
-      if(state?.readyState==="complete"&&state?.version===${JSON.stringify(expectedVersion)}&&state?.appReady){ready=true;break}
+      if(state?.readyState==="complete"&&state?.version===expectedVersion&&state?.appReady){ready=true;break}
       await sleep(100);
     }
     if(!ready){
