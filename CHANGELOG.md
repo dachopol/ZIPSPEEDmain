@@ -1,5 +1,12 @@
 # Changelog
 
+## v70 — 2026-09-23 — Release integrity
+- Added explicit source evidence for absence/presence of release signing configuration.
+- Prepared exact Privacy Policy replacement text aligned with current Cloudflare measurement, optional M-Lab discovery, local history and current Android permissions.
+- Prepared a Play Data Safety evidence draft without claiming legal/Play classification certainty.
+- Updated release status to distinguish compile evidence from signed publication evidence.
+
+
 ## v69 — 2026-09-23 — Explainable measured concern
 - Added a deterministic "Measured concern" summary that selects the largest deviation from documented Zipspeed diagnostic thresholds.
 - The summary shows the actual measured value, comparison operator and threshold.

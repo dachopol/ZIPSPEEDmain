@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "69.0.0",
+  "version": "70.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 69,
-    "channel": "explainable-diagnostics",
+    "versionCode": 70,
+    "channel": "release-integrity",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

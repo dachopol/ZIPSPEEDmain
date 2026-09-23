@@ -3,33 +3,30 @@
 Updated: 2026-09-23
 
 ## PASS
-- v69 latest-source Web/unit/build passed.
-- Browser Runtime passed responsive/interaction/accessibility checks.
-- Real-network Single+Multi smoke passed against the active measurement endpoint.
-- M-Lab discovery smoke passed without enabling NDT7 measurement.
-- Android lint/debug build and release bundle compile passed.
-- Release-source evidence check passed.
-- Internal 9-grid score after Loop 15: **89.8 / 100** versus current benchmark **89.6 / 100**.
+- v69 latest-source CI passed all automated gates.
+- Internal competitive score condition is met: 89.8 / 100 versus the current internal benchmark 89.6 / 100.
+- Current source requests only INTERNET and ACCESS_NETWORK_STATE.
+- Current source has no AdMob/Google Mobile Ads or Play Billing dependency.
+- Release-source check records signing status instead of inferring publication readiness.
 
 ## FIX
-- Added deterministic explainable "Measured concern" based only on documented thresholds and real measured fields.
-- Explicitly labels the concern as a threshold observation, not proven root cause.
+- External Privacy Policy was found stale against current app behavior.
+- Exact policy replacement content is prepared in `PRIVACY_POLICY_UPDATE_v70.md`.
+- Play Data Safety implementation evidence is prepared in `DATA_SAFETY_DRAFT_v70.md`.
+- Release status now reflects current provider discovery and browser-hint behavior.
 
 ## GAP
-- Multi-provider measurement remains blocked by consent/external Privacy/Data Safety review.
-- No real playback-quality test.
-- No verified coverage dataset.
-- Physical Android runtime/TalkBack and Play signing/upload remain unproven.
+- External privacy-policy repo still requires an authorized update.
+- Multi-provider measurement coverage remains limited.
+- No real playback-quality test or verified coverage-map dataset.
+- No explicit release signing configuration in current Gradle.
 
 ## TO VERIFY
-- Physical Android Wi-Fi/cellular runtime.
-- External Privacy Policy against the latest behavior.
-- Play Data Safety against current providers/behavior.
-- Release signing and Play upload.
+- v70 automated gates.
+- Current Play Data Safety definitions + final answers.
+- Physical Android Wi-Fi/cellular/TalkBack runtime.
+- Store screenshots from current build.
+- Fresh Play Console highest version/draft state.
 
 ## UNVERIFIED
-- Signed Play publication.
-
-## Competitive loop status
-Current internal 9-grid target condition is met: **89.8 ≥ 89.6**.
-This does not override release gates and is not a public superiority claim.
+- Signed Play AAB upload/publication.

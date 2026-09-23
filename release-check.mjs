@@ -30,6 +30,8 @@ const commerceTokens=[
   "admob"
 ];
 const gradleLower=gradle.toLowerCase();
+const releaseSigningConfigured=/signingConfigs\s*\{|signingConfig\s*=/.test(gradle);
+const releaseMinifyEnabled=/release\s*\{[\s\S]*?isMinifyEnabled\s*=\s*true/.test(gradle);
 for(const token of commerceTokens)if(gradleLower.includes(token))fail("Ads/Billing dependency detected; update privacy/store declarations: "+token);
 
 if(!app.includes('const HISTORY_KEY="zipspeed_history"')||!app.includes("localStorage.setItem(HISTORY_KEY"))fail("Local-history implementation changed");
@@ -76,7 +78,10 @@ const evidence={
     privacyPolicy:"TO VERIFY against current external policy",
     dataSafety:"TO VERIFY against current Play definitions and provider behavior",
     signing:"UNVERIFIED",
-    playUpload:"UNVERIFIED"
+    playUpload:"UNVERIFIED",
+    releaseSigningConfigured,
+    releaseMinifyEnabled,
+    privacyPolicyMismatchKnown:true
   }
 };
 
