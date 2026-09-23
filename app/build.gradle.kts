@@ -1,14 +1,14 @@
 plugins { id("com.android.application") }
 
 val packageJson = rootProject.file("package.json").readText()
-fun packageString(name: String): String =
-    Regex("\\\"\${name}\\\"\\s*:\\s*\\\"([^\\\"]+)\\\"")
+val versionNameFromPackage =
+    Regex(""version"\\s*:\\s*"([^"]+)"")
         .find(packageJson)?.groupValues?.get(1)
-        ?: error("Missing \${name} in package.json")
-fun packageInt(name: String): Int =
-    Regex("\\\"\${name}\\\"\\s*:\\s*(\\d+)")
+        ?: error("Missing version in package.json")
+val versionCodeFromPackage =
+    Regex(""versionCode"\\s*:\\s*(\\d+)")
         .find(packageJson)?.groupValues?.get(1)?.toInt()
-        ?: error("Missing \${name} in package.json")
+        ?: error("Missing versionCode in package.json")
 
 android {
     namespace = "com.aistudio.zipspeed.zskt"
@@ -18,8 +18,8 @@ android {
         applicationId = "com.aistudio.zipspeed.zskt"
         minSdk = 24
         targetSdk = 36
-        versionCode = packageInt("versionCode")
-        versionName = packageString("version")
+        versionCode = versionCodeFromPackage
+        versionName = versionNameFromPackage
     }
 
     buildTypes {
