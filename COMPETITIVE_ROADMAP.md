@@ -1,22 +1,29 @@
 # Zipspeed Competitive Roadmap
 
-## P0 — implemented in v47
-- Quick / Standard real-data test profiles.
-- Share latest completed measured result with Web Share API; clipboard fallback.
-- Single GO/STOP primary action.
-- Minimal 3D clay UI, TH/EN, history/export, status, video suitability, map-safe state.
+## P0 — current v52
+- Real Quick / Standard profiles.
+- One GO/STOP action.
+- Measured latency/jitter/download/upload.
+- Realtime throughput trace.
+- Premium instrument UI.
+- TH/EN, light/dark.
+- Migrated history, share and JSON export.
+- Status, streaming suitability and map-safe state.
+- Android WebView hardening and lifecycle cancellation.
+- CI web checks + Android lint/debug + release bundle compile.
 
-## P1 — evidence required before build
-- Authorized multi-provider/server directory and user server selection.
-- Real video playback-quality test using licensed/authorized media and measured startup/stall/resolution data.
-- More detailed connection consistency analytics from real samples.
+## P1 — evidence/data source required
+- Authorized multi-provider/server directory and real server selection.
+- Licensed video playback-quality test with measured startup/stall/resolution.
+- More detailed consistency analytics from real samples.
 
-## P2 — requires external data/provider/privacy design
-- Coverage/network map backed by an authorized real dataset and explicit permission/data policy.
-- Background monitoring consistent with Android limits and battery/data transparency.
+## P2 — external provider/privacy design required
+- Coverage/network map backed by an authorized real dataset.
+- Background monitoring within Android battery/data/background limits.
+- AdMob and Play Billing only after real SDK/config/privacy work is approved.
 
 ## Won't fake
 - Server city without verified server data.
 - GPS/map pins without coordinates.
 - ICMP packet loss from HTTP failures.
-- Ads/Billing entitlement without real integration.
+- Ads/Billing/payment/revenue without real integrations.

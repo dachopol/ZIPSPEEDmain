@@ -11,3 +11,16 @@ export function videoSuitability(downloadMbps){const defs=[["4k","4K UHD",25],["
 export function isCompleteResult(r){if(!r||typeof r!=="object"||r.completed!==true||r.aborted===true)return false;for(const k of["downloadMbps","uploadMbps"])if(!Number.isFinite(r[k])||r[k]<=0)return false;for(const k of["latencyMs","jitterMs","probeFailPct"])if(!Number.isFinite(r[k])||r[k]<0)return false;return!!r.timestamp&&!Number.isNaN(Date.parse(r.timestamp))}
 export function speedFraction(mbps){const v=Number.isFinite(mbps)&&mbps>0?mbps:0;return Math.min(1,Math.log1p(v)/Math.log(1001))}
 export function formatMiB(bytes){if(!Number.isFinite(bytes)||bytes<0)return"--";return(bytes/1048576).toFixed(bytes>=10485760?0:1)}
+
+export function mergeHistoryRecords(...lists){
+  const byKey=new Map();
+  for(const list of lists){
+    if(!Array.isArray(list))continue;
+    for(const item of list){
+      if(!isCompleteResult(item))continue;
+      const key=[item.timestamp,item.downloadMbps,item.uploadMbps,item.latencyMs,item.jitterMs,item.probeFailPct].join("|");
+      byKey.set(key,item);
+    }
+  }
+  return [...byKey.values()].sort((a,b)=>Date.parse(a.timestamp)-Date.parse(b.timestamp)).slice(-100);
+}

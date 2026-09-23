@@ -1,8 +1,13 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "51.0.0",
+  "version": "52.0.0",
   "private": true,
   "type": "module",
+  "zipspeed": {
+    "versionCode": 52,
+    "channel": "project-wide-quality",
+    "packageId": "com.aistudio.zipspeed.zskt"
+  },
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs",

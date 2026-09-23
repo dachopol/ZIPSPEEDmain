@@ -5,62 +5,26 @@
 
 A mobile-first internet speed and network-health app that reports measured HTTP performance clearly without fabricated network facts.
 
-## Core User Flow
-Open → GO → network metadata → HTTP latency/jitter → download → upload → result → history/share/export.
+## Core user flow
+Open → GO → provider metadata → HTTP latency/jitter → download → upload → result → history/share/JSON export.
 
-## Product Promise
-- Real measured results or explicit unknown/error.
-- Clear explanation of what is measured.
-- Fast, simple primary flow.
-- Minimal 3D clay visual identity.
-- Useful diagnostics without pretending unsupported capability exists.
-
-## Current Implemented Capability
-- Measured HTTP latency and jitter indicator.
-- Measured HTTP download and upload throughput.
-- Cloudflare edge/client metadata.
+## Current implemented capability
+- Measured HTTP latency and HTTP-jitter indicator.
+- Measured HTTP download/upload throughput.
+- Quick and Standard profiles.
+- Provider edge/client metadata.
 - Realtime throughput graph.
 - Streaming suitability estimate from measured download.
-- Completed-test local history.
-- CSV / JSON export.
-- TH / EN.
-- Status / Map-safe / Settings panels.
-- Android WebView wrapper.
+- Local completed-test history with migration.
+- Share and JSON export.
+- TH/EN, light/dark.
+- Status / map-safe / settings.
+- Hardened Android WebView wrapper.
 
-## Current Non-Claims
+## Current non-claims
 - No ICMP packet-loss measurement.
 - No verified GPS/server-coordinate map.
-- No AdMob/Billing entitlement yet.
-- No production Play Store readiness claim until release verification.
-
-## Competitive Goal
-
-Google Play benchmark set researched 2026-09-22:
-1. Speedtest by Ookla.
-2. Opensignal Internet Speed Test.
-3. FAST Speed Test.
-Supplemental: Meteor Speed Test.
-
-Selection method: install band first, review volume as tie-breaker, then direct product relevance.
-
-Compare only on documented criteria:
-- task completion speed;
-- measurement integrity;
-- UX friction;
-- responsive quality;
-- accessibility;
-- privacy;
-- feature usefulness;
-- visual coherence.
-
-Do not publish a winner/ranking without a defined test method and evidence.
-
-## Success Criteria
-- GO/STOP works reliably.
-- No duplicate test runs.
-- No fabricated values.
-- Responsive on supported mobile sizes.
-- TH/EN important UI states complete.
-- Web checks pass.
-- Android debug build passes.
-- Real-device validation before release.
+- No authorized worldwide server directory.
+- No real video playback-quality test.
+- No AdMob/Play Billing integration.
+- No Play release-success claim until signing/upload/review are verified.

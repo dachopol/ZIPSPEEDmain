@@ -1,3 +1,5 @@
+> ARCHIVED HISTORICAL REPORT — not current source of truth.
+
 # Zipspeed v50 Clean Rebuild Report
 
 ## PASS

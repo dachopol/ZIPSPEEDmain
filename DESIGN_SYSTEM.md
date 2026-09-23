@@ -1,7 +1,7 @@
-# Zipspeed Design System — v51
+# Zipspeed Design System — v52
 
 ## Direction
-Premium minimal instrument interface: precise, quiet, spacious, and trustworthy.
+Premium minimal instrument interface: precise, quiet, readable and trustworthy.
 
 ## Core tokens
 | Token | Value |
@@ -11,33 +11,28 @@ Premium minimal instrument interface: precise, quiet, spacious, and trustworthy.
 | Surface | `#FFFFFF` |
 | Text | `#0F172A` |
 | Muted | `#718096` |
-| Large radius | `28px` |
-| Glass blur | `40px` |
-| Glass usage | navigation + small controls only |
+| Main radius | `28px` |
+| Glass blur target | `40px` |
+| Glass usage | navigation and compact controls only |
 | Number style | mono + tabular/lining |
 | Primary action | one GO/STOP pill |
 
-## Visual rules
-- Instrument first, decoration second.
-- No dashboard clutter.
-- No emoji UI.
-- No heavy neumorphism.
-- One dominant focal point: the gauge.
-- One primary action: GO/STOP.
-- Metrics appear as a single integrated deck.
-- Shadows stay subtle and broad.
-- Blue is reserved for action/progress/state emphasis.
-- Unknown/unavailable values remain `--`.
+## Hierarchy
+Header → connection status → speed instrument → metric deck → live trace.  
+Secondary screens use a heading followed by a vertical list/card group.
 
-## Responsive rules
+## Responsive
 - Mobile first.
-- 2×2 metrics on small phones; 4-across on larger screens.
-- Navigation remains reachable above safe-area inset.
-- Long Thai labels may wrap only where it does not break controls.
 - No horizontal scrolling.
+- Text wraps before truncation.
+- 44px-class minimum interactive target.
+- 2×2 metrics on phones; 4-across when space allows.
+- Safe-area padding.
+- Font scaling must not hide essential actions.
 
 ## Accessibility
-- 42–54px interactive controls.
-- Visible keyboard focus.
+- Visible focus state.
+- ARIA current/pressed state for navigation, profile and GO/STOP.
 - Reduced-motion support.
-- Light/dark contrast checked in design tokens.
+- Dynamic states translated with selected screen language.
+- Unknown/unavailable remains `--`.

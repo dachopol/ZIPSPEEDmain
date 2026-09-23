@@ -1,21 +1,19 @@
 # Changelog
 
-## v51 — 2026-09-23 — Premium Instrument UI
-- Replaced heavy clay-card styling with a restrained premium instrument layout.
-- Added a refined circular speed gauge with slim arc, ticks, deterministic needle and single GO/STOP pill.
-- Consolidated metrics into one integrated deck.
-- Replaced symbolic text/emoji-style UI with inline SVG icons.
-- Reduced glass and shadows; improved typography, spacing and mobile hierarchy.
-- Kept the v50 real-data measurement engine and security model unchanged.
-- VersionCode 51 / versionName 51.0.0.
+## v52 — 2026-09-23 — Project-wide quality update
+- Made package.json the single version source; Android Gradle reads versionName/versionCode from it.
+- Added package-lock.json and reproducible npm ci.
+- Added stable history storage and migration from v50/v51 keys.
+- Fixed Android lifecycle STOP behavior.
+- Improved dynamic TH/EN strings and share output.
+- Removed redundant success subtext.
+- Improved wrapping, touch targets and ARIA state.
+- Hardened server CSP/path resolution.
+- Added Android lint and release-bundle compile CI.
+- Synchronized current documentation and Play release status.
 
+## v51 — 2026-09-23 — Premium Instrument UI
+- Premium instrument gauge, integrated metrics and SVG navigation.
 
 ## v50 — 2026-09-23 — Clean Rebuild
-- Rebuilt UI and app logic from scratch.
-- Removed legacy dark dashboard, Precision Mode, Ad-Free control, duplicate Start Test, legacy server-change UI and old navigation.
-- Added a new minimal 3D white-clay mobile UI.
-- Kept only evidence-based capabilities.
-- Added Quick/Standard real-data profiles, history, share/export, status, video suitability, map-safe state, TH/EN, light/dark.
-- Replaced legacy measurement module with a new deterministic helper module.
-- Added new tests and anti-legacy audit.
-- VersionCode 50 / versionName 50.0.0.
+- Rebuilt UI/app orchestration and removed legacy simulated controls.

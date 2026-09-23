@@ -1,6 +1,6 @@
 {
   "name": "Zipspeed by AnakinYoo",
-  "version": "51.0.0",
+  "versionSource": "package.json",
   "description": "Premium minimal instrument-style HTTP speed and network-health app. Real measured data only.",
   "requestFramePermissions": [],
   "majorCapabilities": [
@@ -9,7 +9,7 @@
     "Quick and Standard measured test profiles",
     "Provider edge/client metadata",
     "Streaming suitability estimate from measured throughput",
-    "Local completed-test history, share and export",
+    "Local completed-test history, share and JSON export",
     "TH/EN and light/dark UI"
   ]
 }

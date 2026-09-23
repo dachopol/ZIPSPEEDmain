@@ -1,3 +1,5 @@
+> ARCHIVED HISTORICAL REPORT — not current source of truth.
+
 # Zipspeed v51 Premium UI Report
 
 ## PASS
