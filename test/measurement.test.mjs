@@ -1,5 +1,5 @@
 import test from"node:test";
-import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact,primaryDiagnostic}from"../src/quality.mjs";
+import{QUALITY_MODEL_VERSION,HEALTH_MODEL,networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact,primaryDiagnostic}from"../src/quality.mjs";
 import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse,normalizeCountryCode,buildMlabLocateUrl}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv,parseBrowserConnection,comparableHistoryStats}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
@@ -17,6 +17,13 @@ test("history migration merges valid records and removes duplicates",()=>{
   assert.equal(merged.length,2);
   assert.equal(merged[0].downloadMbps,100);
   assert.equal(merged[1].downloadMbps,120);
+});
+
+test("derived quality model is explicit and versioned",()=>{
+  assert.equal(QUALITY_MODEL_VERSION,"1.1");
+  assert.equal(HEALTH_MODEL.downloadTargetMbps,100);
+  assert.equal(HEALTH_MODEL.uploadTargetMbps,20);
+  assert.equal(Object.values(HEALTH_MODEL.weights).reduce((a,b)=>a+b,0),1);
 });
 
 test("health index is deterministic and bounded",()=>{
