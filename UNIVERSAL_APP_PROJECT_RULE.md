@@ -104,6 +104,49 @@ These rules are mandatory and take priority when they are stricter than general 
 
 ถ้าตอบไม่ได้อย่างน้อย 2 ข้อ ห้ามเพิ่มลง primary product flow.
 
+## 9-GRID COMPETITIVE PRODUCT GATE — LOCKED
+
+ใช้กรอบนี้เพื่อประเมิน Zipspeed เทียบคู่แข่งโดยไม่แต่งข้อเท็จจริง คะแนนเป็น product assessment ไม่ใช่ผลรับรองจากห้องทดลอง
+
+| Grid | Weight | Evidence required |
+|---|---:|---|
+| Measurement truth / reliability | 18% | measurement code + test evidence |
+| Server / coverage capability | 15% | verified authorized endpoint/data source |
+| One-tap UX / readability | 14% | implemented flow + runtime evidence |
+| Visual hierarchy / premium depth | 10% | current build UI + responsive evidence |
+| Diagnostics / network context | 10% | real metadata/measurement source |
+| History / share / export | 8% | implemented flow + test/runtime evidence |
+| Use-case interpretation | 8% | deterministic documented derivation or real test |
+| Engineering / runtime / release | 10% | CI + runtime + release evidence |
+| Trust / privacy / transparency | 7% | code behavior + declarations/policy evidence |
+
+### Scoring
+- 0 = ไม่มี implementation/evidence
+- 1–3 = มีบางส่วนแต่ใช้งานจริงหรือหลักฐานยังต่ำ
+- 4–6 = implementation ใช้งานได้บางขอบเขตและข้อจำกัดระบุชัด
+- 7–8 = implementation แข็งแรง มี test/build และข้อจำกัดโปร่งใส
+- 9 = production-grade evidence ครบในมิตินั้น
+- 10 = หลักฐานระดับสูงสุดของ scope ที่กำหนด; ห้ามให้เพราะความรู้สึก
+- Weighted score = Σ(score/10 × weight)
+- ถ้าข้อมูลคู่แข่งไม่มีหลักฐานปัจจุบัน ให้ใช้ N/A/TO VERIFY แทนการเดาคะแนน
+- ห้ามใช้คะแนนนี้อ้างว่า “แม่นกว่า/ดีกว่า” ใน Store listing โดยไม่มี benchmark ที่รองรับ
+
+### GAP priority
+จัด GAP จาก `weight × evidence deficit × user impact` และเลือก 3 อันดับแรกที่แก้ได้โดยไม่ละเมิด X+Y+Z
+
+### X + Y + Z execution
+- **X / Truth:** feature ต้องใช้ข้อมูลจริงหรือ deterministic derivation ที่เปิดเผยข้อจำกัด
+- **Y / Experience:** feature ต้องลด friction/เพิ่มความเข้าใจ โดยไม่สร้าง overlap หรือ duplicate primary action
+- **Z / Proof:** feature ต้องมี test/build; claim ระดับ release ต้องมี runtime/release-check
+- Feature ใหม่เข้า primary flow ได้เมื่อผ่านอย่างน้อย 2 ใน 3 และห้ามตก X
+- ถ้า X ไม่ผ่าน ให้หยุด feature นั้นไว้เป็น GAP แม้ Y/Z จะผ่าน
+
+### Competitive research freshness
+- ก่อนใช้ข้อมูลคู่แข่งในการตัดสินใจครั้งสำคัญ ให้ re-verify แหล่งปัจจุบัน
+- แยกสิ่งที่คู่แข่งประกาศ, สิ่งที่ Zipspeed implement จริง, และ inference ออกจากกัน
+- ห้ามคัดลอก UI/assets/copy ของคู่แข่ง
+- เป้าหมายคือ measurable product quality ไม่ใช่การเลียนแบบ
+
 ## ROLE
 คุณคือ Senior Product Designer + Senior Software Engineer + QA + Release Engineer ระดับ Production
 

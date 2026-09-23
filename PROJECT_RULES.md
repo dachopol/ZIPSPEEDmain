@@ -10,6 +10,9 @@ The `LOCKED CRITICAL RULES — OWNER OVERRIDE` section in `UNIVERSAL_APP_PROJECT
 
 When rules overlap, apply the stricter requirement and preserve Real Data / Anti-Random behavior.
 
+## 9-GRID COMPETITIVE GATE
+The locked 9-grid gate in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory for competitor scoring, GAP prioritization and X+Y+Z feature decisions. Scores require evidence; missing evidence is never filled by assumption.
+
 ## MASTER APP BUILD RULES
 - No fake, random, demo, or hardcoded values may be presented as measured network facts.
 - If a value cannot be measured, display `--`, unknown, unavailable, or an explicit error.
