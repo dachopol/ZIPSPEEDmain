@@ -1,14 +1,23 @@
 plugins { id("com.android.application") }
 
 val packageJson = rootProject.file("package.json").readText()
-val versionNameFromPackage =
-    Regex(""version"\\s*:\\s*"([^"]+)"")
-        .find(packageJson)?.groupValues?.get(1)
-        ?: error("Missing version in package.json")
-val versionCodeFromPackage =
-    Regex(""versionCode"\\s*:\\s*(\\d+)")
-        .find(packageJson)?.groupValues?.get(1)?.toInt()
-        ?: error("Missing versionCode in package.json")
+
+fun packageValue(key: String): String {
+    val prefix = "\"" + key + "\""
+    val line = packageJson.lineSequence()
+        .map { it.trim() }
+        .firstOrNull { it.startsWith(prefix) }
+        ?: error("Missing " + key + " in package.json")
+
+    return line.substringAfter(":")
+        .trim()
+        .removeSuffix(",")
+        .trim()
+        .trim('"')
+}
+
+val versionNameFromPackage = packageValue("version")
+val versionCodeFromPackage = packageValue("versionCode").toInt()
 
 android {
     namespace = "com.aistudio.zipspeed.zskt"
