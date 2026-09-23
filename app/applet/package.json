@@ -1,11 +1,11 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "57.0.0",
+  "version": "58.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 57,
-    "channel": "connection-modes",
+    "versionCode": 58,
+    "channel": "loaded-latency-proof",
     "packageId": "com.aistudio.zipspeed.zskt"
   },
   "scripts": {

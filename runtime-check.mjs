@@ -238,11 +238,67 @@ try{
     results.push({width,height,...snapshot,navigation:"PASS",connectionMode:"PASS",themeLanguage:"PASS",goStop:"PASS"});
   }
 
+  async function setConnectionMode(mode){
+    const desired=mode==="multi";
+    const pressed=await cdp.evaluate(`document.querySelector("#connectionModeSetting")?.getAttribute("aria-pressed")`);
+    if((pressed==="true")!==desired){
+      await cdp.evaluate(`document.querySelector("#connectionModeSetting")?.click()`);
+      await sleep(80);
+    }
+  }
+  async function runRealNetworkTest(mode){
+    await cdp.send("Emulation.setDeviceMetricsOverride",{width:360,height:900,deviceScaleFactor:1,mobile:true});
+    await cdp.send("Page.navigate",{url:BASE+"/"});
+    for(let attempt=0;attempt<60;attempt++){
+      const ready=await cdp.evaluate(`typeof window.zipspeedStopForLifecycle==="function"&&document.querySelector("#appVersion")?.textContent?.trim()===${JSON.stringify(expectedVersion)}`);
+      if(ready)break;
+      await sleep(100);
+    }
+    await cdp.evaluate(`document.querySelector("#quickProfile")?.click()`);
+    await setConnectionMode(mode);
+    const before=await cdp.evaluate(`(()=>{try{return JSON.parse(localStorage.getItem("zipspeed_history")||"[]").length}catch{return 0}})()`);
+    await cdp.evaluate(`document.querySelector("#goButton")?.click()`);
+    let latest=null,phase=null,transfer=null;
+    const deadline=Date.now()+120000;
+    while(Date.now()<deadline){
+      const state=await cdp.evaluate(`(()=>{
+        let history=[];try{history=JSON.parse(localStorage.getItem("zipspeed_history")||"[]")}catch{}
+        return{
+          running:document.querySelector("#goButton")?.getAttribute("aria-pressed")==="true",
+          phase:document.querySelector("#phaseLabel")?.textContent||"",
+          transfer:document.querySelector("#transferLabel")?.textContent||"",
+          count:history.length,
+          latest:history.at(-1)||null
+        };
+      })()`);
+      phase=state.phase;transfer=state.transfer;
+      if(!state.running&&state.count>before){latest=state.latest;break}
+      if(!state.running&&state.count<=before)break;
+      await sleep(250);
+    }
+    if(!latest)throw new Error(`Real network ${mode} test did not complete. Phase=${phase} Transfer=${transfer}`);
+    for(const key of["downloadMbps","uploadMbps","latencyMs","jitterMs","probeFailPct"]){
+      if(!Number.isFinite(Number(latest[key])))throw new Error(`Real network ${mode} missing ${key}`);
+    }
+    if(latest.connectionMode!==mode)throw new Error(`Real network mode mismatch: expected ${mode}, got ${latest.connectionMode}`);
+    if(Number(latest.streamCount)!==(mode==="multi"?4:1))throw new Error(`Real network stream count mismatch for ${mode}`);
+    return latest;
+  }
+
+  let realNetwork=null;
+  if(process.env.ZIPSPEED_REAL_NETWORK_SMOKE==="1"){
+    const single=await runRealNetworkTest("single");
+    const multi=await runRealNetworkTest("multi");
+    realNetwork={single,multi};
+    await fs.writeFile(path.join(ARTIFACT_DIR,"real-network-report.json"),JSON.stringify({version:pkg.version,checkedAt:new Date().toISOString(),single,multi},null,2));
+    console.log("Real-network Quick smoke passed for Single and Multi modes.");
+  }
+
   cdp.socket.close();
   await fs.rm(path.join(ARTIFACT_DIR,"chrome-profile"),{recursive:true,force:true});
   await fs.writeFile(
     path.join(ARTIFACT_DIR,"runtime-report.json"),
-    JSON.stringify({version:pkg.version,checkedAt:new Date().toISOString(),results},null,2)
+    JSON.stringify({version:pkg.version,checkedAt:new Date().toISOString(),results,realNetwork},null,2)
   );
   console.log(`Zipspeed ${pkg.version} browser runtime checks passed for ${widths.join(", ")}px.`);
 } catch(error){

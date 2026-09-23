@@ -45,6 +45,25 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  real-network-smoke:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: ZIPSPEED_REAL_NETWORK_SMOKE=1 npm run runtime:check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zipspeed-real-network-smoke
+          path: runtime-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
   android-debug-build:
     runs-on: ubuntu-latest
     timeout-minutes: 20

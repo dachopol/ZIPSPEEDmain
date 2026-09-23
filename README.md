@@ -20,6 +20,7 @@ Premium mobile-first internet speed and network-health app using measured HTTP d
 
 ## Real-data scope
 - HTTP latency samples and HTTP jitter indicator.
+- Loaded HTTP latency samples when probes can be started during an active download transfer.
 - Download/upload calculated from transferred bytes and monotonic elapsed time.
 - Quick: 3 MiB down + 1 MiB up + 3 probes.
 - Standard: 10 MiB down + 5 MiB up + 6 probes.

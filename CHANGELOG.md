@@ -1,5 +1,13 @@
 # Changelog
 
+## v58 — 2026-09-23 — Loaded latency + real-network proof
+- Added optional HTTP latency probes that begin while download transfer is active; unavailable samples remain unknown rather than fabricated.
+- Results now record loaded HTTP latency and sample count when measurable.
+- Added a fourth measured-diagnostics field for loaded HTTP latency with TH/EN labels.
+- Added a real-network CI smoke run for Quick Single and Multi modes using the actual measurement endpoint.
+- Real-network smoke requires completed saved results with finite download/upload/latency/jitter/probe-fail values and correct connection-mode provenance.
+
+
 ## v57 — 2026-09-23 — Single/Multi connection measurement
 - Added explicit Single (1 stream) and Multi (4 streams) throughput modes.
 - Multi mode divides the existing profile byte budget across streams; total planned payload bytes remain unchanged.

@@ -6,6 +6,7 @@
   "majorCapabilities": [
     "Measured HTTP latency and jitter indicator",
     "Measured HTTP download/upload throughput",
+    "Loaded HTTP latency during active download when measurable",
     "Single/multi connection throughput modes",
     "Quick and Standard measured test profiles",
     "Provider edge/client metadata",

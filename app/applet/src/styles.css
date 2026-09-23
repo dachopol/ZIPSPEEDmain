@@ -432,7 +432,7 @@ body{overflow-x:clip}
 }
 .diagnostic-strip{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:8px;
   margin-top:10px;
 }
@@ -449,6 +449,7 @@ body{overflow-x:clip}
 .diagnostic-strip strong{font-family:var(--mono);font-size:.86rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .diagnostic-strip small{color:var(--muted);font-size:.58rem;line-height:1.2}
 [data-theme="dark"] .diagnostic-strip>div{background:#0F192A;border-color:var(--line)}
+@media(max-width:760px){.diagnostic-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.diagnostic-strip{grid-template-columns:1fr}}
 
 

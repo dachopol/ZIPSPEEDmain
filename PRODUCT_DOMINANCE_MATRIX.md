@@ -111,6 +111,11 @@ Scoring rule:
 
 ## Loop 3 — connection modes
 
+### Re-score after evidence
+v57 passed Web checks, Browser Runtime, Android lint/debug build and release compile. Internal score moved from **73.6 → 74.8 / 100**. Server/coverage remains the largest externally blocked GAP.
+
+
+
 Selected after the server/coverage GAP was classified as externally blocked without additional authorized infrastructure.
 
 Implementation target:
@@ -120,3 +125,15 @@ Implementation target:
 - Result provenance records mode/stream count.
 - Browser runtime must verify the Settings toggle.
 - Score changes only after test/build/runtime evidence passes.
+
+
+## Loop 4 — loaded latency and real-network proof
+
+Selected to raise Measurement / Diagnostics / Engineering evidence without inventing coverage infrastructure.
+
+Implementation target:
+- Start small HTTP latency probes while a real download transfer is active.
+- Report loaded HTTP latency only when real samples exist.
+- Run completed Quick Single and Multi tests against the actual measurement endpoint in CI on main pushes.
+- Verify saved-result provenance and finite core metrics.
+- Re-score only after the real-network job passes.

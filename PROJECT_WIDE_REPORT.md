@@ -3,35 +3,33 @@
 Updated: 2026-09-23
 
 ## PASS
-- GitHub Remote / main / package ID verified before update.
-- Browser runtime gate passed on the prior source at 320/360/412/768 px and exposed/fixed the same-origin CSP bug.
-- Real-data measurement engine retains exact transferred-byte + monotonic-time rules.
-- Single/Multi connection plans keep the same profile payload budget and split bytes deterministically.
-- Multi download/upload aggregates actual bytes across concurrent streams.
-- STOP/lifecycle cancellation covers all active upload streams.
-- Health/use-case/diagnostic derivations remain deterministic.
+- Browser runtime gate passed on v57 at 320/360/412/768 px including Single/Multi Settings interaction.
+- Web syntax/audit/tests/build, Android lint/debug and release compile passed on v57.
+- Real-data throughput remains actual transferred bytes / monotonic elapsed time.
+- Loaded HTTP latency is sampled only when a probe is actually started during active download; no sample remains Unknown.
+- Single/Multi mode provenance is retained in completed results.
 
 ## FIX
-- Same-origin runtime metadata is allowed by CSP while external connect remains limited to the measurement endpoint.
-- Added explicit connection-mode control rather than silently changing measurement behavior.
-- Added result/history/share provenance for Single vs Multi mode.
+- Runtime loop previously exposed and fixed same-origin CSP version loading.
+- Added loaded-latency visibility without relabeling it as ICMP ping or packet loss.
+- Added a real-network CI smoke path to prove completed Single/Multi Quick tests against the actual endpoint.
 
 ## GAP
 - Multi-region server directory still requires additional authorized endpoints.
-- No real video playback test.
+- No real video playback-quality test.
 - No verified coverage dataset.
-- No loaded-latency-under-transfer metric yet.
-- Real Android device runtime and Play signing/upload remain unverified.
+- Native Android real-device runtime remains unverified.
+- Play signing/upload/Data Safety/Privacy submission remain unverified.
 
 ## TO VERIFY
-- Web syntax/audit/tests/build for v57.
-- Browser runtime including connection-mode toggle.
-- Android lint/debug build.
-- Android release bundle compile.
-- Real network completion in both Single and Multi modes.
-- Real-device Wi-Fi/cellular runtime.
-- Play signing/API/Data Safety/Privacy Policy/screenshots.
+- v58 syntax/audit/tests/build.
+- v58 browser runtime.
+- v58 real-network Single and Multi completion in GitHub runner.
+- v58 Android lint/debug and release compile.
+- Loaded-latency sample availability on real networks.
+- Physical Android Wi-Fi/cellular behavior.
+- Play release checks.
 
 ## UNVERIFIED
-- Real-device Single/Multi measurement accuracy.
+- Physical-device measurement accuracy.
 - Signed Play publication.

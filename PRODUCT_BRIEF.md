@@ -10,6 +10,7 @@ Open → GO → provider metadata → HTTP latency/jitter → download → uploa
 
 ## Current implemented capability
 - Measured HTTP latency and HTTP-jitter indicator.
+- Loaded HTTP latency diagnostic when real probes are captured during download.
 - Measured HTTP download/upload throughput.
 - Quick and Standard profiles.
 - Single / Multi connection throughput modes with unchanged total profile payload budget.
