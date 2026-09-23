@@ -67,7 +67,8 @@ if (!servers.includes("region:null") || !servers.includes("coordinates:null")) t
 if (!quality.includes('QUALITY_MODEL_VERSION="1.1"') || !quality.includes("HEALTH_MODEL") || !quality.includes("HEALTH_MODEL.weights.download") || !quality.includes("HEALTH_MODEL.weights.latency")) throw new Error("Explicit deterministic health model missing");
 if (!quality.includes("throughputStats") || !quality.includes("diagnosticFlags") || !quality.includes("loadImpact")) throw new Error("Measured diagnostics helpers missing");
 if (!app.includes("Zipspeed-derived connection index") || !app.includes("Meets Zipspeed threshold") || !app.includes("ดัชนีอนุมานตามเกณฑ์ Zipspeed")) throw new Error("Derived-score UI must be explicitly labeled");
-if (/packet loss/i.test(app.replaceAll("HTTP probe ≠ packet loss",""))) throw new Error("Packet loss must not be claimed without packet-loss measurement");
+if (/\b(packetLoss|packet_loss|packetLossPct|packetLossValue)\b/i.test(runtimeSources)) throw new Error("Packet-loss result fields are forbidden without a real packet-loss measurement");
+if (!app.includes("HTTP probe ≠ packet loss") || !app.includes("HTTP probe ไม่ใช่ packet loss")) throw new Error("HTTP probe failure must stay explicitly distinguished from packet loss");
 if (!quality.includes("primaryDiagnostic") || !html.includes('id="diagnosticConcernValue"') || !app.includes("diagnosticConcernNone")) throw new Error("Explainable diagnostic concern missing");
 if (!html.includes('id="variationValue"') || !html.includes('id="flagsValue"')) throw new Error("Measured diagnostics UI missing");
 if (!app.includes("throughputVariationPct") || !app.includes("sampleMbps=calculateMbps")) throw new Error("Interval throughput diagnostics integration missing");
