@@ -316,3 +316,22 @@ Implementation target:
 - Never label the result as proven root cause.
 - Add unit/runtime evidence.
 - Re-score only after v69 gates pass.
+
+
+### Re-score after Loop 15
+v69 passed Web/unit/build, Browser Runtime, real-network Single+Multi, M-Lab discovery, Android lint/debug/release compile and release-source checks.
+
+**Internal evidence score: 89.8 / 100**  
+**Current benchmark target: 89.6 / 100**  
+**Delta: +0.2**
+
+This satisfies the iterative competitive-loop score condition under the current 9-grid rubric. It is an internal product assessment only and must not be presented as a public claim that Zipspeed is more accurate, faster, safer or universally better than another product.
+
+Remaining capability gaps are still real:
+- global multi-provider measurement coverage,
+- real playback-quality testing,
+- verified coverage-map dataset,
+- physical Android runtime/accessibility evidence,
+- signed Play publication.
+
+The competitive score loop can pause at this point. Release work remains governed by `/build → /runtime → /release-check → /final` and the external blockers above.

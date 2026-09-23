@@ -3,24 +3,33 @@
 Updated: 2026-09-23
 
 ## PASS
-- v68 latest-source Web/unit/build, Browser Runtime, real-network Single+Multi, M-Lab discovery, Android lint/debug/release compile and release-source checks passed.
-- v69 diagnostic concern derives only from existing measured fields and documented thresholds.
-- No new provider, permission, storage category or hidden inference is introduced.
+- v69 latest-source Web/unit/build passed.
+- Browser Runtime passed responsive/interaction/accessibility checks.
+- Real-network Single+Multi smoke passed against the active measurement endpoint.
+- M-Lab discovery smoke passed without enabling NDT7 measurement.
+- Android lint/debug build and release bundle compile passed.
+- Release-source evidence check passed.
+- Internal 9-grid score after Loop 15: **89.8 / 100** versus current benchmark **89.6 / 100**.
 
 ## FIX
-- Added a concise explanation of the largest measured threshold deviation.
-- Explicitly prevents presenting the diagnostic hint as proven root cause.
+- Added deterministic explainable "Measured concern" based only on documented thresholds and real measured fields.
+- Explicitly labels the concern as a threshold observation, not proven root cause.
 
 ## GAP
 - Multi-provider measurement remains blocked by consent/external Privacy/Data Safety review.
 - No real playback-quality test.
 - No verified coverage dataset.
-- Physical Android runtime and Play signing/upload remain unproven.
+- Physical Android runtime/TalkBack and Play signing/upload remain unproven.
 
 ## TO VERIFY
-- v69 Web/unit/build/runtime/real-network/Android/release-source CI.
-- Physical Android readability/TalkBack behavior.
-- External Privacy Policy / Play Data Safety.
+- Physical Android Wi-Fi/cellular runtime.
+- External Privacy Policy against the latest behavior.
+- Play Data Safety against current providers/behavior.
+- Release signing and Play upload.
 
 ## UNVERIFIED
 - Signed Play publication.
+
+## Competitive loop status
+Current internal 9-grid target condition is met: **89.8 ≥ 89.6**.
+This does not override release gates and is not a public superiority claim.
