@@ -169,3 +169,16 @@ Implementation target:
 - Export completed history as CSV in addition to JSON.
 - Keep all analysis local and add no new tracking/data destination.
 - Re-score only after v60 unit/build/browser-runtime evidence passes.
+
+
+## Loop 7 — load impact + IP version
+
+Baseline after Loop 6: **80.2 / 100** internal evidence-based score.
+
+Selected because Server/Coverage remains externally blocked while Measurement/Diagnostics can still improve from existing real measurements.
+
+Implementation target:
+- Derive loaded-latency delta from measured loaded minus idle HTTP latency.
+- Label Low/Moderate/High as Zipspeed product thresholds, not universal standards.
+- Display IPv4/IPv6 only when provider-returned client IP supports the classification.
+- Re-score only after v61 automated and real-network evidence passes.

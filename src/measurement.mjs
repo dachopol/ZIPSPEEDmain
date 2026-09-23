@@ -16,7 +16,7 @@ export function calculateMbps(bytes,elapsedMs){if(!Number.isFinite(bytes)||!Numb
 export function median(values){if(!Array.isArray(values))return null;const a=values.filter(v=>Number.isFinite(v)&&v>=0).sort((x,y)=>x-y);if(!a.length)return null;const m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2}
 export function latencyJitter(values){if(!Array.isArray(values))return null;const a=values.filter(v=>Number.isFinite(v)&&v>=0);if(a.length<2)return null;let total=0;for(let i=1;i<a.length;i++)total+=Math.abs(a[i]-a[i-1]);return total/(a.length-1)}
 export function probeFailPercent(failed,total){if(!Number.isFinite(failed)||!Number.isFinite(total)||total<=0||failed<0||failed>total)return null;return failed/total*100}
-export function parseProviderMeta(input){const m=input&&typeof input==="object"?input:{};const clean=v=>v===null||v===undefined?null:(String(v).trim()||null);const ip=clean(m.clientIp),raw=clean(m.asn),asn=raw?(raw.toUpperCase().startsWith("AS")?raw.toUpperCase():`AS${raw}`):null,org=clean(m.asOrganization),edge=clean(m.colo),city=clean(m.city),country=clean(m.country);return{clientIp:ip||"--",isp:[asn,org].filter(Boolean).join(" • ")||"--",edge:edge||"--",clientArea:[city,country].filter(Boolean).join(" • ")||"--"}}
+export function parseProviderMeta(input){const m=input&&typeof input==="object"?input:{};const clean=v=>v===null||v===undefined?null:(String(v).trim()||null);const ip=clean(m.clientIp),raw=clean(m.asn),asn=raw?(raw.toUpperCase().startsWith("AS")?raw.toUpperCase():`AS${raw}`):null,org=clean(m.asOrganization),edge=clean(m.colo),city=clean(m.city),country=clean(m.country);const ipVersion=ip?(ip.includes(":")?"IPv6":ip.includes(".")?"IPv4":"--"):"--";return{clientIp:ip||"--",ipVersion,isp:[asn,org].filter(Boolean).join(" • ")||"--",edge:edge||"--",clientArea:[city,country].filter(Boolean).join(" • ")||"--"}}
 export function videoSuitability(downloadMbps){const defs=[["4k","4K UHD",25],["1080","1080p",5],["720","720p",2.5],["480","480p",1]];return defs.map(([key,label,required])=>({key,label,required,suitable:Number.isFinite(downloadMbps)&&downloadMbps>=0?downloadMbps>=required:null}))}
 export function isCompleteResult(r){if(!r||typeof r!=="object"||r.completed!==true||r.aborted===true)return false;for(const k of["downloadMbps","uploadMbps"])if(!Number.isFinite(r[k])||r[k]<=0)return false;for(const k of["latencyMs","jitterMs","probeFailPct"])if(!Number.isFinite(r[k])||r[k]<0)return false;return!!r.timestamp&&!Number.isNaN(Date.parse(r.timestamp))}
 export function speedFraction(mbps){const v=Number.isFinite(mbps)&&mbps>0?mbps:0;return Math.min(1,Math.log1p(v)/Math.log(1001))}
@@ -65,7 +65,7 @@ export function historyToCsv(records){
   const columns=[
     "timestamp","profile","connectionMode","streamCount",
     "downloadMbps","uploadMbps","latencyMs","jitterMs","probeFailPct",
-    "loadedLatencyMs","loadedLatencySampleCount",
+    "loadedLatencyMs","loadedLatencySampleCount","loadedLatencyDeltaMs",
     "throughputVariationPct","throughputMinMbps","throughputMaxMbps","throughputSampleCount",
     "edge"
   ];

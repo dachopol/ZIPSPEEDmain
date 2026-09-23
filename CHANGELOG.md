@@ -1,5 +1,14 @@
 # Changelog
 
+## v61 — 2026-09-23 — Load impact + IP version
+- Added measured load-latency delta: loaded HTTP latency minus idle HTTP latency.
+- Added Low/Moderate/High Zipspeed load-impact bands with explicit product thresholds; not a universal standard.
+- Added load-impact diagnostic flag when measured delta exceeds 50 ms.
+- Added IPv4/IPv6 display derived only from provider-returned client IP metadata.
+- Added share/CSV provenance for loaded-latency delta.
+- Added unit, browser-runtime and real-network evidence checks.
+
+
 ## v60 — 2026-09-23 — History intelligence + CSV export
 - Added latest-vs-previous comparison restricted to the same test profile and connection mode.
 - Added deterministic download/upload percentage change and latency delta.

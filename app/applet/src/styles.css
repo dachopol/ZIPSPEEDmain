@@ -518,3 +518,12 @@ body{overflow-x:clip}
   .history-comparison-head .status-chip{justify-self:start}
   .comparison-grid{grid-template-columns:1fr}
 }
+
+
+/* v61 load impact */
+#loadImpactValue.low{color:#15803D}
+#loadImpactValue.moderate{color:#B45309}
+#loadImpactValue.high{color:#B91C1C}
+[data-theme="dark"] #loadImpactValue.low{color:#86EFAC}
+[data-theme="dark"] #loadImpactValue.moderate{color:#FCD34D}
+[data-theme="dark"] #loadImpactValue.high{color:#FCA5A5}

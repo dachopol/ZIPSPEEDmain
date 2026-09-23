@@ -186,6 +186,8 @@ try{
       return document.querySelector(".view.active")?.dataset?.view||null;
     })()`);
     assert(navState==="status",`Navigation failed at ${width}px`);
+    const ipVersionPresent=await cdp.evaluate(`!!document.querySelector("#ipVersionValue")`);
+    assert(ipVersionPresent,`IP version UI missing at ${width}px`);
 
     const modeToggle=await cdp.evaluate(`(()=>{
       document.querySelector('[data-target="settings"]')?.click();
@@ -307,6 +309,7 @@ try{
     }
     if(latest.connectionMode!==mode)throw new Error(`Real network mode mismatch: expected ${mode}, got ${latest.connectionMode}`);
     if(Number(latest.streamCount)!==(mode==="multi"?4:1))throw new Error(`Real network stream count mismatch for ${mode}`);
+    if(Number(latest.loadedLatencySampleCount)>0){if(!Number.isFinite(Number(latest.loadedLatencyMs))||!Number.isFinite(Number(latest.loadedLatencyDeltaMs)))throw new Error(`Real network loaded latency delta mismatch for ${mode}`);}
     return latest;
   }
 

@@ -94,7 +94,8 @@ export const DIAGNOSTIC_THRESHOLDS=Object.freeze({
   latency:150,
   jitter:30,
   probeFail:20,
-  variation:35
+  variation:35,
+  loadImpact:50
 });
 
 export function diagnosticFlags(result){
@@ -104,13 +105,14 @@ export function diagnosticFlags(result){
     if(Number.isFinite(value))flags.push({id,value,threshold,direction,unit});
   };
   const down=Number(result.downloadMbps),up=Number(result.uploadMbps),lat=Number(result.latencyMs),
-    jit=Number(result.jitterMs),probe=Number(result.probeFailPct),variation=Number(result.throughputVariationPct);
+    jit=Number(result.jitterMs),probe=Number(result.probeFailPct),variation=Number(result.throughputVariationPct),impact=Number(result.loadedLatencyDeltaMs);
   if(Number.isFinite(down)&&down<DIAGNOSTIC_THRESHOLDS.download)add("download",down,DIAGNOSTIC_THRESHOLDS.download,"below","Mbps");
   if(Number.isFinite(up)&&up<DIAGNOSTIC_THRESHOLDS.upload)add("upload",up,DIAGNOSTIC_THRESHOLDS.upload,"below","Mbps");
   if(Number.isFinite(lat)&&lat>DIAGNOSTIC_THRESHOLDS.latency)add("latency",lat,DIAGNOSTIC_THRESHOLDS.latency,"above","ms");
   if(Number.isFinite(jit)&&jit>DIAGNOSTIC_THRESHOLDS.jitter)add("jitter",jit,DIAGNOSTIC_THRESHOLDS.jitter,"above","ms");
   if(Number.isFinite(probe)&&probe>DIAGNOSTIC_THRESHOLDS.probeFail)add("probeFail",probe,DIAGNOSTIC_THRESHOLDS.probeFail,"above","%");
   if(Number.isFinite(variation)&&variation>DIAGNOSTIC_THRESHOLDS.variation)add("variation",variation,DIAGNOSTIC_THRESHOLDS.variation,"above","%");
+  if(Number.isFinite(impact)&&impact>DIAGNOSTIC_THRESHOLDS.loadImpact)add("loadImpact",impact,DIAGNOSTIC_THRESHOLDS.loadImpact,"above","ms");
   return flags;
 }
 
@@ -136,4 +138,15 @@ export function compareResults(current,previous){
     profile:current.profile||"standard",
     connectionMode:current.connectionMode||"single"
   };
+}
+
+
+export const LOAD_IMPACT_THRESHOLDS=Object.freeze({lowMax:20,moderateMax:50});
+
+export function loadImpact(idleLatencyMs,loadedLatencyMs){
+  const idle=Number(idleLatencyMs),loaded=Number(loadedLatencyMs);
+  if(!Number.isFinite(idle)||!Number.isFinite(loaded)||idle<0||loaded<0)return null;
+  const deltaMs=loaded-idle;
+  const band=deltaMs<=LOAD_IMPACT_THRESHOLDS.lowMax?"low":deltaMs<=LOAD_IMPACT_THRESHOLDS.moderateMax?"moderate":"high";
+  return{deltaMs,band,idleLatencyMs:idle,loadedLatencyMs:loaded};
 }
