@@ -62,8 +62,10 @@ if (!servers.includes('baseUrl:"https://speed.cloudflare.com"')) throw new Error
 if (!servers.includes("MLAB_LOCATE_URL") || !servers.includes("measurementEnabled:false") || !servers.includes("parseMlabLocateResponse")) throw new Error("M-Lab verified discovery registry missing");
 if (!servers.includes("buildMlabLocateUrl") || !servers.includes('url.searchParams.set("strict","true")')) throw new Error("Region discovery must stay separate and strict");
 if (!servers.includes("region:null") || !servers.includes("coordinates:null")) throw new Error("Server registry must not invent location");
-if (!quality.includes("down*0.30") || !quality.includes("latency*0.25")) throw new Error("Documented deterministic health model missing");
+if (!quality.includes('QUALITY_MODEL_VERSION="1.1"') || !quality.includes("HEALTH_MODEL") || !quality.includes("HEALTH_MODEL.weights.download") || !quality.includes("HEALTH_MODEL.weights.latency")) throw new Error("Explicit deterministic health model missing");
 if (!quality.includes("throughputStats") || !quality.includes("diagnosticFlags") || !quality.includes("loadImpact")) throw new Error("Measured diagnostics helpers missing");
+if (!app.includes("Zipspeed-derived connection index") || !app.includes("Meets Zipspeed threshold") || !app.includes("ดัชนีอนุมานตามเกณฑ์ Zipspeed")) throw new Error("Derived-score UI must be explicitly labeled");
+if (/packet loss/i.test(app.replaceAll("HTTP probe ≠ packet loss",""))) throw new Error("Packet loss must not be claimed without packet-loss measurement");
 if (!quality.includes("primaryDiagnostic") || !html.includes('id="diagnosticConcernValue"') || !app.includes("diagnosticConcernNone")) throw new Error("Explainable diagnostic concern missing");
 if (!html.includes('id="variationValue"') || !html.includes('id="flagsValue"')) throw new Error("Measured diagnostics UI missing");
 if (!app.includes("throughputVariationPct") || !app.includes("sampleMbps=calculateMbps")) throw new Error("Interval throughput diagnostics integration missing");
