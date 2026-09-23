@@ -84,6 +84,7 @@ if (!measurement.includes("CONNECTION_MODES") || !measurement.includes("splitTra
 if (!html.includes('id="connectionModeSetting"') || !app.includes("connectionModeId") || !app.includes("currentXhrs")) throw new Error("Connection mode implementation missing");
 if (!runtimeCheck.includes("Connection mode toggle failed")) throw new Error("Runtime connection-mode proof missing");
 if (!runtimeCheck.includes("Accessible name missing") || !runtimeCheck.includes("Duplicate IDs") || !runtimeCheck.includes("Keyboard focus indicator missing")) throw new Error("Accessibility runtime proof missing");
+if (!runtimeCheck.includes("Offline failure path did not settle") || !runtimeCheck.includes("Offline/incomplete result was saved")) throw new Error("Offline failure runtime proof missing");
 if (!css.includes(".secondary-button{min-height:44px") || !css.includes("min-height:44px")) throw new Error("44px touch-target floor missing");
 
 if (!/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(pkg.version)) throw new Error("Invalid canonical semver");

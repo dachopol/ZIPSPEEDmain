@@ -122,6 +122,7 @@ try{
   await cdp.send("Page.enable");
   await cdp.send("Runtime.enable");
   await cdp.send("Log.enable");
+  await cdp.send("Network.enable");
 
   const pkg=JSON.parse(await fs.readFile("package.json","utf8"));
   const expectedVersion=`v${pkg.version}`;
@@ -206,6 +207,31 @@ try{
       return document.querySelector(".view.active")?.dataset?.view||null;
     })()`);
     assert(navState==="status",`Navigation failed at ${width}px`);
+
+    if(width===412){
+      const beforeOffline=await cdp.evaluate(`(()=>{try{return JSON.parse(localStorage.getItem("zipspeed_history")||"[]").length}catch{return 0}})()`);
+      await cdp.send("Network.emulateNetworkConditions",{offline:true,latency:0,downloadThroughput:0,uploadThroughput:0,connectionType:"none"});
+      await cdp.evaluate(`document.querySelector('[data-target="speed"]')?.click();document.querySelector("#goButton")?.click()`);
+      let offlineState=null;
+      const offlineDeadline=Date.now()+12000;
+      while(Date.now()<offlineDeadline){
+        offlineState=await cdp.evaluate(`(()=>{
+          let history=[];try{history=JSON.parse(localStorage.getItem("zipspeed_history")||"[]")}catch{}
+          return{
+            running:document.querySelector("#goButton")?.getAttribute("aria-pressed")==="true",
+            phase:document.querySelector("#phaseLabel")?.textContent?.trim()||"",
+            transfer:document.querySelector("#transferLabel")?.textContent?.trim()||"",
+            count:history.length
+          };
+        })()`);
+        if(!offlineState.running)break;
+        await sleep(100);
+      }
+      await cdp.send("Network.emulateNetworkConditions",{offline:false,latency:0,downloadThroughput:-1,uploadThroughput:-1,connectionType:"wifi"});
+      assert(offlineState&&!offlineState.running,`Offline failure path did not settle: ${JSON.stringify(offlineState)}`);
+      assert(offlineState.count===beforeOffline,`Offline/incomplete result was saved: before=${beforeOffline} after=${offlineState.count}`);
+      assert(offlineState.phase&&offlineState.phase!=="READY"&&offlineState.phase!=="พร้อม",`Offline failure did not expose error state: ${JSON.stringify(offlineState)}`);
+    }
     const ipVersionPresent=await cdp.evaluate(`!!document.querySelector("#ipVersionValue")`);
     assert(ipVersionPresent,`IP version UI missing at ${width}px`);
 

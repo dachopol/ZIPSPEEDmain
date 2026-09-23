@@ -1,5 +1,13 @@
 # Changelog
 
+## v64 — 2026-09-23 — Failure/offline proof
+- Added Chrome runtime network emulation proof after the app shell is loaded.
+- CI verifies GO exits running state when measurement requests fail offline.
+- CI verifies failed/incomplete offline tests do not increase completed History.
+- CI verifies an explicit error state is exposed instead of fake/success data.
+- Network state is restored and the existing GO/STOP interaction proof continues afterward.
+
+
 ## v63 — 2026-09-23 — Accessibility proof
 - Raised secondary action and brand touch areas to the 44px-class target.
 - Strengthened visible keyboard focus styling and added prefers-contrast support.

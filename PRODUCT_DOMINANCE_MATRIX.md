@@ -204,3 +204,14 @@ Implementation target:
 - Verify accessible names and duplicate-ID absence at runtime.
 - Verify keyboard focus visibility.
 - Raise One-tap UX / Visual / Engineering evidence only after CI passes.
+
+
+## Loop 10 — failure/offline proof
+
+Baseline after Loop 9: **83.8 / 100** internal evidence-based score.
+
+Implementation target:
+- Prove offline measurement failure returns GO to a non-running state.
+- Prove incomplete/failed tests never enter completed History.
+- Preserve a visible error state and restore network for subsequent interaction tests.
+- Raise Engineering / Trust evidence only after runtime CI passes.
