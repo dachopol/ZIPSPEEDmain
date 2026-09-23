@@ -11,7 +11,7 @@ await fs.mkdir(path.join(dist, "src"), { recursive: true });
 for (const file of ["index.html", "metadata.json", "package.json"]) {
   await fs.copyFile(path.join(root, file), path.join(dist, file));
 }
-for (const file of ["styles.css", "app.mjs", "measurement.mjs"]) {
+for (const file of ["styles.css", "app.mjs", "measurement.mjs", "quality.mjs", "servers.mjs"]) {
   await fs.copyFile(path.join(root, "src", file), path.join(dist, "src", file));
 }
 

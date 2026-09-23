@@ -29,6 +29,8 @@ const metadata = JSON.parse(await fs.readFile("metadata.json", "utf8"));
 const gradle = await fs.readFile("app/build.gradle.kts", "utf8");
 const manifest = await fs.readFile("app/src/main/AndroidManifest.xml", "utf8");
 const activity = await fs.readFile("app/src/main/java/com/aistudio/zipspeed/zskt/MainActivity.java", "utf8");
+const buildScript = await fs.readFile("build.mjs", "utf8");
+if (!buildScript.includes('"quality.mjs", "servers.mjs"')) throw new Error("Static build must include v55 runtime modules");
 
 for (const token of ["Precision Mode", "Ad-Free", "Cloudflare Anycast", "Speed & Network", "Math.random()", "Mock speed"]) {
   for (const [name, text] of [["html", html], ["css", css], ["app", app], ["measurement", measurement]]) {
