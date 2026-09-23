@@ -32,6 +32,8 @@ const activity = await fs.readFile("app/src/main/java/com/aistudio/zipspeed/zskt
 const buildScript = await fs.readFile("build.mjs", "utf8");
 const runtimeCheck = await fs.readFile("runtime-check.mjs", "utf8");
 const ci = await fs.readFile(".github/workflows/ci.yml", "utf8");
+const runtimeSources=[app,measurement,quality,servers].join("\n");
+if (/\bMath\.random\s*\(/.test(runtimeSources)) throw new Error("Runtime random data generation is forbidden");
 if (!buildScript.includes('"quality.mjs", "servers.mjs"')) throw new Error("Static build must include runtime modules");
 if (!runtimeCheck.includes("Emulation.setDeviceMetricsOverride") || !runtimeCheck.includes("Page.captureScreenshot")) throw new Error("Browser runtime gate missing responsive/screenshot checks");
 if (!ci.includes("web-runtime:") || !ci.includes("npm run runtime:check")) throw new Error("CI browser runtime job missing");
