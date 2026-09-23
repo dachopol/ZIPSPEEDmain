@@ -200,6 +200,8 @@ try{
     })()`);
     assert(modeToggle.before&&modeToggle.after&&modeToggle.before!==modeToggle.after&&modeToggle.restored===modeToggle.before,`Connection mode toggle failed at ${width}px`);
     assert(modeToggle.scrollWidth<=modeToggle.innerWidth+1,`Settings overflow at ${width}px`);
+    const privacyVisible=await cdp.evaluate(`(()=>{const el=document.querySelector(".privacy-panel");if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&document.querySelector("#privacyCommerceBody")?.textContent?.trim().length>0})()`);
+    assert(privacyVisible,`Privacy panel missing at ${width}px`);
 
     const toggles=await cdp.evaluate(`(()=>{
       const beforeTheme=document.documentElement.dataset.theme;
@@ -235,7 +237,7 @@ try{
 
     const image=await cdp.send("Page.captureScreenshot",{format:"png",captureBeyondViewport:false});
     await fs.writeFile(path.join(ARTIFACT_DIR,`runtime-${width}.png`),Buffer.from(image.data,"base64"));
-    results.push({width,height,...snapshot,navigation:"PASS",connectionMode:"PASS",themeLanguage:"PASS",goStop:"PASS"});
+    results.push({width,height,...snapshot,navigation:"PASS",connectionMode:"PASS",privacy:"PASS",themeLanguage:"PASS",goStop:"PASS"});
   }
 
   async function setConnectionMode(mode){

@@ -39,3 +39,7 @@ npm run check
 ```
 
 See `RELEASE_STATUS.md` for release evidence and remaining verification.
+
+
+## Release-source evidence
+`npm run release:check` generates source-backed evidence for current permissions, local-history behavior, measurement endpoints and Ads/Billing dependency absence. This does not replace Play Console Data Safety, Privacy Policy review, signing or upload verification.

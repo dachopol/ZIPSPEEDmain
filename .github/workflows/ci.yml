@@ -24,7 +24,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: node --check src/app.mjs && node --check src/quality.mjs && node --check src/measurement.mjs && node --check runtime-check.mjs
+      - run: node --check src/app.mjs && node --check src/quality.mjs && node --check src/measurement.mjs && node --check runtime-check.mjs && node --check release-check.mjs
       - run: npm run check
 
   web-runtime:
@@ -61,6 +61,24 @@ jobs:
         with:
           name: zipspeed-real-network-smoke
           path: runtime-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+  release-source-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run release:check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zipspeed-release-evidence
+          path: release-evidence/
           if-no-files-found: error
           retention-days: 14
 

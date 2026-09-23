@@ -212,6 +212,20 @@
     <div class="setting-row"><div><strong id="profileLabel">Test profile</strong><span id="profileValue">Standard</span></div><button id="profileSetting" class="secondary-button" type="button">Quick / Standard</button></div>
     <div class="setting-row"><div><strong id="connectionModeLabel">Connection mode</strong><span id="connectionModeValue">Single connection</span></div><button id="connectionModeSetting" class="secondary-button" type="button" aria-pressed="false">Single / Multi</button></div>
   </div>
+
+  <section class="privacy-panel" aria-labelledby="privacyTitle">
+    <header>
+      <span class="kicker" id="privacyEyebrow">Privacy & Data</span>
+      <h2 id="privacyTitle">What this build actually does</h2>
+      <p id="privacyNote">These facts are derived from the current app source and must change if the implementation changes.</p>
+    </header>
+    <div class="privacy-grid">
+      <article><strong id="privacyNetworkTitle">Measurement traffic</strong><p id="privacyNetworkBody">Speed tests contact the listed measurement provider directly. Your IP/network metadata can be visible to that provider and may be shown in Status.</p></article>
+      <article><strong id="privacyHistoryTitle">Local history</strong><p id="privacyHistoryBody">Completed test history is stored locally on this device. Client IP and ISP metadata are not written into Zipspeed history.</p></article>
+      <article><strong id="privacyPermissionsTitle">Device permissions</strong><p id="privacyPermissionsBody">This Android build requests internet/network-state access and does not request camera, microphone or device location permissions.</p></article>
+      <article><strong id="privacyCommerceTitle">Ads & billing</strong><p id="privacyCommerceBody">No advertising or billing SDK is present in this build. Store declarations must be updated before either is added.</p></article>
+    </div>
+  </section>
   <article class="truth-panel"><span class="truth-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></span><div><h2 id="methodTitle">Measurement truth</h2><p id="methodText">Throughput uses actual transferred bytes and elapsed time. Failed or incomplete tests are not saved.</p></div></article>
 </section>
 </main>

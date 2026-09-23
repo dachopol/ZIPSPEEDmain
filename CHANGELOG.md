@@ -1,5 +1,14 @@
 # Changelog
 
+## v59 — 2026-09-23 — Privacy transparency + release evidence
+- Added visible TH/EN Privacy & Data facts derived from current source behavior.
+- Clarified that measurement traffic reaches the listed provider and that client IP/ISP metadata are not written into Zipspeed local history.
+- Clarified current Android permission scope and the absence of Ads/Billing SDKs in this build.
+- Added `release-check.mjs` to fail CI when permissions or commerce SDKs drift from the current declarations.
+- Added a release-evidence JSON artifact with package/version, permissions, endpoint and current verification gaps.
+- Browser runtime now verifies the Privacy panel on responsive widths.
+
+
 ## v58 — 2026-09-23 — Loaded latency + real-network proof
 - Added optional HTTP latency probes that begin while download transfer is active; unavailable samples remain unknown rather than fabricated.
 - Results now record loaded HTTP latency and sample count when measurable.

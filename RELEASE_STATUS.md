@@ -6,9 +6,20 @@ Updated: 2026-09-23
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Candidate versionName/versionCode: read from the canonical `package.json`.
-- Android Gradle derives both values from that file.
-- Preview displays the same version at runtime from the mirrored `package.json`.
+- Candidate versionName/versionCode: canonical `package.json`.
+- Gradle and Preview derive version from that source.
+
+## Source-backed release evidence
+The automated `release-source-check` verifies:
+- Android permission set remains INTERNET + ACCESS_NETWORK_STATE.
+- No camera, microphone or device-location Android permission is present.
+- Current Gradle source contains no AdMob/Google Mobile Ads or Play Billing dependency.
+- Completed history is localStorage-based.
+- Client IP and ISP fields are not written into the saved-result object.
+- Measurement endpoint list is extracted from current server registry.
+- Privacy facts are visible in the current UI.
+
+These checks describe current source only. They are not a Play Console approval or legal determination.
 
 ## Google Play Console evidence currently available
 - Track observed: Internal testing.
@@ -17,15 +28,12 @@ Updated: 2026-09-23
 - Target SDK shown by Play Console: **36**.
 - Package ID matches current source.
 
-The current candidate versionCode in `package.json` must remain higher than the observed Play versionCode before upload; CI validates the source/build linkage but does not prove Play upload.
+## TO VERIFY / UNVERIFIED
+- **TO VERIFY:** External Privacy Policy matches current v59 behavior.
+- **TO VERIFY:** Play Data Safety answers under current Play definitions and measurement-provider behavior.
+- **UNVERIFIED:** release signing for current candidate.
+- **UNVERIFIED:** Android Publisher authorization / successful AAB upload.
+- **UNVERIFIED:** physical Android Wi-Fi/cellular runtime.
+- **TO VERIFY:** Store screenshots from the current runtime.
 
-## Not yet verified
-- Runtime Preview of the latest source after this update.
-- Release signing for the current candidate.
-- Android Publisher authorization from AI Studio.
-- Successful AAB upload/commit to Play Console.
-- Data Safety against current behavior.
-- Privacy Policy against current behavior.
-- Store screenshots from the current runtime.
-
-A debug APK or release compile is not a Play publication result.
+A passing source/build/runtime gate is not a Play publication result.

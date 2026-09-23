@@ -129,6 +129,11 @@ Implementation target:
 
 ## Loop 4 — loaded latency and real-network proof
 
+### Re-score after evidence
+v58 passed Web checks, Browser Runtime, real-network Quick Single+Multi, Android lint/debug and release compile. Internal score moved from **74.8 → 79.0 / 100**. The score remains internal; it is not a public superiority claim.
+
+
+
 Selected to raise Measurement / Diagnostics / Engineering evidence without inventing coverage infrastructure.
 
 Implementation target:
@@ -137,3 +142,16 @@ Implementation target:
 - Run completed Quick Single and Multi tests against the actual measurement endpoint in CI on main pushes.
 - Verify saved-result provenance and finite core metrics.
 - Re-score only after the real-network job passes.
+
+
+## Loop 5 — privacy and release evidence
+
+Selected because Trust / Engineering can improve from source-backed evidence while Server/Coverage remains externally constrained.
+
+Implementation target:
+- Visible privacy facts must match current source behavior.
+- CI must detect Android permission drift.
+- CI must detect introduction of Ads/Billing dependencies before declarations are updated.
+- Produce machine-readable release evidence.
+- Keep external Privacy Policy, Play Data Safety, signing and Play upload explicitly TO VERIFY/UNVERIFIED until checked.
+- Re-score only after v59 source/build/runtime/release evidence passes.

@@ -66,6 +66,8 @@ if (!html.includes('id="variationValue"') || !html.includes('id="flagsValue"')) 
 if (!app.includes("throughputVariationPct") || !app.includes("sampleMbps=calculateMbps")) throw new Error("Interval throughput diagnostics integration missing");
 if (!app.includes("measureLoadedHttpLatency") || !html.includes('id="loadedLatencyValue"')) throw new Error("Loaded latency implementation missing");
 if (!runtimeCheck.includes("runRealNetworkTest") || !ci.includes("real-network-smoke:")) throw new Error("Real-network runtime proof job missing");
+if (!html.includes('class="privacy-panel"') || !app.includes("privacyCommerceBody")) throw new Error("Privacy transparency implementation missing");
+if (!ci.includes("release-source-check:") || !pkg.scripts?.["release:check"]) throw new Error("Release source evidence gate missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");
 if (!app.includes('const HISTORY_KEY="zipspeed_history"')) throw new Error("Stable history key missing");
 if (!app.includes("mergeHistoryRecords")) throw new Error("History migration missing");
