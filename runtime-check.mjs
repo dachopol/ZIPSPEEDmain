@@ -408,7 +408,16 @@ try{
   }
 
   cdp.socket.close();
-  await fs.rm(path.join(ARTIFACT_DIR,"chrome-profile"),{recursive:true,force:true});
+  if(chrome){
+    chrome.kill("SIGTERM");
+    await new Promise(resolve=>{
+      if(chrome.exitCode!==null||chrome.signalCode!==null)return resolve();
+      const timer=setTimeout(resolve,1500);
+      chrome.once("exit",()=>{clearTimeout(timer);resolve()});
+    });
+    chrome=null;
+  }
+  await fs.rm(path.join(ARTIFACT_DIR,"chrome-profile"),{recursive:true,force:true,maxRetries:6,retryDelay:150});
   await fs.writeFile(
     path.join(ARTIFACT_DIR,"runtime-report.json"),
     JSON.stringify({version:pkg.version,checkedAt:new Date().toISOString(),results,realNetwork},null,2)

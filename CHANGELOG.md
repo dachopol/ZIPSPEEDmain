@@ -1,6 +1,7 @@
 # Changelog
 
 ## v64 — 2026-09-23 — Verified provider discovery
+- Hardened Chrome profile cleanup in runtime CI by waiting for process exit and retrying recursive removal.
 - Added user-triggered M-Lab Locate v2 discovery for nearby NDT7 servers.
 - Discovery never runs automatically and does not run an M-Lab speed measurement.
 - Parser keeps machine/city/country and capability booleans only; access-token URLs are not retained.
