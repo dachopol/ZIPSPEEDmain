@@ -303,3 +303,16 @@ Implementation target:
 - Persist upload variation/min/max/sample count only when enough samples exist.
 - Add real-network evidence guards.
 - Re-score only after v68 gates pass.
+
+
+## Loop 15 — explainable measured concern
+
+### Re-score after Loop 14
+v68 passed all automated gates. Internal evidence score moved from **88.1 → 89.0 / 100**. Current benchmark remains **89.6 / 100**.
+
+Implementation target:
+- Identify the largest deviation only from documented Zipspeed diagnostic thresholds.
+- Show measured value and threshold directly.
+- Never label the result as proven root cause.
+- Add unit/runtime evidence.
+- Re-score only after v69 gates pass.

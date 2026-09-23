@@ -1,5 +1,12 @@
 # Changelog
 
+## v69 — 2026-09-23 — Explainable measured concern
+- Added a deterministic "Measured concern" summary that selects the largest deviation from documented Zipspeed diagnostic thresholds.
+- The summary shows the actual measured value, comparison operator and threshold.
+- Explicitly states that threshold deviation is not proof of network root cause.
+- Added TH/EN UI, unit tests, responsive runtime proof and audit guards.
+
+
 ## v68 — 2026-09-23 — Bidirectional throughput consistency
 - Added upload interval-throughput samples from real XHR upload progress bytes and monotonic elapsed time.
 - Added upload variation, min/max range and sample count separately from download consistency.

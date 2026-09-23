@@ -183,6 +183,8 @@ try{
     assert(snapshot.goWidth>=44&&snapshot.goHeight>=44,`GO touch target too small at ${width}px`);
     const uploadConsistencyUi=await cdp.evaluate(`!!document.querySelector("#uploadVariationValue")&&!!document.querySelector("#uploadRangeValue")`);
     assert(uploadConsistencyUi,`Upload consistency UI missing at ${width}px`);
+    const concernUi=await cdp.evaluate(`!!document.querySelector("#diagnosticConcernValue")&&!!document.querySelector("#diagnosticConcernNote")`);
+    assert(concernUi,`Measured concern UI missing at ${width}px`);
 
     const accessibility=await cdp.evaluate(`(()=>{
       const visible=el=>{

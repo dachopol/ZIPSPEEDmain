@@ -64,6 +64,7 @@ if (!servers.includes("buildMlabLocateUrl") || !servers.includes('url.searchPara
 if (!servers.includes("region:null") || !servers.includes("coordinates:null")) throw new Error("Server registry must not invent location");
 if (!quality.includes("down*0.30") || !quality.includes("latency*0.25")) throw new Error("Documented deterministic health model missing");
 if (!quality.includes("throughputStats") || !quality.includes("diagnosticFlags") || !quality.includes("loadImpact")) throw new Error("Measured diagnostics helpers missing");
+if (!quality.includes("primaryDiagnostic") || !html.includes('id="diagnosticConcernValue"') || !app.includes("diagnosticConcernNone")) throw new Error("Explainable diagnostic concern missing");
 if (!html.includes('id="variationValue"') || !html.includes('id="flagsValue"')) throw new Error("Measured diagnostics UI missing");
 if (!app.includes("throughputVariationPct") || !app.includes("sampleMbps=calculateMbps")) throw new Error("Interval throughput diagnostics integration missing");
 if (!app.includes("uploadThroughputVariationPct") || !html.includes('id="uploadVariationValue"') || !html.includes('id="uploadRangeValue"')) throw new Error("Upload throughput consistency implementation missing");
@@ -79,6 +80,7 @@ if (!html.includes('class="privacy-panel"') || !app.includes("privacyCommerceBod
 if (!html.includes('id="mlabDiscoverButton"') || !html.includes('id="mlabCountryInput"') || !html.includes('id="privacyDiscoveryBody"') || !app.includes("discoverMlabServers")) throw new Error("Optional M-Lab discovery UI/privacy implementation missing");
 if (!runtimeCheck.includes("Region/language separation failed")) throw new Error("Region/language separation runtime proof missing");
 if (!runtimeCheck.includes("Browser network context UI missing")) throw new Error("Browser network context runtime proof missing");
+if (!runtimeCheck.includes("Measured concern UI missing")) throw new Error("Measured concern runtime proof missing");
 if (!ci.includes("release-source-check:") || !pkg.scripts?.["release:check"]) throw new Error("Release source evidence gate missing");
 if (!app.includes("navigator.share")) throw new Error("Share flow missing");
 if (!measurement.includes("latestComparablePair") || !measurement.includes("historyToCsv") || !quality.includes("compareResults")) throw new Error("History intelligence helpers missing");

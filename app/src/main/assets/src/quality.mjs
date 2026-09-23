@@ -154,3 +154,24 @@ export function loadImpact(idleLatencyMs,loadedLatencyMs){
   const band=deltaMs<=LOAD_IMPACT_THRESHOLDS.lowMax?"low":deltaMs<=LOAD_IMPACT_THRESHOLDS.moderateMax?"moderate":"high";
   return{deltaMs,band,idleLatencyMs:idle,loadedLatencyMs:loaded};
 }
+
+
+export function primaryDiagnostic(result){
+  const flags=diagnosticFlags(result);
+  if(!flags.length)return null;
+  const scored=flags.map((flag,index)=>{
+    let severityRatio=null;
+    if(flag.direction==="above"&&flag.threshold>0)severityRatio=flag.value/flag.threshold;
+    if(flag.direction==="below")severityRatio=flag.value>0?flag.threshold/flag.value:Number.POSITIVE_INFINITY;
+    return{...flag,severityRatio,index};
+  }).filter(item=>Number.isFinite(item.severityRatio)||item.severityRatio===Number.POSITIVE_INFINITY);
+  if(!scored.length)return null;
+  scored.sort((a,b)=>{
+    if(a.severityRatio===b.severityRatio)return a.index-b.index;
+    if(a.severityRatio===Number.POSITIVE_INFINITY)return-1;
+    if(b.severityRatio===Number.POSITIVE_INFINITY)return 1;
+    return b.severityRatio-a.severityRatio;
+  });
+  const top=scored[0];
+  return{id:top.id,value:top.value,threshold:top.threshold,direction:top.direction,unit:top.unit,severityRatio:top.severityRatio};
+}

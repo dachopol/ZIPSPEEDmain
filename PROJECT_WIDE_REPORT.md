@@ -3,13 +3,13 @@
 Updated: 2026-09-23
 
 ## PASS
-- v67 latest-source Web/unit/build, Browser Runtime, real-network Single+Multi, M-Lab discovery, Android lint/debug/release compile and release-source checks passed.
-- v68 upload consistency derives only from real upload progress bytes and monotonic time.
-- Download and upload variation remain separate fields.
+- v68 latest-source Web/unit/build, Browser Runtime, real-network Single+Multi, M-Lab discovery, Android lint/debug/release compile and release-source checks passed.
+- v69 diagnostic concern derives only from existing measured fields and documented thresholds.
+- No new provider, permission, storage category or hidden inference is introduced.
 
 ## FIX
-- Added upload variation/min/max/sample-count diagnostics.
-- Removed duplicate loadedLatencyDeltaMs CSV column.
+- Added a concise explanation of the largest measured threshold deviation.
+- Explicitly prevents presenting the diagnostic hint as proven root cause.
 
 ## GAP
 - Multi-provider measurement remains blocked by consent/external Privacy/Data Safety review.
@@ -18,8 +18,8 @@ Updated: 2026-09-23
 - Physical Android runtime and Play signing/upload remain unproven.
 
 ## TO VERIFY
-- v68 Web/unit/build/runtime/real-network/Android/release-source CI.
-- Physical Android upload progress sampling.
+- v69 Web/unit/build/runtime/real-network/Android/release-source CI.
+- Physical Android readability/TalkBack behavior.
 - External Privacy Policy / Play Data Safety.
 
 ## UNVERIFIED

@@ -1,5 +1,5 @@
 import test from"node:test";
-import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact}from"../src/quality.mjs";
+import{networkHealthIndex,healthBand,useCaseSuitability,throughputStats,diagnosticFlags,compareResults,loadImpact,primaryDiagnostic}from"../src/quality.mjs";
 import{defaultServer,serverLocationLabel,MLAB_LOCATE_URL,parseMlabLocateResponse,normalizeCountryCode,buildMlabLocateUrl}from"../src/servers.mjs";import assert from"node:assert/strict";import{TEST_PROFILES,CONNECTION_MODES,splitTransferBytes,calculateMbps,median,latencyJitter,probeFailPercent,parseProviderMeta,videoSuitability,isCompleteResult,speedFraction,formatMiB,mergeHistoryRecords,latestComparablePair,historyToCsv,parseBrowserConnection,comparableHistoryStats}from"../src/measurement.mjs";
 test("profiles are explicit real transfer plans",()=>{assert.equal(TEST_PROFILES.quick.downloadBytes,3*1024*1024);assert.equal(TEST_PROFILES.quick.uploadBytes,1*1024*1024);assert.equal(TEST_PROFILES.standard.downloadBytes,10*1024*1024);assert.equal(TEST_PROFILES.standard.uploadBytes,5*1024*1024)});
 test("Mbps uses bytes and elapsed time",()=>{assert.equal(calculateMbps(10_000_000,1000),80);assert.equal(calculateMbps(100,0),null)});
@@ -201,4 +201,14 @@ test("comparable history stats never mix profile or connection mode",()=>{
 test("upload throughput variation diagnostic uses measured samples",()=>{
   const result={downloadMbps:100,uploadMbps:20,latencyMs:20,jitterMs:2,probeFailPct:0,throughputVariationPct:5,uploadThroughputVariationPct:50};
   assert.deepEqual(diagnosticFlags(result).map(x=>x.id),["uploadVariation"]);
+});
+
+
+test("primary diagnostic selects largest threshold deviation",()=>{
+  const result={downloadMbps:100,uploadMbps:1,latencyMs:170,jitterMs:2,probeFailPct:0,throughputVariationPct:5,uploadThroughputVariationPct:80,loadedLatencyDeltaMs:10,uploadLoadedLatencyDeltaMs:20};
+  const top=primaryDiagnostic(result);
+  assert.equal(top.id,"upload");
+  assert.equal(top.direction,"below");
+  assert.equal(top.threshold,3);
+  assert.equal(primaryDiagnostic({downloadMbps:100,uploadMbps:20,latencyMs:20,jitterMs:2,probeFailPct:0}),null);
 });
