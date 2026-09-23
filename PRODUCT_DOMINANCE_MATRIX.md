@@ -260,3 +260,19 @@ Implementation target:
 - Store none of these fields in History.
 - Add no permission and no new destination.
 - Re-score only after v66 gates pass.
+
+
+## Loop 13 — three-phase latency
+
+### Re-score after Loop 12
+v66 passed all automated gates. Internal evidence score: **87.0 / 100**. Current external benchmark remains **89.6 / 100** using the same 9-grid model; this is an internal product comparison, not a public accuracy claim.
+
+Current benchmark evidence still includes idle/download/upload latency, global server coverage, video testing, coverage maps and service-status features. Zipspeed does not receive credit for unsupported capabilities.
+
+Implementation target:
+- Keep idle HTTP latency separate.
+- Keep download-loaded HTTP latency separate.
+- Add upload-loaded HTTP latency only from probes started while upload requests are active.
+- Persist sample count and loaded-minus-idle delta when measurable.
+- Add real-network evidence checks for both Single and Multi.
+- Re-score only after v67 gates pass.

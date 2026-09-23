@@ -165,3 +165,9 @@ test("browser network info remains explicitly estimated",()=>{
   });
   assert.equal(parseBrowserConnection({}),null);
 });
+
+
+test("upload load impact diagnostic is evidence-based",()=>{
+  const result={downloadMbps:100,uploadMbps:20,latencyMs:20,jitterMs:2,probeFailPct:0,throughputVariationPct:5,loadedLatencyDeltaMs:10,uploadLoadedLatencyDeltaMs:80};
+  assert.deepEqual(diagnosticFlags(result).map(x=>x.id),["uploadLoadImpact"]);
+});

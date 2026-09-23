@@ -1,5 +1,13 @@
 # Changelog
 
+## v67 — 2026-09-23 — Three-phase latency
+- Added upload-loaded HTTP latency probes while upload requests are active.
+- Preserved idle HTTP latency and download-loaded HTTP latency as separate measurements.
+- Added upload-loaded sample count and upload-loaded minus idle delta; unavailable measurements remain unknown.
+- Added TH/EN UI, share/CSV provenance, diagnostic flag integration and real-network evidence guards.
+- No new measurement provider, permission or persistent client metadata was added.
+
+
 ## v66 — 2026-09-23 — Browser network context
 - Added optional browser-provided connection context: type, effective type, estimated downlink, estimated RTT and Data Saver state.
 - Labels clearly state these are browser estimates, not Zipspeed speed-test results.

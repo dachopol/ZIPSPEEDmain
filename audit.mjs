@@ -67,10 +67,12 @@ if (!quality.includes("throughputStats") || !quality.includes("diagnosticFlags")
 if (!html.includes('id="variationValue"') || !html.includes('id="flagsValue"')) throw new Error("Measured diagnostics UI missing");
 if (!app.includes("throughputVariationPct") || !app.includes("sampleMbps=calculateMbps")) throw new Error("Interval throughput diagnostics integration missing");
 if (!app.includes("measureLoadedHttpLatency") || !html.includes('id="loadedLatencyValue"')) throw new Error("Loaded latency implementation missing");
+if (!app.includes("uploadLoadedLatencyMs") || !html.includes('id="uploadLoadedLatencyValue"') || !html.includes('id="uploadLoadImpactValue"')) throw new Error("Upload-loaded latency implementation missing");
 if (!html.includes('id="loadImpactValue"') || !app.includes("loadedLatencyDeltaMs")) throw new Error("Load impact implementation missing");
 if (!html.includes('id="ipVersionValue"') || !measurement.includes("ipVersion")) throw new Error("IP version implementation missing");
 if (!html.includes('id="browserNetworkPanel"') || !measurement.includes("parseBrowserConnection") || !app.includes("renderBrowserNetworkInfo")) throw new Error("Browser network context implementation missing");
 if (!runtimeCheck.includes("runRealNetworkTest") || !ci.includes("real-network-smoke:")) throw new Error("Real-network runtime proof job missing");
+if (!runtimeCheck.includes("upload-loaded latency delta mismatch")) throw new Error("Real-network upload-loaded latency proof missing");
 if (!html.includes('class="privacy-panel"') || !app.includes("privacyCommerceBody")) throw new Error("Privacy transparency implementation missing");
 if (!html.includes('id="mlabDiscoverButton"') || !html.includes('id="mlabCountryInput"') || !html.includes('id="privacyDiscoveryBody"') || !app.includes("discoverMlabServers")) throw new Error("Optional M-Lab discovery UI/privacy implementation missing");
 if (!runtimeCheck.includes("Region/language separation failed")) throw new Error("Region/language separation runtime proof missing");

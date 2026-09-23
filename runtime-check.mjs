@@ -386,7 +386,8 @@ try{
     if(Number(latest.streamCount)!==(mode==="multi"?4:1))throw new Error(`Real network stream count mismatch for ${mode}`);
     for(const key of["downloadBytes","uploadBytes","downloadDurationMs","uploadDurationMs","testDurationMs"]){if(!Number.isFinite(Number(latest[key]))||Number(latest[key])<=0)throw new Error(`Real network measurement evidence missing for ${mode}: ${key}`);}
     if(!latest.endpointId||!latest.measurementProvider)throw new Error(`Real network endpoint provenance missing for ${mode}`);
-    if(Number(latest.loadedLatencySampleCount)>0){if(!Number.isFinite(Number(latest.loadedLatencyMs))||!Number.isFinite(Number(latest.loadedLatencyDeltaMs)))throw new Error(`Real network loaded latency delta mismatch for ${mode}`);}
+    if(Number(latest.loadedLatencySampleCount)>0){if(!Number.isFinite(Number(latest.loadedLatencyMs))||!Number.isFinite(Number(latest.loadedLatencyDeltaMs)))throw new Error(`Real network download-loaded latency delta mismatch for ${mode}`);}
+    if(Number(latest.uploadLoadedLatencySampleCount)>0){if(!Number.isFinite(Number(latest.uploadLoadedLatencyMs))||!Number.isFinite(Number(latest.uploadLoadedLatencyDeltaMs)))throw new Error(`Real network upload-loaded latency delta mismatch for ${mode}`);}
     return latest;
   }
 
