@@ -144,6 +144,7 @@ export function compareResults(current,previous){
 export const LOAD_IMPACT_THRESHOLDS=Object.freeze({lowMax:20,moderateMax:50});
 
 export function loadImpact(idleLatencyMs,loadedLatencyMs){
+  if(idleLatencyMs===null||idleLatencyMs===undefined||loadedLatencyMs===null||loadedLatencyMs===undefined)return null;
   const idle=Number(idleLatencyMs),loaded=Number(loadedLatencyMs);
   if(!Number.isFinite(idle)||!Number.isFinite(loaded)||idle<0||loaded<0)return null;
   const deltaMs=loaded-idle;
