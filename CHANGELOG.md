@@ -1,5 +1,14 @@
 # Changelog
 
+## v72 — 2026-09-23 — Derived-data truth hardening
+- Clarified that Health Index/bands are Zipspeed-derived scores, not direct network measurements or universal standards.
+- Clarified video/streaming suitability as Zipspeed throughput-threshold estimates, not playback tests or provider guarantees.
+- Made the quality model explicit and versioned as v1.1, including targets, weights and bands.
+- Added audit/test guards preventing unsupported packet-loss claims and ambiguous derived-score labels.
+- Preserved real measured throughput/latency/jitter and HTTP probe-failure data; unavailable data remains `--`.
+- Bumped app version/versionCode to 72.0.0 / 72 and invalidated preview asset caches.
+
+
 ## v71 — 2026-09-23 — Play Console test gate
 - Classified the current candidate as a TEST BUILD for Play testing-track evaluation.
 - Added a source-verifiable Play Console gate for target API 36, package identity, versionCode range, cleartext, AAB compile gate and privacy transparency.
