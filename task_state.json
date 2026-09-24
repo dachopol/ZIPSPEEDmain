@@ -4,17 +4,21 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "72.0.0",
   "version_code": 72,
-  "current_task_id": "privacy-url-gate-ci-validation",
-  "status": "IN_PROGRESS_CI_VALIDATION",
+  "validated_source_commit": "ceb48adddb1a3e2666a5740464ae41f1b25dceac",
+  "validated_ci_run": 136,
+  "validated_ci_jobs": "10/10 PASS",
+  "current_task_id": "external-infrastructure-or-physical-device-validation",
+  "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
-  "privacy_policy_deployment": "PASS",
+  "emulator_runtime": "PASS_API_34",
+  "browser_interaction": "PASS_320_390_768",
   "blockers": [
-    "TURN service/configuration for real packet loss",
-    "licensed/owned media endpoint for real video playback test",
+    "authorized TURN service/configuration for real packet loss",
+    "licensed/owned media endpoint and playback methodology for real video playback measurement",
     "additional authorized regional measurement endpoints",
-    "physical Android Wi-Fi/cellular/accessibility validation",
-    "release signing and Play Console access/upload/declarations",
-    "final Data Safety classification for IP-derived country and Cloudflare processing"
+    "physical Android Wi-Fi/4G/5G and accessibility validation",
+    "release signing material and Play Console access/upload/declarations",
+    "final Play Data Safety classification for IP-derived country and Cloudflare processing"
   ],
-  "next": "Validate public privacy URL CI gate; continue only where evidence and infrastructure exist."
+  "next": "Continue only with available external infrastructure, physical-device evidence, Play/signing access, or a newly reproduced source/runtime defect."
 }
