@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '24', cache: npm }
       - run: npm ci --ignore-scripts
-      - run: node --check web/src/app.mjs && node --check web/src/measurement.mjs && node --check runtime-check.mjs && node --check release-check.mjs && node --check play-console-check.mjs && node --check privacy-url-check.mjs
+      - run: node --check web/src/app.mjs && node --check web/src/measurement.mjs && node --check runtime-check.mjs && node --check release-check.mjs && node --check play-console-check.mjs && node --check privacy-url-check.mjs && node --check browser-check.mjs
       - run: npm run check
   web-runtime:
     runs-on: ubuntu-latest
@@ -43,6 +43,19 @@ jobs:
       - run: ZIPSPEED_REAL_NETWORK_SMOKE=1 npm run runtime:check
       - uses: actions/upload-artifact@v4
         with: { name: zipspeed-real-network-smoke, path: runtime-artifacts/, if-no-files-found: error, retention-days: 14 }
+  browser-interaction:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with: { node-version: '24', cache: npm }
+      - run: npm ci --ignore-scripts
+      - run: google-chrome --version || google-chrome-stable --version || chromium --version
+      - run: npm run browser:check
+      - uses: actions/upload-artifact@v4
+        with: { name: zipspeed-browser-interaction, path: browser-artifacts/, if-no-files-found: error, retention-days: 14 }
   privacy-url-check:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
