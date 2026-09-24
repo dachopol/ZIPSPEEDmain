@@ -10,9 +10,9 @@ if(!manifest.includes('android:label="ZIPSPEED by AnakinYoo"')||!manifest.includ
 if(!activity.includes("zipspeedStopForLifecycle")||!activity.includes("MIXED_CONTENT_NEVER_ALLOW"))throw new Error("Android lifecycle/security hook missing");
 if((html.match(/id="goButton"/g)||[]).length!==1)throw new Error("GO control must be unique");
 for(const tab of["speed","video","status","map","history","settings","adfree"])if(!html.includes(`id="${tab}"`))throw new Error("Missing tab "+tab);
-for(const id of["downLoadedLatencyValue","upLoadedLatencyValue","serverValue","serverSetting","payloadValue","latencyGraph"])if(!html.includes(`id="${id}"`))throw new Error("Missing rebuilt measurement control "+id);
+for(const id of["downLoadedLatencyValue","upLoadedLatencyValue","serverValue","serverSetting","payloadValue","latencyGraph","monitorButton","monitorIntervalSetting","monitorLog"])if(!html.includes(`id="${id}"`))throw new Error("Missing rebuilt measurement control "+id);
 if(!html.includes('id="appVersion"')||!app.includes('fetch("./version.json"'))throw new Error("Runtime version display missing");
-if(!app.includes('fetch("./server-directory.json"')||!app.includes("normalizeHistoryEntry")||!app.includes("addLatencySample")||!app.includes("measureUnderLoad")||!app.includes("download-loaded")||!app.includes("upload-loaded"))throw new Error("Loaded-latency/server-directory flow missing");
+if(!app.includes('fetch("./server-directory.json"')||!app.includes("normalizeHistoryEntry")||!app.includes("monitorProbe")||!app.includes("monitorTransition")||!app.includes("addLatencySample")||!app.includes("measureUnderLoad")||!app.includes("download-loaded")||!app.includes("upload-loaded"))throw new Error("Loaded-latency/server-directory flow missing");
 if(!Array.isArray(directory.servers)||!directory.servers.some(s=>s.enabled&&s.baseUrl==="https://speed.cloudflare.com"&&s.selection==="anycast-auto"))throw new Error("Verified measurement server missing");
 if(/Math\.random\s*\(/.test(app+measurement))throw new Error("Random runtime data forbidden");
 if(/packetLoss|packet_loss|packetLossPct/i.test(app+measurement))throw new Error("Unmeasured packet loss forbidden");

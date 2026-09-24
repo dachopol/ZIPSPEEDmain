@@ -71,7 +71,12 @@
         <article class="status-card"><span>Edge</span><strong id="edgeValue">--</strong></article>
         <article class="status-card"><span data-i18n="clientArea">Client area</span><strong id="areaValue">--</strong></article>
         <article class="status-card"><span data-i18n="measuredAt">Measured at</span><strong id="timeValue">--</strong></article>
+        <article class="status-card"><div><span data-i18n="monitorStatusLabel">Monitor</span><small data-i18n="monitorForeground">Foreground only</small></div><strong id="monitorStatus">Stopped</strong></article>
+        <article class="setting-card"><span data-i18n="monitorControl">Monitoring</span><button id="monitorButton" class="text-button" type="button">Start</button></article>
+        <label class="setting-card"><span data-i18n="monitorInterval">Monitor interval</span><select id="monitorIntervalSetting"><option value="5000">5 s</option><option value="10000">10 s</option><option value="30000">30 s</option></select></label>
       </div>
+      <div class="section-row"><h2 data-i18n="monitorLog">Monitor log</h2><button id="clearMonitorLogButton" class="text-button" type="button" data-i18n="clear">Clear</button></div>
+      <div id="monitorLog" class="card-list"></div>
     </section>
 
     <section id="map" class="page">
