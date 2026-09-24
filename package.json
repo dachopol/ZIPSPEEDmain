@@ -18,6 +18,7 @@
     "runtime:check": "node runtime-check.mjs",
     "release:check": "node release-check.mjs",
     "play:check": "node play-console-check.mjs",
-    "privacy:check": "node privacy-url-check.mjs"
+    "privacy:check": "node privacy-url-check.mjs",
+    "browser:check": "node browser-check.mjs"
   }
 }
