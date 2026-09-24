@@ -20,6 +20,6 @@ if(!measurement.includes("finishDurationMs:1000")||!measurement.includes("downlo
 if(/Math\.random\s*\(/.test(app+measurement))throw new Error("Random runtime data forbidden");
 if(/packetLoss|packet_loss|packetLossPct/i.test(app+measurement))throw new Error("Unmeasured packet loss forbidden");
 if(!html.includes("HTTP probe ≠ packet loss"))throw new Error("Probe disclaimer missing");
-if(!css.includes("--blue:#3B82F6")||!css.includes("@media(max-width:350px)"))throw new Error("Responsive visual system missing");
+if(!css.includes("--blue:#3B82F6")||!/@media\(max-width:(?:3[0-8]0)px\)/.test(css)||!css.includes("prefers-reduced-motion"))throw new Error("Responsive visual system missing");
 if(!app.includes("navigator.share")||!app.includes("localStorage"))throw new Error("Share/history flow missing");
 console.log("AUDIT PASS — single-source ZIPSPEED v72 + loaded latency");
