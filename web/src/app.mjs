@@ -81,7 +81,27 @@ async function runTest(){
   }
 }
 function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});phase(t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog()}
-function initTabs(){document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-selected","false")});document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));b.classList.add("active");b.setAttribute("aria-selected","true");$(b.dataset.tab).classList.add("active")}))}
+function activateTab(button,{focus=false}={}){
+  document.querySelectorAll(".tab").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-selected","false");x.tabIndex=-1});
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  button.classList.add("active");button.setAttribute("aria-selected","true");button.tabIndex=0;$(button.dataset.tab).classList.add("active");
+  if(focus)button.focus({preventScroll:true});
+}
+function initTabs(){
+  const tabs=[...document.querySelectorAll(".tab")];
+  tabs.forEach((b,index)=>{
+    b.addEventListener("click",()=>activateTab(b));
+    b.addEventListener("keydown",e=>{
+      let next=index;
+      if(e.key==="ArrowRight")next=(index+1)%tabs.length;
+      else if(e.key==="ArrowLeft")next=(index-1+tabs.length)%tabs.length;
+      else if(e.key==="Home")next=0;
+      else if(e.key==="End")next=tabs.length-1;
+      else return;
+      e.preventDefault();activateTab(tabs[next],{focus:true});
+    });
+  });
+}
 $("goButton").addEventListener("click",runTest);
 $("shareButton").addEventListener("click",async()=>{if(!lastResult)return;const loaded=Number.isFinite(lastResult.downloadLoadedLatencyMs)?` / loaded ↓ ${lastResult.downloadLoadedLatencyMs.toFixed(1)} ms`:"";const s=`ZIPSPEED — ↓ ${lastResult.downloadMbps.toFixed(1)} Mbps / ↑ ${lastResult.uploadMbps.toFixed(1)} Mbps / idle ${lastResult.idleLatencyMs.toFixed(1)} ms${loaded}`;if(navigator.share)await navigator.share({title:"ZIPSPEED by AnakinYoo",text:s});else await navigator.clipboard.writeText(s)});
 $("clearHistoryButton").addEventListener("click",()=>{localStorage.removeItem(HISTORY_KEY);renderHistory()});
