@@ -1,9 +1,9 @@
 export const TEST_PROFILES=Object.freeze({
-  quick:Object.freeze({downloadBytes:3*1024*1024,uploadBytes:1*1024*1024,probes:3,loadedProbeIntervalMs:400,adaptive:false}),
+  quick:Object.freeze({downloadBytes:3*1024*1024,uploadBytes:1*1024*1024,probes:3,loadedProbeIntervalMs:400,requestTimeoutMs:30000,totalTimeoutMs:90000,adaptive:false}),
   standard:Object.freeze({
     downloadPlanBytes:Object.freeze([1*1024*1024,10*1024*1024,25*1024*1024,50*1024*1024]),
     uploadPlanBytes:Object.freeze([1*1024*1024,10*1024*1024,25*1024*1024]),
-    probes:10,loadedProbeIntervalMs:400,finishDurationMs:1000,loadedMinDurationMs:250,bandwidthMinDurationMs:10,adaptive:true
+    probes:10,loadedProbeIntervalMs:400,requestTimeoutMs:60000,totalTimeoutMs:240000,finishDurationMs:1000,loadedMinDurationMs:250,bandwidthMinDurationMs:10,adaptive:true
   })
 });
 export const CONNECTION_MODES=Object.freeze({single:Object.freeze({streams:1}),multi:Object.freeze({streams:4})});
