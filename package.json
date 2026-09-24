@@ -17,6 +17,7 @@
     "check": "npm run audit && npm test && npm run build",
     "runtime:check": "node runtime-check.mjs",
     "release:check": "node release-check.mjs",
-    "play:check": "node play-console-check.mjs"
+    "play:check": "node play-console-check.mjs",
+    "privacy:check": "node privacy-url-check.mjs"
   }
 }
