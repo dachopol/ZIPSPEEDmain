@@ -3,327 +3,133 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#F7F9FC">
+<meta name="theme-color" content="#f6f8fc">
 <meta name="color-scheme" content="light dark">
-<title>Zipspeed by AnakinYoo</title>
+<title>ZIPSPEED by AnakinYoo</title>
 <link rel="stylesheet" href="./src/styles.css?v=72.0.0">
 </head>
 <body>
 <div class="app-shell">
-<header class="app-header">
-  <a class="brand" href="#" aria-label="Zipspeed home">
-    <span class="brand-mark" aria-hidden="true">
-      <svg viewBox="0 0 32 32"><path d="M6 9.5h13.6L10.8 20H26l-4 4H7.3l8.8-10.5H6z"/></svg>
-    </span>
-    <span class="brand-copy"><span class="brand-title-row"><strong>Zipspeed</strong><span id="appVersion" class="version-badge" aria-label="Version">v--</span></span><small id="brandSubtitle">Real network measurement</small></span>
-  </a>
-  <div class="header-actions">
-    <button id="langButton" class="control-button" type="button" aria-label="Change language">TH</button>
-    <button id="themeButton" class="control-button icon-only" type="button" aria-label="Change theme">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg>
-    </button>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">Z</div>
+    <div><strong>ZIPSPEED</strong><span>by AnakinYoo</span></div>
+  </div>
+  <div class="top-actions">
+    <span id="versionBadge" class="pill">v72.0.0</span>
+    <button id="langButton" class="icon-btn" type="button">TH</button>
+    <button id="themeButton" class="icon-btn" type="button" aria-label="Theme">◐</button>
   </div>
 </header>
 
-<main class="content">
+<main>
 <section class="view active" data-view="speed">
-  <section class="speed-stage">
-    <div class="stage-meta">
-      <div>
-        <span class="kicker" id="speedEyebrow">Speed Test</span>
-        <h1 id="speedTitle">Measure your connection</h1>
-      </div>
-      <span id="onlineBadge" class="status-chip neutral">--</span>
+  <section class="hero card">
+    <div class="section-head">
+      <div><span class="eyebrow" data-i18n="speed">Speed</span><h1 data-i18n="measure">Measure your connection</h1></div>
+      <span id="onlineState" class="state neutral">--</span>
     </div>
 
-    <div class="instrument-shell">
-      <div class="instrument-depth instrument-depth-back" aria-hidden="true"></div>
-      <div class="instrument-depth instrument-depth-front" aria-hidden="true"></div>
-      <div class="instrument-glow" aria-hidden="true"></div>
-      <svg class="gauge" viewBox="0 0 360 310" role="img" aria-label="Speed gauge">
-        <defs>
-          <linearGradient id="gaugeBlue" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#8CC3FF"/>
-            <stop offset="48%" stop-color="#3B82F6"/>
-            <stop offset="100%" stop-color="#1D4ED8"/>
-          </linearGradient>
-          <filter id="blueGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="5" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <circle class="gauge-rim" cx="180" cy="154" r="128"/>
-        <circle class="gauge-inner" cx="180" cy="154" r="111"/>
-        <g class="gauge-ticks" aria-hidden="true">
-          <path d="M180 31v12M92 66l8 10M55 154h13M92 242l8-10M268 242l-8-10M305 154h-13M268 66l-8 10"/>
-        </g>
-        <path class="gauge-track" d="M 73 221 A 126 126 0 1 1 287 221" pathLength="100"/>
-        <path id="gaugeArc" class="gauge-arc" d="M 73 221 A 126 126 0 1 1 287 221" pathLength="100"/>
-        <g id="needle" class="needle" transform="rotate(-120 180 221)">
-          <line x1="180" y1="221" x2="180" y2="89"/>
-          <circle class="needle-hub-outer" cx="180" cy="221" r="13"/>
-          <circle class="needle-hub-inner" cx="180" cy="221" r="6"/>
+    <div class="gauge-wrap">
+      <svg class="gauge" viewBox="0 0 320 260" role="img" aria-label="Speed gauge">
+        <path class="gauge-track" d="M45 210 A130 130 0 1 1 275 210"/>
+        <path id="gaugeArc" class="gauge-value" d="M45 210 A130 130 0 1 1 275 210" pathLength="100"/>
+        <g id="needle" class="needle" transform="rotate(-120 160 210)">
+          <line x1="160" y1="210" x2="160" y2="82"/>
+          <circle cx="160" cy="210" r="12"/>
         </g>
       </svg>
-
-      <div class="instrument-center">
-        <span id="phaseLabel" class="phase-label">READY</span>
-        <div class="live-reading"><span id="liveValue">--</span><small>Mbps</small></div>
+      <div class="gauge-center">
+        <span id="phaseLabel">READY</span>
+        <strong id="liveValue">--</strong>
+        <small>Mbps</small>
       </div>
-
-      <button id="goButton" class="go-pill" type="button" aria-pressed="false" aria-label="GO"><span>GO</span></button>
+      <button id="goButton" class="go-btn" type="button">GO</button>
     </div>
 
-    <div class="profile-control" role="group" aria-label="Test profile">
-      <div class="segmented">
-        <button id="quickProfile" class="segment" type="button" aria-pressed="false">Quick</button>
-        <button id="standardProfile" class="segment active" type="button" aria-pressed="true">Standard</button>
-      </div>
-      <span id="profileData" class="profile-data">≈ 15 MiB + overhead</span>
+    <div class="metric-list">
+      <article class="metric-card"><span data-i18n="download">Download</span><strong><b id="downloadValue">--</b> Mbps</strong></article>
+      <article class="metric-card"><span data-i18n="upload">Upload</span><strong><b id="uploadValue">--</b> Mbps</strong></article>
+      <article class="metric-card"><span data-i18n="latency">Latency</span><strong><b id="latencyValue">--</b> ms</strong></article>
+      <article class="metric-card"><span data-i18n="jitter">Jitter</span><strong><b id="jitterValue">--</b> ms</strong></article>
     </div>
 
-    <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
-    <p id="testHint" class="stage-hint">Tap GO to start a measured HTTP test.</p>
-
-    <div class="metric-deck">
-      <article class="metric">
-        <div class="metric-head">
-          <span class="metric-icon download" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0 4-4m-4 4-4-4M5 20h14"/></svg></span>
-          <span id="labelDownload">Download</span>
-        </div>
-        <strong><span id="downloadValue">--</span><small>Mbps</small></strong>
-        <em id="downloadState">Pending</em>
-      </article>
-      <article class="metric">
-        <div class="metric-head">
-          <span class="metric-icon upload" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20V9m0 0 4 4m-4-4-4 4M5 4h14"/></svg></span>
-          <span id="labelUpload">Upload</span>
-        </div>
-        <strong><span id="uploadValue">--</span><small>Mbps</small></strong>
-        <em id="uploadState">Pending</em>
-      </article>
-      <article class="metric">
-        <div class="metric-head">
-          <span class="metric-icon latency" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg></span>
-          <span id="labelLatency">HTTP Latency</span>
-        </div>
-        <strong><span id="latencyValue">--</span><small>ms</small></strong>
-        <em id="latencyState">Pending</em>
-      </article>
-      <article class="metric">
-        <div class="metric-head">
-          <span class="metric-icon jitter" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h3l2-5 3 10 2-5h6"/></svg></span>
-          <span id="labelJitter">Jitter</span>
-        </div>
-        <strong><span id="jitterValue">--</span><small>ms</small></strong>
-        <em id="probeState">HTTP probe ≠ packet loss</em>
-      </article>
-    </div>
-
-    <section id="healthPanel" class="health-panel" aria-live="polite">
-      <div class="health-summary">
-        <div>
-          <span class="kicker" id="healthEyebrow">Network Health</span>
-          <h2 id="healthTitle">Measured connection index</h2>
-          <p id="healthNote">Derived from this HTTP test. Not a universal network rating.</p>
-        </div>
-        <div class="health-score" aria-label="Network health index">
-          <strong id="healthValue">--</strong><small>/100</small>
-          <span id="healthBand">--</span>
-        </div>
-      </div>
-      <div id="useCaseGrid" class="usecase-grid">
-        <article class="usecase-card"><span id="useBrowsingLabel">Browsing</span><strong id="useBrowsingValue">--</strong><small id="useBrowsingReason">--</small></article>
-        <article class="usecase-card"><span id="useCallLabel">Video call</span><strong id="useCallValue">--</strong><small id="useCallReason">--</small></article>
-        <article class="usecase-card"><span id="useGamingLabel">Gaming</span><strong id="useGamingValue">--</strong><small id="useGamingReason">--</small></article>
-        <article class="usecase-card"><span id="use4kLabel">4K streaming</span><strong id="use4kValue">--</strong><small id="use4kReason">--</small></article>
-      </div>
-      <section class="diagnostic-concern" aria-live="polite">
-        <div><span class="kicker" id="diagnosticConcernEyebrow">Measured concern</span><h3 id="diagnosticConcernTitle">Largest threshold deviation</h3></div>
-        <strong id="diagnosticConcernValue">--</strong>
-        <p id="diagnosticConcernNote">Based on Zipspeed thresholds only. This does not prove the root cause of a network problem.</p>
-      </section>
-      <div class="diagnostic-strip" aria-label="Measured diagnostics">
-        <div><span id="variationLabel">Download variation</span><strong id="variationValue">--</strong><small id="variationHint">Lower is steadier</small></div>
-        <div><span id="rangeLabel">Download sample range</span><strong id="rangeValue">--</strong><small>Mbps</small></div>
-        <div><span id="uploadVariationLabel">Upload variation</span><strong id="uploadVariationValue">--</strong><small id="uploadVariationHint">Lower is steadier</small></div>
-        <div><span id="uploadRangeLabel">Upload sample range</span><strong id="uploadRangeValue">--</strong><small>Mbps</small></div>
-        <div><span id="flagsLabel">Measured flags</span><strong id="flagsValue">--</strong><small id="flagsHint">Zipspeed thresholds</small></div>
-        <div><span id="loadedLatencyLabel">Download-loaded HTTP latency</span><strong id="loadedLatencyValue">--</strong><small id="loadedLatencyHint">Probes started while download is active</small></div>
-        <div><span id="loadImpactLabel">Download load delta</span><strong id="loadImpactValue">--</strong><small id="loadImpactHint">Download-loaded − idle HTTP latency</small></div>
-        <div><span id="uploadLoadedLatencyLabel">Upload-loaded HTTP latency</span><strong id="uploadLoadedLatencyValue">--</strong><small id="uploadLoadedLatencyHint">Probes started while upload requests are active</small></div>
-        <div><span id="uploadLoadImpactLabel">Upload load delta</span><strong id="uploadLoadImpactValue">--</strong><small id="uploadLoadImpactHint">Upload-loaded − idle HTTP latency</small></div>
-      </div>
-    </section>
-
-    <article class="trace-panel">
-      <div class="trace-head">
-        <div><span class="kicker" id="chartEyebrow">Live</span><h2 id="chartTitle">Throughput</h2></div>
-        <span id="transferLabel" class="status-chip neutral">--</span>
-      </div>
-      <canvas id="chart" height="160" aria-label="Live throughput chart"></canvas>
-    </article>
+    <div class="progress"><div id="progressBar"></div></div>
+    <p id="statusText" class="muted" data-i18n="tapGo">Tap GO to run a real HTTP measurement.</p>
   </section>
 </section>
 
 <section class="view" data-view="video">
-  <header class="page-heading">
-    <span class="kicker" id="videoEyebrow">Video</span>
-    <h1 id="videoTitle">Streaming suitability</h1>
-    <p id="videoNote">Estimate from the latest measured download speed. This is not a playback test.</p>
-  </header>
-  <div id="videoGrid" class="video-grid"></div>
+  <section class="card">
+    <div class="section-head"><div><span class="eyebrow">Video</span><h1 data-i18n="videoTitle">Streaming suitability</h1></div><span class="state neutral">Measured</span></div>
+    <div id="videoList" class="card-list"></div>
+    <p class="muted" data-i18n="videoNote">Estimate from the latest measured download speed. This is not a playback test.</p>
+  </section>
 </section>
 
 <section class="view" data-view="status">
-  <header class="page-heading">
-    <span class="kicker" id="statusEyebrow">Status</span>
-    <h1 id="statusTitle">Network context</h1>
-    <p id="statusNote">Only provider metadata and verified request state are shown.</p>
-  </header>
-  <div class="status-list">
-    <article class="status-row"><span id="ipLabel">Client IP</span><strong id="ipValue">--</strong></article>
-    <article class="status-row"><span id="ipVersionLabel">IP version</span><strong id="ipVersionValue">--</strong></article>
-    <article class="status-row"><span id="ispLabel">ISP / ASN</span><strong id="ispValue">--</strong></article>
-    <article class="status-row"><span id="edgeLabel">Provider edge</span><strong id="edgeValue">--</strong></article>
-    <article class="status-row"><span id="areaLabel">Client area</span><strong id="areaValue">--</strong></article>
-    <article class="status-row"><span id="serviceLabel">Test service</span><strong id="serviceValue">--</strong></article>
-    <article class="status-row"><span id="serverLocationLabel">Server location</span><strong id="serverLocationValue">--</strong></article>
-    <article class="status-row"><span id="endpointLabel">Measurement endpoint</span><strong id="endpointValue">--</strong></article>
-    <article class="status-row"><span id="integrityLabel">Result integrity</span><strong id="integrityValue">HTTP 2xx + measured bytes</strong></article>
-  </div>
-  <section id="browserNetworkPanel" class="browser-network-panel" aria-labelledby="browserNetworkTitle">
-    <div>
-      <span class="kicker" id="browserNetworkEyebrow">Browser Network Hint</span>
-      <h2 id="browserNetworkTitle">Connection context from this browser</h2>
-      <p id="browserNetworkNote">Browser-provided estimates only. These values are not Zipspeed test results and may be unavailable.</p>
-    </div>
-    <div class="browser-network-grid">
-      <article><span id="browserTypeLabel">Connection type</span><strong id="browserTypeValue">--</strong></article>
-      <article><span id="browserEffectiveLabel">Effective type</span><strong id="browserEffectiveValue">--</strong></article>
-      <article><span id="browserDownlinkLabel">Browser downlink estimate</span><strong id="browserDownlinkValue">--</strong></article>
-      <article><span id="browserRttLabel">Browser RTT estimate</span><strong id="browserRttValue">--</strong></article>
-      <article><span id="browserSaveDataLabel">Data saver</span><strong id="browserSaveDataValue">--</strong></article>
+  <section class="card">
+    <div class="section-head"><div><span class="eyebrow">Status</span><h1 data-i18n="networkContext">Network context</h1></div><span id="endpointState" class="state neutral">--</span></div>
+    <div class="card-list">
+      <article class="row-card"><span>IP</span><strong id="ipValue">--</strong></article>
+      <article class="row-card"><span>IP Version</span><strong id="ipVersion">--</strong></article>
+      <article class="row-card"><span>ISP / ASN</span><strong id="ispValue">--</strong></article>
+      <article class="row-card"><span>Provider Edge</span><strong id="edgeValue">--</strong></article>
+      <article class="row-card"><span>Client Area</span><strong id="areaValue">--</strong></article>
+      <article class="row-card"><span>Endpoint</span><strong>Cloudflare Speed Test</strong></article>
     </div>
   </section>
-  <section class="provider-discovery-panel" aria-labelledby="providerDiscoveryTitle">
-    <div class="provider-discovery-head">
-      <div>
-        <span class="kicker" id="providerDiscoveryEyebrow">Verified Provider Discovery</span>
-        <h2 id="providerDiscoveryTitle">M-Lab nearest NDT7 servers</h2>
-        <p id="providerDiscoveryNote">Only contacts M-Lab Locate API after you tap Discover. This build does not run an M-Lab NDT7 measurement.</p>
-      </div>
-      <div class="provider-discovery-actions">
-        <label class="country-code-field" for="mlabCountryInput">
-          <span id="mlabCountryLabel">Country code</span>
-          <input id="mlabCountryInput" type="text" inputmode="text" maxlength="2" autocomplete="off" autocapitalize="characters" aria-describedby="mlabCountryHint" placeholder="TH">
-        </label>
-        <button id="mlabDiscoverButton" class="secondary-button" type="button">Discover</button>
-      </div>
+</section>
+
+<section class="view" data-view="map">
+  <section class="card">
+    <div class="section-head"><div><span class="eyebrow">Map</span><h1 data-i18n="mapTitle">Verified location only</h1></div><span class="state neutral">SAFE</span></div>
+    <div class="empty-panel">
+      <strong data-i18n="mapUnavailable">No verified coordinates</strong>
+      <p data-i18n="mapNote">ZIPSPEED will not invent a map pin. A location appears only when a verified endpoint provides coordinates.</p>
     </div>
-    <p id="mlabCountryHint" class="provider-country-hint">Optional ISO 3166-1 alpha-2. Blank = nearest.</p>
-    <div id="mlabDiscoveryState" class="provider-discovery-state">Not requested</div>
-    <div id="mlabDiscoveryList" class="provider-discovery-list"></div>
   </section>
-  <article class="map-safe-panel">
-    <span class="map-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 6 5-2 6 2 5-2v14l-5 2-6-2-5 2Z"/><path d="M9 4v14m6-12v14"/></svg></span>
-    <div><h2 id="mapTitle">Map-safe mode</h2><p id="mapNote">No verified coordinates are available, so Zipspeed does not invent a map pin.</p></div>
-  </article>
 </section>
 
 <section class="view" data-view="history">
-  <header class="page-heading with-actions">
-    <div><span class="kicker" id="historyEyebrow">History</span><h1 id="historyTitle">Completed tests</h1></div>
-    <div class="page-actions">
-      <button id="shareButton" class="secondary-button" type="button">Share</button>
-      <button id="exportButton" class="secondary-button" type="button">Export JSON</button>
-      <button id="exportCsvButton" class="secondary-button" type="button">Export CSV</button>
-      <button id="clearButton" class="secondary-button danger" type="button">Clear</button>
-    </div>
-  </header>
-  <section id="measurementEvidence" class="measurement-evidence" aria-live="polite">
-    <div class="measurement-evidence-head">
-      <div><span class="kicker" id="evidenceEyebrow">Measurement Evidence</span><h2 id="evidenceTitle">Latest completed test</h2></div>
-      <span id="evidenceEndpoint" class="status-chip neutral">--</span>
-    </div>
-    <div class="evidence-grid">
-      <article><span id="evidencePayloadLabel">Validated payload</span><strong id="evidencePayloadValue">--</strong></article>
-      <article><span id="evidenceDurationLabel">Test duration</span><strong id="evidenceDurationValue">--</strong></article>
-      <article><span id="evidenceModeLabel">Measurement mode</span><strong id="evidenceModeValue">--</strong></article>
-    </div>
-    <p id="evidenceNote">Payload bytes are recorded only after transfer-length validation succeeds.</p>
+  <section class="card">
+    <div class="section-head"><div><span class="eyebrow">History</span><h1 data-i18n="completedTests">Completed tests</h1></div><button id="clearHistory" class="small-btn" type="button" data-i18n="clear">Clear</button></div>
+    <div id="historyList" class="card-list"></div>
+    <p id="historyEmpty" class="muted" data-i18n="noHistory">No completed tests yet.</p>
   </section>
-  <section id="historyConsistency" class="history-consistency" aria-live="polite">
-    <div class="history-consistency-head">
-      <div><span class="kicker" id="consistencyEyebrow">Comparable History</span><h2 id="consistencyTitle">Recent matching test statistics</h2></div>
-      <span id="consistencyContext" class="status-chip neutral">--</span>
-    </div>
-    <p id="consistencyNote">Local completed tests only. Same profile and connection mode. Not continuous monitoring.</p>
-    <div class="consistency-grid">
-      <article><span id="consistencyCountLabel">Matching tests</span><strong id="consistencyCountValue">--</strong></article>
-      <article><span id="consistencyDownLabel">Median download</span><strong id="consistencyDownValue">--</strong></article>
-      <article><span id="consistencyUpLabel">Median upload</span><strong id="consistencyUpValue">--</strong></article>
-      <article><span id="consistencyLatencyLabel">Median latency</span><strong id="consistencyLatencyValue">--</strong></article>
-      <article><span id="consistencySpreadLabel">Download spread</span><strong id="consistencySpreadValue">--</strong></article>
-    </div>
-  </section>
-  <section id="historyComparison" class="history-comparison" aria-live="polite">
-    <div class="history-comparison-head">
-      <div><span class="kicker" id="compareEyebrow">Comparison</span><h2 id="compareTitle">Latest vs previous matching test</h2></div>
-      <span id="compareContext" class="status-chip neutral">--</span>
-    </div>
-    <p id="compareNote">Needs two completed tests with the same profile and connection mode.</p>
-    <div class="comparison-grid">
-      <article><span id="compareDownloadLabel">Download change</span><strong id="compareDownloadValue">--</strong></article>
-      <article><span id="compareUploadLabel">Upload change</span><strong id="compareUploadValue">--</strong></article>
-      <article><span id="compareLatencyLabel">Latency change</span><strong id="compareLatencyValue">--</strong></article>
-    </div>
-  </section>
-  <div id="historyList" class="history-list"></div>
-  <p id="historyEmpty" class="empty-state">No completed tests yet.</p>
 </section>
 
 <section class="view" data-view="settings">
-  <header class="page-heading">
-    <span class="kicker" id="settingsEyebrow">Settings</span>
-    <h1 id="settingsTitle">Simple by default</h1>
-    <p id="settingsNote">Preferences stay on this device.</p>
-  </header>
-  <div class="settings-card">
-    <div class="setting-row"><div><strong id="languageLabel">Language</strong><span id="languageValue">English</span></div><button id="languageSetting" class="secondary-button" type="button">TH / EN</button></div>
-    <div class="setting-row"><div><strong id="themeLabel">Theme</strong><span id="themeValue">Light</span></div><button id="themeSetting" class="secondary-button" type="button">Light / Dark</button></div>
-    <div class="setting-row"><div><strong id="profileLabel">Test profile</strong><span id="profileValue">Standard</span></div><button id="profileSetting" class="secondary-button" type="button">Quick / Standard</button></div>
-    <div class="setting-row"><div><strong id="connectionModeLabel">Connection mode</strong><span id="connectionModeValue">Single connection</span></div><button id="connectionModeSetting" class="secondary-button" type="button" aria-pressed="false">Single / Multi</button></div>
-  </div>
-
-  <section class="privacy-panel" aria-labelledby="privacyTitle">
-    <header>
-      <span class="kicker" id="privacyEyebrow">Privacy & Data</span>
-      <h2 id="privacyTitle">What this build actually does</h2>
-      <p id="privacyNote">These facts are derived from the current app source and must change if the implementation changes.</p>
-    </header>
-    <div class="privacy-grid">
-      <article><strong id="privacyNetworkTitle">Measurement traffic</strong><p id="privacyNetworkBody">Speed tests contact the listed measurement provider directly. Your IP/network metadata can be visible to that provider and may be shown in Status.</p></article>
-      <article><strong id="privacyHistoryTitle">Local history</strong><p id="privacyHistoryBody">Completed test history is stored locally on this device. Client IP and ISP metadata are not written into Zipspeed history.</p></article>
-      <article><strong id="privacyPermissionsTitle">Device permissions</strong><p id="privacyPermissionsBody">This Android build requests internet/network-state access and does not request camera, microphone or device location permissions.</p></article>
-      <article><strong id="privacyCommerceTitle">Ads & billing</strong><p id="privacyCommerceBody">No advertising or billing SDK is present in this build. Store declarations must be updated before either is added.</p></article>
-      <article><strong id="privacyBrowserTitle">Browser network hint</strong><p id="privacyBrowserBody">When available, browser connection estimates are displayed locally. Zipspeed does not save these hints in History or send them to a new destination.</p></article>
-      <article><strong id="privacyDiscoveryTitle">Optional M-Lab discovery</strong><p id="privacyDiscoveryBody">Only when you tap Discover, Zipspeed contacts the M-Lab Locate API to list NDT7 servers. If you enter a country code, that code is sent as a Locate query parameter. This build does not run an M-Lab measurement.</p></article>
+  <section class="card">
+    <div class="section-head"><div><span class="eyebrow">Settings</span><h1 data-i18n="settingsTitle">Simple settings</h1></div><span class="state ok">LOCAL</span></div>
+    <div class="card-list">
+      <article class="row-card"><span data-i18n="language">Language</span><button id="languageSetting" class="small-btn" type="button">TH / EN</button></article>
+      <article class="row-card"><span data-i18n="theme">Theme</span><button id="themeSetting" class="small-btn" type="button">Light / Dark</button></article>
+      <article class="row-card"><span data-i18n="testProfile">Test profile</span><button id="profileSetting" class="small-btn" type="button">Standard</button></article>
     </div>
   </section>
-  <article class="truth-panel"><span class="truth-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></span><div><h2 id="methodTitle">Measurement truth</h2><p id="methodText">Throughput uses actual transferred bytes and elapsed time. Failed or incomplete tests are not saved.</p></div></article>
+</section>
+
+<section class="view" data-view="adfree">
+  <section class="card">
+    <div class="section-head"><div><span class="eyebrow">Ad-free</span><h1 data-i18n="adfreeTitle">Ad-free entitlement</h1></div><span class="state warn">TEST</span></div>
+    <div class="empty-panel">
+      <strong data-i18n="billingUnavailable">Billing not connected</strong>
+      <p data-i18n="billingNote">No purchase or subscription is simulated. The release build must connect a real billing entitlement before this can be sold.</p>
+    </div>
+  </section>
 </section>
 </main>
 
-<nav class="bottom-nav" aria-label="Primary navigation">
-  <button class="nav-item active" type="button" data-target="speed" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 16 4-5"/><circle cx="12" cy="16" r="1.5"/></svg><small id="navSpeed">Speed</small></button>
-  <button class="nav-item" type="button" data-target="video"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></svg><small id="navVideo">Video</small></button>
-  <button class="nav-item" type="button" data-target="status"><svg viewBox="0 0 24 24"><path d="M5 17a10 10 0 0 1 14 0M8 13a6 6 0 0 1 8 0m-5 4h2"/></svg><small id="navStatus">Status</small></button>
-  <button class="nav-item" type="button" data-target="history"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6"/><path d="M4 4v5h5M12 8v5l3 2"/></svg><small id="navHistory">History</small></button>
-  <button class="nav-item" type="button" data-target="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1L14.5 3h-5L9.2 6a7 7 0 0 0-1.7 1L5 6 3 9.4 5.1 11a7 7 0 0 0 0 2L3 14.6 5 18l2.5-1a7 7 0 0 0 1.7 1l.3 3h5l.3-3a7 7 0 0 0 1.7-1l2.5 1 2-3.4-2.1-1.6a7 7 0 0 0 .1-1Z"/></svg><small id="navSettings">Settings</small></button>
+<nav class="bottom-nav" aria-label="Primary">
+  <button class="nav-item active" data-target="speed">Speed</button>
+  <button class="nav-item" data-target="video">Video</button>
+  <button class="nav-item" data-target="status">Status</button>
+  <button class="nav-item" data-target="map">Map</button>
+  <button class="nav-item" data-target="history">History</button>
+  <button class="nav-item" data-target="settings">Settings</button>
+  <button class="nav-item" data-target="adfree">Ad-free</button>
 </nav>
-
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
 </div>
 <script type="module" src="./src/app.mjs?v=72.0.0"></script>
 </body>
