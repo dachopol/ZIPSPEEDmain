@@ -4,7 +4,7 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "72.0.0",
   "version_code": 72,
-  "current_task_id": "ci-validate-clean-rebuild",
+  "current_task_id": "measurement-loaded-latency-server-directory",
   "status": "IN_PROGRESS",
-  "next": "Run CI on latest source and fix failing gates"
+  "next": "Validate loaded-latency/server-directory change in CI and fix until PASS or proven hard blocker"
 }

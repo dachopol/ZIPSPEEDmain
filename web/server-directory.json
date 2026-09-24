@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-09-25",
+  "servers": [
+    {
+      "id": "cloudflare-auto",
+      "name": "Cloudflare Network Quality",
+      "provider": "Cloudflare",
+      "selection": "anycast-auto",
+      "baseUrl": "https://speed.cloudflare.com",
+      "enabled": true,
+      "capabilities": ["metadata", "idle-latency", "loaded-latency", "download", "upload"],
+      "locationPolicy": "Edge is selected automatically by BGP anycast; no physical datacenter coordinates are claimed."
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import fs from"node:fs/promises";
 const read=p=>fs.readFile(p,"utf8");
-const [html,css,app,measurement,gradle,manifest,activity,pkgText]=await Promise.all(["web/index.html","web/src/styles.css","web/src/app.mjs","web/src/measurement.mjs","app/build.gradle.kts","app/src/main/AndroidManifest.xml","app/src/main/java/com/aistudio/zipspeed/zskt/MainActivity.java","package.json"].map(read));
-const pkg=JSON.parse(pkgText);
+const [html,css,app,measurement,serverText,gradle,manifest,activity,pkgText]=await Promise.all(["web/index.html","web/src/styles.css","web/src/app.mjs","web/src/measurement.mjs","web/server-directory.json","app/build.gradle.kts","app/src/main/AndroidManifest.xml","app/src/main/java/com/aistudio/zipspeed/zskt/MainActivity.java","package.json"].map(read));
+const pkg=JSON.parse(pkgText),directory=JSON.parse(serverText);
 for(const old of["index.html","src/app.mjs","src/styles.css","app/applet","app/src/main/assets/index.html"]){try{await fs.access(old);throw new Error("Legacy active source still exists: "+old)}catch(e){if(e.message?.startsWith("Legacy"))throw e}}
 if(pkg.version!=="72.0.0"||pkg.zipspeed?.versionCode!==72)throw new Error("Version drift");
 if(pkg.zipspeed?.packageId!=="com.aistudio.zipspeed.zskt")throw new Error("Package drift");
@@ -10,11 +10,13 @@ if(!manifest.includes('android:label="ZIPSPEED by AnakinYoo"')||!manifest.includ
 if(!activity.includes("zipspeedStopForLifecycle")||!activity.includes("MIXED_CONTENT_NEVER_ALLOW"))throw new Error("Android lifecycle/security hook missing");
 if((html.match(/id="goButton"/g)||[]).length!==1)throw new Error("GO control must be unique");
 for(const tab of["speed","video","status","map","history","settings","adfree"])if(!html.includes(`id="${tab}"`))throw new Error("Missing tab "+tab);
+for(const id of["downLoadedLatencyValue","upLoadedLatencyValue","serverValue","serverSetting"])if(!html.includes(`id="${id}"`))throw new Error("Missing rebuilt measurement control "+id);
 if(!html.includes('id="appVersion"')||!app.includes('fetch("./version.json"'))throw new Error("Runtime version display missing");
-if(!app.includes("https://speed.cloudflare.com")||!app.includes("/__down?bytes=")||!app.includes("/__up"))throw new Error("Real measurement endpoint flow missing");
+if(!app.includes('fetch("./server-directory.json"')||!app.includes("measureUnderLoad")||!app.includes("download-loaded")||!app.includes("upload-loaded"))throw new Error("Loaded-latency/server-directory flow missing");
+if(!Array.isArray(directory.servers)||!directory.servers.some(s=>s.enabled&&s.baseUrl==="https://speed.cloudflare.com"&&s.selection==="anycast-auto"))throw new Error("Verified measurement server missing");
 if(/Math\.random\s*\(/.test(app+measurement))throw new Error("Random runtime data forbidden");
 if(/packetLoss|packet_loss|packetLossPct/i.test(app+measurement))throw new Error("Unmeasured packet loss forbidden");
 if(!html.includes("HTTP probe ≠ packet loss"))throw new Error("Probe disclaimer missing");
 if(!css.includes("--blue:#3B82F6")||!css.includes("@media(max-width:350px)"))throw new Error("Responsive visual system missing");
 if(!app.includes("navigator.share")||!app.includes("localStorage"))throw new Error("Share/history flow missing");
-console.log("AUDIT PASS — new single-source ZIPSPEED v72");
+console.log("AUDIT PASS — single-source ZIPSPEED v72 + loaded latency");
