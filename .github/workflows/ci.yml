@@ -128,7 +128,7 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '9.3.1' }
-      - run: gradle :app:lintDebug :app:assembleDebug --stacktrace
+      - run: gradle :app:lintDebug :app:assembleDebug :app:assembleDebugAndroidTest --stacktrace
       - uses: actions/upload-artifact@v4
         with: { name: zipspeed-debug-apk, path: app/build/outputs/apk/debug/app-debug.apk, if-no-files-found: error, retention-days: 14 }
   android-release-compile:
