@@ -48,13 +48,17 @@ try{
  await evaluate('document.querySelector("[data-tab=speed]").click();document.getElementById("goButton").click()');
  const stopVisible=await evaluate('document.getElementById("goButton").textContent==="STOP"');
  if(!stopVisible)throw new Error("GO did not enter STOP state");
+ const measurementLocked=await evaluate('["profileSetting","connectionSetting","serverSetting"].every(id=>document.getElementById(id).disabled) && !document.getElementById("languageSetting").disabled');
+ if(!measurementLocked)throw new Error("Measurement settings were not locked during test");
  await evaluate('document.getElementById("goButton").click()');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
+ const measurementUnlocked=await evaluate('["profileSetting","connectionSetting","serverSetting"].every(id=>!document.getElementById(id).disabled)');
+ if(!measurementUnlocked)throw new Error("Measurement settings did not unlock after stop");
  await evaluate('document.getElementById("goButton").click()');
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,measurementSettingsLock:true,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}

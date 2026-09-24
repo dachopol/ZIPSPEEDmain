@@ -30,6 +30,7 @@ function stopMonitor(){monitorRunning=false;if(monitorTimer){clearTimeout(monito
 async function monitorProbe(){if(!monitorRunning)return;if(!activeServer){await loadServers();if(!activeServer){monitorDisplay={kind:"down",latency:null};renderMonitor();monitorTimer=setTimeout(monitorProbe,state.monitorInterval);return}}monitorRequestController=new AbortController();const timeout=setTimeout(()=>monitorRequestController?.abort(),4000),start=performance.now();try{const r=await fetch(endpoint()+"/__down?bytes=0&monitor=1",{cache:"no-store",signal:monitorRequestController.signal});if(!r.ok)throw new Error("HTTP "+r.status);const elapsed=performance.now()-start,next=monitorTransition(monitorState,true,2);monitorState={failures:next.failures,down:next.down};if(next.event==="recovery")saveMonitorEvent("recovery",elapsed);monitorDisplay={kind:"ok",latency:elapsed}}catch{if(!monitorRunning)return;const next=monitorTransition(monitorState,false,2);monitorState={failures:next.failures,down:next.down};if(next.event==="incident")saveMonitorEvent("incident");monitorDisplay={kind:next.down?"down":"retry",latency:null}}finally{clearTimeout(timeout);monitorRequestController=null;renderMonitor();if(monitorRunning)monitorTimer=setTimeout(monitorProbe,state.monitorInterval)}}
 function toggleMonitor(){if(monitorRunning){stopMonitor();return}if(running){monitorDisplay={kind:"wait",latency:null};renderMonitor();return}monitorRunning=true;monitorState={failures:0,down:false};monitorDisplay={kind:"retry",latency:null};renderMonitor();monitorProbe()}
 function resetResult(){for(const id of["downloadValue","uploadValue","latencyValue","jitterValue","downLoadedLatencyValue","downLoadedJitterValue","upLoadedLatencyValue","upLoadedJitterValue","probeValue","payloadValue"])$(id).textContent="--";resetLatencyGraph();setNeedle(null);$("shareButton").disabled=true}
+function setMeasurementSettingsDisabled(disabled){for(const id of["profileSetting","connectionSetting","serverSetting"]){const el=$(id);if(el)el.disabled=disabled}}
 async function timedFetch(url,opts={},timeoutMs=runRequestTimeoutMs){const local=new AbortController(),parent=controller?.signal;let timedOut=false;const onAbort=()=>local.abort();if(parent?.aborted)local.abort();else parent?.addEventListener("abort",onAbort,{once:true});const timer=setTimeout(()=>{timedOut=true;local.abort()},timeoutMs),start=performance.now();try{const r=await fetch(url,{...opts,signal:local.signal,cache:"no-store"}),elapsed=performance.now()-start;if(!r.ok)throw new Error("HTTP "+r.status);return{r,elapsed}}catch(e){if(timedOut){const err=new Error("Request timeout");err.name="TimeoutError";throw err}throw e}finally{clearTimeout(timer);parent?.removeEventListener("abort",onAbort)}}
 function endpoint(){if(!activeServer)throw new Error("No measurement server");return activeServer.baseUrl}
 async function metadata(){try{const {r}=await timedFetch(endpoint()+"/cdn-cgi/trace");return parseProviderMeta(parseTraceText(await r.text()))}catch(e){if(e?.name==="AbortError")throw e;return parseProviderMeta({})}}
@@ -46,7 +47,7 @@ function renderHistory(){const h=history();$("historyList").innerHTML=h.length?h
 async function runTest(){
   if(running){controller?.abort();return}
   if(monitorRunning)stopMonitor();
-  running=true;runTimedOut=false;controller=new AbortController();resetResult();$("goButton").textContent=t("stop");
+  running=true;runTimedOut=false;controller=new AbortController();setMeasurementSettingsDisabled(true);resetResult();$("goButton").textContent=t("stop");
   const profile=TEST_PROFILES[state.profile]||TEST_PROFILES.quick;
   runRequestTimeoutMs=profile.requestTimeoutMs||30000;
   runTimeoutTimer=setTimeout(()=>{runTimedOut=true;controller?.abort()},profile.totalTimeoutMs||90000);
@@ -77,10 +78,10 @@ async function runTest(){
     else phase(t("failed")+" • "+(e?.message||"Error"))
   }finally{
     if(runTimeoutTimer){clearTimeout(runTimeoutTimer);runTimeoutTimer=null}
-    running=false;controller=null;runTimedOut=false;$("goButton").textContent=t("go")
+    running=false;controller=null;runTimedOut=false;setMeasurementSettingsDisabled(false);$("goButton").textContent=t("go")
   }
 }
-function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});phase(t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog()}
+function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});phase(running?t("running"):t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog()}
 function activateTab(button,{focus=false}={}){
   document.querySelectorAll(".tab").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-selected","false");x.tabIndex=-1});
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));

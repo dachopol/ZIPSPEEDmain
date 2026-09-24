@@ -86,8 +86,10 @@ public class MainActivityInstrumentedTest {
 
             eval(activity, webView, "document.querySelector('[data-tab=speed]').click();document.getElementById('goButton').click();true");
             waitTrue(activity, webView, "document.getElementById('goButton').textContent==='STOP'", 2500);
+            assertEquals("true", eval(activity, webView, "[\"profileSetting\",\"connectionSetting\",\"serverSetting\"].every(id=>document.getElementById(id).disabled)"));
             eval(activity, webView, "document.getElementById('goButton').click();true");
             waitTrue(activity, webView, "document.getElementById('goButton').textContent==='GO'", 8000);
+            assertEquals("true", eval(activity, webView, "[\"profileSetting\",\"connectionSetting\",\"serverSetting\"].every(id=>!document.getElementById(id).disabled)"));
 
             assertEquals("true", eval(activity, webView, "location.href.startsWith(\'https://appassets.androidplatform.net/assets/index.html\')"));
         }
