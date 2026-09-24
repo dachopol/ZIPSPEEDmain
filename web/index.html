@@ -14,24 +14,24 @@
       <span id="appVersion" class="version-badge">v--</span>
     </header>
 
-    <nav class="tabs" aria-label="Main">
-      <button class="tab active" data-tab="speed" data-i18n="tabSpeed">Speed</button>
-      <button class="tab" data-tab="video" data-i18n="tabVideo">Video</button>
-      <button class="tab" data-tab="status" data-i18n="tabStatus">Status</button>
-      <button class="tab" data-tab="map" data-i18n="tabMap">Map</button>
-      <button class="tab" data-tab="history" data-i18n="tabHistory">History</button>
-      <button class="tab" data-tab="settings" data-i18n="tabSettings">Settings</button>
-      <button class="tab" data-tab="adfree" data-i18n="tabAdfree">Ad-free</button>
+    <nav class="tabs" role="tablist" aria-label="Main">
+      <button id="tab-speed" class="tab active" role="tab" aria-selected="true" aria-controls="speed" data-tab="speed" data-i18n="tabSpeed">Speed</button>
+      <button id="tab-video" class="tab" role="tab" aria-selected="false" aria-controls="video" data-tab="video" data-i18n="tabVideo">Video</button>
+      <button id="tab-status" class="tab" role="tab" aria-selected="false" aria-controls="status" data-tab="status" data-i18n="tabStatus">Status</button>
+      <button id="tab-map" class="tab" role="tab" aria-selected="false" aria-controls="map" data-tab="map" data-i18n="tabMap">Map</button>
+      <button id="tab-history" class="tab" role="tab" aria-selected="false" aria-controls="history" data-tab="history" data-i18n="tabHistory">History</button>
+      <button id="tab-settings" class="tab" role="tab" aria-selected="false" aria-controls="settings" data-tab="settings" data-i18n="tabSettings">Settings</button>
+      <button id="tab-adfree" class="tab" role="tab" aria-selected="false" aria-controls="adfree" data-tab="adfree" data-i18n="tabAdfree">Ad-free</button>
     </nav>
 
-    <section id="speed" class="page active">
+    <section id="speed" class="page active" role="tabpanel" aria-labelledby="tab-speed">
       <article class="hero-card">
         <div class="gauge" aria-live="polite">
           <div class="gauge-ring"><div id="needle" class="needle"></div><div class="hub"></div></div>
           <div class="gauge-copy"><span id="liveValue">--</span><small>Mbps</small></div>
         </div>
         <button id="goButton" class="go-button" type="button">GO</button>
-        <p id="phaseText" class="muted" data-i18n="ready">พร้อมทดสอบด้วยข้อมูลจริง</p>
+        <p id="phaseText" class="muted" role="status" aria-live="polite" data-i18n="ready">พร้อมทดสอบด้วยข้อมูลจริง</p>
       </article>
 
       <div class="card-list">
@@ -54,7 +54,7 @@
       <button id="shareButton" class="secondary-button" type="button" disabled data-i18n="share">Share result</button>
     </section>
 
-    <section id="video" class="page">
+    <section id="video" class="page" role="tabpanel" aria-labelledby="tab-video">
       <article class="status-card">
         <div><span data-i18n="videoEstimate">Video estimate</span><small data-i18n="videoNote">คำนวณจาก Download ที่วัดได้ ไม่ใช่การเล่นวิดีโอจริง</small></div>
         <strong id="videoHeadline">--</strong>
@@ -62,7 +62,7 @@
       <div id="videoList" class="card-list"></div>
     </section>
 
-    <section id="status" class="page">
+    <section id="status" class="page" role="tabpanel" aria-labelledby="tab-status">
       <div class="card-list">
         <article class="status-card"><span data-i18n="server">Server</span><strong id="serverValue">--</strong></article>
         <article class="status-card"><span data-i18n="routing">Edge selection</span><strong id="routingValue">--</strong></article>
@@ -80,19 +80,19 @@
       <div id="monitorLog" class="card-list"></div>
     </section>
 
-    <section id="map" class="page">
+    <section id="map" class="page" role="tabpanel" aria-labelledby="tab-map">
       <article class="empty-card">
         <h2 data-i18n="verifiedLocation">Verified edge information</h2>
         <p id="mapMessage">Cloudflare เลือก Edge ด้วย Anycast/BGP อัตโนมัติ แอปจึงไม่สร้างพิกัดศูนย์ข้อมูลเอง</p>
       </article>
     </section>
 
-    <section id="history" class="page">
+    <section id="history" class="page" role="tabpanel" aria-labelledby="tab-history">
       <div class="section-row"><h2 data-i18n="tabHistory">History</h2><button id="clearHistoryButton" class="text-button" type="button" data-i18n="clear">Clear</button></div>
       <div id="historyList" class="card-list"></div>
     </section>
 
-    <section id="settings" class="page">
+    <section id="settings" class="page" role="tabpanel" aria-labelledby="tab-settings">
       <div class="card-list">
         <label class="setting-card"><span data-i18n="testProfile">Test profile</span><select id="profileSetting"><option id="quickProfileOption" value="quick" data-i18n="quickProfile">Quick (≈4 MiB)</option><option id="standardProfileOption" value="standard" data-i18n="standardProfile">Standard adaptive (≤122 MiB)</option></select></label>
         <label class="setting-card"><span data-i18n="connections">Connections</span><select id="connectionSetting"><option value="single">Single</option><option value="multi">Multi (4)</option></select></label>
@@ -102,7 +102,7 @@
       </div>
     </section>
 
-    <section id="adfree" class="page">
+    <section id="adfree" class="page" role="tabpanel" aria-labelledby="tab-adfree">
       <article class="empty-card">
         <h2 data-i18n="tabAdfree">Ad-free</h2>
         <p data-i18n="adfreeBody">เวอร์ชันทดสอบนี้ยังไม่มี Ads หรือ Billing dependency จึงไม่จำลองสถานะ VIP หรือการชำระเงิน</p>
