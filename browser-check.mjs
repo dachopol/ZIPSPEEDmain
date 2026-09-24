@@ -1,14 +1,14 @@
 import{spawn,spawnSync}from"node:child_process";import fs from"node:fs/promises";import path from"node:path";
 const appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function chromePath(){for(const name of["google-chrome","google-chrome-stable","chromium","chromium-browser"]){const r=spawnSync("which",[name],{encoding:"utf8"});if(r.status===0&&r.stdout.trim())return r.stdout.trim()}throw new Error("Chrome/Chromium not found")}
-async function waitHttp(url,timeout=15000){const end=Date.now()+timeout;while(Date.now()<end){try{const r=await fetch(url);if(r.ok)return r}catch{}await sleep(150)}throw new Error("Timeout waiting for "+url)}
+async function waitHttp(url,timeout=30000){const end=Date.now()+timeout;while(Date.now()<end){try{const r=await fetch(url);if(r.ok)return r}catch{}await sleep(150)}throw new Error("Timeout waiting for "+url)}
 let server=null,chrome=null,ws=null;
 try{
  await fs.rm("browser-artifacts",{recursive:true,force:true});await fs.mkdir("browser-artifacts",{recursive:true});
  server=spawn(process.execPath,["server.mjs"],{env:{...process.env,PORT:String(appPort)},stdio:["ignore","pipe","pipe"]});
  await waitHttp(base+"/health");
  const chromeBin=chromePath(),profile=path.join("/tmp","zipspeed-browser-"+process.pid);
- chrome=spawn(chromeBin,["--headless=new","--no-sandbox","--disable-gpu",`--remote-debugging-port=${debugPort}`,`--user-data-dir=${profile}`,"about:blank"],{stdio:"ignore"});
+ chrome=spawn(chromeBin,["--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage","--remote-debugging-address=127.0.0.1",`--remote-debugging-port=${debugPort}`,`--user-data-dir=${profile}`,"about:blank"],{stdio:"ignore"});
  await waitHttp(`http://127.0.0.1:${debugPort}/json/version`);
  const targets=await fetch(`http://127.0.0.1:${debugPort}/json/list`).then(r=>r.json()),target=targets.find(x=>x.type==="page")||targets[0];
  if(!target?.webSocketDebuggerUrl)throw new Error("No Chrome debug target");
