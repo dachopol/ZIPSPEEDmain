@@ -5,5 +5,5 @@ const html=await response.text();
 for(const required of["ZIPSPEED by AnakinYoo","com.aistudio.zipspeed.zskt","72.0.0","Cloudflare"]){
   if(!html.includes(required))throw new Error("Privacy URL content mismatch: "+required);
 }
-if(/Advertising ID.*โฆษณา|ACCESS_FINE_LOCATION|Firebase Analytics SDK เพื่อ/i.test(html))throw new Error("Stale privacy claims detected");
+for(const stale of["รหัสโฆษณา (Advertising ID) สำหรับการวิเคราะห์และแสดงโฆษณา","ACCESS_FINE_LOCATION (Optional)","Google AdMob / Firebase Analytics เพื่อวิเคราะห์การใช้งานและโฆษณา"]){if(html.includes(stale))throw new Error("Stale privacy claim detected: "+stale)}\nfor(const current of["ไม่มี Ads SDK","ไม่มี Firebase Analytics SDK","ไม่มี Billing SDK","ไม่มีสิทธิ์กล้อง ไมโครโฟน รายชื่อ หรือ Location permission"]){if(!html.includes(current))throw new Error("Current privacy assertion missing: "+current)}
 console.log("PRIVACY URL PASS — "+url);
