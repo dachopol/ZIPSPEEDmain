@@ -57,6 +57,8 @@ try{
  if(stopLatencyMs>1500)throw new Error("STOP preflight abort too slow: "+stopLatencyMs+" ms");
  const measurementUnlocked=await evaluate('["profileSetting","connectionSetting","serverSetting"].every(id=>!document.getElementById(id).disabled)');
  if(!measurementUnlocked)throw new Error("Measurement settings did not unlock after stop");
+ const abortedHealthNotFailure=await evaluate('!document.getElementById("serverHealthValue").textContent.includes("ใช้ไม่ได้") && !document.getElementById("serverHealthValue").textContent.includes("Unavailable")');
+ if(!abortedHealthNotFailure)throw new Error("User STOP was incorrectly rendered as server-health failure");
  await evaluate('document.getElementById("goButton").click()');
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
