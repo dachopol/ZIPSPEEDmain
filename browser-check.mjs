@@ -1,0 +1,50 @@
+import{spawn,spawnSync}from"node:child_process";import fs from"node:fs/promises";import path from"node:path";
+const appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function chromePath(){for(const name of["google-chrome","google-chrome-stable","chromium","chromium-browser"]){const r=spawnSync("which",[name],{encoding:"utf8"});if(r.status===0&&r.stdout.trim())return r.stdout.trim()}throw new Error("Chrome/Chromium not found")}
+async function waitHttp(url,timeout=15000){const end=Date.now()+timeout;while(Date.now()<end){try{const r=await fetch(url);if(r.ok)return r}catch{}await sleep(150)}throw new Error("Timeout waiting for "+url)}
+let server=null,chrome=null,ws=null;
+try{
+ await fs.rm("browser-artifacts",{recursive:true,force:true});await fs.mkdir("browser-artifacts",{recursive:true});
+ server=spawn(process.execPath,["server.mjs"],{env:{...process.env,PORT:String(appPort)},stdio:["ignore","pipe","pipe"]});
+ await waitHttp(base+"/health");
+ const chromeBin=chromePath(),profile=path.join("/tmp","zipspeed-browser-"+process.pid);
+ chrome=spawn(chromeBin,["--headless=new","--no-sandbox","--disable-gpu",`--remote-debugging-port=${debugPort}`,`--user-data-dir=${profile}`,"about:blank"],{stdio:"ignore"});
+ await waitHttp(`http://127.0.0.1:${debugPort}/json/version`);
+ const targets=await fetch(`http://127.0.0.1:${debugPort}/json/list`).then(r=>r.json()),target=targets.find(x=>x.type==="page")||targets[0];
+ if(!target?.webSocketDebuggerUrl)throw new Error("No Chrome debug target");
+ ws=new WebSocket(target.webSocketDebuggerUrl);
+ await new Promise((resolve,reject)=>{ws.addEventListener("open",resolve,{once:true});ws.addEventListener("error",reject,{once:true})});
+ let seq=0;const pending=new Map();
+ ws.addEventListener("message",event=>{const msg=JSON.parse(typeof event.data==="string"?event.data:Buffer.from(event.data).toString());if(msg.id&&pending.has(msg.id)){const{resolve,reject}=pending.get(msg.id);pending.delete(msg.id);msg.error?reject(new Error(msg.error.message)):resolve(msg.result)}});
+ const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params}))});
+ const evaluate=async expression=>{const out=await send("Runtime.evaluate",{expression,returnByValue:true,awaitPromise:true});if(out.exceptionDetails)throw new Error(out.exceptionDetails.text||"Browser evaluation failed");return out.result?.value};
+ const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
+ await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
+ await waitEval('document.readyState==="complete"');
+ await waitEval('document.getElementById("appVersion")?.textContent==="v72.0.0"');
+ const version=await evaluate('document.getElementById("appVersion").textContent');
+ const goInitial=await evaluate('document.getElementById("goButton").textContent');
+ if(goInitial!=="GO")throw new Error("GO initial state invalid");
+ const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
+ if(shareDisabled!==true)throw new Error("Share must be disabled before result");
+ const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
+ if(!settingsActive)throw new Error("Settings tab interaction failed");
+ const english=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="Test profile"})()');
+ if(!english)throw new Error("English switch failed");
+ const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
+ if(!thai)throw new Error("Thai switch failed");
+ const privacyHref=await evaluate('document.querySelector(".privacy-link")?.getAttribute("href")');
+ if(privacyHref!=="./privacy.html")throw new Error("Privacy link missing");
+ await evaluate('document.querySelector("[data-tab=speed]").click();document.getElementById("goButton").click()');
+ const stopVisible=await evaluate('document.getElementById("goButton").textContent==="STOP"');
+ if(!stopVisible)throw new Error("GO did not enter STOP state");
+ await evaluate('document.getElementById("goButton").click()');
+ await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
+ await evaluate('document.getElementById("goButton").click()');
+ await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
+ await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
+ await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,languageSwitch:true,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
+ await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
+ console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
+}finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
