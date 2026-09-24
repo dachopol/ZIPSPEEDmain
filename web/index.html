@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4f7fb">
+  <title>ZIPSPEED by AnakinYoo</title>
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ZIPSPEED</p>
+        <h1>by AnakinYoo</h1>
+      </div>
+      <span id="appVersion" class="version-badge">v--</span>
+    </header>
+
+    <nav class="tabs" aria-label="Main">
+      <button class="tab active" data-tab="speed">Speed</button>
+      <button class="tab" data-tab="video">Video</button>
+      <button class="tab" data-tab="status">Status</button>
+      <button class="tab" data-tab="map">Map</button>
+      <button class="tab" data-tab="history">History</button>
+      <button class="tab" data-tab="settings">Settings</button>
+      <button class="tab" data-tab="adfree">Ad-free</button>
+    </nav>
+
+    <section id="speed" class="page active">
+      <article class="hero-card">
+        <div class="gauge" aria-live="polite">
+          <div class="gauge-ring"><div id="needle" class="needle"></div><div class="hub"></div></div>
+          <div class="gauge-copy"><span id="liveValue">--</span><small>Mbps</small></div>
+        </div>
+        <button id="goButton" class="go-button" type="button">GO</button>
+        <p id="phaseText" class="muted">พร้อมทดสอบด้วยข้อมูลจริง</p>
+      </article>
+
+      <div class="card-list">
+        <article class="metric-card"><span>Download</span><strong id="downloadValue">--</strong><small>Mbps</small></article>
+        <article class="metric-card"><span>Upload</span><strong id="uploadValue">--</strong><small>Mbps</small></article>
+        <article class="metric-card"><span>Latency</span><strong id="latencyValue">--</strong><small>ms</small></article>
+        <article class="metric-card"><span>Jitter</span><strong id="jitterValue">--</strong><small>ms</small></article>
+        <article class="metric-card wide"><span>HTTP probe</span><strong id="probeValue">--</strong><small>HTTP probe ≠ packet loss</small></article>
+      </div>
+      <button id="shareButton" class="secondary-button" type="button" disabled>Share result</button>
+    </section>
+
+    <section id="video" class="page">
+      <article class="status-card">
+        <div><span>Video estimate</span><small>คำนวณจาก Download ที่วัดได้ ไม่ใช่การเล่นวิดีโอจริง</small></div>
+        <strong id="videoHeadline">--</strong>
+      </article>
+      <div id="videoList" class="card-list"></div>
+    </section>
+
+    <section id="status" class="page">
+      <div class="card-list">
+        <article class="status-card"><span>IP</span><strong id="ipValue">--</strong></article>
+        <article class="status-card"><span>ISP / ASN</span><strong id="ispValue">--</strong></article>
+        <article class="status-card"><span>Edge</span><strong id="edgeValue">--</strong></article>
+        <article class="status-card"><span>Client area</span><strong id="areaValue">--</strong></article>
+        <article class="status-card"><span>Measured at</span><strong id="timeValue">--</strong></article>
+      </div>
+    </section>
+
+    <section id="map" class="page">
+      <article class="empty-card">
+        <h2>Verified location only</h2>
+        <p id="mapMessage">ยังไม่มีพิกัดที่ตรวจสอบได้ จึงไม่แสดงตำแหน่งสมมติ</p>
+      </article>
+    </section>
+
+    <section id="history" class="page">
+      <div class="section-row"><h2>History</h2><button id="clearHistoryButton" class="text-button" type="button">Clear</button></div>
+      <div id="historyList" class="card-list"></div>
+    </section>
+
+    <section id="settings" class="page">
+      <div class="card-list">
+        <label class="setting-card"><span>Test profile</span><select id="profileSetting"><option value="quick">Quick</option><option value="standard">Standard</option></select></label>
+        <label class="setting-card"><span>Connections</span><select id="connectionSetting"><option value="single">Single</option><option value="multi">Multi (4)</option></select></label>
+        <label class="setting-card"><span>Language</span><select id="languageSetting"><option value="th">ไทย</option><option value="en">English</option></select></label>
+      </div>
+    </section>
+
+    <section id="adfree" class="page">
+      <article class="empty-card">
+        <h2>Ad-free</h2>
+        <p>เวอร์ชันทดสอบนี้ยังไม่มี Ads หรือ Billing dependency จึงไม่จำลองสถานะ VIP หรือการชำระเงิน</p>
+      </article>
+    </section>
+  </main>
+  <script type="module" src="./src/app.mjs"></script>
+</body>
+</html>

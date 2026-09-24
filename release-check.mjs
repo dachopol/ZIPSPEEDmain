@@ -1,93 +1,10 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-
-const pkg=JSON.parse(await fs.readFile("package.json","utf8"));
-const metadata=JSON.parse(await fs.readFile("metadata.json","utf8"));
-const manifest=await fs.readFile("app/src/main/AndroidManifest.xml","utf8");
-const gradle=await fs.readFile("app/build.gradle.kts","utf8");
-const app=await fs.readFile("src/app.mjs","utf8");
-const html=await fs.readFile("index.html","utf8");
-const servers=await fs.readFile("src/servers.mjs","utf8");
-const playConsoleCheck=await fs.readFile("play-console-check.mjs","utf8");
-
-const fail=message=>{throw new Error(message)};
-if(!playConsoleCheck.includes("MOBILE_TARGET_API_MIN=36")||!playConsoleCheck.includes("closedTesting"))fail("Play Console test gate missing current policy snapshot checks");
-const permissionMatches=[...manifest.matchAll(/<uses-permission\s+android:name="([^"]+)"/g)].map(m=>m[1]).sort();
-const allowedPermissions=["android.permission.ACCESS_NETWORK_STATE","android.permission.INTERNET"].sort();
-if(JSON.stringify(permissionMatches)!==JSON.stringify(allowedPermissions))fail("Android permission set changed; privacy/Data Safety evidence must be reviewed");
-
-const prohibitedPermissionTokens=[
-  "android.permission.CAMERA",
-  "android.permission.RECORD_AUDIO",
-  "android.permission.ACCESS_FINE_LOCATION",
-  "android.permission.ACCESS_COARSE_LOCATION"
-];
-for(const token of prohibitedPermissionTokens)if(manifest.includes(token))fail("Unexpected privacy-sensitive permission: "+token);
-
-const commerceTokens=[
-  "play-services-ads",
-  "com.google.android.gms.ads",
-  "billingclient",
-  "com.android.billingclient",
-  "admob"
-];
-const gradleLower=gradle.toLowerCase();
-const releaseSigningConfigured=/signingConfigs\s*\{|signingConfig\s*=/.test(gradle);
-const releaseMinifyEnabled=/release\s*\{[\s\S]*?isMinifyEnabled\s*=\s*true/.test(gradle);
-for(const token of commerceTokens)if(gradleLower.includes(token))fail("Ads/Billing dependency detected; update privacy/store declarations: "+token);
-
-if(!app.includes('const HISTORY_KEY="zipspeed_history"')||!app.includes("localStorage.setItem(HISTORY_KEY"))fail("Local-history implementation changed");
-if(/clientIp\s*:|isp\s*:|effectiveType\s*:|downlinkMbps\s*:|saveData\s*:/.test(app.match(/const result=\{[\s\S]*?timestamp:new Date\(\)\.toISOString\(\)\}/)?.[0]||""))fail("Privacy-sensitive/browser hint fields unexpectedly added to saved result");
-if(!app.includes("navigator.share"))fail("User-initiated share path missing");
-if(!html.includes('class="privacy-panel"'))fail("Visible privacy transparency panel missing");
-if(!metadata.requestFramePermissions||metadata.requestFramePermissions.length!==0)fail("Frame permission declaration changed");
-
-const endpointMatches=[...servers.matchAll(/baseUrl:"(https:\/\/[^"]+)"/g)].map(m=>m[1]);
-const discoveryMatches=[...servers.matchAll(/discoveryUrl:(?:MLAB_LOCATE_URL|"([^"]+)")/g)].map(m=>m[1]||"https://locate.measurementlab.net/v2/nearest/ndt/ndt7");
-if(endpointMatches.length<1)fail("No measurement endpoint found");
-if(!servers.includes("measurementEnabled:false")||!app.includes("discoverMlabServers")||!html.includes('id="privacyDiscoveryBody"'))fail("M-Lab discovery/privacy declaration drift");
-
-const evidence={
-  generatedAt:new Date().toISOString(),
-  packageId:pkg.zipspeed.packageId,
-  version:pkg.version,
-  versionCode:pkg.zipspeed.versionCode,
-  android:{
-    permissions:permissionMatches,
-    cleartextAllowed:!manifest.includes('android:usesCleartextTraffic="false"'),
-    cameraPermission:false,
-    microphonePermission:false,
-    locationPermission:false
-  },
-  implementation:{
-    completedHistoryStorage:"localStorage",
-    savedHistoryIncludesClientIp:false,
-    savedHistoryIncludesIsp:false,
-    userInitiatedShare:true,
-    adsSdkDetected:false,
-    billingSdkDetected:false,
-    measurementEndpoints:endpointMatches,
-    optionalDiscoveryEndpoints:discoveryMatches,
-    mlabNdt7MeasurementEnabled:false,
-    manualCountryDiscovery:true,
-    regionLanguageCoupled:false,
-    browserNetworkHintsStored:false,
-    browserNetworkHintsNewDestination:false,
-    historyConsistencyLocalOnly:true,
-    historyConsistencyNewDestination:false
-  },
-  storeReview:{
-    privacyPolicy:"TO VERIFY against current external policy",
-    dataSafety:"TO VERIFY against current Play definitions and provider behavior",
-    signing:"UNVERIFIED",
-    playUpload:"UNVERIFIED",
-    releaseSigningConfigured,
-    releaseMinifyEnabled,
-    privacyPolicyMismatchKnown:true
-  }
-};
-
-await fs.rm("release-evidence",{recursive:true,force:true});
-await fs.mkdir("release-evidence",{recursive:true});
-await fs.writeFile(path.join("release-evidence","release-source-check.json"),JSON.stringify(evidence,null,2));
-console.log(`Zipspeed ${pkg.version} release-source evidence checks passed.`);
+import fs from"node:fs/promises";import path from"node:path";
+const pkg=JSON.parse(await fs.readFile("package.json","utf8")),manifest=await fs.readFile("app/src/main/AndroidManifest.xml","utf8"),gradle=await fs.readFile("app/build.gradle.kts","utf8"),app=await fs.readFile("web/src/app.mjs","utf8");
+const fail=m=>{throw new Error(m)};const permissions=[...manifest.matchAll(/<uses-permission\s+android:name="([^"]+)"/g)].map(x=>x[1]).sort();const allowed=["android.permission.ACCESS_NETWORK_STATE","android.permission.INTERNET"].sort();
+if(JSON.stringify(permissions)!==JSON.stringify(allowed))fail("Android permission set changed");
+if(pkg.version!=="72.0.0"||pkg.zipspeed.versionCode!==72||pkg.zipspeed.packageId!=="com.aistudio.zipspeed.zskt")fail("Canonical identity/version drift");
+if(/play-services-ads|com\.google\.android\.gms\.ads|billingclient|com\.android\.billingclient|admob/i.test(gradle))fail("Ads/Billing dependency detected");
+if(/clientIp\s*:|isp\s*:|edge\s*:|clientArea\s*:/.test(app.match(/lastResult=\{[\s\S]*?\}/)?.[0]||""))fail("History unexpectedly stores provider metadata");
+if(!app.includes("navigator.share")||!app.includes("localStorage.setItem(HISTORY_KEY"))fail("Share/history path missing");
+const evidence={generatedAt:new Date().toISOString(),packageId:pkg.zipspeed.packageId,version:pkg.version,versionCode:pkg.zipspeed.versionCode,permissions,adsSdkDetected:false,billingSdkDetected:false,historyStorage:"localStorage",providerMetadataSavedToHistory:false,storeReview:{privacyPolicy:"TO VERIFY",dataSafety:"TO VERIFY",signedUploadableAab:"UNVERIFIED",playUpload:"UNVERIFIED",physicalAndroidRuntime:"UNVERIFIED"}};
+await fs.rm("release-evidence",{recursive:true,force:true});await fs.mkdir("release-evidence",{recursive:true});await fs.writeFile(path.join("release-evidence","release-source-check.json"),JSON.stringify(evidence,null,2));console.log("RELEASE-SOURCE PASS — source evidence only");

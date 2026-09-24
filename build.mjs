@@ -1,18 +1,1 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-
-const root = process.cwd();
-const dist = path.join(root, "dist");
-const pkg = JSON.parse(await fs.readFile(path.join(root, "package.json"), "utf8"));
-
-await fs.rm(dist, { recursive: true, force: true });
-await fs.mkdir(path.join(dist, "src"), { recursive: true });
-
-for (const file of ["index.html", "metadata.json", "package.json"]) {
-  await fs.copyFile(path.join(root, file), path.join(dist, file));
-}
-for (const file of ["styles.css", "app.mjs", "measurement.mjs", "quality.mjs", "servers.mjs"]) {
-  await fs.copyFile(path.join(root, "src", file), path.join(dist, "src", file));
-}
-
-console.log(`Zipspeed ${pkg.version} static build created in dist/`);
+import fs from"node:fs/promises";import path from"node:path";const root=process.cwd(),src=path.join(root,"web"),dist=path.join(root,"dist"),pkg=JSON.parse(await fs.readFile(path.join(root,"package.json"),"utf8"));await fs.rm(dist,{recursive:true,force:true});await fs.cp(src,dist,{recursive:true});await fs.writeFile(path.join(dist,"version.json"),JSON.stringify({version:pkg.version,versionCode:pkg.zipspeed.versionCode}));console.log(`ZIPSPEED ${pkg.version} static build created in dist/`);

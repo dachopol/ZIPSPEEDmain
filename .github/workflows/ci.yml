@@ -1,18 +1,14 @@
-name: Zipspeed quality checks
-
+name: ZIPSPEED quality checks
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
 permissions:
   contents: read
-
 concurrency:
   group: zipspeed-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   web-check:
     runs-on: ubuntu-latest
@@ -20,31 +16,21 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
+        with: { node-version: '24', cache: npm }
       - run: npm ci --ignore-scripts
-      - run: node --check src/app.mjs && node --check src/quality.mjs && node --check src/measurement.mjs && node --check runtime-check.mjs && node --check release-check.mjs && node --check play-console-check.mjs
+      - run: node --check web/src/app.mjs && node --check web/src/measurement.mjs && node --check runtime-check.mjs && node --check release-check.mjs && node --check play-console-check.mjs
       - run: npm run check
-
   web-runtime:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
+        with: { node-version: '24', cache: npm }
       - run: npm ci --ignore-scripts
       - run: npm run runtime:check
       - uses: actions/upload-artifact@v4
-        with:
-          name: zipspeed-web-runtime
-          path: runtime-artifacts/
-          if-no-files-found: error
-          retention-days: 14
-
+        with: { name: zipspeed-web-runtime, path: runtime-artifacts/, if-no-files-found: error, retention-days: 14 }
   real-network-smoke:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
@@ -52,84 +38,52 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
+        with: { node-version: '24', cache: npm }
       - run: npm ci --ignore-scripts
       - run: ZIPSPEED_REAL_NETWORK_SMOKE=1 npm run runtime:check
       - uses: actions/upload-artifact@v4
-        with:
-          name: zipspeed-real-network-smoke
-          path: runtime-artifacts/
-          if-no-files-found: error
-          retention-days: 14
-
+        with: { name: zipspeed-real-network-smoke, path: runtime-artifacts/, if-no-files-found: error, retention-days: 14 }
   release-source-check:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
+        with: { node-version: '24', cache: npm }
       - run: npm ci --ignore-scripts
       - run: npm run release:check
       - uses: actions/upload-artifact@v4
-        with:
-          name: zipspeed-release-evidence
-          path: release-evidence/
-          if-no-files-found: error
-          retention-days: 14
-
+        with: { name: zipspeed-release-evidence, path: release-evidence/, if-no-files-found: error, retention-days: 14 }
   play-console-test-check:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
+        with: { node-version: '24', cache: npm }
       - run: npm ci --ignore-scripts
       - run: npm run play:check
       - uses: actions/upload-artifact@v4
-        with:
-          name: zipspeed-play-console-evidence
-          path: play-console-evidence/
-          if-no-files-found: error
-          retention-days: 14
-
+        with: { name: zipspeed-play-console-evidence, path: play-console-evidence/, if-no-files-found: error, retention-days: 14 }
   android-debug-build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: '17'
+        with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '9.3.1'
+        with: { gradle-version: '9.3.1' }
       - run: gradle :app:lintDebug :app:assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
-        with:
-          name: zipspeed-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
-          retention-days: 14
-
+        with: { name: zipspeed-debug-apk, path: app/build/outputs/apk/debug/app-debug.apk, if-no-files-found: error, retention-days: 14 }
   android-release-compile:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: '17'
+        with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '9.3.1'
+        with: { gradle-version: '9.3.1' }
       - run: gradle :app:bundleRelease --stacktrace
