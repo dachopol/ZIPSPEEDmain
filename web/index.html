@@ -18,13 +18,13 @@
     </header>
 
     <nav class="tabs" aria-label="Main">
-      <button class="tab active" data-tab="speed">Speed</button>
-      <button class="tab" data-tab="video">Video</button>
-      <button class="tab" data-tab="status">Status</button>
-      <button class="tab" data-tab="map">Map</button>
-      <button class="tab" data-tab="history">History</button>
-      <button class="tab" data-tab="settings">Settings</button>
-      <button class="tab" data-tab="adfree">Ad-free</button>
+      <button class="tab active" data-tab="speed" data-i18n="tabSpeed">Speed</button>
+      <button class="tab" data-tab="video" data-i18n="tabVideo">Video</button>
+      <button class="tab" data-tab="status" data-i18n="tabStatus">Status</button>
+      <button class="tab" data-tab="map" data-i18n="tabMap">Map</button>
+      <button class="tab" data-tab="history" data-i18n="tabHistory">History</button>
+      <button class="tab" data-tab="settings" data-i18n="tabSettings">Settings</button>
+      <button class="tab" data-tab="adfree" data-i18n="tabAdfree">Ad-free</button>
     </nav>
 
     <section id="speed" class="page active">
@@ -34,22 +34,22 @@
           <div class="gauge-copy"><span id="liveValue">--</span><small>Mbps</small></div>
         </div>
         <button id="goButton" class="go-button" type="button">GO</button>
-        <p id="phaseText" class="muted">พร้อมทดสอบด้วยข้อมูลจริง</p>
+        <p id="phaseText" class="muted" data-i18n="ready">พร้อมทดสอบด้วยข้อมูลจริง</p>
       </article>
 
       <div class="card-list">
-        <article class="metric-card"><span>Download</span><strong id="downloadValue">--</strong><small>Mbps</small></article>
-        <article class="metric-card"><span>Upload</span><strong id="uploadValue">--</strong><small>Mbps</small></article>
-        <article class="metric-card"><span>Latency</span><strong id="latencyValue">--</strong><small>ms</small></article>
-        <article class="metric-card"><span>Jitter</span><strong id="jitterValue">--</strong><small>ms</small></article>
-        <article class="metric-card wide"><span>HTTP probe</span><strong id="probeValue">--</strong><small>HTTP probe ≠ packet loss</small></article>
+        <article class="metric-card"><span data-i18n="download">Download</span><strong id="downloadValue">--</strong><small>Mbps</small></article>
+        <article class="metric-card"><span data-i18n="upload">Upload</span><strong id="uploadValue">--</strong><small>Mbps</small></article>
+        <article class="metric-card"><span data-i18n="latency">Latency</span><strong id="latencyValue">--</strong><small>ms</small></article>
+        <article class="metric-card"><span data-i18n="jitter">Jitter</span><strong id="jitterValue">--</strong><small>ms</small></article>
+        <article class="metric-card wide"><span data-i18n="httpProbe">HTTP probe</span><strong id="probeValue">--</strong><small>HTTP probe ≠ packet loss</small></article>
       </div>
-      <button id="shareButton" class="secondary-button" type="button" disabled>Share result</button>
+      <button id="shareButton" class="secondary-button" type="button" disabled data-i18n="share">Share result</button>
     </section>
 
     <section id="video" class="page">
       <article class="status-card">
-        <div><span>Video estimate</span><small>คำนวณจาก Download ที่วัดได้ ไม่ใช่การเล่นวิดีโอจริง</small></div>
+        <div><span data-i18n="videoEstimate">Video estimate</span><small data-i18n="videoNote">คำนวณจาก Download ที่วัดได้ ไม่ใช่การเล่นวิดีโอจริง</small></div>
         <strong id="videoHeadline">--</strong>
       </article>
       <div id="videoList" class="card-list"></div>
@@ -60,35 +60,35 @@
         <article class="status-card"><span>IP</span><strong id="ipValue">--</strong></article>
         <article class="status-card"><span>ISP / ASN</span><strong id="ispValue">--</strong></article>
         <article class="status-card"><span>Edge</span><strong id="edgeValue">--</strong></article>
-        <article class="status-card"><span>Client area</span><strong id="areaValue">--</strong></article>
-        <article class="status-card"><span>Measured at</span><strong id="timeValue">--</strong></article>
+        <article class="status-card"><span data-i18n="clientArea">Client area</span><strong id="areaValue">--</strong></article>
+        <article class="status-card"><span data-i18n="measuredAt">Measured at</span><strong id="timeValue">--</strong></article>
       </div>
     </section>
 
     <section id="map" class="page">
       <article class="empty-card">
-        <h2>Verified location only</h2>
+        <h2 data-i18n="verifiedLocation">Verified location only</h2>
         <p id="mapMessage">ยังไม่มีพิกัดที่ตรวจสอบได้ จึงไม่แสดงตำแหน่งสมมติ</p>
       </article>
     </section>
 
     <section id="history" class="page">
-      <div class="section-row"><h2>History</h2><button id="clearHistoryButton" class="text-button" type="button">Clear</button></div>
+      <div class="section-row"><h2 data-i18n="tabHistory">History</h2><button id="clearHistoryButton" class="text-button" type="button" data-i18n="clear">Clear</button></div>
       <div id="historyList" class="card-list"></div>
     </section>
 
     <section id="settings" class="page">
       <div class="card-list">
-        <label class="setting-card"><span>Test profile</span><select id="profileSetting"><option value="quick">Quick</option><option value="standard">Standard</option></select></label>
-        <label class="setting-card"><span>Connections</span><select id="connectionSetting"><option value="single">Single</option><option value="multi">Multi (4)</option></select></label>
-        <label class="setting-card"><span>Language</span><select id="languageSetting"><option value="th">ไทย</option><option value="en">English</option></select></label>
+        <label class="setting-card"><span data-i18n="testProfile">Test profile</span><select id="profileSetting"><option value="quick">Quick</option><option value="standard">Standard</option></select></label>
+        <label class="setting-card"><span data-i18n="connections">Connections</span><select id="connectionSetting"><option value="single">Single</option><option value="multi">Multi (4)</option></select></label>
+        <label class="setting-card"><span data-i18n="language">Language</span><select id="languageSetting"><option value="th">ไทย</option><option value="en">English</option></select></label>
       </div>
     </section>
 
     <section id="adfree" class="page">
       <article class="empty-card">
-        <h2>Ad-free</h2>
-        <p>เวอร์ชันทดสอบนี้ยังไม่มี Ads หรือ Billing dependency จึงไม่จำลองสถานะ VIP หรือการชำระเงิน</p>
+        <h2 data-i18n="tabAdfree">Ad-free</h2>
+        <p data-i18n="adfreeBody">เวอร์ชันทดสอบนี้ยังไม่มี Ads หรือ Billing dependency จึงไม่จำลองสถานะ VIP หรือการชำระเงิน</p>
       </article>
     </section>
   </main>

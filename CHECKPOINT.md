@@ -8,12 +8,13 @@ Version: 72.0.0
 versionCode: 72
 
 Current state:
-- Clean single-source rebuild committed.
-- Active UI/runtime source is web/.
-- Legacy root UI, app/applet, and committed Android web assets removed.
+- Clean single-source rebuild active in web/.
+- Legacy root UI, app/applet, and committed Android web mirrors removed.
 - Android assets are generated from web/ at build time.
-- Audit label drift fixed.
-- CI validation pending on latest source.
+- TH/EN full visible UI switching added for rebuilt surface.
+- Main card lists are vertical.
+- Source/unit/static/runtime/real-network gates previously reached success before concurrency cancellation.
+- Final CI rerun required for latest commit.
 
 Next task:
-- Run CI on latest source and fix any failing gate until PASS or a proven external blocker remains.
+- Inspect latest CI and fix any failing Android/web/release gate until PASS or proven external blocker.
