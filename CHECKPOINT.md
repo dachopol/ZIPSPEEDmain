@@ -7,27 +7,28 @@ Package: com.aistudio.zipspeed.zskt
 Version: 72.0.0
 versionCode: 72
 
-Implemented in the clean rebuild:
-- Single active source: web/; Android assets generated at build time.
-- Real HTTP download/upload; idle + download-loaded + upload-loaded latency/jitter.
-- Quick low-data profile and adaptive Standard progressive payload profile.
-- Live measured latency graph and actual measurement payload display.
-- Validated server directory, server health, Auto fastest-healthy selection, manual health gate.
-- Cloudflare trace metadata using reachable /cdn-cgi/trace; no fabricated ISP/location.
-- History migration, sharing, TH/EN UI, foreground incident/recovery monitor.
-- In-app privacy policy and source-grounded Play Data Safety draft.
-- No fake/random speed, packet-loss, Ads, Billing, VIP, or physical server coordinates.
+Latest source hardening:
+- GO locks before server-health preflight, preventing duplicate preflight/test runs.
+- Measurement requests have bounded per-request timeouts (Quick 30 s, Standard 60 s).
+- Whole-test safety timeout: Quick 90 s, Standard 240 s.
+- Stale server-health probes are discarded with a generation guard.
+- STOP / Escape / Android lifecycle abort the active test cleanly.
+- Tab/tabpanel/status accessibility semantics added with visible keyboard focus.
+- Existing real-data/adaptive/server/monitor/privacy features remain intact.
 
-Validated before this documentation/privacy commit:
-- CI run #96: web/source/runtime/real-network/release-source/play-source/Android debug/Android release compile = PASS.
+Previous verified baseline:
+- CI #97 on commit aa64df75... passed all 7 jobs.
 
-Hard blockers / external dependencies:
-- Real packet loss: requires a configured TURN service; do not substitute HTTP failure rate.
-- Real video playback test: requires a licensed/owned test media endpoint and playback methodology.
-- True multi-region manual servers: requires additional authorized measurement endpoints.
-- Physical Android Wi-Fi/cellular/accessibility validation: requires a physical device or emulator execution environment.
-- Signed Play-uploadable AAB / Play Console upload and declarations: requires signing + Play Console access.
-- Play privacy-policy hosted URL: requires a stable public URL accepted by Play Console.
+Current task:
+- Validate runtime hardening on latest HEAD in CI.
+- If PASS, continue only with source work that does not require fake data or unavailable external services.
 
-Next task ID: external-infrastructure-or-device-validation
-Status: HARD_BLOCKED_AFTER_SOURCE_GATES
+Hard blockers after source gates:
+- TURN service for real packet loss.
+- Licensed/owned media endpoint for real video playback measurement.
+- Additional authorized regional measurement endpoints.
+- Physical Android Wi-Fi/cellular/accessibility runtime validation.
+- Release signing + Play Console access.
+- Stable public privacy-policy URL accepted by Play Console.
+
+Status: IN_PROGRESS_CI_VALIDATION
