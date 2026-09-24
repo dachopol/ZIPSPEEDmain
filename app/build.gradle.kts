@@ -33,6 +33,6 @@ android {
     }
     buildTypes { release { isMinifyEnabled = false } }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
-    sourceSets.getByName("main").assets.srcDir(generatedAssetsDir)
+    sourceSets.getByName("main").assets.srcDir(generatedAssetsDir.get().asFile)
 }
 tasks.named("preBuild").configure { dependsOn(prepareZipspeedAssets) }
