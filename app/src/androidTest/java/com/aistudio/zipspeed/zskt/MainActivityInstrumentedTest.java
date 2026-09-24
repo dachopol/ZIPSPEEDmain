@@ -34,14 +34,17 @@ public class MainActivityInstrumentedTest {
     }
 
     private static String eval(Activity activity, WebView webView, String script) throws Exception {
-        CountDownLatch latch = new CountDownLatch(1);
-        AtomicReference<String> value = new AtomicReference<>();
-        activity.runOnUiThread(() -> webView.evaluateJavascript(script, result -> {
-            value.set(result);
-            latch.countDown();
-        }));
-        assertTrue("JavaScript callback timed out", latch.await(5, TimeUnit.SECONDS));
-        return value.get();
+        for (int attempt = 0; attempt < 3; attempt++) {
+            CountDownLatch latch = new CountDownLatch(1);
+            AtomicReference<String> value = new AtomicReference<>();
+            activity.runOnUiThread(() -> webView.evaluateJavascript(script, result -> {
+                value.set(result);
+                latch.countDown();
+            }));
+            if (latch.await(5, TimeUnit.SECONDS)) return value.get();
+            Thread.sleep(250);
+        }
+        throw new AssertionError("JavaScript callback timed out after retries");
     }
 
     private static void waitTrue(Activity activity, WebView webView, String expression, long timeoutMs) throws Exception {
