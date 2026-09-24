@@ -42,5 +42,7 @@ Use the public GitHub Issues mechanism for the project: `dachopol/ZIPSPEEDmain`.
 ## Publication status
 - In-app policy text: PASS
 - Repository policy: PASS
-- Public non-geofenced hosted policy URL entered in Play Console: **TO VERIFY**
+- Public hosted policy URL deployed: **PASS** — `https://dachopol.github.io/privacy-policy/`
+- Latest GitHub Pages deployment of v72 policy: **PASS** (`a3488acd...`)
+- Public URL entered/saved in Play Console: **TO VERIFY**
 - Play Console Data Safety submission: **TO VERIFY**
