@@ -4,7 +4,17 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "72.0.0",
   "version_code": 72,
-  "current_task_id": "runtime-hardening-ci-validation",
+  "current_task_id": "privacy-url-gate-ci-validation",
   "status": "IN_PROGRESS_CI_VALIDATION",
-  "next": "Validate timeout/preflight/accessibility hardening in CI, then continue only with non-fake source work."
+  "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
+  "privacy_policy_deployment": "PASS",
+  "blockers": [
+    "TURN service/configuration for real packet loss",
+    "licensed/owned media endpoint for real video playback test",
+    "additional authorized regional measurement endpoints",
+    "physical Android Wi-Fi/cellular/accessibility validation",
+    "release signing and Play Console access/upload/declarations",
+    "final Data Safety classification for IP-derived country and Cloudflare processing"
+  ],
+  "next": "Validate public privacy URL CI gate; continue only where evidence and infrastructure exist."
 }
