@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Privacy Policy — ZIPSPEED by AnakinYoo</title>
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+<main class="app-shell policy-body">
+  <header class="topbar"><div><p class="eyebrow">ZIPSPEED</p><h1>Privacy Policy</h1></div><a class="privacy-link" href="./index.html">Back</a></header>
+  <article class="empty-card">
+    <p class="policy-meta">Applies to ZIPSPEED by AnakinYoo • package com.aistudio.zipspeed.zskt • version 72.0.0</p>
+    <h2>ภาษาไทย</h2>
+    <p>ZIPSPEED เป็นแอปทดสอบคุณภาพอินเทอร์เน็ตโดยไม่ต้องสร้างบัญชีผู้ใช้ แอปไม่สร้างค่าความเร็ว ตำแหน่ง หรือสถานะเครือข่ายปลอม</p>
+    <h2>ข้อมูลที่ใช้ในการทดสอบ</h2>
+    <ul>
+      <li>แอปส่งคำขอดาวน์โหลด อัปโหลด และ HTTP latency probe ไปยังเซิร์ฟเวอร์ทดสอบที่เปิดใช้งานใน Server Directory ปัจจุบันคือ Cloudflare Network Quality endpoint</li>
+      <li>คำขอเครือข่ายย่อมเปิดเผย IP สาธารณะต่อผู้ให้บริการปลายทางตามธรรมชาติของการเชื่อมต่ออินเทอร์เน็ต</li>
+      <li>แอปอ่านข้อมูล trace ที่เซิร์ฟเวอร์รายงาน เช่น IP สาธารณะ รหัส Edge และประเทศ เพื่อแสดงสถานะเครือข่าย โดยไม่สร้างพิกัดศูนย์ข้อมูลขึ้นเอง</li>
+      <li>หากข้อมูล ISP/ASN หรือข้อมูลอื่นไม่มีแหล่งจริง แอปจะแสดง -- แทนการคาดเดา</li>
+    </ul>
+    <h2>ข้อมูลที่เก็บบนอุปกรณ์</h2>
+    <p>การตั้งค่า ผลทดสอบย้อนหลังสูงสุด 20 รายการ และเหตุการณ์ Monitor สูงสุด 50 รายการเก็บในพื้นที่ local storage ของแอปบนอุปกรณ์ ผลย้อนหลังเก็บค่าการวัด เช่น download/upload, idle/loaded latency, jitter, payload และ server ID แต่ไม่เก็บ IP/ประเทศ/Edge/ISP ไว้ใน history</p>
+    <h2>การแชร์</h2>
+    <p>แอปแชร์สรุปผลเฉพาะเมื่อผู้ใช้กด Share เอง ผ่านระบบ Share/Clipboard ของอุปกรณ์ ปัจจุบันไม่มีระบบบัญชี ไม่มี Ads SDK และไม่มี Billing SDK ใน build นี้</p>
+    <h2>สิทธิ์ Android และความปลอดภัย</h2>
+    <p>แอปใช้ INTERNET และ ACCESS_NETWORK_STATE เท่านั้น ไม่มีสิทธิ์กล้อง ไมโครโฟน รายชื่อ หรือตำแหน่ง Android การเชื่อมต่อทดสอบใช้ HTTPS; Android cleartext traffic และ mixed content ถูกปิด</p>
+    <h2>การลบและระยะเวลาเก็บ</h2>
+    <p>ผู้ใช้ลบ History และ Monitor log ได้จากแอป และสามารถลบข้อมูลทั้งหมดได้ด้วยการล้างข้อมูลแอปหรือถอนการติดตั้ง ข้อมูล local ที่เกินจำนวนสูงสุดจะถูกตัดออกอัตโนมัติ</p>
+    <h2>ผู้ให้บริการภายนอก</h2>
+    <p>การทดสอบปัจจุบันใช้ Cloudflare เป็น measurement endpoint การประมวลผลฝั่ง Cloudflare อยู่ภายใต้นโยบายและเงื่อนไขของ Cloudflare ซึ่งแยกจากแอปนี้</p>
+    <h2>ติดต่อเรื่องความเป็นส่วนตัว</h2>
+    <p>สามารถส่งคำถามผ่าน <a href="https://github.com/dachopol/ZIPSPEEDmain/issues">GitHub Issues ของ ZIPSPEEDmain</a> โปรดอย่าโพสต์รหัสผ่าน เลขบัตร หรือข้อมูลส่วนบุคคลที่ละเอียดอ่อนใน issue สาธารณะ</p>
+
+    <h2>English</h2>
+    <p>ZIPSPEED is an Internet quality measurement app that does not require a user account. It does not fabricate speed, location, or network-status values.</p>
+    <h2>Measurement data</h2>
+    <ul>
+      <li>The app sends download, upload, and HTTP latency probes to enabled servers in its Server Directory. The current endpoint is Cloudflare Network Quality.</li>
+      <li>Network requests inherently expose the device's public IP address to the destination service.</li>
+      <li>The app reads server-reported trace fields such as public IP, edge code, and country for status display. It does not invent datacenter coordinates.</li>
+      <li>If ISP/ASN or another field has no verified source, the app shows -- rather than guessing.</li>
+    </ul>
+    <h2>Data stored on the device</h2>
+    <p>Settings, up to 20 speed-test history entries, and up to 50 Monitor events are stored in app-local storage. History contains measurement values such as download/upload, idle/loaded latency, jitter, payload, and server ID. IP, country, edge code, and ISP are not stored in history.</p>
+    <h2>Sharing</h2>
+    <p>Results are shared only after the user taps Share, using the device share/clipboard flow. This build currently contains no account system, Ads SDK, or Billing SDK.</p>
+    <h2>Android permissions and security</h2>
+    <p>The app uses INTERNET and ACCESS_NETWORK_STATE only. It does not request Android camera, microphone, contacts, or location permissions. Measurement traffic uses HTTPS; Android cleartext traffic and mixed content are disabled.</p>
+    <h2>Retention and deletion</h2>
+    <p>Users can clear History and Monitor logs inside the app. All local app data can also be removed by clearing app storage or uninstalling the app. Entries beyond the local limits are automatically discarded.</p>
+    <h2>Third-party service</h2>
+    <p>The current measurement endpoint is operated by Cloudflare. Cloudflare's handling of requests is governed by its own policies and terms, separate from this app.</p>
+    <h2>Privacy inquiries</h2>
+    <p>Questions can be submitted through the <a href="https://github.com/dachopol/ZIPSPEEDmain/issues">ZIPSPEEDmain GitHub Issues</a>. Do not post passwords, government identifiers, or other sensitive personal data in a public issue.</p>
+  </article>
+</main>
+</body>
+</html>

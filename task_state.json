@@ -4,7 +4,15 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "72.0.0",
   "version_code": 72,
-  "current_task_id": "measurement-loaded-latency-server-directory",
-  "status": "IN_PROGRESS",
-  "next": "Validate loaded-latency/server-directory change in CI and fix until PASS or proven hard blocker"
+  "current_task_id": "external-infrastructure-or-device-validation",
+  "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
+  "blockers": [
+    "TURN service for real packet loss",
+    "licensed/owned media endpoint for real video playback test",
+    "additional authorized regional measurement endpoints",
+    "physical Android device/emulator runtime validation",
+    "release signing and Play Console access",
+    "stable public privacy-policy URL accepted by Play Console"
+  ],
+  "next": "When one blocker is supplied, continue from that item without rebuilding or reintroducing legacy sources."
 }
