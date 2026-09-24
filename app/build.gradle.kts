@@ -30,9 +30,17 @@ android {
         targetSdk = 36
         versionCode = versionCodeFromPackage
         versionName = versionNameFromPackage
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes { release { isMinifyEnabled = false } }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
     sourceSets.getByName("main").assets.srcDir(generatedAssetsDir.get().asFile)
 }
 tasks.named("preBuild").configure { dependsOn(prepareZipspeedAssets) }
+
+dependencies {
+    androidTestImplementation("androidx.test:runner:1.7.0")
+    androidTestImplementation("androidx.test:core:1.7.0")
+    androidTestImplementation("androidx.test.ext:junit:1.3.0")
+    androidTestImplementation("junit:junit:4.13.2")
+}
