@@ -44,6 +44,12 @@
         <article class="metric-card"><span data-i18n="upLoadedLatency">Upload loaded latency</span><strong id="upLoadedLatencyValue">--</strong><small>ms</small></article>
         <article class="metric-card"><span data-i18n="upLoadedJitter">Upload loaded jitter</span><strong id="upLoadedJitterValue">--</strong><small>ms</small></article>
         <article class="metric-card wide"><span data-i18n="httpProbe">HTTP probe</span><strong id="probeValue">--</strong><small>HTTP probe ≠ packet loss</small></article>
+        <article class="metric-card"><span data-i18n="payloadRequested">Payload requested</span><strong id="payloadValue">--</strong><small>MiB</small></article>
+        <article class="metric-card graph-card">
+          <span data-i18n="latencyGraph">Live latency samples</span>
+          <svg id="latencyGraph" class="latency-graph" viewBox="0 0 300 100" role="img" aria-label="Latency samples"><polyline id="latencyGraphLine" points=""></polyline></svg>
+          <small id="latencyGraphMeta">0 samples</small>
+        </article>
       </div>
       <button id="shareButton" class="secondary-button" type="button" disabled data-i18n="share">Share result</button>
     </section>
