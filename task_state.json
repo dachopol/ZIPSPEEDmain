@@ -1,0 +1,10 @@
+{
+  "project": "ZIPSPEED by AnakinYoo",
+  "source_of_truth": "dachopol/ZIPSPEEDmain:main",
+  "package_id": "com.aistudio.zipspeed.zskt",
+  "version": "72.0.0",
+  "version_code": 72,
+  "current_task_id": "ci-validate-clean-rebuild",
+  "status": "IN_PROGRESS",
+  "next": "Run CI on latest source and fix failing gates"
+}
