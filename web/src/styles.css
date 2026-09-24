@@ -3,3 +3,5 @@
 @media(max-width:520px){.card-list{grid-template-columns:1fr}.wide{grid-column:auto}.status-card{grid-template-columns:1fr}.status-card strong{text-align:left}.history-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:350px){.app-shell{padding-left:12px;padding-right:12px}.gauge{width:86vw}.hero-card{padding:16px}.topbar h1{font-size:1rem}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 .privacy-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid #bfdbfe;border-radius:14px;background:#fff;color:#1d4ed8;font-weight:900;text-decoration:none}.policy-body{line-height:1.65}.policy-body h2{margin:24px 0 8px}.policy-body ul{padding-left:22px}.policy-body a{color:#1d4ed8}.policy-meta{color:var(--muted);font-size:.92rem}
+
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
