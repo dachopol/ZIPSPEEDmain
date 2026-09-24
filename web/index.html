@@ -44,7 +44,7 @@
         <article class="metric-card"><span data-i18n="upLoadedLatency">Upload loaded latency</span><strong id="upLoadedLatencyValue">--</strong><small>ms</small></article>
         <article class="metric-card"><span data-i18n="upLoadedJitter">Upload loaded jitter</span><strong id="upLoadedJitterValue">--</strong><small>ms</small></article>
         <article class="metric-card wide"><span data-i18n="httpProbe">HTTP probe</span><strong id="probeValue">--</strong><small>HTTP probe ≠ packet loss</small></article>
-        <article class="metric-card"><span data-i18n="payloadRequested">Payload requested</span><strong id="payloadValue">--</strong><small>MiB</small></article>
+        <article class="metric-card"><span data-i18n="payloadRequested">Measurement payload</span><strong id="payloadValue">--</strong><small>MiB</small></article>
         <article class="metric-card graph-card">
           <span data-i18n="latencyGraph">Live latency samples</span>
           <svg id="latencyGraph" class="latency-graph" viewBox="0 0 300 100" role="img" aria-label="Latency samples"><polyline id="latencyGraphLine" points=""></polyline></svg>
@@ -94,7 +94,7 @@
 
     <section id="settings" class="page">
       <div class="card-list">
-        <label class="setting-card"><span data-i18n="testProfile">Test profile</span><select id="profileSetting"><option value="quick">Quick</option><option value="standard">Standard</option></select></label>
+        <label class="setting-card"><span data-i18n="testProfile">Test profile</span><select id="profileSetting"><option id="quickProfileOption" value="quick" data-i18n="quickProfile">Quick (≈4 MiB)</option><option id="standardProfileOption" value="standard" data-i18n="standardProfile">Standard adaptive (≤122 MiB)</option></select></label>
         <label class="setting-card"><span data-i18n="connections">Connections</span><select id="connectionSetting"><option value="single">Single</option><option value="multi">Multi (4)</option></select></label>
         <label class="setting-card"><span data-i18n="serverSetting">Test server</span><select id="serverSetting"><option value="auto">Auto</option></select></label>
         <label class="setting-card"><span data-i18n="language">Language</span><select id="languageSetting"><option value="th">ไทย</option><option value="en">English</option></select></label>

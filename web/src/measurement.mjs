@@ -1,10 +1,17 @@
 export const TEST_PROFILES=Object.freeze({
-  quick:Object.freeze({downloadBytes:3*1024*1024,uploadBytes:1*1024*1024,probes:3,loadedProbeIntervalMs:120}),
-  standard:Object.freeze({downloadBytes:10*1024*1024,uploadBytes:5*1024*1024,probes:6,loadedProbeIntervalMs:100})
+  quick:Object.freeze({downloadBytes:3*1024*1024,uploadBytes:1*1024*1024,probes:3,loadedProbeIntervalMs:400,adaptive:false}),
+  standard:Object.freeze({
+    downloadPlanBytes:Object.freeze([1*1024*1024,10*1024*1024,25*1024*1024,50*1024*1024]),
+    uploadPlanBytes:Object.freeze([1*1024*1024,10*1024*1024,25*1024*1024]),
+    probes:10,loadedProbeIntervalMs:400,finishDurationMs:1000,loadedMinDurationMs:250,bandwidthMinDurationMs:10,adaptive:true
+  })
 });
 export const CONNECTION_MODES=Object.freeze({single:Object.freeze({streams:1}),multi:Object.freeze({streams:4})});
 export function calculateMbps(bytes,elapsedMs){return Number.isFinite(bytes)&&bytes>0&&Number.isFinite(elapsedMs)&&elapsedMs>0?(bytes*8/elapsedMs/1000):null}
 export function median(values){const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return null;const m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2}
+export function percentile(values,p=0.9){const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return null;if(a.length===1)return a[0];const q=Math.min(1,Math.max(0,Number(p)||0)),pos=(a.length-1)*q,lo=Math.floor(pos),hi=Math.ceil(pos);return lo===hi?a[lo]:a[lo]+(a[hi]-a[lo])*(pos-lo)}
+export function shouldStopRamp(durationMs,finishDurationMs=1000){return Number.isFinite(durationMs)&&durationMs>=finishDurationMs}
+export function summarizeBandwidthStages(stages=[],p=0.9,minDurationMs=10){const valid=stages.filter(s=>s&&Number.isFinite(s.speed)&&Number.isFinite(s.durationMs)&&s.durationMs>=minDurationMs);return{speed:percentile(valid.map(s=>s.speed),p),bytes:valid.reduce((sum,s)=>sum+(Number.isFinite(s.bytes)?s.bytes:0),0),stages:valid.length}}
 export function latencyJitter(values){const a=values.filter(Number.isFinite);if(a.length<2)return 0;const d=[];for(let i=1;i<a.length;i++)d.push(Math.abs(a[i]-a[i-1]));return median(d)}
 export function summarizeLatency(values){const clean=values.filter(v=>Number.isFinite(v)&&v>=0);return{latency:median(clean),jitter:clean.length?latencyJitter(clean):null,samples:clean.length}}
 export function splitTransferBytes(total,streams){const n=Math.max(1,Number(streams)||1);const base=Math.floor(total/n),rem=total%n;return Array.from({length:n},(_,i)=>base+(i<rem?1:0))}
