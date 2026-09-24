@@ -89,7 +89,7 @@ public class MainActivityInstrumentedTest {
             eval(activity, webView, "document.getElementById('goButton').click();true");
             waitTrue(activity, webView, "document.getElementById('goButton').textContent==='GO'", 8000);
 
-            assertTrue(webView.getUrl().startsWith("https://appassets.androidplatform.net/assets/index.html"));
+            assertEquals("true", eval(activity, webView, "location.href.startsWith(\'https://appassets.androidplatform.net/assets/index.html\')"));
         }
     }
 }
