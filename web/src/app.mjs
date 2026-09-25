@@ -1,5 +1,3 @@
-[Reading 119 lines from start (total: 119 lines, 0 remaining)]
-
 import{TEST_PROFILES,CONNECTION_MODES,calculateMbps,summarizeLatency,summarizeBandwidthStages,shouldStopRamp,splitTransferBytes,speedFraction,parseTraceText,parseProviderMeta,monitorTransition,normalizeHistoryEntry,selectBestServerHealth,validateServerDirectory,videoSuitability}from"./measurement.mjs";
 const $=id=>document.getElementById(id);
 const HISTORY_KEY="zipspeed_history_v72",MONITOR_KEY="zipspeed_monitor_events_v72";
@@ -119,5 +117,3 @@ $("serverSetting").addEventListener("change",async e=>{state.server=e.target.val
 $("languageSetting").addEventListener("change",e=>{state.lang=e.target.value;localStorage.setItem("zipspeed_lang",state.lang);setLanguage()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){controller?.abort();if(monitorRunning)stopMonitor()}});window.zipspeedStopForLifecycle=()=>{controller?.abort();stopMonitor()};
 initTabs();renderHistory();renderMonitorLog();renderVideo(null);setLanguage();loadVersion();loadServers();
-
-[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

@@ -1,5 +1,3 @@
-[Reading 29 lines from start (total: 29 lines, 0 remaining)]
-
 import fs from"node:fs/promises";
 const read=p=>fs.readFile(p,"utf8");
 const [html,css,app,measurement,serverText,gradle,manifest,activity,pkgText]=await Promise.all(["web/index.html","web/src/styles.css","web/src/app.mjs","web/src/measurement.mjs","web/server-directory.json","app/build.gradle.kts","app/src/main/AndroidManifest.xml","app/src/main/java/com/aistudio/zipspeed/zskt/MainActivity.java","package.json"].map(read));
@@ -29,5 +27,3 @@ if(!html.includes("HTTP probe ≠ packet loss"))throw new Error("Probe disclaime
 if(!css.includes("--blue:#3B82F6")||!/@media\(max-width:(?:3[0-8]0)px\)/.test(css)||!css.includes("prefers-reduced-motion"))throw new Error("Responsive visual system missing");
 if(!app.includes("navigator.share")||!app.includes("localStorage"))throw new Error("Share/history flow missing");
 console.log("AUDIT PASS — single-source ZIPSPEED v75 + native branding + loaded latency");
-
-[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

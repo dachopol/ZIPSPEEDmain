@@ -1,5 +1,3 @@
-[Reading 100 lines from start (total: 100 lines, 0 remaining)]
-
 package com.aistudio.zipspeed.zskt;
 
 import static org.junit.Assert.assertEquals;
@@ -100,5 +98,3 @@ public class MainActivityInstrumentedTest {
         }
     }
 }
-
-[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

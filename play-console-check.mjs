@@ -1,5 +1,3 @@
-[Reading 7 lines from start (total: 7 lines, 0 remaining)]
-
 import fs from"node:fs/promises";import path from"node:path";
 const pkg=JSON.parse(await fs.readFile("package.json","utf8")),gradle=await fs.readFile("app/build.gradle.kts","utf8"),manifest=await fs.readFile("app/src/main/AndroidManifest.xml","utf8"),ci=await fs.readFile(".github/workflows/ci.yml","utf8");
 const num=k=>Number(gradle.match(new RegExp(k+"\\s*=\\s*(\\d+)"))?.[1]);const str=k=>gradle.match(new RegExp(k+'\\s*=\\s*"([^"]+)"'))?.[1]||null;const targetSdk=num("targetSdk"),compileSdk=num("compileSdk"),applicationId=str("applicationId");
@@ -7,5 +5,3 @@ const checks={packageMatchesCanonical:applicationId===pkg.zipspeed.packageId,tar
 for(const [k,v] of Object.entries(checks))if(!v)throw new Error("Play source gate failed: "+k);
 const evidence={generatedAt:new Date().toISOString(),app:{packageId:pkg.zipspeed.packageId,version:pkg.version,versionCode:pkg.zipspeed.versionCode,targetSdk,compileSdk},sourceChecks:checks,consoleItems:{inAppPrivacyPolicy:"PASS",privacyPolicyPublicUrl:"https://dachopol.github.io/privacy-policy/",privacyPolicyPublicUrlDeployment:"PASS",dataSafety:"TO VERIFY",adsDeclaration:"TO VERIFY against uploaded build",appAccess:"TO VERIFY",targetAudience:"TO VERIFY",contentRating:"TO VERIFY",playAppSigning:"UNVERIFIED",upload:"UNVERIFIED"}};
 await fs.rm("play-console-evidence",{recursive:true,force:true});await fs.mkdir("play-console-evidence",{recursive:true});await fs.writeFile(path.join("play-console-evidence","play-console-source-gate.json"),JSON.stringify(evidence,null,2));console.log("PLAY SOURCE PASS — console state remains TO VERIFY");
-
-[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

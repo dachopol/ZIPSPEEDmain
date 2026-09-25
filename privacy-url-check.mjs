@@ -1,5 +1,3 @@
-[Reading 23 lines from start (total: 23 lines, 0 remaining)]
-
 const url="https://dachopol.github.io/privacy-policy/";
 const response=await fetch(url,{redirect:"follow",headers:{"User-Agent":"ZIPSPEED-CI/75"}});
 if(!response.ok)throw new Error(`Privacy URL HTTP ${response.status}`);
@@ -23,5 +21,3 @@ for(const current of[
   if(!html.includes(current))throw new Error("Current privacy assertion missing: "+current);
 }
 console.log("PRIVACY URL PASS — "+url);
-
-[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

@@ -1,5 +1,3 @@
-[Reading 24 lines from start (total: 24 lines, 0 remaining)]
-
 {
   "name": "zipspeed-by-anakinyoo",
   "version": "75.0.0",
@@ -24,5 +22,3 @@
     "browser:check": "node browser-check.mjs"
   }
 }
-
-[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

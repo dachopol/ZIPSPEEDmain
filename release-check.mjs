@@ -1,5 +1,3 @@
-[Reading 11 lines from start (total: 11 lines, 0 remaining)]
-
 import fs from"node:fs/promises";import path from"node:path";
 const pkg=JSON.parse(await fs.readFile("package.json","utf8")),manifest=await fs.readFile("app/src/main/AndroidManifest.xml","utf8"),gradle=await fs.readFile("app/build.gradle.kts","utf8"),app=await fs.readFile("web/src/app.mjs","utf8");
 const fail=m=>{throw new Error(m)};const permissions=[...manifest.matchAll(/<uses-permission\s+android:name="([^"]+)"/g)].map(x=>x[1]).sort();const allowed=["android.permission.ACCESS_NETWORK_STATE","android.permission.INTERNET"].sort();
@@ -11,5 +9,3 @@ if(/clientIp\s*:|isp\s*:|edge\s*:|clientArea\s*:/.test(app.match(/lastResult=\{[
 if(!app.includes("navigator.share")||!app.includes("localStorage.setItem(HISTORY_KEY"))fail("Share/history path missing");
 const evidence={generatedAt:new Date().toISOString(),packageId:pkg.zipspeed.packageId,version:pkg.version,versionCode:pkg.zipspeed.versionCode,permissions,adsSdkDetected:false,billingSdkDetected:false,historyStorage:"localStorage",providerMetadataSavedToHistory:false,storeReview:{inAppPrivacyPolicy:"PASS",privacyPolicyPublicUrl:"https://dachopol.github.io/privacy-policy/",privacyPolicyPublicUrlDeployment:"PASS",dataSafety:"TO VERIFY",signedUploadableAab:"UNVERIFIED",playUpload:"UNVERIFIED",physicalAndroidRuntime:"PASS_WIFI_4G_TWO_DEVICES"}};
 await fs.rm("release-evidence",{recursive:true,force:true});await fs.mkdir("release-evidence",{recursive:true});await fs.writeFile(path.join("release-evidence","release-source-check.json"),JSON.stringify(evidence,null,2));console.log("RELEASE-SOURCE PASS — source evidence only");
-
-[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]
