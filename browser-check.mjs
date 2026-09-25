@@ -48,8 +48,12 @@ try{
 
  const english=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="Test profile"})()');
  if(!english)throw new Error("English switch failed");
+ const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
+ if(!englishTabs)throw new Error("English tab translations incomplete");
  const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
  if(!thai)throw new Error("Thai switch failed");
+ const thaiTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"])');
+ if(!thaiTabs)throw new Error("Thai tab translations incomplete");
  const privacyHref=await evaluate('document.querySelector(".privacy-link")?.getAttribute("href")');
  if(privacyHref!=="./privacy.html")throw new Error("Privacy link missing");
  await evaluate('document.querySelector("[data-tab=speed]").click();document.getElementById("goButton").click()');
@@ -70,7 +74,7 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
