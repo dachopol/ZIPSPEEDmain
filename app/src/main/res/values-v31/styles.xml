@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Zipspeed.Launcher" parent="Theme.Zipspeed">
+        <item name="android:windowSplashScreenBackground">@color/zipspeed_splash_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_zipspeed_mark</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@android:color/transparent</item>
+        <item name="android:windowSplashScreenAnimationDuration">250</item>
+    </style>
+</resources>

@@ -1,10 +1,10 @@
 {
   "name": "zipspeed-by-anakinyoo",
-  "version": "72.0.0",
+  "version": "73.0.0",
   "private": true,
   "type": "module",
   "zipspeed": {
-    "versionCode": 72,
+    "versionCode": 73,
     "channel": "play-console-test-gate",
     "packageId": "com.aistudio.zipspeed.zskt"
   },

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Zipspeed" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/zipspeed_splash_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/zipspeed_splash_bg</item>
+        <item name="android:colorAccent">@color/zipspeed_blue</item>
+    </style>
+    <style name="Theme.Zipspeed.Launcher" parent="Theme.Zipspeed">
+        <item name="android:windowBackground">@drawable/zipspeed_splash</item>
+    </style>
+</resources>

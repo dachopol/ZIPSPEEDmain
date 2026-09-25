@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="zipspeed_blue">#3B82F6</color>
+    <color name="zipspeed_blue_deep">#1D4ED8</color>
+    <color name="zipspeed_splash_bg">#F7F9FC</color>
+    <color name="zipspeed_ink">#0F172A</color>
+</resources>
