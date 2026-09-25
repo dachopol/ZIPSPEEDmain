@@ -10,19 +10,25 @@
 - Old root UI, `app/applet`, and committed Android web-asset mirrors: removed
 
 ## Gates
-- Source audit: run in CI
-- Unit tests: run in CI
-- Static build: run in CI
-- Runtime HTTP smoke: run in CI
-- Real-network endpoint smoke: run on main push
-- Android lint/debug build: run in CI
-- Android release bundle compile: run in CI
-- Release-source evidence: run in CI
-- Play-source evidence: run in CI
+- Source audit: PASS in CI
+- Unit tests: PASS in CI
+- Static build: PASS in CI
+- Runtime HTTP smoke: PASS in CI
+- Real-network endpoint smoke: PASS on main
+- Android lint/debug build: PASS in CI
+- Android release bundle compile: PASS in CI
+- Release-source evidence: PASS in CI
+- Play-source evidence: PASS in CI
+- Android emulator runtime: PASS
+- Physical Android Wi-Fi runtime: **PASS on RMX3241 (2026-09-26)**
+- Physical Quick Single + Multi (4): **PASS with persisted real-data History/provenance**
 
 ## TO VERIFY
 - Signed Play-uploadable AAB
 - Live Play Console state/declarations
 - Successful upload/review/publication
-- Physical Android Wi-Fi/cellular runtime
+- Physical Android 4G/5G runtime
+- Broader physical-device/OEM WebView coverage
 - Accessibility on physical device
+- Final Data Safety classification
+- Exact Canva raster parity

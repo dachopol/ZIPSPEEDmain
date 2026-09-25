@@ -4,10 +4,13 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "73.0.0",
   "version_code": 73,
-  "validated_source_commit": "a346f99ccd07b9e9006bcfe156b8652c227da309",
-  "validated_ci_run": 144,
+  "validated_source_commit": "8a6c1c18abcdc34db906ff58104cb22d24267050",
+  "validated_ci_run": 147,
   "validated_ci_jobs": "10/10 PASS",
-  "current_task_id": "external-infrastructure-physical-device-or-exact-canva-raster",
+  "physical_android_wifi": "PASS_RMX3241_2026-09-26",
+  "physical_quick_single": "PASS_REAL_NETWORK_HISTORY",
+  "physical_quick_multi": "PASS_REAL_NETWORK_HISTORY",
+  "current_task_id": "external-infrastructure-cellular-accessibility-play-or-exact-canva-raster",
   "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "emulator_runtime": "PASS_API_34",
@@ -16,10 +19,10 @@
     "authorized TURN service/configuration for real packet loss",
     "licensed/owned media endpoint and playback methodology for real video playback measurement",
     "additional authorized regional measurement endpoints",
-    "physical Android Wi-Fi/4G/5G and accessibility validation",
+    "physical Android 4G/5G and broader accessibility/OEM WebView validation beyond RMX3241 Wi-Fi",
     "release signing material and Play Console access/upload/declarations",
     "final Play Data Safety classification for IP-derived country and Cloudflare processing",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "Continue only with available external infrastructure, physical-device evidence, Play/signing access, exact Canva raster export bytes, or a newly reproduced source/runtime defect."
+  "next": "Continue only with cellular/accessibility evidence, external measurement/media infrastructure, Play/signing access, exact Canva raster export bytes, or a newly reproduced source/runtime defect."
 }
