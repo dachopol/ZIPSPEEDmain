@@ -86,6 +86,7 @@ function activateTab(button,{focus=false}={}){
   document.querySelectorAll(".tab").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-selected","false");x.tabIndex=-1});
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
   button.classList.add("active");button.setAttribute("aria-selected","true");button.tabIndex=0;$(button.dataset.tab).classList.add("active");
+  button.scrollIntoView({block:"nearest",inline:"center"});
   if(focus)button.focus({preventScroll:true});
 }
 function initTabs(){

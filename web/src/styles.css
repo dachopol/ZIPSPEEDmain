@@ -45,10 +45,10 @@ body::before,body::after{
 body::before{width:17rem;height:17rem;left:-8rem;top:32%;background:rgba(96,165,250,.12)}
 body::after{width:20rem;height:20rem;right:-10rem;bottom:7%;background:rgba(59,130,246,.10)}
 button,select{font:inherit}
-button,a,select{-webkit-tap-highlight-color:transparent}
+button,a,select{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 button{cursor:pointer}
 .app-shell{
-  width:min(100%,780px);
+  width:min(100%,720px);
   margin:auto;
   padding:max(20px,env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
   min-height:100vh;
@@ -61,8 +61,8 @@ button{cursor:pointer}
   align-items:center;
   justify-content:space-between;
   gap:16px;
-  margin:2px 2px 18px;
-  padding:4px 2px
+  margin:2px 2px 14px;
+  padding:2px 2px
 }
 .topbar>div{position:relative;padding-left:16px}
 .topbar>div::before{
@@ -108,11 +108,15 @@ button{cursor:pointer}
   top:max(8px,env(safe-area-inset-top));
   z-index:20;
   display:flex;
-  gap:8px;
+  gap:6px;
   overflow:auto;
-  margin:0 -4px 16px;
-  padding:7px;
+  margin:0 -4px 14px;
+  padding:6px;
   scrollbar-width:none;
+  scroll-snap-type:x proximity;
+  scroll-padding-inline:6px;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
   border:1px solid rgba(255,255,255,.9);
   border-radius:24px;
   background:rgba(255,255,255,.72);
@@ -122,11 +126,13 @@ button{cursor:pointer}
 }
 .tabs::-webkit-scrollbar{display:none}
 .tab{
-  min-height:44px;
+  min-height:46px;
+  flex:0 0 auto;
+  scroll-snap-align:center;
   border:1px solid transparent;
   background:transparent;
-  border-radius:17px;
-  padding:0 16px;
+  border-radius:16px;
+  padding:0 15px;
   color:#64748b;
   font-weight:850;
   font-size:.92rem;
@@ -155,12 +161,12 @@ button{cursor:pointer}
 }
 .hero-card{
   isolation:isolate;
-  min-height:510px;
-  padding:28px 22px 24px;
+  min-height:472px;
+  padding:24px 22px 22px;
   display:grid;
   justify-items:center;
   align-content:center;
-  gap:18px;
+  gap:14px;
   overflow:hidden
 }
 .hero-card::before{
@@ -188,7 +194,7 @@ button{cursor:pointer}
 /* Speed gauge */
 .gauge{
   position:relative;
-  width:min(76vw,346px);
+  width:min(72vw,322px);
   aspect-ratio:1;
   display:grid;
   place-items:center;
@@ -294,7 +300,7 @@ button{cursor:pointer}
 /* Main action */
 .go-button{
   position:relative;
-  width:104px;height:104px;
+  width:100px;height:100px;
   border:8px solid rgba(255,255,255,.88);
   border-radius:50%;
   background:linear-gradient(145deg,#67adff 0%,#3b82f6 36%,#2563eb 76%,#1d4ed8 100%);
@@ -338,13 +344,21 @@ button{cursor:pointer}
   margin-top:14px
 }
 .metric-card,.status-card,.setting-card{
-  min-height:94px;
-  padding:17px 18px;
+  padding:16px 18px;
   display:grid;
   align-content:center;
   gap:5px;
   transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease
 }
+.metric-card{min-height:82px}
+.status-card,.setting-card{min-height:88px}
+.metric-card:not(.graph-card){
+  grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center;
+  column-gap:8px
+}
+.metric-card:not(.graph-card)>strong{text-align:right}
+.metric-card:not(.graph-card)>small{white-space:nowrap}
 .metric-card:hover,.status-card:hover,.setting-card:hover{
   transform:translateY(-1px);
   border-color:rgba(191,219,254,.72);
@@ -357,7 +371,7 @@ button{cursor:pointer}
 }
 .metric-card strong,.status-card strong{
   color:#111827;
-  font-size:1.58rem;
+  font-size:1.48rem;
   line-height:1.1;
   overflow-wrap:anywhere;
   font-variant-numeric:tabular-nums;
@@ -377,7 +391,7 @@ button{cursor:pointer}
   grid-template-columns:minmax(0,1fr) auto;
   align-items:center
 }
-.status-card strong{text-align:right}
+.status-card strong{text-align:right;max-width:min(58vw,360px)}
 .setting-card{
   grid-template-columns:1fr auto;
   align-items:center
@@ -512,20 +526,18 @@ button{cursor:pointer}
   .app-shell{padding-left:14px;padding-right:14px}
   .topbar{margin-bottom:14px}
   .tabs{margin-left:-2px;margin-right:-2px}
-  .hero-card{min-height:488px;padding:24px 16px 22px}
+  .hero-card{min-height:448px;padding:20px 16px 20px}
   .card-list{grid-template-columns:1fr}
   .wide{grid-column:auto}
-  .status-card{grid-template-columns:1fr}
-  .status-card strong{text-align:left}
   .setting-card{grid-template-columns:minmax(0,1fr) auto}
   .setting-card select{max-width:52vw}
   .history-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:380px){
   .app-shell{padding-left:11px;padding-right:11px}
-  .gauge{width:88vw}
-  .hero-card{min-height:460px;padding:18px 12px 20px}
-  .go-button{width:96px;height:96px}
+  .gauge{width:82vw}
+  .hero-card{min-height:430px;padding:16px 12px 18px}
+  .go-button{width:92px;height:92px}
   .topbar h1{font-size:1rem}
   .version-badge{padding:0 10px}
   .setting-card{grid-template-columns:1fr}
