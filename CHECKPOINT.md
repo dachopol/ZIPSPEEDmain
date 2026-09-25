@@ -39,7 +39,7 @@ Passed gates:
 - STOP now aborts the server-health preflight through the active test signal instead of waiting for the independent 2.5 s health timeout.
 - A user-triggered STOP is not rendered as a server-health failure.
 - Browser tests verify settings lock/unlock and bounded STOP preflight latency.
-- Android Emulator verifies bundled WebView v72, controls, language flow, GO/STOP and measurement-settings lock.
+- Android Emulator verifies bundled WebView v73, controls, language flow, GO/STOP and measurement-settings lock.
 
 ## Privacy
 

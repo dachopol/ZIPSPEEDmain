@@ -335,3 +335,36 @@ Remaining capability gaps are still real:
 - signed Play publication.
 
 The competitive score loop can pause at this point. Release work remains governed by `/build → /runtime → /release-check → /final` and the external blockers above.
+
+
+## Loop 16 — benchmark refresh 2026-09-25
+
+Evidence date: **2026-09-25**
+
+Current-source verification:
+- Zipspeed v73.0.0 / versionCode 73.
+- Main HEAD before this documentation update: `14954b99451059c2131913720b267ca5c969bf28`.
+- CI #146: **PASS 10/10**, including browser interaction, real-network smoke, Android debug/lint, release bundle compile, and Android emulator runtime.
+- v73 native branding is validated, but no new screenshot/user-test evidence justifies increasing the Visual score.
+
+Competitor refresh from current official product listings:
+- Speedtest by Ookla still documents one-tap testing, download/upload/ping/jitter, real-time consistency graph, single/multi connection tests, global server network, video test, coverage map, history and sharing.
+- Opensignal now documents Connectivity Assistant in addition to speed/ping, a real 15-second video playback test and network coverage maps.
+- FAST remains a streamlined ad-free benchmark; FAST.com exposes download/upload plus unloaded and loaded latency.
+- Meteor continues to combine speed/latency with app-performance interpretation and network coverage.
+
+Scoring decision:
+- Zipspeed remains **89.8 / 100**. No planned or cosmetic-only credit is added.
+- Highest fully scored competitor benchmark remains **89.6 / 100 (Speedtest by Ookla)** under the existing rubric.
+- Delta remains **+0.2**.
+- Opensignal is flagged as a stronger current Diagnostics / Use-case reference because of Connectivity Assistant, but its total score is **TO VERIFY** until the same full 9-grid evidence process is rerun; listing-only evidence is not converted into invented points.
+
+Top-3 remaining product GAP:
+1. Authorized multi-region/global measurement coverage.
+2. Real playback-quality testing with licensed/owned media and defined methodology.
+3. Verified coverage-map dataset.
+
+Decision:
+- Competitive score loop remains at the exit condition.
+- Do not add fake regions, packet loss, coverage maps or video-test results to widen the score margin.
+- Next score movement requires new evidence, not design intent.
