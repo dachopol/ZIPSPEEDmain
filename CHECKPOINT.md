@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 72.0.0
-versionCode: 72
+Version: 73.0.0
+versionCode: 73
 
 ## Latest validated source
 
-Validated source commit: `ceb48adddb1a3e2666a5740464ae41f1b25dceac`
-GitHub Actions: **CI #136 — PASS 10/10**
+Validated runtime/source commit: `a346f99ccd07b9e9006bcfe156b8652c227da309`
+GitHub Actions: **CI #144 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -25,6 +25,11 @@ Passed gates:
 - android-emulator-runtime (API 34 WebView interaction)
 
 ## Fixes validated in this inspection cycle
+
+- Native branding is now wired: launcher/round icon + pre-Android-12 splash fallback + Android 12+ splash resources.
+- Web branding now uses source-controlled `web/assets/zipspeed-mark.svg` with deterministic `?v=73` cache revision.
+- Stale v72 assertions in runtime smoke and Android instrumentation tests were corrected to v73.
+- Exact Canva raster export remains **TO VERIFY**; source currently uses a deterministic vector fallback rather than claiming preview bytes are embedded.
 
 - Premium responsive UI remains active on the canonical source.
 - Browser regression gate now checks widths 320 / 390 / 768 px for page/hero/GO overflow.
