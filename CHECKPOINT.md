@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 73.0.0
-versionCode: 73
+Version: 74.0.0
+versionCode: 74
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `6f632f32d154333aa2a4c2da2134f331b175bb48`
-GitHub Actions: **CI #149 — PASS after emulator retry (attempt 3)**
+Validated runtime/source commit: `965bdc9a5d581e0c6dfba5bd93bbf947ae7b669a`
+GitHub Actions: **CI #154 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -23,6 +23,19 @@ Passed gates:
 - android-debug-build + lint + instrumentation APK compile
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
+
+## v74 physical UI validation — RMX3241
+
+- Clean-installed **v74.0.0 / versionCode 74 / targetSdk 36** after backing up the installed v73 APK and app data because CI debug signatures did not match.
+- Physical display: **1080×2400**, observed system font scale **1.15**.
+- Portrait home UI: PASS.
+- Header is more compact while keeping the v74 badge readable.
+- Main tab row shows Speed / Video / Status / Map without the previous half-cut Map label in the observed home state.
+- Hero height/gauge footprint are reduced and the first metric card is visible in the first screen.
+- Metric card presentation is title-left / value-right.
+- Observed second cold launch: app shell visible by ~1.5 s; v74/fully initialized UI visible by ~3 s.
+- **TO VERIFY:** new physical v74 GO/real-network completion. ADB coordinate injection triggered a system/app gesture instead of GO, so this inspection does not promote that item to PASS.
+- CI #154 covers GO/STOP, real-network smoke, Android emulator interaction, narrow-screen active-tab visibility and full TH/EN tabs.
 
 ## Physical-device validation — 2026-09-26
 
@@ -69,14 +82,14 @@ The measured numbers above are evidence from individual real runs only. They are
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Policy source aligned to **v73.0.0** on 2026-09-26.
-- CI privacy-url-check now requires v73 content.
+- Policy source aligned to **v74.0.0** on 2026-09-26.
+- CI privacy-url-check now requires v74 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup
 
 - Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
-- Root release state is represented by current v73 documents only.
+- Root release state is represented by current v74 documents only.
 - CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers

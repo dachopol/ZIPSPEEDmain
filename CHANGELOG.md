@@ -1,5 +1,19 @@
 # Changelog
 
+## v74 — 2026-09-26 — Mobile UI/UX polish
+- Tightened the premium white/blue layout without changing the real measurement engine.
+- Compacted the header and hero instrument so the first result card becomes visible sooner on a phone screen.
+- Reduced gauge/GO footprint on narrow screens while preserving touch-target size and readability.
+- Reworked metric cards to title-left / value-right presentation with real-data values unchanged.
+- Improved horizontal tab usability with scroll snap and automatic centering of the active tab.
+- Added browser regression proof that the far-right tab becomes fully visible at 320 px.
+- Added complete TH/EN tab-translation regression coverage after fixing a missing Status translation hook.
+- Privacy policy and source gates were aligned to v74.
+- CI #154 passed all 10 quality jobs.
+- Physical v74 portrait UI on RMX3241 passed visual verification; a new physical v74 GO/network run remains TO VERIFY because ADB touch injection mapped to a system gesture during this inspection.
+- Bumped canonical version/versionCode to 74.0.0 / 74.
+
+
 ## v73 — 2026-09-25 — Native branding integration
 - Wired Android launcher icon/round icon and native splash theme instead of the generic platform icon/theme.
 - Added source-controlled white/blue gauge-network vector branding for Android and Web without fake measurement numbers.

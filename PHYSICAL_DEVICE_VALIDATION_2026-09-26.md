@@ -91,3 +91,20 @@ The measured numbers are evidence from individual real runs only. They are not b
 - long-session/battery behavior
 
 This report does not replace signed Play release testing.
+
+## v74 UI validation — RMX3241
+
+- Build: **v74.0.0 / versionCode 74 / targetSdk 36**
+- Physical display: **1080×2400**
+- Observed system font scale: **1.15**
+- Installation: clean install was required because the installed v73 CI debug certificate did not match the v74 CI debug certificate.
+- Safety backup retained on the development PC: installed v73 APK + app data tar.
+- Portrait visual load: PASS.
+- Header/brand/version badge: PASS.
+- Main tabs in initial home state: Speed / Video / Status / Map are fully readable; the previously observed half-cut Map label was not reproduced.
+- Compact hero exposes the first result card within the initial phone viewport.
+- Metric cards use title-left / value-right layout.
+- Second cold-launch observation: shell visible at ~1.5 seconds, fully initialized v74 UI at ~3 seconds.
+- Browser CI #154 separately proves active far-right tab auto-scroll at 320 px and complete TH/EN tab translation hooks.
+- **TO VERIFY:** new physical v74 GO/real-network completion. ADB touch coordinates triggered a system/app gesture instead of the GO control, so no physical v74 network PASS is claimed.
+

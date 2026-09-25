@@ -6,8 +6,8 @@ Clean rebuild on the existing Android identity.
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Version: `73.0.0`
-- versionCode: `73`
+- Version: `74.0.0`
+- versionCode: `74`
 - Canonical version source: `package.json`
 
 ## Single-source architecture
@@ -17,7 +17,7 @@ Clean rebuild on the existing Android identity.
 
 ## Branding
 - Android launcher icon and native splash are wired through `app/src/main/res/` and the manifest.
-- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=73` cache revision.
+- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=74` cache revision.
 - Approved Canva references and exact-export status are tracked in `BRAND_ASSETS.md`.
 
 ## Product surface
@@ -31,4 +31,4 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. Console upload, signing, and physical-device behavior remain separate verification gates.
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #154 also verifies narrow-screen active-tab auto-scroll and complete TH/EN tab translations. Physical v74 UI was verified on RMX3241; signed Play upload and final physical network coverage remain separate gates.
