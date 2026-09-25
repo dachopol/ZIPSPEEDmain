@@ -2,12 +2,12 @@
   "project": "ZIPSPEED by AnakinYoo",
   "source_of_truth": "dachopol/ZIPSPEEDmain:main",
   "package_id": "com.aistudio.zipspeed.zskt",
-  "version": "72.0.0",
-  "version_code": 72,
-  "validated_source_commit": "ceb48adddb1a3e2666a5740464ae41f1b25dceac",
-  "validated_ci_run": 136,
+  "version": "73.0.0",
+  "version_code": 73,
+  "validated_source_commit": "a346f99ccd07b9e9006bcfe156b8652c227da309",
+  "validated_ci_run": 144,
   "validated_ci_jobs": "10/10 PASS",
-  "current_task_id": "external-infrastructure-or-physical-device-validation",
+  "current_task_id": "external-infrastructure-physical-device-or-exact-canva-raster",
   "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "emulator_runtime": "PASS_API_34",
@@ -18,7 +18,8 @@
     "additional authorized regional measurement endpoints",
     "physical Android Wi-Fi/4G/5G and accessibility validation",
     "release signing material and Play Console access/upload/declarations",
-    "final Play Data Safety classification for IP-derived country and Cloudflare processing"
+    "final Play Data Safety classification for IP-derived country and Cloudflare processing",
+    "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "Continue only with available external infrastructure, physical-device evidence, Play/signing access, or a newly reproduced source/runtime defect."
+  "next": "Continue only with available external infrastructure, physical-device evidence, Play/signing access, exact Canva raster export bytes, or a newly reproduced source/runtime defect."
 }
