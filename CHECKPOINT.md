@@ -9,8 +9,8 @@ versionCode: 73
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `d9a68b11e00d38203ab055dcc0c0bd9e254b9be9`
-GitHub Actions: **CI #148 — PASS 10/10**
+Validated runtime/source commit: `6f632f32d154333aa2a4c2da2134f331b175bb48`
+GitHub Actions: **CI #149 — PASS after emulator retry (attempt 3)**
 
 Passed gates:
 - web-check
@@ -36,6 +36,8 @@ Passed gates:
 - Quick + Multi (4) real-network flow: PASS.
 - History persistence + WebView provenance: PASS.
 - Controlled no-touch 20 s check: no automatic repeated test reproduced.
+- Current physical font scale observed: **1.15**.
+- WebView inner accessibility nodes are not exposed through uiautomator on this device; source/browser accessibility checks remain the verified evidence layer.
 
 ### Device B — Xiaomi 23078PND5G / Android 16 / 4G LTE
 - Manufacturer/model reported by Android: **Xiaomi 23078PND5G**.
@@ -53,29 +55,36 @@ Passed gates:
 
 The measured numbers above are evidence from individual real runs only. They are not benchmark, ISP-quality, accuracy, or marketing claims.
 
-## Fixes validated in this inspection cycle
+## Accessibility / input evidence
 
-- Native branding is wired: launcher/round icon + pre-Android-12 splash fallback + Android 12+ splash resources.
-- Web branding uses source-controlled `web/assets/zipspeed-mark.svg` with deterministic `?v=73` cache revision.
-- Premium responsive UI remains active on the canonical source.
-- Browser regression gate checks widths 320 / 390 / 768 px.
-- ARIA tabs use roving tabindex and keyboard navigation.
-- Profile / Connection / Server controls lock during an active speed test.
-- STOP abort behavior remains covered by browser/emulator CI.
+- Main tabs use `role="tablist"` / `role="tab"`, `aria-selected`, `aria-controls`, and roving `tabindex`.
+- Browser runtime gate verifies keyboard ArrowRight navigation and selected/focus state.
+- GO phase uses `role="status"` + `aria-live="polite"`.
+- Latency graph uses `role="img"` + accessible label.
+- Tabs and text controls use minimum 44 px touch height; selects are at least 46 px; primary secondary action is at least 54 px.
+- `:focus-visible` and `prefers-reduced-motion: reduce` are implemented.
+- **TO VERIFY:** TalkBack/manual screen-reader traversal and enlarged system font beyond the current physical 1.15 setting. Android shell cannot change WRITE_SETTINGS on the connected device, so no fake PASS is recorded.
 
 ## Privacy
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Public privacy URL content gate: PASS.
+- Policy source aligned to **v73.0.0** on 2026-09-26.
+- CI privacy-url-check now requires v73 content.
 - Play Console field entry/submission remains TO VERIFY.
+
+## Clear-old cleanup
+
+- Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
+- Root release state is represented by current v73 documents only.
+- CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers
 
 - **GAP:** Real packet loss needs an authorized TURN service/configuration.
 - **GAP:** Real video playback test needs licensed/owned test media plus a defined playback methodology.
 - **GAP:** True multi-region manual selection needs additional authorized measurement endpoints.
-- **TO VERIFY:** Physical Android **5G** validation and broader accessibility/OEM WebView coverage. Wi-Fi and 4G physical runtime are now PASS on two devices.
+- **TO VERIFY:** Physical Android **5G**, manual TalkBack/accessibility traversal, enlarged-font stress test, and broader OEM/WebView coverage.
 - **TO VERIFY:** Release signing and actual Google Play upload require signing material and Play Console access.
 - **TO VERIFY:** Final Play Data Safety selections for IP-derived country and Cloudflare processing.
 - **TO VERIFY:** Exact Canva raster bytes for pixel-identical launcher/splash replacement.
