@@ -1,3 +1,5 @@
+[Reading 100 lines from start (total: 100 lines, 0 remaining)]
+
 package com.aistudio.zipspeed.zskt;
 
 import static org.junit.Assert.assertEquals;
@@ -73,7 +75,7 @@ public class MainActivityInstrumentedTest {
             assertNotNull(webView);
 
             waitTrue(activity, webView, "document.readyState==='complete'", 10000);
-            waitTrue(activity, webView, "document.getElementById('appVersion')?.textContent==='v74.0.0'", 10000);
+            waitTrue(activity, webView, "document.getElementById('appVersion')?.textContent==='v75.0.0'", 10000);
             assertEquals("\"GO\"", eval(activity, webView, "document.getElementById(\'goButton\').textContent"));
             assertEquals("true", eval(activity, webView, "document.getElementById('shareButton').disabled"));
 
@@ -98,3 +100,5 @@ public class MainActivityInstrumentedTest {
         }
     }
 }
+
+[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

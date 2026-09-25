@@ -1,3 +1,5 @@
+[Reading 615 lines from start (total: 615 lines, 0 remaining)]
+
 :root{
   --blue:#3B82F6;
   --blue-strong:#2563eb;
@@ -453,25 +455,86 @@ button{cursor:pointer}
 }
 .text-button:hover{background:rgba(219,234,254,.55)}
 
+
+/* Secondary pages */
+.video-summary{
+  min-height:112px;
+  padding:20px 20px;
+  border-color:rgba(191,219,254,.88);
+  background:
+    radial-gradient(circle at 92% 12%,rgba(96,165,250,.16),transparent 10rem),
+    linear-gradient(145deg,#fff,#f3f8ff)
+}
+.video-summary>div{min-width:0}
+.video-summary>div>span{color:var(--blue-deep);font-weight:900}
+.video-summary>div>small{display:block;margin-top:6px;line-height:1.45}
+.video-summary>strong{font-size:1.9rem;color:var(--blue-deep)}
+.video-card{min-height:76px}
+.video-card strong{
+  min-width:104px;
+  padding:8px 11px;
+  border-radius:999px;
+  text-align:center;
+  font-size:.9rem;
+  letter-spacing:0
+}
+.video-ready strong{color:#166534;background:#ecfdf5;border:1px solid #bbf7d0}
+.video-fail strong{color:#9a3412;background:#fff7ed;border:1px solid #fed7aa}
+.video-unknown strong{color:var(--muted);background:#f8fafc;border:1px solid #e2e8f0}
+.status-list{gap:10px}
+.status-list .status-card{min-height:78px;padding-top:14px;padding-bottom:14px}
+.status-list .status-card strong{font-size:1.03rem;line-height:1.28;color:var(--ink-2)}
+.status-list .status-card span>small{display:block;margin-top:4px;line-height:1.35}
+.settings-list{gap:10px}
+.settings-list .setting-card{min-height:78px}
+.settings-list .setting-card>span{color:var(--ink-2);font-weight:850}
+.settings-list select{
+  min-width:min(48vw,250px);
+  border-color:rgba(147,197,253,.62);
+  background:linear-gradient(145deg,#fff,#f1f7ff);
+  box-shadow:0 6px 16px rgba(37,99,235,.06),inset 0 1px 1px rgba(255,255,255,.95)
+}
+.settings-list select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+
 /* History */
 .history-empty{grid-column:1/-1;color:var(--muted);padding:18px 2px}
-.history-card{grid-column:1/-1}
-.history-card strong{font-size:1rem}
-.history-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:11px
+.history-list{gap:12px}
+.history-card{
+  grid-column:1/-1;
+  display:block!important;
+  min-height:0;
+  padding:16px 16px 15px
 }
+.history-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding-left:4px
+}
+.history-head strong{min-width:0;font-size:.98rem;color:var(--ink-2);overflow-wrap:anywhere}
+.history-head span{
+  flex:0 0 auto;
+  color:var(--blue-deep);
+  background:#eff6ff;
+  border:1px solid #dbeafe;
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:.76rem;
+  font-weight:850;
+  text-transform:capitalize
+}
+.history-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
 .history-grid div{
-  border:1px solid rgba(226,232,240,.8);
-  border-radius:14px;
-  padding:11px;
-  background:linear-gradient(145deg,#f9fbff,#f4f7fb)
+  min-width:0;
+  border:1px solid rgba(219,234,254,.92);
+  border-radius:15px;
+  padding:12px 11px;
+  background:linear-gradient(145deg,#fbfdff,#f3f8ff)
 }
 .history-grid b,.history-grid small{display:block}
-.history-grid b{font-variant-numeric:tabular-nums}
-.history-grid small{margin-top:3px;color:var(--muted)}
+.history-grid b{color:var(--ink);font-size:1.18rem;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.025em}
+.history-grid small{margin-top:5px;color:var(--muted);font-size:.75rem;line-height:1.25}
 
 /* Graph */
 .graph-card{min-height:166px}
@@ -531,7 +594,13 @@ button{cursor:pointer}
   .wide{grid-column:auto}
   .setting-card{grid-template-columns:minmax(0,1fr) auto}
   .setting-card select{max-width:52vw}
+  .history-head{align-items:flex-start;flex-direction:column;gap:8px}
   .history-grid{grid-template-columns:repeat(2,1fr)}
+  .video-summary{grid-template-columns:1fr;gap:12px}
+  .video-summary strong{text-align:left}
+  .video-card strong{min-width:96px}
+  .status-list .status-card{grid-template-columns:minmax(0,1fr) auto}
+  .status-list .status-card strong{text-align:right}
 }
 @media(max-width:380px){
   .app-shell{padding-left:11px;padding-right:11px}
@@ -546,3 +615,5 @@ button{cursor:pointer}
 @media(prefers-reduced-motion:reduce){
   *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
+
+[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

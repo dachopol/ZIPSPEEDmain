@@ -1,3 +1,5 @@
+[Reading 84 lines from start (total: 84 lines, 0 remaining)]
+
 import{spawn,spawnSync}from"node:child_process";import fs from"node:fs/promises";import path from"node:path";
 const appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function chromePath(){for(const name of["google-chrome","google-chrome-stable","chromium","chromium-browser"]){const r=spawnSync("which",[name],{encoding:"utf8"});if(r.status===0&&r.stdout.trim())return r.stdout.trim()}throw new Error("Chrome/Chromium not found")}
@@ -21,7 +23,7 @@ try{
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
- await waitEval('document.getElementById("appVersion")?.textContent==="v74.0.0"');
+ await waitEval('document.getElementById("appVersion")?.textContent==="v75.0.0"');
  for(const width of[320,390,768]){
    await send("Emulation.setDeviceMetricsOverride",{width,height:844,deviceScaleFactor:1,mobile:width<600});
    await sleep(120);
@@ -44,6 +46,10 @@ try{
  await sleep(180);
  const activeTabVisible=await evaluate('(()=>{const strip=document.querySelector(".tabs")?.getBoundingClientRect(),tab=document.querySelector("[data-tab=adfree]")?.getBoundingClientRect();return !!strip&&!!tab&&tab.left>=strip.left-1&&tab.right<=strip.right+1})()');
  if(!activeTabVisible)throw new Error("Active tab did not scroll into view on narrow viewport");
+
+ const secondaryPagesOk=await evaluate('(()=>{for(const id of["video","status","history","settings","adfree"]){const tab=document.querySelector("[data-tab="+id+"]");tab.click();const page=document.getElementById(id),r=page.getBoundingClientRect();if(document.documentElement.scrollWidth>window.innerWidth+1||r.left<-1||r.right>window.innerWidth+1)return false}const select=document.getElementById("profileSetting").getBoundingClientRect();return select.left>=-1&&select.right<=window.innerWidth+1&&document.querySelectorAll("#videoList .video-card").length>0})()');
+ if(!secondaryPagesOk)throw new Error("Secondary page responsive polish failed at 320px");
+
  await send("Emulation.clearDeviceMetricsOverride");
 
  const english=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="Test profile"})()');
@@ -74,7 +80,9 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,secondaryPagesResponsive:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
+
+[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

@@ -1,8 +1,10 @@
+[Reading 23 lines from start (total: 23 lines, 0 remaining)]
+
 const url="https://dachopol.github.io/privacy-policy/";
-const response=await fetch(url,{redirect:"follow",headers:{"User-Agent":"ZIPSPEED-CI/74"}});
+const response=await fetch(url,{redirect:"follow",headers:{"User-Agent":"ZIPSPEED-CI/75"}});
 if(!response.ok)throw new Error(`Privacy URL HTTP ${response.status}`);
 const html=await response.text();
-for(const required of["ZIPSPEED by AnakinYoo","com.aistudio.zipspeed.zskt","74.0.0","Cloudflare"]){
+for(const required of["ZIPSPEED by AnakinYoo","com.aistudio.zipspeed.zskt","75.0.0","Cloudflare"]){
   if(!html.includes(required))throw new Error("Privacy URL content mismatch: "+required);
 }
 for(const stale of[
@@ -21,3 +23,5 @@ for(const current of[
   if(!html.includes(current))throw new Error("Current privacy assertion missing: "+current);
 }
 console.log("PRIVACY URL PASS — "+url);
+
+[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]

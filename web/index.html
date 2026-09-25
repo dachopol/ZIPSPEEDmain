@@ -1,3 +1,5 @@
+[Reading 116 lines from start (total: 116 lines, 0 remaining)]
+
 <!doctype html>
 <html lang="th">
 <head>
@@ -6,7 +8,7 @@
   <meta name="theme-color" content="#f4f7fb">
   <title>ZIPSPEED by AnakinYoo</title>
   <meta name="application-name" content="ZIPSPEED by AnakinYoo">
-  <link rel="icon" href="./assets/zipspeed-mark.svg?v=74" type="image/svg+xml">
+  <link rel="icon" href="./assets/zipspeed-mark.svg?v=75" type="image/svg+xml">
   <link rel="stylesheet" href="./src/styles.css">
 </head>
 <body>
@@ -57,7 +59,7 @@
     </section>
 
     <section id="video" class="page" role="tabpanel" aria-labelledby="tab-video">
-      <article class="status-card">
+      <article class="status-card video-summary">
         <div><span data-i18n="videoEstimate">Video estimate</span><small data-i18n="videoNote">คำนวณจาก Download ที่วัดได้ ไม่ใช่การเล่นวิดีโอจริง</small></div>
         <strong id="videoHeadline">--</strong>
       </article>
@@ -65,7 +67,7 @@
     </section>
 
     <section id="status" class="page" role="tabpanel" aria-labelledby="tab-status">
-      <div class="card-list">
+      <div class="card-list status-list">
         <article class="status-card"><span data-i18n="server">Server</span><strong id="serverValue">--</strong></article>
         <article class="status-card"><span data-i18n="routing">Edge selection</span><strong id="routingValue">--</strong></article>
         <article class="status-card"><span data-i18n="serverHealth">Server health</span><strong id="serverHealthValue">--</strong></article>
@@ -91,11 +93,11 @@
 
     <section id="history" class="page" role="tabpanel" aria-labelledby="tab-history">
       <div class="section-row"><h2 data-i18n="tabHistory">History</h2><button id="clearHistoryButton" class="text-button" type="button" data-i18n="clear">Clear</button></div>
-      <div id="historyList" class="card-list"></div>
+      <div id="historyList" class="card-list history-list"></div>
     </section>
 
     <section id="settings" class="page" role="tabpanel" aria-labelledby="tab-settings">
-      <div class="card-list">
+      <div class="card-list settings-list">
         <label class="setting-card"><span data-i18n="testProfile">Test profile</span><select id="profileSetting"><option id="quickProfileOption" value="quick" data-i18n="quickProfile">Quick (≈4 MiB)</option><option id="standardProfileOption" value="standard" data-i18n="standardProfile">Standard adaptive (≤122 MiB)</option></select></label>
         <label class="setting-card"><span data-i18n="connections">Connections</span><select id="connectionSetting"><option value="single">Single</option><option value="multi">Multi (4)</option></select></label>
         <label class="setting-card"><span data-i18n="serverSetting">Test server</span><select id="serverSetting"><option value="auto">Auto</option></select></label>
@@ -114,3 +116,5 @@
   <script type="module" src="./src/app.mjs"></script>
 </body>
 </html>
+
+[executed on device: DESKTOP-IL7PNGM (23390c81-6178-4fca-ac0c-6ab0579302a8)]
