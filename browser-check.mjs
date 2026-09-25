@@ -21,7 +21,7 @@ try{
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
- await waitEval('document.getElementById("appVersion")?.textContent==="v73.0.0"');
+ await waitEval('document.getElementById("appVersion")?.textContent==="v74.0.0"');
  for(const width of[320,390,768]){
    await send("Emulation.setDeviceMetricsOverride",{width,height:844,deviceScaleFactor:1,mobile:width<600});
    await sleep(120);
@@ -39,6 +39,13 @@ try{
  if(!settingsActive)throw new Error("Settings tab interaction failed");
  const keyboardTabs=await evaluate('(()=>{const start=document.querySelector("[data-tab=settings]");start.focus();start.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowRight",bubbles:true}));const next=document.activeElement;return next?.dataset?.tab==="adfree"&&next.getAttribute("aria-selected")==="true"&&next.tabIndex===0&&start.tabIndex===-1})()');
  if(!keyboardTabs)throw new Error("Keyboard tab navigation failed");
+ await send("Emulation.setDeviceMetricsOverride",{width:320,height:844,deviceScaleFactor:1,mobile:true});
+ await evaluate('document.querySelector("[data-tab=adfree]").click()');
+ await sleep(180);
+ const activeTabVisible=await evaluate('(()=>{const strip=document.querySelector(".tabs")?.getBoundingClientRect(),tab=document.querySelector("[data-tab=adfree]")?.getBoundingClientRect();return !!strip&&!!tab&&tab.left>=strip.left-1&&tab.right<=strip.right+1})()');
+ if(!activeTabVisible)throw new Error("Active tab did not scroll into view on narrow viewport");
+ await send("Emulation.clearDeviceMetricsOverride");
+
  const english=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="Test profile"})()');
  if(!english)throw new Error("English switch failed");
  const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
@@ -63,7 +70,7 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
