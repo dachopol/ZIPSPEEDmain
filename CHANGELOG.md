@@ -1,5 +1,14 @@
 # Changelog
 
+## v73 — 2026-09-25 — Native branding integration
+- Wired Android launcher icon/round icon and native splash theme instead of the generic platform icon/theme.
+- Added source-controlled white/blue gauge-network vector branding for Android and Web without fake measurement numbers.
+- Added Android 12+ splash resources plus pre-Android-12 fallback without new dependencies.
+- Added Web SVG favicon with deterministic `?v=73` cache revision.
+- Added audit/release/Play source guards for missing launcher/splash branding.
+- Recorded approved Canva icon/splash references; exact Canva raster export remains TO VERIFY rather than being claimed as embedded.
+- Bumped canonical version/versionCode to 73.0.0 / 73.
+
 ## v72 — 2026-09-23 — Derived-data truth hardening
 - Clarified that Health Index/bands are Zipspeed-derived scores, not direct network measurements or universal standards.
 - Clarified video/streaming suitability as Zipspeed throughput-threshold estimates, not playback tests or provider guarantees.
