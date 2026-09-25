@@ -3,9 +3,10 @@
 ## Current rebuild
 - App: ZIPSPEED by AnakinYoo
 - Package: `com.aistudio.zipspeed.zskt`
-- Version: `72.0.0`
-- versionCode: `72`
+- Version: `73.0.0`
+- versionCode: `73`
 - Active UI/runtime source: `web/` only
+- Native branding: launcher icon + splash resources wired; exact Canva raster export remains TO VERIFY
 - Old root UI, `app/applet`, and committed Android web-asset mirrors: removed
 
 ## Gates
