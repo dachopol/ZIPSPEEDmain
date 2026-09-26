@@ -40,7 +40,16 @@ Passed gates:
 - HTTP probe failures: **0 / 3**.
 - Provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
 - These values are evidence from one real run only, not a performance, ISP-quality, or benchmark-accuracy claim.
-- Xiaomi `2410CRP4CG` remains **TO VERIFY**: exact v79 APK installation is blocked by Xiaomi/MIUI Security with `INSTALL_FAILED_USER_RESTRICTED`; no security bypass was attempted.
+- Xiaomi `2410CRP4CG` exact v79 installation: **PASS** after the user approved Xiaomi/MIUI USB installation; no security setting was bypassed.
+- Xiaomi physical display: **2136×3200**, Android 16 / API 36, validated Wi-Fi.
+- Initial post-install task inherited HyperOS freeform state from the Settings/install flow. A fresh fullscreen task was created only for diagnosis; after Home → Launcher reopen, HyperOS resumed the same app task in **fullscreen** normally, so no manifest/source change was made.
+- Fullscreen tablet UI: **PASS**. All seven tabs are readable; gauge, GO/STOP, version badge and vertical metric cards have no observed overlap or horizontal overflow.
+- Fullscreen Quick + Single real-network flow: **PASS** (GO → STOP → GO + persisted History/provenance).
+- Xiaomi completed result timestamp: `2026-09-26T06:27:37.030Z`.
+- Xiaomi Download: **48.05 Mbps**; Upload: **19.50 Mbps**; Idle latency: **94.1 ms**.
+- Xiaomi Download-loaded latency: **113.6 ms**; Upload-loaded latency: **131.9 ms**; HTTP probe failures: **0 / 3**.
+- Xiaomi provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
+- These Xiaomi values are evidence from one real run only, not a performance, ISP-quality, or benchmark-accuracy claim.
 
 ## v78 gauge UI / motion refinement — physical PASS
 
