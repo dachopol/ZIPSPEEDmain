@@ -289,6 +289,15 @@ button{cursor:pointer}
   font-variant-numeric:tabular-nums;
   text-shadow:0 2px 0 white
 }
+.gauge-copy span.placeholder{
+  display:inline-block;
+  color:#94a3b8;
+  font-size:clamp(1.65rem,7vw,2.25rem);
+  font-weight:850;
+  letter-spacing:.12em;
+  text-shadow:none;
+  transform:translateY(18px)
+}
 .gauge-copy small{
   margin-top:9px;
   color:#8290a3;
