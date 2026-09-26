@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 75.0.0
-versionCode: 75
+Version: 76.0.0
+versionCode: 76
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `2896b2a01229932b97cb80b141ded04e57c185a5`
-GitHub Actions: **CI #157 — PASS 10/10**
+Validated runtime/source commit: `099e6d7e9dbfb9fa2b8dbe72de4b9b8c38b41731`
+GitHub Actions: **CI #159 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -24,6 +24,15 @@ Passed gates:
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
 
+## v76 Video readability validation
+
+- Source commit: `099e6d7e9dbfb9fa2b8dbe72de4b9b8c38b41731`.
+- CI #159: PASS 10/10.
+- Browser regression verifies TH `เกณฑ์อ้างอิง`, EN `Reference`, and block-level Video threshold hierarchy.
+- RMX3241 clean-installed **v76.0.0 / versionCode 76 / targetSdk 36**.
+- Physical Video UI: PASS. 720p / 1080p / 4K labels are separated from their reference thresholds and no longer concatenate.
+- Measurement semantics remain throughput-derived estimates; no playback test claim was introduced.
+
 ## v75 secondary-page UI validation
 
 - Source HEAD: `2896b2a01229932b97cb80b141ded04e57c185a5`
@@ -32,7 +41,7 @@ Passed gates:
 - Browser gate verifies all secondary pages at 320 px without horizontal overflow.
 - Browser gate verifies active far-right tab auto-scroll and complete TH/EN tab labels.
 - RMX3241 physically reports **v75.0.0 / versionCode 75 / targetSdk 36** and home UI renders at 1080×2400.
-- **TO VERIFY:** physical DOM-level switching into secondary tabs on RMX3241; ADB tap injection did not activate WebView tab buttons in this inspection.
+- Physical secondary-tab switching on RMX3241: PASS after correcting ADB coordinates to the 1080×2400 physical screenshot scale. Video / Status / History / Settings / Ad-free were opened and visually checked.
 
 ## v74 physical UI validation — RMX3241
 
@@ -92,14 +101,14 @@ The measured numbers above are evidence from individual real runs only. They are
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Policy source aligned to **v75.0.0** on 2026-09-26.
-- CI privacy-url-check now requires v75 content.
+- Policy source aligned to **v76.0.0** on 2026-09-26.
+- CI privacy-url-check now requires v76 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup
 
 - Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
-- Root release state is represented by current v75 documents only.
+- Root release state is represented by current v76 documents only.
 - CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers

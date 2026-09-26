@@ -6,8 +6,8 @@ Clean rebuild on the existing Android identity.
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Version: `75.0.0`
-- versionCode: `75`
+- Version: `76.0.0`
+- versionCode: `76`
 - Canonical version source: `package.json`
 
 ## Single-source architecture
@@ -17,7 +17,7 @@ Clean rebuild on the existing Android identity.
 
 ## Branding
 - Android launcher icon and native splash are wired through `app/src/main/res/` and the manifest.
-- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=75` cache revision.
+- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=76` cache revision.
 - Approved Canva references and exact-export status are tracked in `BRAND_ASSETS.md`.
 
 ## Product surface
@@ -31,4 +31,4 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. CI #157 verifies v75 web/runtime/real-network/Android gates, narrow-screen active-tab behavior, secondary-page responsive layout, and complete TH/EN tab translations. Physical v75 home UI was verified on RMX3241; signed Play upload and final physical network coverage remain separate gates.
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #159 verifies v76 web/runtime/real-network/Android gates, secondary-page responsiveness, complete TH/EN tabs, and Video reference-threshold hierarchy. Physical v76 Video UI and v75 secondary-page layouts were verified on RMX3241; signed Play upload and final physical network coverage remain separate gates.

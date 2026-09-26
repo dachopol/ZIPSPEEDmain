@@ -1,5 +1,17 @@
 # Changelog
 
+## v76 — 2026-09-26 — Video readability polish
+- Fixed physical-device Video cards that visually joined labels such as `720pthreshold 3 Mbps`.
+- Video suitability cards now separate resolution and reference threshold into a clear two-line hierarchy.
+- Added TH/EN threshold labels: `เกณฑ์อ้างอิง` / `Reference`.
+- Added browser regression proof for block-level threshold hierarchy and both language labels.
+- Preserved the existing throughput-derived estimate semantics; no real playback claim was added.
+- No measurement engine, endpoint, permission, Ads/Billing, history schema, or fake-data behavior changed.
+- CI #159 passed all 10 quality jobs on source commit `099e6d7e9dbfb9fa2b8dbe72de4b9b8c38b41731`.
+- RMX3241 physical Video page confirms 720p / 1080p / 4K reference thresholds render as separate readable lines.
+- Bumped canonical version/versionCode to 76.0.0 / 76.
+
+
 ## v75 — 2026-09-26 — Secondary-page visual consistency
 - Extended the v74 premium white/blue card system across Video, Status, History, Settings and Ad-free surfaces.
 - Added a stronger Video summary card plus compact readiness pills without changing the throughput-based estimate semantics.

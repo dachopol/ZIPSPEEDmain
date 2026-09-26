@@ -118,3 +118,23 @@ This report does not replace signed Play release testing.
 - Header/version badge/Speed hero/first metric card: PASS.
 - CI #157 separately proves Video / Status / History / Settings / Ad-free responsive layout at 320 px, active-tab auto-scroll, and TH/EN tab completeness.
 - Physical secondary-tab switching: **TO VERIFY**. ADB tap injection did not activate the WebView tab controls during this inspection, so no physical PASS is claimed.
+
+
+## v75 secondary-page visual validation — RMX3241
+
+- Video: PASS
+- Status: PASS
+- History: PASS
+- Settings: PASS
+- Ad-free: PASS
+- Physical tab strip scroll and activation: PASS after mapping ADB coordinates to the actual 1080×2400 screenshot scale.
+- No horizontal card overflow was observed in the captured portrait pages.
+
+## v76 Video readability — RMX3241
+
+- Build: **v76.0.0 / versionCode 76 / targetSdk 36**
+- Display: **1080×2400**
+- Video page: PASS.
+- 720p / 1080p / 4K are visually separated from `เกณฑ์อ้างอิง 3 / 5 / 25 Mbps`.
+- The previous concatenated appearance such as `720pthreshold 3 Mbps` is not reproduced.
+- This remains a throughput-derived suitability estimate, not a real playback measurement.
