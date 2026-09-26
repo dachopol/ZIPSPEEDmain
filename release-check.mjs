@@ -2,7 +2,7 @@ import fs from"node:fs/promises";import path from"node:path";
 const pkg=JSON.parse(await fs.readFile("package.json","utf8")),manifest=await fs.readFile("app/src/main/AndroidManifest.xml","utf8"),gradle=await fs.readFile("app/build.gradle.kts","utf8"),app=await fs.readFile("web/src/app.mjs","utf8");
 const fail=m=>{throw new Error(m)};const permissions=[...manifest.matchAll(/<uses-permission\s+android:name="([^"]+)"/g)].map(x=>x[1]).sort();const allowed=["android.permission.ACCESS_NETWORK_STATE","android.permission.INTERNET"].sort();
 if(JSON.stringify(permissions)!==JSON.stringify(allowed))fail("Android permission set changed");
-if(pkg.version!=="75.0.0"||pkg.zipspeed.versionCode!==75||pkg.zipspeed.packageId!=="com.aistudio.zipspeed.zskt")fail("Canonical identity/version drift");
+if(pkg.version!=="76.0.0"||pkg.zipspeed.versionCode!==76||pkg.zipspeed.packageId!=="com.aistudio.zipspeed.zskt")fail("Canonical identity/version drift");
 if(!manifest.includes('android:icon="@mipmap/ic_launcher"')||!manifest.includes('android:roundIcon="@mipmap/ic_launcher"')||!manifest.includes('android:theme="@style/Theme.Zipspeed.Launcher"'))fail("Android launcher/splash branding missing");
 if(/play-services-ads|com\.google\.android\.gms\.ads|billingclient|com\.android\.billingclient|admob/i.test(gradle))fail("Ads/Billing dependency detected");
 if(/clientIp\s*:|isp\s*:|edge\s*:|clientArea\s*:/.test(app.match(/lastResult=\{[\s\S]*?\}/)?.[0]||""))fail("History unexpectedly stores provider metadata");

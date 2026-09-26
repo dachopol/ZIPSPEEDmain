@@ -73,7 +73,7 @@ public class MainActivityInstrumentedTest {
             assertNotNull(webView);
 
             waitTrue(activity, webView, "document.readyState==='complete'", 10000);
-            waitTrue(activity, webView, "document.getElementById('appVersion')?.textContent==='v75.0.0'", 10000);
+            waitTrue(activity, webView, "document.getElementById('appVersion')?.textContent==='v76.0.0'", 10000);
             assertEquals("\"GO\"", eval(activity, webView, "document.getElementById(\'goButton\').textContent"));
             assertEquals("true", eval(activity, webView, "document.getElementById('shareButton').disabled"));
 

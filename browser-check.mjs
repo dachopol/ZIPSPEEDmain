@@ -21,7 +21,7 @@ try{
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
- await waitEval('document.getElementById("appVersion")?.textContent==="v75.0.0"');
+ await waitEval('document.getElementById("appVersion")?.textContent==="v76.0.0"');
  for(const width of[320,390,768]){
    await send("Emulation.setDeviceMetricsOverride",{width,height:844,deviceScaleFactor:1,mobile:width<600});
    await sleep(120);
@@ -47,6 +47,8 @@ try{
 
  const secondaryPagesOk=await evaluate('(()=>{for(const id of["video","status","history","settings","adfree"]){const tab=document.querySelector("[data-tab="+id+"]");tab.click();const page=document.getElementById(id),r=page.getBoundingClientRect();if(document.documentElement.scrollWidth>window.innerWidth+1||r.left<-1||r.right>window.innerWidth+1)return false}const select=document.getElementById("profileSetting").getBoundingClientRect();return select.left>=-1&&select.right<=window.innerWidth+1&&document.querySelectorAll("#videoList .video-card").length>0})()');
  if(!secondaryPagesOk)throw new Error("Secondary page responsive polish failed at 320px");
+ const thaiVideoHierarchy=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("เกณฑ์อ้างอิง ")&&getComputedStyle(s).display==="block"})()');
+ if(!thaiVideoHierarchy)throw new Error("Thai video threshold hierarchy invalid");
 
  await send("Emulation.clearDeviceMetricsOverride");
 
@@ -54,6 +56,8 @@ try{
  if(!english)throw new Error("English switch failed");
  const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
  if(!englishTabs)throw new Error("English tab translations incomplete");
+ const englishVideoThreshold=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("Reference ")})()');
+ if(!englishVideoThreshold)throw new Error("English video threshold translation incomplete");
  const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
  if(!thai)throw new Error("Thai switch failed");
  const thaiTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"])');
@@ -78,7 +82,7 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,secondaryPagesResponsive:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
