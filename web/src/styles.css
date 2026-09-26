@@ -177,7 +177,7 @@ button{cursor:pointer}
   top:-18rem;left:50%;
   transform:translateX(-50%);
   border-radius:50%;
-  background:radial-gradient(circle,rgba(96,165,250,.25),rgba(147,197,253,.07) 45%,transparent 70%)
+  background:radial-gradient(circle,rgba(96,165,250,.18),rgba(147,197,253,.05) 45%,transparent 70%)
 }
 .hero-card::after{
   content:"";
@@ -187,8 +187,8 @@ button{cursor:pointer}
   bottom:78px;left:50%;
   transform:translateX(-50%);
   border-radius:50%;
-  background:rgba(37,99,235,.10);
-  filter:blur(20px)
+  background:rgba(37,99,235,.07);
+  filter:blur(14px)
 }
 
 /* Speed gauge */
@@ -198,7 +198,7 @@ button{cursor:pointer}
   aspect-ratio:1;
   display:grid;
   place-items:center;
-  filter:drop-shadow(0 22px 28px rgba(37,99,235,.10))
+  filter:drop-shadow(0 18px 22px rgba(37,99,235,.07))
 }
 .gauge::before{
   content:"";
@@ -206,7 +206,7 @@ button{cursor:pointer}
   inset:5%;
   border-radius:50%;
   border:1px solid rgba(255,255,255,.75);
-  box-shadow:0 0 0 7px rgba(255,255,255,.32),0 0 45px rgba(59,130,246,.10)
+  box-shadow:0 0 0 7px rgba(255,255,255,.32),0 0 30px rgba(59,130,246,.06)
 }
 .gauge-ring{
   position:absolute;
@@ -219,7 +219,7 @@ button{cursor:pointer}
     inset 0 0 0 17px rgba(255,255,255,.90),
     inset 0 0 0 19px rgba(59,130,246,.08),
     inset 8px 8px 20px rgba(255,255,255,.75),
-    0 26px 52px rgba(37,99,235,.16)
+    0 18px 40px rgba(37,99,235,.11)
 }
 .gauge-ring::before{
   content:"";
@@ -328,7 +328,7 @@ button{cursor:pointer}
   font-size:1.42rem;
   letter-spacing:.035em;
   box-shadow:
-    0 20px 35px rgba(37,99,235,.30),
+    0 16px 28px rgba(37,99,235,.22),
     0 4px 9px rgba(15,23,42,.10),
     inset 5px 5px 11px rgba(255,255,255,.38),
     inset -5px -7px 12px rgba(30,64,175,.30);
@@ -343,7 +343,7 @@ button{cursor:pointer}
   background:linear-gradient(180deg,rgba(255,255,255,.42),transparent);
   pointer-events:none
 }
-.go-button:hover{filter:saturate(1.08);transform:translateY(-2px);box-shadow:0 24px 42px rgba(37,99,235,.34),0 5px 10px rgba(15,23,42,.10),inset 5px 5px 11px rgba(255,255,255,.38),inset -5px -7px 12px rgba(30,64,175,.30)}
+.go-button:hover{filter:saturate(1.08);transform:translateY(-2px);box-shadow:0 19px 32px rgba(37,99,235,.27),0 5px 10px rgba(15,23,42,.10),inset 5px 5px 11px rgba(255,255,255,.38),inset -5px -7px 12px rgba(30,64,175,.30)}
 .go-button:active{transform:translateY(2px) scale(.98)}
 .muted{
   max-width:34rem;
