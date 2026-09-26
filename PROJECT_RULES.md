@@ -1,221 +1,138 @@
 # Zipspeed Project Rules
 
-Status: MASTER / SOURCE OF TRUTH
+Status: PROJECT-SPECIFIC OVERLAY / ACTIVE
 
-Owner universal rule: `UNIVERSAL_APP_PROJECT_RULE.md`
+Global owner master rule: `UNIVERSAL_APP_PROJECT_RULE.md`
 
-## LOCKED CRITICAL RULES
-The X + Y + Z PRODUCT DOMINANCE RULE in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory for competitive feature decisions.
-The `LOCKED CRITICAL RULES — OWNER OVERRIDE` section in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory. It governs GitHub remote safety, real UI implementation, no feature deletion to escape errors, single version source, Region/Language/Currency separation, ZIP safety, release evidence integrity, and the mandatory `/build → /runtime → /release-check → /final` gates.
+This file intentionally contains only Zipspeed-specific requirements. Generic workflow, GitHub safety, responsive layout, security/privacy, build/release, stale-artifact cleanup, and competitor-scoring rules are defined once in `UNIVERSAL_APP_PROJECT_RULE.md` and are mandatory in full.
 
-When rules overlap, apply the stricter requirement and preserve Real Data / Anti-Random behavior.
+## Rule precedence
 
-## 9-GRID COMPETITIVE GATE
-The locked 9-grid gate in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory for competitor scoring, GAP prioritization and X+Y+Z feature decisions. Scores require evidence; missing evidence is never filled by assumption.
+1. Latest explicit owner instruction.
+2. `UNIVERSAL_APP_PROJECT_RULE.md` for universal/locked rules.
+3. This file for Zipspeed-specific product and measurement requirements.
+4. Supporting specifications such as `PRODUCT_DOMINANCE_MATRIX.md`, `DESIGN_SYSTEM.md`, and release/test documents.
 
-## ITERATIVE COMPETITIVE LOOP
-The locked iterative loop in `UNIVERSAL_APP_PROJECT_RULE.md` is mandatory after substantial product changes:
-`Measure → Score → GAP → Prioritize → Implement → Prove → Re-score → Repeat`.
+When requirements overlap, apply the stricter requirement while preserving Real Data / Anti-Random behavior. Do not copy universal sections back into this file; reference the master rule instead.
 
-Do not stop on a higher total score if Truth, core-flow reliability, privacy/trust, build evidence or required runtime evidence regresses. External blockers remain GAP; they are never replaced by fake implementation.
+## Project identity
 
-## MASTER APP BUILD RULES
+- Product: **Zipspeed by AnakinYoo**
+- Repository: **dachopol/ZIPSPEEDmain**
+- Branch: **main**
+- Package/Application ID: **com.aistudio.zipspeed.zskt**
+- Product definition: **A mobile-first internet speed and network-health app that reports measured HTTP performance clearly without fabricated network facts.**
+- Version/versionCode source: **`package.json`**. Do not hardcode a competing active version source.
+
+## Zipspeed measurement truth — non-negotiable
+
 - No fake, random, demo, or hardcoded values may be presented as measured network facts.
-- If a value cannot be measured, display `--`, unknown, unavailable, or an explicit error.
+- If a value cannot be measured, display `--`, Unknown, ไม่ทราบ, unavailable, or an explicit error.
 - Throughput must derive from actual transferred bytes and elapsed time after a successful HTTP response.
+- Health/probe logic must still require a real successful response; retries may improve reliability but must not turn failure into fake success.
 - Do not label HTTP probe failure as packet loss.
-- Do not label client city/country metadata as server location.
-- Ads, billing, subscription, outage, packet loss, server maps, or other capabilities must not be simulated as production features.
-- Prototype behavior and production capability must stay clearly separated.
+- Packet loss requires a real supported measurement path such as an authorized TURN/WebRTC method; otherwise show unavailable/GAP.
+- Do not label client city/country metadata or CDN edge metadata as precise server location.
+- Server/map coordinates must not be invented.
+- Measurement servers/endpoints must be authorized for the intended traffic and capability.
+- Ads, billing, subscription entitlement, outage detection, packet loss, maps, or server health must not be simulated as production capability.
+- Prototype or derived behavior must be labeled according to its actual methodology.
 
-## ANTI-RANDOM BUILD
-Every new feature needs:
-1. requirement source;
-2. acceptance criteria;
-3. real data source or explicit assumption;
-4. privacy/data-use impact;
-5. test evidence before a production-ready claim.
+## Current product scope
 
-## FULL WORKFLOW
-Requirement → Evidence/Source of Truth → Design → Implement → Static Check → Unit Test → Build → Preview/Emulator → Real Device → Release → Verify.
+Primary navigation:
+- Speed
+- Video
+- Status
+- Map
+- History
+- Settings
+- Ad-free
 
-Never skip a stage and report a later stage as passed.
+Speed flow:
+- One primary GO / STOP / retest action.
+- Real download and upload throughput.
+- Idle HTTP latency.
+- Loaded latency where supported by the measurement method.
+- Jitter derived only from actual latency samples with truthful methodology.
+- Progress/state feedback.
+- History/provenance for completed tests.
+- Retry/share only when the underlying implementation exists.
 
-## UNIVERSAL AUTO LAYOUT
-- Mobile first.
-- Responsive/adaptive on small phone, normal phone, large phone, tablet and web.
-- No overflow, clipped critical text, hidden controls or unreachable actions.
-- Support font scaling and orientation where the platform supports it.
-- Avoid fixed structural dimensions when fluid sizing is appropriate.
+Server behavior:
+- Current/available endpoint data must come from the source-controlled/authorized server directory.
+- Auto/manual selection must not imply regional coverage that the directory does not actually provide.
+- True multi-region selection remains a GAP until additional authorized endpoints exist.
 
-## UI / LANGUAGE COMPLETENESS
-- Thai and English must cover important labels, actions, status, loading, success, empty, offline and error states.
-- Missing translation is a defect.
-- Unknown data remains unknown; translation must not turn unknown data into a claim.
+Status/network context:
+- IPv4/IPv6, network/ISP metadata, endpoint checks, and related values only when the platform/source exposes them.
+- Unknown/unavailable values stay unknown.
 
-## PREVIEW / EMULATOR RULE
-- Preview/Emulator is required for UI validation where available.
-- Preview/Emulator does not replace real-device testing.
-- GPU/emulator warnings must be separated from application errors using actual logs.
+Video:
+- Throughput-derived suitability estimates must be described as estimates/reference guidance.
+- Do not claim a real playback test until licensed/owned media and a defined playback methodology are integrated.
 
-## BUILD / KOTLIN / WEB RULE
-- A source edit is not a build pass.
-- Web: audit + unit tests + static build must pass.
-- Android: Gradle/Java/Kotlin compile and assemble must pass.
-- Build failure must be fixed from the actual error/log, not guessed.
+Map:
+- No fabricated GPS, city, edge, or server coordinates.
+- If precise location evidence is unavailable, use an honest unavailable/metadata-only state.
 
-## UI / UX QUALITY GATE
-Before UI is considered passed, check:
-- hierarchy;
-- typography;
-- spacing/alignment;
-- contrast;
-- touch targets;
-- loading/empty/offline/error/success/disabled states;
-- accessibility;
-- responsive behavior;
-- TH/EN completeness;
-- single clear primary action where appropriate.
+Ad-free:
+- Do not simulate VIP, purchase, entitlement, Ads, or Billing state.
+- UI copy must reflect the integrations actually present in the build.
 
-## SECURITY / PRIVACY / PLAY STORE
-- Minimum permissions only.
-- HTTPS where supported by the data source.
-- No hidden tracking.
-- WebView must use hardened settings and should not allow unsafe file/universal file access.
-- Privacy Policy and Data Safety must match actual code/data behavior.
-- Ads/Billing/Subscriptions must use real integrations before being claimed as functional.
-- Production readiness requires release signing, AAB, testing and Play verification.
+## UI / visual lock
 
-## MASTER PRODUCT DESIGN + ENGINEERING RULE
-
-### ROLE
-Act as a world-class Senior Product Designer + Senior Engineer.
-Own Product Strategy, UX/UI, Design System, Engineering Quality, Security, Build Quality and Release Verification.
-
-### PROJECT
-Name: **Zipspeed by AnakinYoo**
-
-One-sentence product definition:
-**A mobile-first internet speed and network-health app that reports measured HTTP performance clearly without fabricated network facts.**
-
-### COMPETITIVE GOAL
-Goal: compete on measurable product quality in the internet speed-test / network-diagnostics category.
-
-Comparison dimensions:
-- simplicity;
-- visual quality;
-- reliability;
-- measurement integrity;
-- responsiveness;
-- accessibility;
-- privacy;
-- user friction;
-- useful diagnostics.
-
-Competitor reference set (Google Play snapshot researched 2026-09-22; install band primary, review volume tie-breaker):
-1. **Speedtest by Ookla** — 100M+ installs, 4.6★, ~1.49M reviews.
-2. **Opensignal Internet Speed Test** — 10M+ installs, 4.2★, ~441K reviews.
-3. **FAST Speed Test** — 10M+ installs, 4.2★, ~49.9K reviews.
-
-Supplemental benchmark: **Meteor by Opensignal** — 5M+ installs, 4.8★, ~134K reviews; useful reference for app-use suitability.
-
-This is a dated research ranking method for product benchmarking, not a claim of universal superiority. Re-verify before future market claims.
-
-### NON-NEGOTIABLE
-- No Fake.
-- No Random.
-- No hardcoded values presented as measured facts.
-- Cannot measure = `-- / Unknown / ไม่ทราบ / Error`.
-- Do not silently add, remove or change product scope.
-- Do not copy competitor assets or UI directly.
-- Do not trade interaction reliability for visual effects.
-- Avoid duplicate controls that execute the same core action without a clear UX reason.
-
-### VISUAL DIRECTION — CURRENT LOCK
+Current Zipspeed visual direction:
 - Minimal premium.
 - Clean iOS-style hierarchy.
-- 3D white-clay material.
+- White/blue 3D clay material.
 - Soft layered shadows.
-- Blue accent: **#3B82F6**.
-- Glassmorphism: approximately **5%** and only where it improves hierarchy.
-- Backdrop blur target: approximately **40px** where supported; graceful fallback required.
+- Primary accent: **#3B82F6**.
+- Glassmorphism only as a light accent, approximately **5%** where useful.
+- Backdrop blur target around **40px** where supported, with graceful fallback.
 - Large surface radius target: **28px**.
-- Primary GO/STOP control: circular or pill-like, clear and thumb-friendly.
-- Measurement numbers: mono/tabular numeric treatment.
-- Whitespace over visual noise.
-- Gauge readability before decoration.
-- Reduced-motion support.
+- Primary GO/STOP control must remain obvious and thumb-friendly.
+- Measurement numbers use mono/tabular numeric treatment where practical.
+- Gauge readability and interaction reliability take priority over decoration.
+- Reduced-motion behavior is required.
 
-### MANDATORY SPEED-TEST COMPONENTS
-- 3D/Clay or subtle Glass Gauge.
-- Mono/tabular live speed number.
-- One primary GO / STOP action.
-- Download.
-- Upload.
-- HTTP latency.
-- Jitter indicator with truthful methodology label.
-- Progress.
-- Network metadata.
-- Status.
-- Video suitability derived only from measured throughput.
-- Map-safe state: no fabricated GPS/server coordinates.
-- History.
-- Settings.
-- TH / EN.
-- Error / Offline / Unknown states.
+Main information hierarchy remains consistent with the universal UI rules. Do not add duplicate primary actions or duplicate technical text merely to make a page look fuller.
 
-### DESIGN TOKENS
-Current source-of-truth tokens:
-- Primary accent: `#3B82F6`
-- Large radius: `28px`
-- Blur target: `40px`
-- Glass presence: `~5%`
-- Shadow: soft / layered / clay-like
-- Number style: mono/tabular
-- Spacing base: 4/8px system
-- Primary action: single GO/STOP circular/pill control
+## Language requirements
 
-Tokens should be centralized instead of scattered without need.
+- Thai and English are required for important Zipspeed labels, actions, measurement states, loading, success, empty, offline, and error states.
+- A screen must not accidentally mix TH/EN because of missing keys.
+- Translation must not convert Unknown/GAP into a factual claim.
+- Region, language, and currency are separate concepts even if future features introduce them.
 
-### DELIVERABLES
-For substantial app changes, deliver:
-- source code;
-- changed-files list;
-- version/build config;
-- automated tests;
-- build evidence;
-- README / CHANGELOG;
-- requirement/PRD traceability where applicable;
-- security/privacy notes;
-- quality report;
-- APK/AAB only when actually built;
-- AI Studio / GitHub compatible source when relevant.
+## Brand assets
 
-### REPORT FORMAT
-Every substantial work report must use:
-- PASS
-- FIX
-- GAP
-- ASSUMPTION
-- TO VERIFY
-- UNVERIFIED
-- N/A
+- Approved Canva references are documented in `BRAND_ASSETS.md`.
+- Current source-controlled Android/Web fallback artwork is allowed only when exact approved Canva raster bytes are unavailable.
+- Do not substitute Canva thumbnails/previews and claim they are the exact export.
+- Exact-raster replacement is PASS only after real exported bytes are integrated, rebuilt, and verified.
 
-Also report:
-- commit SHA;
-- files changed;
-- tests executed;
-- build result;
-- what was not tested.
+## Competitive product gate
 
-## RESEARCH / THESIS INTEGRITY
+The locked 9-grid and X+Y+Z rules live in `UNIVERSAL_APP_PROJECT_RULE.md`; the active weights/evidence model lives in `PRODUCT_DOMINANCE_MATRIX.md`.
+
+Zipspeed-specific application:
+- Reference products include Speedtest by Ookla, Opensignal Internet Speed Test, FAST Speed Test, and Meteor by Opensignal.
+- Market facts and competitor capabilities that can change must be re-verified before scoring or claims.
+- Missing runtime/release evidence earns no inferred credit.
+- External blockers remain GAP; they are never replaced with a fake implementation.
+- Internal comparison scores are product-planning metrics, not public claims that Zipspeed is universally faster, more accurate, safer, or better.
+
+## Research / thesis integrity
+
 - Never fabricate papers, DOI, participants, survey/interview results, IOC, reliability, statistics, or findings.
 - Missing evidence remains GAP / ASSUMPTION / TO VERIFY.
 - Thesis traceability must remain consistent:
   title → RQ → objectives → method → instrument → data → analysis → result → conclusion → app feature.
 
-## STATUS LANGUAGE
-Use these exact project-state meanings:
+## Project-state language
+
+Use these meanings consistently:
 - **PASS** = verified passed.
 - **FIX** = a verified issue was corrected.
 - **GAP** = missing implementation/evidence/process.
@@ -224,120 +141,32 @@ Use these exact project-state meanings:
 - **UNVERIFIED** = not tested or evidence unavailable.
 - **N/A** = not applicable to the current scope.
 
+## Canonical document roles
 
+To avoid duplicate active instructions:
+- `UNIVERSAL_APP_PROJECT_RULE.md` — owner master rules and locked universal process.
+- `PROJECT_RULES.md` — this Zipspeed-specific overlay only.
+- `PRODUCT_BRIEF.md` — problem/product scope.
+- `DESIGN_SYSTEM.md` — detailed visual/design-system specification.
+- `PRODUCT_DOMINANCE_MATRIX.md` — competitive scoring rubric and evidence.
+- `CHECKPOINT.md` — current human-readable validation/status checkpoint.
+- `task_state.json` — machine-readable continuation state.
+- `PHYSICAL_DEVICE_VALIDATION_2026-09-26.md` — detailed physical-device evidence.
+- `CHANGELOG.md` — retained product history.
+- `docs/archive/` — historical evidence only; not active build/runtime/project rules.
 
-## LOCKED OLD-STATE CLEANUP / ANTI-STALE ARTIFACT RULE
+If a historical/archive document disagrees with current active source or rules, the active main-branch source and canonical documents above take precedence.
 
-กฎนี้บังคับใช้กับ **ทุกการอัปเดต** ก่อนจะถือว่างานรอบนั้นผ่าน Final QA
+## Delivery requirements specific to Zipspeed
 
-### Source of Truth
-- Branch `main` ปัจจุบันของ GitHub Remote คือ **Source of Truth** เว้นแต่เจ้าของโปรเจกต์สั่งเปลี่ยนอย่างชัดเจน
-- ห้ามให้ local copy, AI Studio checkpoint, ZIP, preview, cache, generated output, APK/AAB หรือ artifact เก่ามีสิทธิ์เหนือ `main`
-- ก่อนแก้/เขียนทับ ต้องตรวจ HEAD และ active source ปัจจุบันก่อน
+For substantial Zipspeed changes, the report must include:
+- commit SHA and branch;
+- files changed;
+- tests/checks executed;
+- build/runtime result;
+- real-device evidence when relevant;
+- PASS / FIX / GAP / ASSUMPTION / TO VERIFY / UNVERIFIED / N/A;
+- what was not verified;
+- stale/old-artifact cleanup result.
 
-### Mandatory old-state cleanup
-ทุกการอัปเดตต้องค้นหาและเคลียร์สิ่งเก่าที่อาจยังถูกโหลด/Build/Preview/Release ได้ รวมถึง:
-- version/versionCode/versionName marker รุ่นเก่าที่ active
-- namespace / package / applicationId เก่าหรือผิดตัว
-- UI ซ้ำ, component ซ้ำ, entrypoint ซ้ำ หรือหน้า active รุ่นเก่า
-- preview/checkpoint รุ่นเก่า
-- mirror ที่ไม่ตรงกับ Source of Truth
-- cache/cache key/cache identifier รุ่นเก่า
-- build output / generated bundle / dist / APK / AAB รุ่นเก่าที่อาจถูกหยิบใช้ผิด
-- active file รุ่นเก่าที่ AI Studio, Android, WebView, CI, build system หรือ release tooling ยังสามารถมองเห็นหรือเลือกใช้ได้
-
-ห้ามเก็บ active copy รุ่นเก่าไว้ “เผื่อใช้” ถ้ามันยังมีโอกาสถูกระบบหยิบไปใช้แทน source ปัจจุบัน  
-เอกสารประวัติหรือไฟล์ archive เก็บได้เฉพาะเมื่อแยกชัดและไม่สามารถกระทบ Build / Runtime / Preview / Release
-
-### Mirror integrity
-- Mirror ที่ตั้งใจให้เป็นสำเนาเดียวกันต้อง **ตรงกันทั้งไฟล์ (byte-identical)** หลังการอัปเดต
-- ต้องตรวจทุก active mirror ที่มีอยู่จริงใน tree ปัจจุบัน ไม่ยึดรายชื่อ mirror เก่าจาก checkpoint
-- ถ้า mirror ต่างกันโดยไม่ได้ตั้งใจ ให้ถือเป็น **FIX**
-- ถ้ายังยืนยันความตรงกันไม่ได้ ให้รายงาน **TO VERIFY**
-- ถ้าล้าง/ซิงก์ไม่ได้อย่างปลอดภัย ให้รายงาน **GAP** และห้ามผ่าน Final QA
-
-### Static asset cache-busting
-- เมื่อ static asset เปลี่ยน ต้องทำ cache invalidation / cache-busting ที่ตรวจสอบย้อนกลับได้
-- ใช้แนวทางที่ deterministic เช่น content hash, revisioned filename, versioned query หรือ manifest revision ตาม architecture ปัจจุบัน
-- ห้ามปล่อย entrypoint อ้าง asset revision เก่าหลัง source เปลี่ยน
-- ห้ามใช้ random query/string เพื่อหลบ cache
-
-### Clean / Rebuild requirement
-เมื่อมีการเปลี่ยนอย่างน้อยหนึ่งรายการต่อไปนี้ ต้อง **Clean / Rebuild** จาก source ปัจจุบัน:
-- build configuration
-- bundled/static asset
-- Android asset
-- app/preview entrypoint
-- mirror ที่ถูก bundle เข้า runtime
-- dependency/plugin ที่มีผลต่อ output
-
-ห้ามใช้ build output เก่ามายืนยัน source ใหม่
-
-### Completion gate
-ก่อน Final QA ต้องตรวจอย่างน้อย:
-1. `main` HEAD ตรงกับ commit ที่รายงาน
-2. active version/package/namespace ไม่มีของเก่าขัดกับ source ปัจจุบัน
-3. ไม่มี duplicate active UI/entrypoint รุ่นเก่าที่ระบบอาจโหลด
-4. active mirrors ตรงกันทั้งไฟล์ตามที่กำหนด
-5. static asset ที่เปลี่ยนมี cache-bust/invalidation
-6. build config/asset/entrypoint ที่เปลี่ยนได้รับ Clean/Rebuild
-7. build/runtime evidence มาจาก source ล่าสุด ไม่ใช่ cache/artifact รุ่นเก่า
-
-ถ้าข้อใดล้างหรือยืนยันไม่ได้:
-- ต้องรายงาน **GAP / TO VERIFY** ตามจริง
-- ห้ามถือว่ารอบงานผ่าน Final QA
-- ห้ามใช้คำว่า **“เสร็จ”**, **“พร้อมเผยแพร่”** หรือ **“ใช้งานได้ 100%”**
-
-
-## LOCKED COMPETITOR BENCHMARK / SCORE RULE
-Use the project 9-grid benchmark for every substantial product update.
-
-### Benchmark set
-Primary reference products:
-- Speedtest by Ookla
-- Opensignal Internet Speed Test
-- FAST Speed Test
-- Meteor by Opensignal
-
-The benchmark set or market facts must be re-verified before use when they may have changed.
-
-### Scoring model
-Use the weights defined in `PRODUCT_DOMINANCE_MATRIX.md`:
-- Measurement truth / reliability — 18%
-- Server / coverage capability — 15%
-- One-tap UX / readability — 14%
-- Visual hierarchy / premium depth — 10%
-- Diagnostics / network context — 10%
-- History / share / export — 8%
-- Use-case interpretation — 8%
-- Engineering / runtime / release — 10%
-- Trust / privacy / transparency — 7%
-
-Total = 100%.
-
-### Evidence rule
-- Score only verified capability that exists in current active source.
-- Planned work, mock UI, screenshots without runtime proof, fake/random data, unavailable services, unverified native behavior and stale artifacts receive no credit.
-- Missing evidence must be GAP / TO VERIFY / UNVERIFIED, never guessed.
-- Runtime-sensitive categories may only receive runtime credit after the matching runtime gate passes.
-- Release-sensitive categories may only receive release credit after the matching release gate passes.
-- Competitor scores must use the same rubric, evidence window and interpretation as Zipspeed.
-- Do not use review stars/install counts as direct quality points; they are market context only.
-- Never manipulate weights after seeing results to make Zipspeed win.
-
-### Update loop
-For every substantial update:
-`Current score → competitor benchmark → delta → Top-3 GAP → implement highest truthful controllable GAP → test/build/runtime → stale-state cleanup → re-score`
-
-### Completion report
-Report:
-- Zipspeed weighted score
-- highest evidence-supported competitor benchmark score
-- delta
-- per-grid score/evidence
-- Top-3 remaining GAP
-- evidence date
-- test/build/runtime proof
-- stale-state cleanup result
-
-Scores are internal product-assessment metrics only and must not be published as claims that Zipspeed is universally more accurate, faster, safer or better than another product.
+All universal build → runtime → release-check → final requirements remain mandatory through `UNIVERSAL_APP_PROJECT_RULE.md`.

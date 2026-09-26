@@ -24,6 +24,14 @@ Passed gates:
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
 
+## Rules / duplicate-file cleanup
+
+- Exact tracked-file duplicate scan: **PASS** — 61 tracked files, zero duplicate Git blob SHA groups before this cleanup.
+- Same-name Android/Gradle resource pairs were reviewed and retained because they serve different platform/configuration roles.
+- `PROJECT_RULES.md` was reduced from a duplicated universal-rule copy to a Zipspeed-specific overlay.
+- `UNIVERSAL_APP_PROJECT_RULE.md` remains the single owner master for locked universal workflow, GitHub safety, layout, security, build/release, stale cleanup, and competitor-scoring process.
+- No runtime/source-code behavior, package ID, version, signing, endpoint, or measurement engine was changed by this documentation cleanup.
+
 ## v80 tab discoverability polish — physical PASS on RMX3241
 
 - Source commit: `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`.
