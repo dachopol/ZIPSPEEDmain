@@ -9,8 +9,8 @@ versionCode: 79
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `5899d199393492464b5dedbecb07ac1267c21964`
-GitHub Actions: **CI #174 — PASS 10/10**
+Validated runtime/source commit: `1e2517266121d498b4556969ec00be8617812175`
+GitHub Actions: **CI #178 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -24,16 +24,23 @@ Passed gates:
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
 
-## v79 premium clay depth refinement — physical UI PASS
+## v79 premium clay depth + real-network validation — PASS on RMX3241
 
-- Physical v78 screenshot still showed more blue bloom around the gauge/GO than needed for the intended premium white-clay hierarchy.
-- v79 reduces outer blue bloom/drop-shadow intensity while preserving the same white/blue 3D instrument, Real Data semantics, touch targets and measurement engine.
-- Clean-installed build on RMX3241: **v79.0.0 / versionCode 79 / targetSdk 36**.
-- Physical portrait screenshot at 1080×2400: **PASS**. Gauge ring and GO edges are visibly crisper while the truthful idle `--` remains readable and does not overlap the hub.
-- CI #174: **PASS 10/10**, including browser, real-network smoke, Android debug/release, emulator runtime, Privacy and Play-source gates.
-- **TO VERIFY:** new physical v79 Quick + Single completion. The ADB tap used in this inspection did not transition GO → STOP, so no physical runtime PASS is claimed for v79.
-- Prior v78 physical Quick + Single PASS remains valid prior runtime evidence.
-- No measurement endpoint, permission, history schema, Ads/Billing, packet-loss claim or fake-data behavior changed.
+- Validated runtime/source commit: `1e2517266121d498b4556969ec00be8617812175`.
+- GitHub Actions CI #178: **PASS 10/10**, including web, browser interaction, real-network smoke, Android debug/release compile, emulator runtime, Privacy and Play-source gates.
+- Exact CI debug APK SHA-256: `5D438C97F338BD88DD31F4493CFD37D6C84C2DA95992C16C725CD7B4B2BA0045`.
+- Clean-installed on RMX3241: **v79.0.0 / versionCode 79 / targetSdk 36**.
+- Premium white/blue clay UI remains physically readable at 1080×2400; truthful idle `--`, live value, needle and GO/STOP do not overlap.
+- A pre-hardening physical run reproduced `No healthy measurement server`; the same endpoint was HTTP 200 from the development PC and a subsequent device retry succeeded.
+- Root-cause hardening in current source replaces the single 2.5 s health probe with at most **2 attempts × 5 s**, while still requiring a real HTTP-success response; no fake/fallback measurement server is introduced.
+- Exact-HEAD Quick + Single real-network flow: **PASS** (GO → STOP → GO + persisted History/provenance).
+- Completed result timestamp: `2026-09-26T05:56:42.969Z`.
+- Download: **14.91 Mbps**; Upload: **3.15 Mbps**; Idle latency: **101.5 ms**.
+- Download-loaded latency: **106.8 ms**; Upload-loaded latency: **170.2 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
+- These values are evidence from one real run only, not a performance, ISP-quality, or benchmark-accuracy claim.
+- Xiaomi `2410CRP4CG` remains **TO VERIFY**: exact v79 APK installation is blocked by Xiaomi/MIUI Security with `INSTALL_FAILED_USER_RESTRICTED`; no security bypass was attempted.
 
 ## v78 gauge UI / motion refinement — physical PASS
 

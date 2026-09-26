@@ -199,3 +199,34 @@ The measured values are evidence from one real run only and are not an ISP-quali
 The foreground switched to another app after the run; no completion claim is based on that screenshot. The PASS is based on Zipspeed's persisted completed-result record.
 
 The measured values are one-run evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+
+
+## v79 exact-HEAD Quick + Single Wi-Fi — RMX3241
+
+- Source commit: `1e2517266121d498b4556969ec00be8617812175`
+- CI: **#178 PASS 10/10**
+- APK SHA-256: `5D438C97F338BD88DD31F4493CFD37D6C84C2DA95992C16C725CD7B4B2BA0045`
+- Build: **v79.0.0 / versionCode 79 / targetSdk 36**
+- Display: **1080×2400**
+- Network: Android reported validated Wi-Fi
+- GO → STOP → GO: **PASS**
+- Persisted History/provenance: **PASS**
+- timestamp: `2026-09-26T05:56:42.969Z`
+- download: **14.91 Mbps**
+- upload: **3.15 Mbps**
+- idle latency: **101.5 ms**
+- download-loaded latency: **106.8 ms**
+- upload-loaded latency: **170.2 ms**
+- HTTP probe failures: **0 / 3**
+- provenance: `quick / single / cloudflare-auto`
+- Current source hardens transient server-health detection to at most 2 × 5 s checks while still requiring HTTP success.
+- Values above are one-run evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+
+## v79 OEM/tablet install attempt — Xiaomi 2410CRP4CG
+
+- Android: **16 / API 36**
+- Display: **2136×3200**
+- Network: validated Wi-Fi
+- Exact v79 APK install reached Xiaomi/MIUI Security and returned `INSTALL_FAILED_USER_RESTRICTED`.
+- No security setting was bypassed.
+- Status: **TO VERIFY after user approval of USB installation on the device**.
