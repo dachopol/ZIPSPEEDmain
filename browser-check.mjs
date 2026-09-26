@@ -27,6 +27,8 @@ try{
    await sleep(120);
    const viewportOk=await evaluate(`(()=>{const go=document.getElementById("goButton")?.getBoundingClientRect(),hero=document.querySelector(".hero-card")?.getBoundingClientRect();return document.documentElement.scrollWidth<=window.innerWidth+1&&!!go&&go.left>=-1&&go.right<=window.innerWidth+1&&!!hero&&hero.left>=-1&&hero.right<=window.innerWidth+1})()`);
    if(!viewportOk)throw new Error("Responsive overflow at "+width+"px");
+   const metricLayoutOk=await evaluate('(()=>{const hero=document.querySelector(".hero-card")?.getBoundingClientRect();return ["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>{const e=document.getElementById(id),r=e?.closest(".primary-metric")?.getBoundingClientRect();return !!hero&&!!r&&r.left>=hero.left-1&&r.right<=hero.right+1&&r.bottom<=hero.bottom+1})})()');
+   if(!metricLayoutOk)throw new Error("Primary metric placement failed at "+width+"px");
  }
  await send("Emulation.clearDeviceMetricsOverride");
  await sleep(120);
@@ -35,6 +37,8 @@ try{
  if(goInitial!=="GO")throw new Error("GO initial state invalid");
  const idlePlaceholder=await evaluate('(()=>{const e=document.getElementById("liveValue"),s=getComputedStyle(e);return e?.textContent==="--"&&e.classList.contains("placeholder")&&parseFloat(s.fontSize)<48&&s.color!=="rgb(11, 18, 32)"})()');
  if(!idlePlaceholder)throw new Error("Idle gauge placeholder styling regressed");
+ const primaryMetrics=await evaluate('(()=>{const hero=document.querySelector(".hero-card");return ["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>document.getElementById(id)?.closest(".primary-metrics")&&hero?.contains(document.getElementById(id)))&&document.querySelector("[data-i18n=idleLatency]")?.textContent.includes("Ping")})()');
+ if(!primaryMetrics)throw new Error("Primary Download/Upload/Ping/Jitter metrics are not on the main hero");
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
  if(shareDisabled!==true)throw new Error("Share must be disabled before result");
  const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
@@ -89,7 +93,7 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,primaryMetricsOnHero:true,dampedGauge:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}

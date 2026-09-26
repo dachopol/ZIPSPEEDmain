@@ -22,6 +22,7 @@ if(!app.includes('fetch("./server-directory.json"')||!app.includes("normalizeHis
 if(!app.includes("HEALTH_CHECK_TIMEOUT_MS=5000")||!app.includes("HEALTH_CHECK_ATTEMPTS=2")||!app.includes("for(let attempt=0;attempt<HEALTH_CHECK_ATTEMPTS;attempt++)"))throw new Error("Server health retry hardening missing");
 if(!Array.isArray(directory.servers)||!directory.servers.some(s=>s.enabled&&s.baseUrl==="https://speed.cloudflare.com"&&s.selection==="anycast-auto"))throw new Error("Verified measurement server missing");
 if(!measurement.includes("finishDurationMs:1000")||!measurement.includes("downloadPlanBytes")||!measurement.includes("uploadPlanBytes"))throw new Error("Adaptive standard profile missing");
+if(!html.includes('class="primary-metrics"')||!["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>html.includes(`id="${id}"`))||!app.includes("dampedGaugeStep")||!measurement.includes("export function dampedGaugeStep"))throw new Error("Primary metrics or damped gauge motion missing");
 if(/Math\.random\s*\(/.test(app+measurement))throw new Error("Random runtime data forbidden");
 if(/packetLoss|packet_loss|packetLossPct/i.test(app+measurement))throw new Error("Unmeasured packet loss forbidden");
 if(!html.includes("HTTP probe ≠ packet loss"))throw new Error("Probe disclaimer missing");

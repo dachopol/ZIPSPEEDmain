@@ -33,14 +33,16 @@
           <div class="gauge-copy"><span id="liveValue" class="placeholder">--</span><small>Mbps</small></div>
         </div>
         <button id="goButton" class="go-button" type="button">GO</button>
+        <div class="primary-metrics" aria-label="Primary network metrics">
+          <article class="primary-metric"><span data-i18n="download">Download</span><div><strong id="downloadValue">--</strong><small>Mbps</small></div></article>
+          <article class="primary-metric"><span data-i18n="upload">Upload</span><div><strong id="uploadValue">--</strong><small>Mbps</small></div></article>
+          <article class="primary-metric"><span data-i18n="idleLatency">Ping (HTTP)</span><div><strong id="latencyValue">--</strong><small>ms</small></div></article>
+          <article class="primary-metric"><span data-i18n="idleJitter">Jitter</span><div><strong id="jitterValue">--</strong><small>ms</small></div></article>
+        </div>
         <p id="phaseText" class="muted" role="status" aria-live="polite" data-i18n="ready">พร้อมทดสอบด้วยข้อมูลจริง</p>
       </article>
 
-      <div class="card-list">
-        <article class="metric-card"><span data-i18n="download">Download</span><strong id="downloadValue">--</strong><small>Mbps</small></article>
-        <article class="metric-card"><span data-i18n="upload">Upload</span><strong id="uploadValue">--</strong><small>Mbps</small></article>
-        <article class="metric-card"><span data-i18n="idleLatency">Idle latency</span><strong id="latencyValue">--</strong><small>ms</small></article>
-        <article class="metric-card"><span data-i18n="idleJitter">Idle jitter</span><strong id="jitterValue">--</strong><small>ms</small></article>
+      <div class="card-list detail-metrics">
         <article class="metric-card"><span data-i18n="downLoadedLatency">Download loaded latency</span><strong id="downLoadedLatencyValue">--</strong><small>ms</small></article>
         <article class="metric-card"><span data-i18n="downLoadedJitter">Download loaded jitter</span><strong id="downLoadedJitterValue">--</strong><small>ms</small></article>
         <article class="metric-card"><span data-i18n="upLoadedLatency">Upload loaded latency</span><strong id="upLoadedLatencyValue">--</strong><small>ms</small></article>
