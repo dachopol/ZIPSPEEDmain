@@ -1,8 +1,8 @@
 const url="https://dachopol.github.io/privacy-policy/";
-const response=await fetch(url,{redirect:"follow",headers:{"User-Agent":"ZIPSPEED-CI/79"}});
+const response=await fetch(url,{redirect:"follow",headers:{"User-Agent":"ZIPSPEED-CI/80"}});
 if(!response.ok)throw new Error(`Privacy URL HTTP ${response.status}`);
 const html=await response.text();
-for(const required of["ZIPSPEED by AnakinYoo","com.aistudio.zipspeed.zskt","79.0.0","Cloudflare"]){
+for(const required of["ZIPSPEED by AnakinYoo","com.aistudio.zipspeed.zskt","80.0.0","Cloudflare"]){
   if(!html.includes(required))throw new Error("Privacy URL content mismatch: "+required);
 }
 for(const stale of[

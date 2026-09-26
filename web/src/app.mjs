@@ -86,15 +86,25 @@ async function runTest(){
   }
 }
 function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});phase(running?t("running"):t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog()}
+function updateTabScrollCue(){
+  const strip=document.querySelector(".tabs");if(!strip)return;
+  const max=Math.max(0,strip.scrollWidth-strip.clientWidth);
+  strip.classList.toggle("can-scroll-left",strip.scrollLeft>2);
+  strip.classList.toggle("can-scroll-right",strip.scrollLeft<max-2);
+}
 function activateTab(button,{focus=false}={}){
   document.querySelectorAll(".tab").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-selected","false");x.tabIndex=-1});
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
   button.classList.add("active");button.setAttribute("aria-selected","true");button.tabIndex=0;$(button.dataset.tab).classList.add("active");
   button.scrollIntoView({block:"nearest",inline:"center"});
+  requestAnimationFrame(updateTabScrollCue);
   if(focus)button.focus({preventScroll:true});
 }
 function initTabs(){
-  const tabs=[...document.querySelectorAll(".tab")];
+  const tabs=[...document.querySelectorAll(".tab")],strip=document.querySelector(".tabs");
+  strip?.addEventListener("scroll",updateTabScrollCue,{passive:true});
+  window.addEventListener("resize",updateTabScrollCue);
+  requestAnimationFrame(updateTabScrollCue);
   tabs.forEach((b,index)=>{
     b.addEventListener("click",()=>activateTab(b));
     b.addEventListener("keydown",e=>{
