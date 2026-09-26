@@ -10,7 +10,7 @@ versionCode: 80
 ## Latest validated runtime/source
 
 Validated runtime/source commit: `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`
-GitHub Actions: **CI #184 — PASS 10/10**
+GitHub Actions: **CI #185 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -24,15 +24,24 @@ Passed gates:
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
 
-## v80 tab discoverability polish — CI PASS / physical TO VERIFY
+## v80 tab discoverability polish — physical PASS on RMX3241
 
 - Source commit: `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`.
-- GitHub Actions CI #184: **PASS 10/10**.
-- Narrow-screen tab strip keeps the existing horizontal scroll + active-tab auto-centering and adds subtle directional edge cues while more tabs exist off-screen.
-- Browser regression at 320 px verifies a right-edge cue at the initial tab position and a left-edge return cue after selecting the far-right Ad-free tab.
-- No duplicate menu, fake status, new measurement endpoint, permission, Ads/Billing dependency, or speed-test engine change was introduced.
-- Existing v74-v79 compact header, premium white/blue clay system, vertical metric cards, truthful idle `--`, Video hierarchy, TH/EN coverage and responsive secondary pages remain active.
-- **Physical v80 visual confirmation: TO VERIFY.** Both connected Android devices were asleep/locked during this pass. They were only woken to confirm lock state; no lock bypass was attempted.
+- GitHub Actions CI #185: **PASS 10/10**; CI #184 produced the exact physical-test debug APK.
+- Exact v80 CI #184 debug APK SHA-256: `97E8D20F36006AC55F6A6BE962FFE834EF51A773468E097F3B28DE610D0C626A`.
+- RMX3241 clean-installed build: **v80.0.0 / versionCode 80 / targetSdk 36** after backing up the installed v79 APK + app data because CI debug signatures differed.
+- Narrow-screen initial state physically shows the right-edge tab cue without obscuring the visible Map label.
+- Physical horizontal tab scroll to History / Settings / Ad-free: **PASS**.
+- Ad-free selection physically auto-centers the active far-right tab and leaves a left-return cue: **PASS**.
+- No observed tab-row horizontal clipping of the active tab, duplicate menu, or overlap with the header.
+- Quick + Single real-network flow on the same v80 APK: **PASS** (GO → STOP → GO + persisted History/provenance).
+- Completed result timestamp: `2026-09-26T08:42:56.636Z`.
+- Download: **18.14 Mbps**; Upload: **9.48 Mbps**; Idle latency: **66.1 ms**.
+- Download-loaded latency: **184.35 ms**; Upload-loaded latency: **72.0 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
+- These values are evidence from one real run only, not a performance, ISP-quality, or benchmark-accuracy claim.
+- No speed-test engine, endpoint, Ads/Billing dependency, permission, or fake-data path was changed in v80.
 
 ## v79 premium clay depth + real-network validation — PASS on RMX3241
 

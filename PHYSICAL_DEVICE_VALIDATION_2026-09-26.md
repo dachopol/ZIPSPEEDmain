@@ -248,3 +248,26 @@ The measured values are one-run evidence only and are not an ISP-quality, benchm
 - Landscape physical UI: **PASS** at **3200×2136 / fullscreen** after unlocked capture.
 - Seven tabs remained readable; gauge/GO and the visible metric card showed no observed overlap or horizontal overflow.
 - Rotation was restored to automatic after the landscape check.
+
+
+## v80 physical tab discoverability + real-network — RMX3241
+
+- Source commit: `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`
+- CI #185: **PASS 10/10**
+- Exact physical-test APK from CI #184 SHA-256: `97E8D20F36006AC55F6A6BE962FFE834EF51A773468E097F3B28DE610D0C626A`
+- Installed build: **v80.0.0 / versionCode 80 / targetSdk 36**
+- Display: **1080×2400**
+- Initial right-edge tab cue: **PASS**
+- Horizontal scroll to far-right tabs: **PASS**
+- Ad-free active-tab auto-centering + left-return cue: **PASS**
+- Quick + Single GO → STOP → GO: **PASS**
+- Persisted History/provenance: **PASS**
+- timestamp: `2026-09-26T08:42:56.636Z`
+- download: **18.14 Mbps**
+- upload: **9.48 Mbps**
+- idle latency: **66.1 ms**
+- download-loaded latency: **184.35 ms**
+- upload-loaded latency: **72.0 ms**
+- HTTP probe failures: **0 / 3**
+- provenance: `quick / single / cloudflare-auto`
+- Values above are one-run evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.

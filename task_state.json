@@ -5,7 +5,7 @@
   "version": "80.0.0",
   "version_code": 80,
   "validated_source_commit": "c05c9c51df801492f8858fc4ccf2c7aa118a0e83",
-  "validated_ci_run": 184,
+  "validated_ci_run": 185,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -13,12 +13,12 @@
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "TO_VERIFY_TALKBACK_AND_ENLARGED_FONT_XIAOMI_1.30_CAPTURE_BLOCKED_BY_SLEEP_LOCK_RESTORED_1.00_RMX_WRITE_SETTINGS_DENIED_STAYED_1.15",
-  "current_task_id": "v80-physical-tab-cue-preview-or-external-blockers",
+  "current_task_id": "v80-external-blockers-signing-5g-accessibility-play-canva-raster-infrastructure",
   "status": "HARD_BLOCKED_AFTER_VERIFIED_SOURCE_AND_PHYSICAL_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "privacy_policy_version": "80.0.0",
   "emulator_runtime": "PASS_API_34",
-  "browser_interaction": "PASS_V80_CI184_320_390_768_TAB_DISCOVERABILITY_GO_STOP_ESCAPE_TH_EN_RESPONSIVE",
+  "browser_interaction": "PASS_V80_CI185_320_390_768_TAB_DISCOVERABILITY_GO_STOP_ESCAPE_TH_EN_RESPONSIVE",
   "blockers": [
     "authorized TURN service/configuration for real packet loss",
     "licensed/owned media endpoint and playback methodology for real video playback measurement",
@@ -27,7 +27,7 @@
     "final Play Data Safety classification for IP-derived country and Cloudflare processing",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "When a connected device is unlocked, physically verify the v80 tab discoverability cue. Otherwise continue only when an external blocker changes: real signing material, actual 5G service, Play Console access, exact Canva raster bytes, or authorized TURN/video/regional measurement infrastructure.",
+  "next": "Continue only when an external blocker changes: real release signing material, actual 5G service, unlocked Xiaomi for enlarged-font capture, Play Console access, exact Canva raster bytes, or authorized TURN/video/regional measurement infrastructure.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -54,6 +54,8 @@
   "physical_v79_tablet_windowing": "PASS_FREEFORM_WAS_INSTALL_SETTINGS_TASK_STATE_LAUNCHER_REOPEN_FULLSCREEN",
   "physical_v79_tablet_landscape": "PASS_XIAOMI_2410CRP4CG_3200x2136_FULLSCREEN_7_TABS_NO_VISIBLE_OVERFLOW_ROTATION_RESTORED_AUTO",
   "exact_canva_raster": "GAP_APPROVED_DESIGNS_FOUND_METADATA_PREVIEWS_ONLY_NO_EXPORT_BYTES_CURRENT_ANDROID_VECTOR_FALLBACK",
-  "physical_v80_ui": "TO_VERIFY_CONNECTED_DEVICES_LOCKED_NO_BYPASS",
-  "v80_tab_discoverability": "PASS_BROWSER_CI184_320PX_RIGHT_AND_LEFT_EDGE_CUES"
+  "physical_v80_ui": "PASS_RMX3241_1080x2400_RIGHT_LEFT_TAB_CUES_ADFREE_ACTIVE_AUTO_CENTER",
+  "v80_tab_discoverability": "PASS_BROWSER_CI185_AND_PHYSICAL_RMX_RIGHT_LEFT_EDGE_CUES_ACTIVE_AUTO_CENTER",
+  "physical_v80_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY_2026-09-26T08:42:56.636Z",
+  "physical_v80_apk_sha256": "97E8D20F36006AC55F6A6BE962FFE834EF51A773468E097F3B28DE610D0C626A"
 }
