@@ -72,6 +72,8 @@ try{
  const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
  if(!thai)throw new Error("Thai switch failed");
  const thaiTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"])');
+ const gaugeLabelThai=await evaluate('document.getElementById("gaugeMetricLabel")?.textContent==="ความเร็ว"');
+ if(!gaugeLabelThai)throw new Error("Thai gauge metric label incomplete");
  if(!thaiTabs)throw new Error("Thai tab translations incomplete");
  const privacyHref=await evaluate('document.querySelector(".privacy-link")?.getAttribute("href")');
  if(privacyHref!=="./privacy.html")throw new Error("Privacy link missing");

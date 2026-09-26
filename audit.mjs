@@ -14,6 +14,7 @@ if(!baseTheme.includes("Theme.Zipspeed.Launcher")||!baseTheme.includes("@drawabl
 if(!activity.includes("zipspeedStopForLifecycle")||!activity.includes("MIXED_CONTENT_NEVER_ALLOW"))throw new Error("Android lifecycle/security hook missing");
 if((html.match(/id="goButton"/g)||[]).length!==1)throw new Error("GO control must be unique");if(!html.includes('role="tablist"')||!html.includes('role="tabpanel"')||!html.includes('aria-live="polite"')||!html.includes('tabindex="-1"')||!app.includes("ArrowRight")||!app.includes("activateTab"))throw new Error("Accessibility semantics missing");
 if(!html.includes('href="./privacy.html"'))throw new Error("In-app privacy link missing");
+if(!html.includes('id="gaugeMetricLabel"')||!app.includes('gaugeDownload:"ดาวน์โหลด"')||!app.includes('gaugeUpload:"อัปโหลด"'))throw new Error("Gauge Download/Upload phase label missing");
 const privacy=await read("web/privacy.html");if(!privacy.includes("Privacy Policy")||!privacy.includes("Cloudflare")||!privacy.includes("Retention and deletion"))throw new Error("Privacy policy content incomplete");
 for(const tab of["speed","video","status","map","history","settings","adfree"])if(!html.includes(`id="${tab}"`))throw new Error("Missing tab "+tab);
 for(const id of["downLoadedLatencyValue","upLoadedLatencyValue","serverValue","serverHealthValue","serverSetting","payloadValue","latencyGraph","monitorButton","monitorIntervalSetting","monitorLog"])if(!html.includes(`id="${id}"`))throw new Error("Missing rebuilt measurement control "+id);
