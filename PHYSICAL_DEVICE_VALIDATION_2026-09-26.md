@@ -157,3 +157,25 @@ This report does not replace signed Play release testing.
 - HTTP probe failures: 0 / 3
 
 The measured values are evidence from one real run only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+
+
+## 5G capability check — RMX3241
+
+- Telephony feature set present.
+- Active SIM/operator state was in service.
+- Telephony registration reported `isNrAvailable=true` and `isEnDcAvailable=true`.
+- Wi-Fi was disabled temporarily to force normal cellular selection.
+- Active radio/data technology remained **LTE** during the check.
+- Wi-Fi was restored after verification.
+- Status: **5G CAPABILITY OBSERVED / 5G RUNTIME TO VERIFY**.
+
+## OEM / tablet candidate — Xiaomi 2410CRP4CG
+
+- Android: **16 / API 36**
+- Physical size reported by Android: **2136×3200**
+- Network: validated Wi-Fi
+- Cellular service: out of service / network type unknown during inspection
+- Zipspeed package was not present before testing.
+- Clean v76 installation attempt returned `INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`.
+- No attempt was made to bypass the device restriction.
+- Status: **TO VERIFY after user-approved installation**.

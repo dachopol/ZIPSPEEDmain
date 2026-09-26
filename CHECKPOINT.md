@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 76.0.0
-versionCode: 76
+Version: 77.0.0
+versionCode: 77
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `099e6d7e9dbfb9fa2b8dbe72de4b9b8c38b41731`
-GitHub Actions: **CI #159 — PASS 10/10**
+Validated runtime/source commit: `a769b7ac5b5d8101b1a0a3cb17fbc0aafbb72fc0`
+GitHub Actions: **CI #162 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -23,6 +23,25 @@ Passed gates:
 - android-debug-build + lint + instrumentation APK compile
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
+
+## v77 release signing readiness
+
+- Source commit: `a769b7ac5b5d8101b1a0a3cb17fbc0aafbb72fc0`.
+- CI #162: PASS 10/10.
+- Gradle release signing supports four environment variables only; no signing material is stored in the repository.
+- Partial signing configuration fails at Gradle configuration time.
+- CI without real signing material reports `ZIPSPEED_RELEASE_SIGNING=UNCONFIGURED`.
+- `:app:bundleRelease` still compiles successfully for source verification.
+- Release/source gate checks tracked Git files and rejects JKS/keystore/P12/signing-property material.
+- **TO VERIFY:** actual keystore, upload certificate / Play App Signing match, signed AAB, and Play upload.
+
+## v77 5G / OEM coverage evidence
+
+- RMX3241 telephony reports `isNrAvailable=true` and `isEnDcAvailable=true`, so the connected network/device exposes 5G NSA capability.
+- When Wi-Fi was disabled for runtime verification, the active data radio remained **LTE**, not NR/5G. Wi-Fi was restored afterward.
+- Result: **5G capability observed / 5G runtime TO VERIFY**.
+- Xiaomi `2410CRP4CG`: Android 16 / API 36 / 2136×3200 / validated Wi-Fi detected.
+- Zipspeed v76 clean install attempt on that device returned `INSTALL_FAILED_USER_RESTRICTED`; no bypass was attempted and no physical tablet PASS is claimed.
 
 ## v76 physical Wi-Fi measurement — RMX3241
 
@@ -118,14 +137,14 @@ The measured numbers above are evidence from individual real runs only. They are
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Policy source aligned to **v76.0.0** on 2026-09-26.
-- CI privacy-url-check now requires v76 content.
+- Policy source aligned to **v77.0.0** on 2026-09-26.
+- CI privacy-url-check now requires v77 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup
 
 - Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
-- Root release state is represented by current v76 documents only.
+- Root release state is represented by current v77 documents only.
 - CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers

@@ -3,11 +3,12 @@
 ## Current rebuild
 - App: ZIPSPEED by AnakinYoo
 - Package: `com.aistudio.zipspeed.zskt`
-- Version: `76.0.0`
-- versionCode: `76`
+- Version: `77.0.0`
+- versionCode: `77`
 - Active UI/runtime source: `web/` only
 - Native branding: launcher icon + splash resources wired; exact Canva raster export remains TO VERIFY
-- v76 UI polish: v75 secondary-page system plus corrected two-line Video reference-threshold hierarchy
+- v77 release hardening: environment-based signing contract with no signing secrets stored in Git
+- v76 UI polish remains active: secondary-page system plus corrected two-line Video reference-threshold hierarchy
 - Secondary-page responsive gate: 320 px browser proof
 - Old root UI, `app/applet`, and committed Android web-asset mirrors: removed
 
@@ -19,6 +20,8 @@
 - Real-network endpoint smoke: PASS on main
 - Android lint/debug build: PASS in CI
 - Android release bundle compile: PASS in CI
+- Release signing source contract: **PASS — env-based, partial config fails, secrets ignored/not tracked**
+- CI signing status without real key: **UNCONFIGURED**
 - Release-source evidence: PASS in CI
 - Play-source evidence: PASS in CI
 - Android emulator runtime: PASS
@@ -32,11 +35,11 @@
 - Physical Quick Single on 4G/LTE: **PASS with persisted real-data History/provenance**
 
 ## TO VERIFY
-- Signed Play-uploadable AAB
+- Real signed Play-uploadable AAB + certificate match
 - Live Play Console state/declarations
 - Successful upload/review/publication
 - Physical Android 5G runtime
-- Broader physical-device/OEM WebView coverage
+- Xiaomi 2410CRP4CG tablet install/runtime after user restriction is cleared; broader OEM/WebView coverage
 - Accessibility on physical device
 - Final Data Safety classification
 - Exact Canva raster parity

@@ -1,5 +1,19 @@
 # Changelog
 
+## v77 — 2026-09-26 — Safe release-signing contract
+- Added environment-based Android release signing without storing keystores or passwords in Git.
+- Required signing variables: `ZIPSPEED_KEYSTORE_FILE`, `ZIPSPEED_KEYSTORE_PASSWORD`, `ZIPSPEED_KEY_ALIAS`, `ZIPSPEED_KEY_PASSWORD`.
+- No variables configured → CI can compile an unsigned release candidate for source verification.
+- Partial signing configuration → Gradle fails immediately.
+- Complete signing configuration → release build uses the supplied keystore.
+- Added `zipspeedSigningStatus` task that reports only READY / UNCONFIGURED and never prints secrets.
+- Added secret ignore rules for JKS/keystore/P12/signing property files plus a tracked-secret release gate.
+- Added `SIGNING_SETUP.md` and Play/release-source checks for the signing contract.
+- CI #162 passed all 10 quality jobs; Android release log confirmed `ZIPSPEED_RELEASE_SIGNING=UNCONFIGURED` and `bundleRelease` BUILD SUCCESSFUL.
+- Real signed Play-uploadable AAB and certificate matching remain TO VERIFY until the intended signing material is supplied.
+- Bumped canonical version/versionCode to 77.0.0 / 77.
+
+
 ## v76 — 2026-09-26 — Video readability polish
 - Fixed physical-device Video cards that visually joined labels such as `720pthreshold 3 Mbps`.
 - Video suitability cards now separate resolution and reference threshold into a clear two-line hierarchy.
