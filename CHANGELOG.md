@@ -1,5 +1,16 @@
 # Changelog
 
+## v79 — 2026-09-26 — Premium clay depth polish
+- Refined the physical-device visual hierarchy by reducing excessive blue bloom around the main gauge and GO button.
+- Preserved the premium white-clay + blue instrument system while making gauge/GO edges appear crisper on RMX3241.
+- Preserved the truthful idle `--` placeholder, live-value animation, reduced-motion handling, mobile tab behavior, TH/EN coverage and secondary-page system.
+- No measurement engine, endpoint, permission, history schema, Ads/Billing, packet-loss claim or fake-data behavior changed.
+- CI #174 passed all 10 quality jobs on source commit `5899d199393492464b5dedbecb07ac1267c21964`.
+- RMX3241 physical v79 portrait UI at 1080×2400: PASS.
+- A new physical v79 GO/network completion remains TO VERIFY because the ADB tap did not transition GO → STOP during this inspection; prior v78 physical runtime evidence remains retained.
+- Bumped canonical version/versionCode to 79.0.0 / 79.
+
+
 ## v78 — 2026-09-26 — Idle gauge visual refinement
 - Fixed the physical-device idle gauge placeholder where `--` appeared as two heavy black bars over the gauge hub.
 - Preserved Real Data semantics: the app still displays `--` while no real measurement exists; it does not substitute a fake zero.

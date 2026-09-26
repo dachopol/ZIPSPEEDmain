@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 78.0.0
-versionCode: 78
+Version: 79.0.0
+versionCode: 79
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `609f79c839e407673e3e448d52f7544efaae4512`
-GitHub Actions: **CI #170 — PASS 10/10**
+Validated runtime/source commit: `5899d199393492464b5dedbecb07ac1267c21964`
+GitHub Actions: **CI #174 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -23,6 +23,17 @@ Passed gates:
 - android-debug-build + lint + instrumentation APK compile
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
+
+## v79 premium clay depth refinement — physical UI PASS
+
+- Physical v78 screenshot still showed more blue bloom around the gauge/GO than needed for the intended premium white-clay hierarchy.
+- v79 reduces outer blue bloom/drop-shadow intensity while preserving the same white/blue 3D instrument, Real Data semantics, touch targets and measurement engine.
+- Clean-installed build on RMX3241: **v79.0.0 / versionCode 79 / targetSdk 36**.
+- Physical portrait screenshot at 1080×2400: **PASS**. Gauge ring and GO edges are visibly crisper while the truthful idle `--` remains readable and does not overlap the hub.
+- CI #174: **PASS 10/10**, including browser, real-network smoke, Android debug/release, emulator runtime, Privacy and Play-source gates.
+- **TO VERIFY:** new physical v79 Quick + Single completion. The ADB tap used in this inspection did not transition GO → STOP, so no physical runtime PASS is claimed for v79.
+- Prior v78 physical Quick + Single PASS remains valid prior runtime evidence.
+- No measurement endpoint, permission, history schema, Ads/Billing, packet-loss claim or fake-data behavior changed.
 
 ## v78 gauge UI / motion refinement — physical PASS
 
@@ -169,14 +180,14 @@ The measured numbers above are evidence from individual real runs only. They are
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Policy source aligned to **v78.0.0** on 2026-09-26.
-- CI privacy-url-check now requires v78 content.
+- Policy source aligned to **v79.0.0** on 2026-09-26.
+- CI privacy-url-check now requires v79 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup
 
 - Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
-- Root release state is represented by current v78 documents only.
+- Root release state is represented by current v79 documents only.
 - CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers

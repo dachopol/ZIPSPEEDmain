@@ -2,10 +2,10 @@
   "project": "ZIPSPEED by AnakinYoo",
   "source_of_truth": "dachopol/ZIPSPEEDmain:main",
   "package_id": "com.aistudio.zipspeed.zskt",
-  "version": "78.0.0",
-  "version_code": 78,
-  "validated_source_commit": "609f79c839e407673e3e448d52f7544efaae4512",
-  "validated_ci_run": 170,
+  "version": "79.0.0",
+  "version_code": 79,
+  "validated_source_commit": "5899d199393492464b5dedbecb07ac1267c21964",
+  "validated_ci_run": 174,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -13,10 +13,10 @@
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "TO_VERIFY_TALKBACK_AND_ENLARGED_FONT",
-  "current_task_id": "v78-real-signing-5g-accessibility-tablet-play-or-exact-canva-raster",
+  "current_task_id": "v79-real-signing-5g-accessibility-tablet-play-or-exact-canva-raster",
   "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
-  "privacy_policy_version": "78.0.0",
+  "privacy_policy_version": "79.0.0",
   "emulator_runtime": "PASS_API_34",
   "browser_interaction": "PASS_V78_IDLE_PLACEHOLDER_320_390_768_SECONDARY_PAGES_FULL_TH_EN_VIDEO_THRESHOLD_HIERARCHY",
   "blockers": [
@@ -28,7 +28,7 @@
     "final Play Data Safety classification for IP-derived country and Cloudflare processing",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "Continue with real signing/certificate verification, 5G runtime, user-approved Xiaomi 2410CRP4CG tablet install, manual accessibility evidence, Play Console access, exact Canva raster bytes, or external packet-loss/video/server infrastructure.",
+  "next": "Continue with real signing/certificate verification, 5G runtime, user-approved Xiaomi 2410CRP4CG tablet install, manual accessibility evidence, Play Console access, exact Canva raster bytes, external packet-loss/video/server infrastructure, or a newly reproduced v79 defect.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -45,5 +45,7 @@
   "physical_v77_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY",
   "physical_v78_ui": "PASS_RMX3241_IDLE_AND_LIVE_GAUGE_NO_OVERLAP_1080x2400",
   "physical_v78_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY",
-  "physical_v78_motion": "PASS_PHYSICAL_LIVE_VALUE_READABILITY_CI_REDUCED_MOTION_GUARD"
+  "physical_v78_motion": "PASS_PHYSICAL_LIVE_VALUE_READABILITY_CI_REDUCED_MOTION_GUARD",
+  "physical_v79_ui": "PASS_RMX3241_SHARPER_CLAY_DEPTH_1080x2400",
+  "physical_v79_go_real_network": "TO_VERIFY_ADB_TAP_DID_NOT_START"
 }

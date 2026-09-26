@@ -3,11 +3,12 @@
 ## Current rebuild
 - App: ZIPSPEED by AnakinYoo
 - Package: `com.aistudio.zipspeed.zskt`
-- Version: `78.0.0`
-- versionCode: `78`
+- Version: `79.0.0`
+- versionCode: `79`
 - Active UI/runtime source: `web/` only
 - Native branding: launcher icon + splash resources wired; exact Canva raster export remains TO VERIFY
-- v78 UI refinement: truthful idle `--` placeholder is smaller/muted instead of rendering as heavy bars over the gauge hub
+- v79 visual refinement: reduced excessive blue bloom around gauge/GO for sharper premium white-clay depth
+- v78 UI refinement remains active: truthful idle `--` placeholder is smaller/muted instead of rendering as heavy bars over the gauge hub
 - v77 release hardening remains active: environment-based signing contract with no signing secrets stored in Git
 - v76 UI polish remains active: secondary-page system plus corrected two-line Video reference-threshold hierarchy
 - Secondary-page responsive gate: 320 px browser proof
@@ -29,7 +30,10 @@
 - v78 browser idle-gauge placeholder + live-value overlap regression: **PASS**
 - v78 physical idle/live gauge readability: **PASS on RMX3241 / 1080×2400**
 - v78 physical Quick + Single Wi-Fi runtime: **PASS with persisted real-data History/provenance**
-- v78 current HEAD CI #170: **PASS 10/10**
+- v79 current source CI #174: **PASS 10/10**
+- v79 physical home UI: **PASS on RMX3241 / 1080×2400 — sharper gauge/GO depth**
+- v79 physical Quick + Single: **TO VERIFY — ADB tap did not start the test during this inspection**
+- v78 physical Quick + Single Wi-Fi runtime: **PASS retained as prior evidence**
 - v76 browser interaction: **PASS including 320 px secondary-page layout, active-tab visibility, complete TH/EN tabs, and Video threshold hierarchy**
 - v76 physical Video UI: **PASS on RMX3241 / 1080×2400**
 - v77 physical Quick + Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**
