@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 79.0.0
-versionCode: 79
+Version: 80.0.0
+versionCode: 80
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `1e2517266121d498b4556969ec00be8617812175`
-GitHub Actions: **CI #182 — PASS 10/10**
+Validated runtime/source commit: `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`
+GitHub Actions: **CI #184 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -23,6 +23,16 @@ Passed gates:
 - android-debug-build + lint + instrumentation APK compile
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
+
+## v80 tab discoverability polish — CI PASS / physical TO VERIFY
+
+- Source commit: `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`.
+- GitHub Actions CI #184: **PASS 10/10**.
+- Narrow-screen tab strip keeps the existing horizontal scroll + active-tab auto-centering and adds subtle directional edge cues while more tabs exist off-screen.
+- Browser regression at 320 px verifies a right-edge cue at the initial tab position and a left-edge return cue after selecting the far-right Ad-free tab.
+- No duplicate menu, fake status, new measurement endpoint, permission, Ads/Billing dependency, or speed-test engine change was introduced.
+- Existing v74-v79 compact header, premium white/blue clay system, vertical metric cards, truthful idle `--`, Video hierarchy, TH/EN coverage and responsive secondary pages remain active.
+- **Physical v80 visual confirmation: TO VERIFY.** Both connected Android devices were asleep/locked during this pass. They were only woken to confirm lock state; no lock bypass was attempted.
 
 ## v79 premium clay depth + real-network validation — PASS on RMX3241
 
@@ -201,14 +211,14 @@ The measured numbers above are evidence from individual real runs only. They are
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Policy source aligned to **v79.0.0** on 2026-09-26.
+- Policy source aligned to **v80.0.0** on 2026-09-26.
 - CI privacy-url-check now requires v79 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup
 
 - Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
-- Root release state is represented by current v79 documents only.
+- Root release state is represented by current v80 documents only.
 - CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers

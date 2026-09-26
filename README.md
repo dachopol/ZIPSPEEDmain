@@ -6,8 +6,8 @@ Clean rebuild on the existing Android identity.
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Version: `79.0.0`
-- versionCode: `79`
+- Version: `80.0.0`
+- versionCode: `80`
 - Canonical version source: `package.json`
 
 ## Single-source architecture
@@ -17,7 +17,7 @@ Clean rebuild on the existing Android identity.
 
 ## Branding
 - Android launcher icon and native splash are wired through `app/src/main/res/` and the manifest.
-- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=79` cache revision.
+- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=80` cache revision.
 - Approved Canva references and exact-export status are tracked in `BRAND_ASSETS.md`.
 
 ## Product surface
@@ -31,7 +31,7 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. CI #174 verifies v79 web/runtime/real-network/Android gates, narrow-screen tab behavior, complete TH/EN tabs, and prior idle-gauge regression coverage. Physical v79 UI on RMX3241 is PASS: gauge/GO depth is sharper with reduced bloom. A new physical v79 GO/network run is TO VERIFY because the ADB tap did not start the test; prior v78 physical Quick + Single evidence remains valid prior evidence.
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #184 verifies v80 web/runtime/real-network/Android gates, complete TH/EN tabs, responsive secondary pages, prior idle-gauge regression coverage, and the new narrow-screen tab discoverability cue. v79 remains the latest physical runtime/UI evidence on RMX3241 and Xiaomi 2410CRP4CG; physical v80 visual confirmation is TO VERIFY because the connected devices were locked during this documentation pass.
 
 ## Release signing
 Release signing is environment-based and secret-free in Git. See `SIGNING_SETUP.md`. CI verifies the signing contract and unsigned release compilation; a real signed Play-uploadable AAB remains TO VERIFY until the intended keystore/certificate is supplied.

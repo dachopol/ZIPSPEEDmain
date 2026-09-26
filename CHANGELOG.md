@@ -1,5 +1,16 @@
 # Changelog
 
+## v80 — 2026-09-26 — Tab discoverability polish
+- Added subtle directional edge cues to the horizontally scrollable main tab strip so users can discover History / Settings / Ad-free on narrow screens without a duplicate menu.
+- Kept active-tab auto-centering and keyboard navigation unchanged.
+- Added browser regression checks at 320 px for the initial right-edge cue and the left-edge return cue after selecting the far-right tab.
+- Preserved the v79 premium clay depth, v78 truthful idle placeholder, v76 Video hierarchy, full TH/EN coverage and Real Data measurement engine.
+- No new endpoint, permission, Ads/Billing dependency, fake-data behavior or measurement semantics were introduced.
+- CI #184 passed all 10 quality jobs on source commit `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`.
+- Physical v80 visual confirmation remains TO VERIFY because both connected devices were locked during this pass and no lock bypass was attempted.
+- Bumped canonical version/versionCode to 80.0.0 / 80.
+
+
 ## v79 — 2026-09-26 — Premium clay depth polish
 - Refined the physical-device visual hierarchy by reducing excessive blue bloom around the main gauge and GO button.
 - Preserved the premium white-clay + blue instrument system while making gauge/GO edges appear crisper on RMX3241.

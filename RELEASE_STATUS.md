@@ -3,10 +3,11 @@
 ## Current rebuild
 - App: ZIPSPEED by AnakinYoo
 - Package: `com.aistudio.zipspeed.zskt`
-- Version: `79.0.0`
-- versionCode: `79`
+- Version: `80.0.0`
+- versionCode: `80`
 - Active UI/runtime source: `web/` only
 - Native branding: launcher icon + splash resources wired; exact Canva raster export remains TO VERIFY
+- v80 usability refinement: narrow-screen tab strip now gives subtle left/right scroll discoverability cues without adding duplicate navigation
 - v79 visual refinement: reduced excessive blue bloom around gauge/GO for sharper premium white-clay depth
 - v78 UI refinement remains active: truthful idle `--` placeholder is smaller/muted instead of rendering as heavy bars over the gauge hub
 - v77 release hardening remains active: environment-based signing contract with no signing secrets stored in Git
@@ -30,7 +31,8 @@
 - v78 browser idle-gauge placeholder + live-value overlap regression: **PASS**
 - v78 physical idle/live gauge readability: **PASS on RMX3241 / 1080×2400**
 - v78 physical Quick + Single Wi-Fi runtime: **PASS with persisted real-data History/provenance**
-- v79 current source CI #174: **PASS 10/10**
+- v80 current source CI #184: **PASS 10/10**, including tab discoverability regression at 320 px
+- v80 physical UI: **TO VERIFY — both connected devices were locked during this pass; no lock bypass was attempted**
 - v79 physical home UI: **PASS on RMX3241 / 1080×2400 — sharper gauge/GO depth**
 - v79 physical Quick + Single: **TO VERIFY — ADB tap did not start the test during this inspection**
 - v78 physical Quick + Single Wi-Fi runtime: **PASS retained as prior evidence**
