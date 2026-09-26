@@ -7,6 +7,21 @@ Package: com.aistudio.zipspeed.zskt
 Version: 80.0.0
 versionCode: 80
 
+## v80 gauge realism + main metrics — physical PASS
+
+- Runtime/source commit: `b793bfa4e3be5e1cc411a05d24b775471b5439ca`.
+- GitHub Actions CI #195: **PASS 10/10**.
+- Gauge spring/overshoot motion was replaced with monotonic eased tracking; regression test verifies convergence without overshoot or random input.
+- Download phase feeds the gauge from rolling Mbps calculated from **actual response byte chunks + elapsed time**. No synthetic/random progress values are generated.
+- Gauge phase label identifies **Download / Upload** and the final gauge retains the measured Upload result; physical overlap found in CI #194 was fixed by scoping large gauge typography to `#liveValue` only.
+- Browser regression enforces that the gauge phase label stays below the live value, above GO, and does not become oversized.
+- Main Speed hero contains **Download / Upload / Ping (HTTP) / Jitter** in a responsive 2×2 grid; audit fails if any of these four leave the main Speed panel.
+- Exact CI #195 debug APK SHA-256: `EFA656423DB76C62A4A780960ED30E4A927188C40E13248300DBC2A1F5D5164A`.
+- RMX3241 exact CI #195 clean-install + Quick/Single real-network flow: **PASS**.
+- Persisted result timestamp: `2026-09-26T15:39:32.680Z`; Download **26.15 Mbps**, Upload **14.36 Mbps**, Ping **182.3 ms**, Jitter **251.25 ms**, HTTP probe failures **0/3**.
+- Physical screenshots confirm running Download label and completed Upload label do not overlap the gauge value or GO, while all four primary metrics remain visible on the main screen.
+- These measured values are one-run validation evidence only, not an ISP-quality or benchmark-accuracy claim.
+
 ## Latest validated runtime/source
 
 Validated runtime/source commit: `82236b68e16b7ecac4bbd837e3268f70b0fc1e52`

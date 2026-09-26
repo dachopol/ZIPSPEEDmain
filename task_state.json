@@ -4,8 +4,8 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "80.0.0",
   "version_code": 80,
-  "validated_source_commit": "82236b68e16b7ecac4bbd837e3268f70b0fc1e52",
-  "validated_ci_run": 188,
+  "validated_source_commit": "b793bfa4e3be5e1cc411a05d24b775471b5439ca",
+  "validated_ci_run": 195,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -66,5 +66,10 @@
   "exact_ci188_apk_sha256": "8B061315CA07CEBED4C8B6B14B0BDB1CD5FD915C3B453A0080CAF0192C57C7BE",
   "physical_v80_privacy_bundle": "PASS_RMX3241_EXACT_CI188_COLD_LAUNCH_APK_ASSET_PRIVACY_V80_NO_V72",
   "stale_active_marker_scan": "PASS_ZERO_MATCHES_AFTER_V80_PRIVACY_ALIGNMENT",
-  "local_source_check": "PASS_NPM_CHECK_13_OF_13_BUILD_RUNTIME_CHECK"
+  "local_source_check": "PASS_NPM_CHECK_13_OF_13_BUILD_RUNTIME_CHECK",
+  "gauge_motion": "PASS_MONOTONIC_REAL_DOWNLOAD_BYTE_PROGRESS_NO_RANDOM_NO_OVERSHOOT",
+  "main_speed_metrics": "PASS_DOWNLOAD_UPLOAD_PING_JITTER_MAIN_HERO_2X2_PHYSICAL_RMX",
+  "physical_v80_gauge_ci195": "PASS_RMX3241_QUICK_SINGLE_2026-09-26T15:39:32.680Z",
+  "physical_v80_gauge_apk_sha256": "EFA656423DB76C62A4A780960ED30E4A927188C40E13248300DBC2A1F5D5164A",
+  "gauge_phase_label_overlap": "FIXED_AND_BROWSER_PHYSICAL_PASS"
 }
