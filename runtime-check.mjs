@@ -6,7 +6,7 @@ try{
  let ready=false;for(let i=0;i<40;i++){try{const r=await fetch(base+"/health");if(r.ok){ready=true;break}}catch{}await sleep(100)}if(!ready)throw new Error("Local runtime server did not become ready");
  const [page,version,app,directory]=await Promise.all([fetch(base+"/").then(r=>r.text()),fetch(base+"/version.json").then(r=>r.json()),fetch(base+"/src/app.mjs").then(r=>r.text()),fetch(base+"/server-directory.json").then(r=>r.json())]);
  if(!page.includes('id="goButton"')||!page.includes('id="downLoadedLatencyValue"')||!page.includes('id="serverSetting"')||!page.includes('id="serverHealthValue"')||!page.includes('id="monitorButton"')||!page.includes('id="monitorLog"'))throw new Error("Runtime page shell missing critical controls");
- if(version.version!=="77.0.0"||version.versionCode!==77)throw new Error("Runtime version drift");
+ if(version.version!=="78.0.0"||version.versionCode!==78)throw new Error("Runtime version drift");
  if(!app.includes("runTest")||!app.includes("measureUnderLoad")||!app.includes("measureRamp")||!app.includes("refreshServerHealth")||!app.includes("selectBestServerHealth")||!app.includes("monitorProbe")||!app.includes("monitorTransition")||!app.includes("/cdn-cgi/trace")||!app.includes("window.zipspeedStopForLifecycle"))throw new Error("Runtime interaction/metadata/lifecycle code missing");
  const enabled=(directory.servers||[]).filter(s=>s.enabled&&typeof s.baseUrl==="string"&&s.baseUrl.startsWith("https://"));if(!enabled.length)throw new Error("No enabled runtime server");
  const evidence={generatedAt:new Date().toISOString(),localServer:true,criticalShell:true,loadedLatencyFlow:true,serverDirectoryCount:enabled.length,version,realNetworkSmoke:false};
