@@ -2,7 +2,7 @@
 
 App: ZIPSPEED by AnakinYoo  
 Package: `com.aistudio.zipspeed.zskt`  
-Version: `74.0.0`
+Version: `75.0.0`
 
 This is a preparation document, not a claim that the Play Console form has been submitted.
 
@@ -31,6 +31,6 @@ This is a preparation document, not a claim that the Play Console form has been 
 3. **Third-party processing — TO VERIFY.** Review Cloudflare's current privacy/terms and determine the exact Play declaration for endpoint-side processing.
 4. **User-initiated Share — SOURCE GUIDANCE.** Google Play states that a transfer initiated by a specific user action, where the user reasonably expects sharing, does not need to be declared as data “sharing.” ZIPSPEED invokes the share/clipboard flow only after the user taps Share. Re-check this behavior in the final build before submission.
 5. **Approximate location — TO VERIFY.** Google Play explicitly includes location inferred from IP address in the approximate-location data type. ZIPSPEED displays a server-reported country derived from the network request, keeps it only in memory, and does not request Android location permission. Google Play also documents an ephemeral-processing exception, so the final Console collection answer must be confirmed against the exact final behavior rather than guessed.
-6. **Public privacy-policy URL — PASS for hosting/source alignment.** The canonical policy source is aligned to v74 at `https://dachopol.github.io/privacy-policy/`. Entering/saving that URL in Play Console remains TO VERIFY.
+6. **Public privacy-policy URL — PASS for hosting/source alignment.** The canonical policy source is aligned to v75 at `https://dachopol.github.io/privacy-policy/`. Entering/saving that URL in Play Console remains TO VERIFY.
 
 Do not answer the Play Console form by inference alone. Re-check the final release build, permissions, endpoints, Ads/Billing state, and third-party behavior immediately before submission.

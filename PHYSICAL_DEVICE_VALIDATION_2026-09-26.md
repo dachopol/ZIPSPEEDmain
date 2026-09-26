@@ -108,3 +108,13 @@ This report does not replace signed Play release testing.
 - Browser CI #154 separately proves active far-right tab auto-scroll at 320 px and complete TH/EN tab translation hooks.
 - **TO VERIFY:** new physical v74 GO/real-network completion. ADB touch coordinates triggered a system/app gesture instead of the GO control, so no physical v74 network PASS is claimed.
 
+
+
+## v75 home UI validation — RMX3241
+
+- Build reported by Android: **v75.0.0 / versionCode 75 / targetSdk 36**
+- Display: **1080×2400**
+- Home portrait render: PASS.
+- Header/version badge/Speed hero/first metric card: PASS.
+- CI #157 separately proves Video / Status / History / Settings / Ad-free responsive layout at 320 px, active-tab auto-scroll, and TH/EN tab completeness.
+- Physical secondary-tab switching: **TO VERIFY**. ADB tap injection did not activate the WebView tab controls during this inspection, so no physical PASS is claimed.

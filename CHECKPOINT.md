@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 74.0.0
-versionCode: 74
+Version: 75.0.0
+versionCode: 75
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `965bdc9a5d581e0c6dfba5bd93bbf947ae7b669a`
-GitHub Actions: **CI #154 — PASS 10/10**
+Validated runtime/source commit: `2896b2a01229932b97cb80b141ded04e57c185a5`
+GitHub Actions: **CI #157 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -23,6 +23,16 @@ Passed gates:
 - android-debug-build + lint + instrumentation APK compile
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
+
+## v75 secondary-page UI validation
+
+- Source HEAD: `2896b2a01229932b97cb80b141ded04e57c185a5`
+- CI #157: PASS 10/10.
+- Video / Status / History / Settings / Ad-free use the same premium white/blue card language as Speed.
+- Browser gate verifies all secondary pages at 320 px without horizontal overflow.
+- Browser gate verifies active far-right tab auto-scroll and complete TH/EN tab labels.
+- RMX3241 physically reports **v75.0.0 / versionCode 75 / targetSdk 36** and home UI renders at 1080×2400.
+- **TO VERIFY:** physical DOM-level switching into secondary tabs on RMX3241; ADB tap injection did not activate WebView tab buttons in this inspection.
 
 ## v74 physical UI validation — RMX3241
 
@@ -82,14 +92,14 @@ The measured numbers above are evidence from individual real runs only. They are
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Policy source aligned to **v74.0.0** on 2026-09-26.
-- CI privacy-url-check now requires v74 content.
+- Policy source aligned to **v75.0.0** on 2026-09-26.
+- CI privacy-url-check now requires v75 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup
 
 - Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
-- Root release state is represented by current v74 documents only.
+- Root release state is represented by current v75 documents only.
 - CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers

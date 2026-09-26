@@ -1,5 +1,19 @@
 # Changelog
 
+## v75 — 2026-09-26 — Secondary-page visual consistency
+- Extended the v74 premium white/blue card system across Video, Status, History, Settings and Ad-free surfaces.
+- Added a stronger Video summary card plus compact readiness pills without changing the throughput-based estimate semantics.
+- Tightened Status/Monitor rows for mobile readability while preserving real/unknown values.
+- Refined Settings controls with consistent spacing, select styling and touch-target sizing.
+- Refined History cards with a compact header, connection badge and four-column metric grid that collapses responsively.
+- Added browser regression proof for Video / Status / History / Settings / Ad-free at 320 px.
+- Preserved active-tab auto-scroll and complete TH/EN tab translation regression checks.
+- No measurement engine, endpoint, permission, Ads/Billing, or fake-data behavior was added.
+- CI #157 passed all 10 quality jobs on HEAD `2896b2a01229932b97cb80b141ded04e57c185a5`.
+- RMX3241 physically displays v75.0.0 home UI at 1080×2400; DOM-level physical switching to secondary tabs remains TO VERIFY because ADB tap injection did not activate WebView tabs during this inspection.
+- Bumped canonical version/versionCode to 75.0.0 / 75.
+
+
 ## v74 — 2026-09-26 — Mobile UI/UX polish
 - Tightened the premium white/blue layout without changing the real measurement engine.
 - Compacted the header and hero instrument so the first result card becomes visible sooner on a phone screen.
