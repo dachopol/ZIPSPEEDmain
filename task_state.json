@@ -5,7 +5,7 @@
   "version": "79.0.0",
   "version_code": 79,
   "validated_source_commit": "1e2517266121d498b4556969ec00be8617812175",
-  "validated_ci_run": 180,
+  "validated_ci_run": 181,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -13,7 +13,7 @@
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "TO_VERIFY_TALKBACK_AND_ENLARGED_FONT",
-  "current_task_id": "v79-tablet-landscape-signing-5g-accessibility-play-or-exact-canva-raster",
+  "current_task_id": "v79-signing-5g-accessibility-play-or-exact-canva-raster",
   "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "privacy_policy_version": "79.0.0",
@@ -27,7 +27,7 @@
     "final Play Data Safety classification for IP-derived country and Cloudflare processing",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "Resume Xiaomi 2410CRP4CG unlocked landscape screenshot first, then continue with real signing/certificate verification, 5G runtime, manual accessibility evidence, Play Console access, exact Canva raster bytes, or external packet-loss/video/server infrastructure.",
+  "next": "Continue with real signing/certificate verification, 5G runtime, manual accessibility evidence, Play Console access, exact Canva raster bytes, or external packet-loss/video/server infrastructure.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -52,5 +52,5 @@
   "physical_v79_tablet_ui": "PASS_XIAOMI_2410CRP4CG_2136x3200_FULLSCREEN_7_TABS_NO_OVERFLOW",
   "physical_v79_tablet_go_real_network": "PASS_XIAOMI_2410CRP4CG_WIFI_QUICK_SINGLE_HISTORY_2026-09-26T06:27:37.030Z",
   "physical_v79_tablet_windowing": "PASS_FREEFORM_WAS_INSTALL_SETTINGS_TASK_STATE_LAUNCHER_REOPEN_FULLSCREEN",
-  "physical_v79_tablet_landscape": "TO_VERIFY_CONFIG_3200x2136_FULLSCREEN_SCREENSHOT_BLOCKED_BY_DEVICE_LOCK"
+  "physical_v79_tablet_landscape": "PASS_XIAOMI_2410CRP4CG_3200x2136_FULLSCREEN_7_TABS_NO_VISIBLE_OVERFLOW_ROTATION_RESTORED_AUTO"
 }

@@ -245,3 +245,6 @@ The measured values are one-run evidence only and are not an ISP-quality, benchm
 - HTTP probe failures: **0 / 3**
 - provenance: `quick / single / cloudflare-auto`
 - The measured values are one-run evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+- Landscape physical UI: **PASS** at **3200×2136 / fullscreen** after unlocked capture.
+- Seven tabs remained readable; gauge/GO and the visible metric card showed no observed overlap or horizontal overflow.
+- Rotation was restored to automatic after the landscape check.
