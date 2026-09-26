@@ -3,11 +3,12 @@
 ## Current rebuild
 - App: ZIPSPEED by AnakinYoo
 - Package: `com.aistudio.zipspeed.zskt`
-- Version: `77.0.0`
-- versionCode: `77`
+- Version: `78.0.0`
+- versionCode: `78`
 - Active UI/runtime source: `web/` only
 - Native branding: launcher icon + splash resources wired; exact Canva raster export remains TO VERIFY
-- v77 release hardening: environment-based signing contract with no signing secrets stored in Git
+- v78 UI refinement: truthful idle `--` placeholder is smaller/muted instead of rendering as heavy bars over the gauge hub
+- v77 release hardening remains active: environment-based signing contract with no signing secrets stored in Git
 - v76 UI polish remains active: secondary-page system plus corrected two-line Video reference-threshold hierarchy
 - Secondary-page responsive gate: 320 px browser proof
 - Old root UI, `app/applet`, and committed Android web-asset mirrors: removed
@@ -25,6 +26,8 @@
 - Release-source evidence: PASS in CI
 - Play-source evidence: PASS in CI
 - Android emulator runtime: PASS
+- v78 browser idle-gauge placeholder regression: **PASS**
+- v78 CI #167: **PASS 10/10**
 - v76 browser interaction: **PASS including 320 px secondary-page layout, active-tab visibility, complete TH/EN tabs, and Video threshold hierarchy**
 - v76 physical Video UI: **PASS on RMX3241 / 1080×2400**
 - v77 physical Quick + Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**
@@ -36,6 +39,7 @@
 - Physical Quick Single on 4G/LTE: **PASS with persisted real-data History/provenance**
 
 ## TO VERIFY
+- Physical v78 visual confirmation on a connected device
 - Real signed Play-uploadable AAB + certificate match
 - Live Play Console state/declarations
 - Successful upload/review/publication

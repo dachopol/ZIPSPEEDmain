@@ -6,8 +6,8 @@ Clean rebuild on the existing Android identity.
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Version: `77.0.0`
-- versionCode: `77`
+- Version: `78.0.0`
+- versionCode: `78`
 - Canonical version source: `package.json`
 
 ## Single-source architecture
@@ -17,7 +17,7 @@ Clean rebuild on the existing Android identity.
 
 ## Branding
 - Android launcher icon and native splash are wired through `app/src/main/res/` and the manifest.
-- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=77` cache revision.
+- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=78` cache revision.
 - Approved Canva references and exact-export status are tracked in `BRAND_ASSETS.md`.
 
 ## Product surface
@@ -31,8 +31,7 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. CI #159 verifies v76 web/runtime/real-network/Android gates, secondary-page responsiveness, complete TH/EN tabs, and Video reference-threshold hierarchy. Physical v76 Video UI and v75 secondary-page layouts were verified on RMX3241; signed Play upload and final physical network coverage remain separate gates.
-
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #167 verifies v78 web/runtime/real-network/Android gates, narrow-screen tab behavior, complete TH/EN tabs, and the idle-gauge placeholder regression. v77 physical Wi-Fi evidence remains valid prior evidence; physical v78 visual confirmation is TO VERIFY until the connected-device control channel is available again.
 
 ## Release signing
 Release signing is environment-based and secret-free in Git. See `SIGNING_SETUP.md`. CI verifies the signing contract and unsigned release compilation; a real signed Play-uploadable AAB remains TO VERIFY until the intended keystore/certificate is supplied.

@@ -4,13 +4,13 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 77.0.0
-versionCode: 77
+Version: 78.0.0
+versionCode: 78
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `a769b7ac5b5d8101b1a0a3cb17fbc0aafbb72fc0`
-GitHub Actions: **CI #162 — PASS 10/10**
+Validated runtime/source commit: `4fe1c32b4accd5de5a9bc0f5df05c6e6ad7f65c2`
+GitHub Actions: **CI #167 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -23,6 +23,15 @@ Passed gates:
 - android-debug-build + lint + instrumentation APK compile
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
+
+## v78 idle-gauge UI refinement
+
+- Root cause came from physical v77 evidence: the no-result `--` inherited the large live-speed typography and rendered as two heavy black bars over the gauge hub.
+- v78 keeps `--` as the truthful unknown value but applies a smaller muted placeholder state.
+- `setNeedle()` now removes the placeholder class only when a finite real value exists.
+- Browser regression verifies the initial `--` placeholder class, reduced font size, and muted color.
+- CI #167: **PASS 10/10**.
+- **TO VERIFY:** physical v78 screenshot/runtime. Remote Desktop timed out after the CI artifact was prepared, so no physical v78 PASS is claimed yet.
 
 ## v77 physical Wi-Fi runtime — RMX3241
 
@@ -153,8 +162,8 @@ The measured numbers above are evidence from individual real runs only. They are
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
-- Policy source aligned to **v77.0.0** on 2026-09-26.
-- CI privacy-url-check now requires v77 content.
+- Policy source aligned to **v78.0.0** on 2026-09-26.
+- CI privacy-url-check now requires v78 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup

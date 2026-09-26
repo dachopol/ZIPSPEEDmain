@@ -2,10 +2,10 @@
   "project": "ZIPSPEED by AnakinYoo",
   "source_of_truth": "dachopol/ZIPSPEEDmain:main",
   "package_id": "com.aistudio.zipspeed.zskt",
-  "version": "77.0.0",
-  "version_code": 77,
-  "validated_source_commit": "a769b7ac5b5d8101b1a0a3cb17fbc0aafbb72fc0",
-  "validated_ci_run": 162,
+  "version": "78.0.0",
+  "version_code": 78,
+  "validated_source_commit": "4fe1c32b4accd5de5a9bc0f5df05c6e6ad7f65c2",
+  "validated_ci_run": 167,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -13,12 +13,12 @@
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "TO_VERIFY_TALKBACK_AND_ENLARGED_FONT",
-  "current_task_id": "v77-real-signing-5g-accessibility-tablet-play-or-exact-canva-raster",
-  "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
+  "current_task_id": "v78-physical-ui-real-signing-5g-accessibility-tablet-play-or-exact-canva-raster",
+  "status": "SOURCE_GATES_PASS_PHYSICAL_V78_TO_VERIFY",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
-  "privacy_policy_version": "77.0.0",
+  "privacy_policy_version": "78.0.0",
   "emulator_runtime": "PASS_API_34",
-  "browser_interaction": "PASS_320_390_768_SECONDARY_PAGES_FULL_TH_EN_VIDEO_THRESHOLD_HIERARCHY",
+  "browser_interaction": "PASS_V78_IDLE_PLACEHOLDER_320_390_768_SECONDARY_PAGES_FULL_TH_EN_VIDEO_THRESHOLD_HIERARCHY",
   "blockers": [
     "authorized TURN service/configuration for real packet loss",
     "licensed/owned media endpoint and playback methodology for real video playback measurement",
@@ -28,7 +28,7 @@
     "final Play Data Safety classification for IP-derived country and Cloudflare processing",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "Continue with real signing material/certificate verification, 5G runtime, user-approved Xiaomi 2410CRP4CG tablet install, manual accessibility evidence, Play Console access, exact Canva raster bytes, or external packet-loss/video/server infrastructure.",
+  "next": "Verify v78 physically when the device-control channel is available, then continue with real signing/certificate verification, 5G runtime, user-approved Xiaomi 2410CRP4CG tablet install, manual accessibility evidence, Play Console access, exact Canva raster bytes, or external packet-loss/video/server infrastructure.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v74_go_real_network": "TO_VERIFY_ADB_TOUCH_MAPPED_TO_SYSTEM_GESTURE",
@@ -43,5 +43,6 @@
   "physical_5g_runtime": "TO_VERIFY_CURRENT_CELLULAR_LTE",
   "tablet_oem_candidate": "XIAOMI_2410CRP4CG_ANDROID16_2136x3200_WIFI_INSTALL_USER_RESTRICTED",
   "physical_v77_home_ui": "PASS_RMX3241_1080x2400",
-  "physical_v77_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY"
+  "physical_v77_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY",
+  "physical_v78_ui": "TO_VERIFY_REMOTE_DEVICE_CONTROL_TIMEOUT_AFTER_CI_ARTIFACT_PREP"
 }

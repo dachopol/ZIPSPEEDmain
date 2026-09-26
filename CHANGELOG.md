@@ -1,5 +1,16 @@
 # Changelog
 
+## v78 — 2026-09-26 — Idle gauge visual refinement
+- Fixed the physical-device idle gauge placeholder where `--` appeared as two heavy black bars over the gauge hub.
+- Preserved Real Data semantics: the app still displays `--` while no real measurement exists; it does not substitute a fake zero.
+- Added a smaller muted placeholder treatment that clears automatically when a finite live speed value is available.
+- Kept the v74-v77 premium mobile hierarchy, tab auto-centering, secondary-page consistency, Video readability, and release-signing contract intact.
+- Added browser regression coverage for the idle placeholder state.
+- No measurement engine, endpoint, permission, history schema, Ads/Billing, or fake-data behavior changed.
+- CI #167 passed all 10 quality jobs on source commit `4fe1c32b4accd5de5a9bc0f5df05c6e6ad7f65c2`.
+- Physical v78 visual confirmation remains TO VERIFY because the remote device-control channel timed out after CI artifact preparation; no physical PASS is claimed without evidence.
+- Bumped canonical version/versionCode to 78.0.0 / 78.
+
 ## v77 — 2026-09-26 — Safe release-signing contract
 - Added environment-based Android release signing without storing keystores or passwords in Git.
 - Required signing variables: `ZIPSPEED_KEYSTORE_FILE`, `ZIPSPEED_KEYSTORE_PASSWORD`, `ZIPSPEED_KEY_ALIAS`, `ZIPSPEED_KEY_PASSWORD`.
