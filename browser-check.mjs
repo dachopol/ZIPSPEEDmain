@@ -73,6 +73,8 @@ try{
  if(!thai)throw new Error("Thai switch failed");
  const thaiTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"])');
  const gaugeLabelThai=await evaluate('document.getElementById("gaugeMetricLabel")?.textContent==="ความเร็ว"');
+ const gaugeCopyNoOverlap=await evaluate('(()=>{const value=document.getElementById("liveValue")?.getBoundingClientRect(),label=document.getElementById("gaugeMetricLabel")?.getBoundingClientRect(),go=document.getElementById("goButton")?.getBoundingClientRect();return !!value&&!!label&&!!go&&label.top>=value.bottom-1&&label.bottom<=go.top+1&&label.height<40})()');
+ if(!gaugeCopyNoOverlap)throw new Error("Gauge metric label overlaps live value or GO");
  if(!gaugeLabelThai)throw new Error("Thai gauge metric label incomplete");
  if(!thaiTabs)throw new Error("Thai tab translations incomplete");
  const privacyHref=await evaluate('document.querySelector(".privacy-link")?.getAttribute("href")');

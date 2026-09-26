@@ -299,7 +299,7 @@ button{cursor:pointer}
   align-content:start;
   pointer-events:none
 }
-.gauge-copy span{
+.gauge-copy #liveValue{
   max-width:100%;
   color:#0b1220;
   font-size:clamp(2.8rem,12vw,4.65rem);
@@ -311,7 +311,7 @@ button{cursor:pointer}
   text-shadow:0 2px 0 white;
   will-change:contents
 }
-.gauge-copy span.placeholder{
+.gauge-copy #liveValue.placeholder{
   display:inline-block;
   color:#94a3b8;
   font-size:clamp(1.55rem,6vw,2.1rem);
@@ -319,6 +319,7 @@ button{cursor:pointer}
   letter-spacing:.12em;
   text-shadow:none
 }
+.gauge-copy #gaugeMetricLabel{font:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;text-shadow:none;white-space:nowrap;will-change:auto}
 .gauge-copy small{
   margin-top:7px;
   color:#8290a3;
