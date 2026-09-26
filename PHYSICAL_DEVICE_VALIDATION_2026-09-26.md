@@ -138,3 +138,22 @@ This report does not replace signed Play release testing.
 - 720p / 1080p / 4K are visually separated from `เกณฑ์อ้างอิง 3 / 5 / 25 Mbps`.
 - The previous concatenated appearance such as `720pthreshold 3 Mbps` is not reproduced.
 - This remains a throughput-derived suitability estimate, not a real playback measurement.
+
+
+## v76 Quick + Single Wi-Fi — RMX3241
+
+- Build: **v76.0.0 / versionCode 76 / targetSdk 36**
+- Network: Android reported **Wi-Fi / INTERNET / VALIDATED**
+- GO → STOP state: PASS
+- Completed result returned to GO: PASS
+- History persistence: PASS
+- Provenance: `quick / single / cloudflare-auto`
+- timestamp: `2026-09-26T02:00:33.483Z`
+- download: 15.63 Mbps
+- upload: 15.13 Mbps
+- idle latency: 278.5 ms
+- download-loaded latency: 178.6 ms
+- upload-loaded latency: 185.4 ms
+- HTTP probe failures: 0 / 3
+
+The measured values are evidence from one real run only and are not an ISP-quality, benchmark-accuracy, or marketing claim.

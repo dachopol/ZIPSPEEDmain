@@ -24,6 +24,23 @@ Passed gates:
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
 
+## v76 physical Wi-Fi measurement — RMX3241
+
+- Build: **v76.0.0 / versionCode 76 / targetSdk 36**.
+- Android connectivity: **Wi-Fi / INTERNET / VALIDATED**.
+- Quick + Single GO flow: PASS.
+- GO → STOP during measurement → GO after completion: PASS.
+- Persisted History/provenance: PASS.
+- Completed result timestamp: `2026-09-26T02:00:33.483Z`.
+- Download: **15.63 Mbps**.
+- Upload: **15.13 Mbps**.
+- Idle latency: **278.5 ms**.
+- Download-loaded latency: **178.6 ms**.
+- Upload-loaded latency: **185.4 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
+- These values are evidence from one real run only, not an ISP-quality or performance claim.
+
 ## v76 Video readability validation
 
 - Source commit: `099e6d7e9dbfb9fa2b8dbe72de4b9b8c38b41731`.

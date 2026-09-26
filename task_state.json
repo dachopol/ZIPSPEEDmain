@@ -9,11 +9,11 @@
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
-  "physical_quick_single": "PASS_WIFI_AND_4G_REAL_NETWORK_HISTORY",
+  "physical_quick_single": "PASS_V76_RMX3241_WIFI_AND_V73_XIAOMI_4G_REAL_NETWORK_HISTORY",
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "TO_VERIFY_TALKBACK_AND_ENLARGED_FONT",
-  "current_task_id": "v76-physical-go-5g-accessibility-play-or-exact-canva-raster",
+  "current_task_id": "v76-5g-accessibility-play-or-exact-canva-raster",
   "status": "HARD_BLOCKED_AFTER_SOURCE_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "privacy_policy_version": "76.0.0",
@@ -28,11 +28,12 @@
     "final Play Data Safety classification for IP-derived country and Cloudflare processing",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "Continue with a physical v76 GO/real-network run, 5G/accessibility evidence, Play/signing access, exact Canva raster export bytes, or a newly reproduced defect.",
+  "next": "Continue with 5G/accessibility evidence, Play/signing access, exact Canva raster export bytes, external packet-loss/video/server infrastructure, or a newly reproduced defect.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v74_go_real_network": "TO_VERIFY_ADB_TOUCH_MAPPED_TO_SYSTEM_GESTURE",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
   "physical_v75_secondary_tabs": "PASS_RMX3241_VIDEO_STATUS_HISTORY_SETTINGS_ADFREE",
-  "physical_v76_video_ui": "PASS_RMX3241_REFERENCE_THRESHOLD_TWO_LINE"
+  "physical_v76_video_ui": "PASS_RMX3241_REFERENCE_THRESHOLD_TWO_LINE",
+  "physical_v76_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY"
 }

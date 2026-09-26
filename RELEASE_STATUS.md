@@ -24,6 +24,7 @@
 - Android emulator runtime: PASS
 - v76 browser interaction: **PASS including 320 px secondary-page layout, active-tab visibility, complete TH/EN tabs, and Video threshold hierarchy**
 - v76 physical Video UI: **PASS on RMX3241 / 1080×2400**
+- v76 physical Quick + Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**
 - v75 physical secondary pages: **PASS for Video / Status / History / Settings / Ad-free on RMX3241**
 - Physical Android Wi-Fi runtime: **PASS on RMX3241**
 - Physical Quick Single + Multi (4) on Wi-Fi: **PASS on RMX3241**
@@ -31,7 +32,6 @@
 - Physical Quick Single on 4G/LTE: **PASS with persisted real-data History/provenance**
 
 ## TO VERIFY
-- New physical v76 GO/real-network completion on RMX3241
 - Signed Play-uploadable AAB
 - Live Play Console state/declarations
 - Successful upload/review/publication
