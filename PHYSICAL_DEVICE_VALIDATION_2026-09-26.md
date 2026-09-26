@@ -271,3 +271,31 @@ The measured values are one-run evidence only and are not an ISP-quality, benchm
 - HTTP probe failures: **0 / 3**
 - provenance: `quick / single / cloudflare-auto`
 - Values above are one-run evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+
+
+## v80 current-build tablet QA — Xiaomi 2410CRP4CG
+
+- Local QA date: **2026-09-27 (Thailand)** / result timestamp in app UTC: `2026-09-26T22:22:26.268Z`.
+- Android: **16 / API 36**
+- Display: **2136×3200 portrait / 3200×2136 landscape**
+- Exact APK: CI #195, SHA-256 `EFA656423DB76C62A4A780960ED30E4A927188C40E13248300DBC2A1F5D5164A`
+- Installed package: **v80.0.0 / versionCode 80 / targetSdk 36**
+- v79 rollback backup APK SHA-256: `5D438C97F338BD88DD31F4493CFD37D6C84C2DA95992C16C725CD7B4B2BA0045`
+- v79 rollback app-data SHA-256: `AA0A3D89181C668C7F68BA3CD517EB241D8F136CF6095AC3955C17FAA8FD0147`
+- Portrait fullscreen visual: **PASS**
+- Download / Upload / Ping / Jitter on main screen: **PASS**
+- Quick + Single GO → STOP → GO: **PASS**
+- Persisted History/provenance: **PASS**
+- download: **63.01 Mbps**
+- upload: **22.37 Mbps**
+- idle latency: **113.5 ms**
+- idle jitter: **33.85 ms**
+- download-loaded latency: **65.9 ms**
+- upload-loaded latency: **90.8 ms**
+- HTTP probe failures: **0 / 3**
+- provenance: `quick / single / cloudflare-auto`
+- Landscape fullscreen: **PASS**
+- Font scale 1.30 portrait stress test: **PASS**
+- Post-test device settings: **font scale 1.00 / rotation auto**
+- Manual TalkBack traversal: **TO VERIFY**
+- Values above are one-run physical evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.

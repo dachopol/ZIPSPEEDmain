@@ -7,6 +7,29 @@ Package: com.aistudio.zipspeed.zskt
 Version: 80.0.0
 versionCode: 80
 
+## v80 current-build QA refresh — Xiaomi 2410CRP4CG
+
+- Exact current runtime APK: CI #195 debug artifact, SHA-256 `EFA656423DB76C62A4A780960ED30E4A927188C40E13248300DBC2A1F5D5164A`.
+- Pre-upgrade Xiaomi v79 APK + app data were backed up before replacement.
+- Backup v79 APK SHA-256: `5D438C97F338BD88DD31F4493CFD37D6C84C2DA95992C16C725CD7B4B2BA0045`.
+- Backup v79 app-data tar SHA-256: `AA0A3D89181C668C7F68BA3CD517EB241D8F136CF6095AC3955C17FAA8FD0147`.
+- In-place update v79 → v80 was rejected by Android with `INSTALL_FAILED_UPDATE_INCOMPATIBLE` because the CI debug signatures differed. No data-destructive retry was attempted until a rollback backup existed and the device was unlocked.
+- Clean-installed exact v80 build: **v80.0.0 / versionCode 80 / targetSdk 36**.
+- Installed tablet APK hash after install: **exact match** to CI #195.
+- Portrait fullscreen 2136×3200: **PASS**. Seven tabs, gauge/GO, and Download / Upload / Ping / Jitter 2×2 main metrics are readable with no observed overlap/horizontal overflow.
+- Quick + Single Wi-Fi GO → STOP → GO: **PASS**.
+- Persisted result timestamp: `2026-09-26T22:22:26.268Z`.
+- Download: **63.01 Mbps**; Upload: **22.37 Mbps**; Ping: **113.5 ms**; Jitter: **33.85 ms**.
+- Download-loaded latency: **65.9 ms**; Upload-loaded latency: **90.8 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `quick / single / cloudflare-auto`.
+- Running screenshot physically shows measured Download and Ping/Jitter on the main screen with STOP state; completion screenshot returns to GO and shows measured Upload without overlap.
+- Landscape fullscreen 3200×2136: **PASS**. Seven tabs, gauge/GO and 2×2 main metrics remain readable with no observed overflow.
+- Enlarged system font **1.30** portrait stress test: **PASS**. Main tabs, gauge/GO, 2×2 metrics and detail cards remain readable without observed overflow.
+- Device settings were restored after QA: **font scale 1.00 + rotation auto/free**.
+- Manual TalkBack traversal remains **TO VERIFY**.
+- Measured values above are one-run evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+
 ## v80 gauge realism + main metrics — physical PASS
 
 - Runtime/source commit: `b793bfa4e3be5e1cc411a05d24b775471b5439ca`.
@@ -24,8 +47,10 @@ versionCode: 80
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `82236b68e16b7ecac4bbd837e3268f70b0fc1e52`
-GitHub Actions: **CI #188 — PASS 10/10**
+Validated runtime/source commit: `b793bfa4e3be5e1cc411a05d24b775471b5439ca`
+Runtime CI: **#195 — PASS 10/10**
+Current main documentation/checkpoint commit before this update: `fea304e6c10526d0e7888b7fccc5038e15480063`
+Current-main CI before this update: **#196 — PASS 10/10**
 
 Passed gates:
 - web-check
