@@ -9,8 +9,8 @@ versionCode: 80
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `c05c9c51df801492f8858fc4ccf2c7aa118a0e83`
-GitHub Actions: **CI #185 — PASS 10/10**
+Validated runtime/source commit: `82236b68e16b7ecac4bbd837e3268f70b0fc1e52`
+GitHub Actions: **CI #188 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -230,6 +230,11 @@ The measured numbers above are evidence from individual real runs only. They are
 - **PASS (source classification):** current Data Safety preparation maps IP-derived/reported country to Google Play **Approximate location**, purpose **App functionality**.
 - **PASS (conservative sharing classification):** prepared as collected + shared with Cloudflare because current source proves direct transfer to an external provider and does not prove a service-provider exception.
 - **TO VERIFY:** actual Play Console entry, preview, save/submission, and any older active Play artifacts that could broaden the global Data Safety declaration.
+- Exact CI #188 debug APK SHA-256: `8B061315CA07CEBED4C8B6B14B0BDB1CD5FD915C3B453A0080CAF0192C57C7BE`.
+- Exact APK inspection: `assets/privacy.html` contains **version 80.0.0**, contains no `version 72.0.0`, and includes approximate-location wording.
+- RMX3241 exact CI #188 APK clean install + cold foreground launch: **PASS**; prior installed v80 APK/app-data were backed up first because debug signatures differed.
+- Fresh-clone stale active marker scan after the privacy alignment: **PASS — 0 matching stale markers**.
+- Local fresh-clone `npm run check`: **PASS** (13/13 tests + static build); `npm run runtime:check`: **PASS**.
 
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/

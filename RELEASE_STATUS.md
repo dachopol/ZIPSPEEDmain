@@ -28,10 +28,11 @@
 - Release-source evidence: PASS in CI
 - Play-source evidence: PASS in CI
 - Android emulator runtime: PASS
+- Exact bundled privacy v80 alignment: **PASS — CI #188 APK contains v80 policy, no v72 marker; RMX3241 cold launch PASS**
 - v78 browser idle-gauge placeholder + live-value overlap regression: **PASS**
 - v78 physical idle/live gauge readability: **PASS on RMX3241 / 1080×2400**
 - v78 physical Quick + Single Wi-Fi runtime: **PASS with persisted real-data History/provenance**
-- v80 main CI #187: **PASS 10/10**, including tab discoverability regression at 320 px
+- v80 current source CI #188: **PASS 10/10**, including privacy/Data Safety alignment and tab discoverability regression
 - v80 physical UI: **PASS on RMX3241 / 1080×2400 — right/left tab cues and Ad-free active-tab auto-centering verified**
 - v79 physical home UI: **PASS on RMX3241 / 1080×2400 — sharper gauge/GO depth**
 - v80 physical Quick + Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**

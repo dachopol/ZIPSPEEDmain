@@ -4,8 +4,8 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "80.0.0",
   "version_code": 80,
-  "validated_source_commit": "c05c9c51df801492f8858fc4ccf2c7aa118a0e83",
-  "validated_ci_run": 185,
+  "validated_source_commit": "82236b68e16b7ecac4bbd837e3268f70b0fc1e52",
+  "validated_ci_run": 188,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -27,7 +27,7 @@
     "exact Canva raster export bytes for pixel-identical icon/splash replacement",
     "actual Play Console Data Safety entry/review/submission and check for older active Play artifacts"
   ],
-  "next": "Run CI for the v80 privacy/Data Safety alignment, then verify bundled privacy on a current build. Remaining external blockers: real signing material, actual 5G service, Xiaomi enlarged-font capture when reconnected/unlocked, Play Console entry/submission, exact Canva raster bytes, or authorized TURN/video/regional measurement infrastructure.",
+  "next": "Remaining external blockers: real release signing material/Play upload, actual 5G service, Xiaomi enlarged-font capture when reconnected/unlocked, actual Play Console Data Safety entry/submission, exact Canva raster bytes, or authorized TURN/video/regional measurement infrastructure.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -62,5 +62,9 @@
   "duplicate_tracked_blob_scan": "PASS_ZERO_EXACT_DUPLICATE_BLOB_GROUPS",
   "data_safety_source_classification": "PASS_V80_APPROXIMATE_LOCATION_IP_DERIVED_APP_FUNCTIONALITY_COLLECTED_AND_CONSERVATIVELY_SHARED_CLOUDFLARE",
   "privacy_bundled_version": "80.0.0",
-  "privacy_stale_cleanup": "FIX_WEB_PRIVACY_AND_ROOT_POLICY_V72_TO_V80"
+  "privacy_stale_cleanup": "FIX_WEB_PRIVACY_AND_ROOT_POLICY_V72_TO_V80",
+  "exact_ci188_apk_sha256": "8B061315CA07CEBED4C8B6B14B0BDB1CD5FD915C3B453A0080CAF0192C57C7BE",
+  "physical_v80_privacy_bundle": "PASS_RMX3241_EXACT_CI188_COLD_LAUNCH_APK_ASSET_PRIVACY_V80_NO_V72",
+  "stale_active_marker_scan": "PASS_ZERO_MATCHES_AFTER_V80_PRIVACY_ALIGNMENT",
+  "local_source_check": "PASS_NPM_CHECK_13_OF_13_BUILD_RUNTIME_CHECK"
 }
