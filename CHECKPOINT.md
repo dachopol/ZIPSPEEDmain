@@ -10,7 +10,7 @@ versionCode: 79
 ## Latest validated runtime/source
 
 Validated runtime/source commit: `1e2517266121d498b4556969ec00be8617812175`
-GitHub Actions: **CI #178 — PASS 10/10**
+GitHub Actions: **CI #180 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -50,6 +50,7 @@ Passed gates:
 - Xiaomi Download-loaded latency: **113.6 ms**; Upload-loaded latency: **131.9 ms**; HTTP probe failures: **0 / 3**.
 - Xiaomi provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
 - These Xiaomi values are evidence from one real run only, not a performance, ISP-quality, or benchmark-accuracy claim.
+- Xiaomi landscape configuration reached **3200×2136 / fullscreen**, but the first screenshot was black because the device had entered sleep; after wake the secure keyguard was locked. **TO VERIFY:** unlocked landscape screenshot before claiming landscape visual PASS.
 
 ## v78 gauge UI / motion refinement — physical PASS
 
