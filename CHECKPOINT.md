@@ -24,6 +24,22 @@ Passed gates:
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
 
+## v77 physical Wi-Fi runtime — RMX3241
+
+- Installed build: **v77.0.0 / versionCode 77 / targetSdk 36**.
+- Android network: **Wi-Fi / INTERNET / VALIDATED**.
+- Quick + Single entered STOP state during measurement.
+- A different foreground app appeared after the run, so completion was verified from Zipspeed debug WebView localStorage rather than inferred from the screenshot.
+- Persisted result timestamp: `2026-09-26T02:25:18.668Z`.
+- Download: **17.15 Mbps**.
+- Upload: **11.26 Mbps**.
+- Idle latency: **89.2 ms**.
+- Download-loaded latency: **100.8 ms**.
+- Upload-loaded latency: **138.5 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
+- Status: **PASS**. Values are evidence from one real run only, not a performance/ISP-quality claim.
+
 ## v77 release signing readiness
 
 - Source commit: `a769b7ac5b5d8101b1a0a3cb17fbc0aafbb72fc0`.

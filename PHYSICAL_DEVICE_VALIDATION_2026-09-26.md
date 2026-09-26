@@ -179,3 +179,23 @@ The measured values are evidence from one real run only and are not an ISP-quali
 - Clean v76 installation attempt returned `INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`.
 - No attempt was made to bypass the device restriction.
 - Status: **TO VERIFY after user-approved installation**.
+
+
+## v77 Quick + Single Wi-Fi — RMX3241
+
+- Build: **v77.0.0 / versionCode 77 / targetSdk 36**
+- Network: **Wi-Fi / INTERNET / VALIDATED**
+- GO → STOP: PASS
+- Completion verification: persisted Zipspeed WebView History/provenance
+- timestamp: `2026-09-26T02:25:18.668Z`
+- download: 17.15 Mbps
+- upload: 11.26 Mbps
+- idle latency: 89.2 ms
+- download-loaded latency: 100.8 ms
+- upload-loaded latency: 138.5 ms
+- HTTP probe failures: 0 / 3
+- provenance: `quick / single / cloudflare-auto`
+
+The foreground switched to another app after the run; no completion claim is based on that screenshot. The PASS is based on Zipspeed's persisted completed-result record.
+
+The measured values are one-run evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.

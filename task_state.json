@@ -9,7 +9,7 @@
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
-  "physical_quick_single": "PASS_V76_RMX3241_WIFI_AND_V73_XIAOMI_4G_REAL_NETWORK_HISTORY",
+  "physical_quick_single": "PASS_V77_RMX3241_WIFI_AND_V73_XIAOMI_4G_REAL_NETWORK_HISTORY",
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "TO_VERIFY_TALKBACK_AND_ENLARGED_FONT",
@@ -28,7 +28,7 @@
     "final Play Data Safety classification for IP-derived country and Cloudflare processing",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement"
   ],
-  "next": "Continue with real signing material/certificate verification, 5G runtime, user-approved Xiaomi 2410CRP4CG tablet install, manual accessibility evidence, Play Console access, exact Canva raster bytes, or external measurement infrastructure.",
+  "next": "Continue with real signing material/certificate verification, 5G runtime, user-approved Xiaomi 2410CRP4CG tablet install, manual accessibility evidence, Play Console access, exact Canva raster bytes, or external packet-loss/video/server infrastructure.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v74_go_real_network": "TO_VERIFY_ADB_TOUCH_MAPPED_TO_SYSTEM_GESTURE",
@@ -41,5 +41,7 @@
   "signed_play_uploadable_aab": "TO_VERIFY_REAL_KEY_CERTIFICATE",
   "physical_5g_capability": "RMX3241_NR_AVAILABLE_ENDC_AVAILABLE",
   "physical_5g_runtime": "TO_VERIFY_CURRENT_CELLULAR_LTE",
-  "tablet_oem_candidate": "XIAOMI_2410CRP4CG_ANDROID16_2136x3200_WIFI_INSTALL_USER_RESTRICTED"
+  "tablet_oem_candidate": "XIAOMI_2410CRP4CG_ANDROID16_2136x3200_WIFI_INSTALL_USER_RESTRICTED",
+  "physical_v77_home_ui": "PASS_RMX3241_1080x2400",
+  "physical_v77_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY"
 }
