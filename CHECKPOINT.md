@@ -10,7 +10,7 @@ versionCode: 79
 ## Latest validated runtime/source
 
 Validated runtime/source commit: `1e2517266121d498b4556969ec00be8617812175`
-GitHub Actions: **CI #181 — PASS 10/10**
+GitHub Actions: **CI #182 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -94,12 +94,14 @@ Passed gates:
 - `:app:bundleRelease` still compiles successfully for source verification.
 - Release/source gate checks tracked Git files and rejects JKS/keystore/P12/signing-property material.
 - **TO VERIFY:** actual keystore, upload certificate / Play App Signing match, signed AAB, and Play upload.
+- Development-PC recheck: all four required signing environment variables are **unconfigured** and the configured keystore-file check is **false**. No key/password was guessed or created.
 
 ## v77 5G / OEM coverage evidence
 
 - RMX3241 telephony reports `isNrAvailable=true` and `isEnDcAvailable=true`, so the connected network/device exposes 5G NSA capability.
 - When Wi-Fi was disabled for runtime verification, the active data radio remained **LTE**, not NR/5G. Wi-Fi was restored afterward.
 - Result: **5G capability observed / 5G runtime TO VERIFY**.
+- Latest physical recheck with Wi-Fi temporarily disabled again reported active **LTE** data radio while `isNrAvailable=true` / `isEnDcAvailable=true`; Wi-Fi was restored afterward. No 5G runtime PASS is claimed.
 - Xiaomi `2410CRP4CG`: Android 16 / API 36 / 2136×3200 / validated Wi-Fi detected.
 - Zipspeed v76 clean install attempt on that device returned `INSTALL_FAILED_USER_RESTRICTED`; no bypass was attempted and no physical tablet PASS is claimed.
 
@@ -191,7 +193,9 @@ The measured numbers above are evidence from individual real runs only. They are
 - Latency graph uses `role="img"` + accessible label.
 - Tabs and text controls use minimum 44 px touch height; selects are at least 46 px; primary secondary action is at least 54 px.
 - `:focus-visible` and `prefers-reduced-motion: reduce` are implemented.
-- **TO VERIFY:** TalkBack/manual screen-reader traversal and enlarged system font beyond the current physical 1.15 setting. Android shell cannot change WRITE_SETTINGS on the connected device, so no fake PASS is recorded.
+- **TO VERIFY:** TalkBack/manual screen-reader traversal and enlarged-font visual stress test.
+- RMX3241 current font scale is **1.15**; shell attempt to set 1.30 was rejected by `android.permission.WRITE_SETTINGS`, and the value remained 1.15.
+- Xiaomi 2410CRP4CG shell accepted temporary font scale **1.30**, but the capture occurred after the device slept/locked, so no visual PASS is claimed; font scale was restored to **1.00** immediately.
 
 ## Privacy
 
@@ -215,7 +219,7 @@ The measured numbers above are evidence from individual real runs only. They are
 - **TO VERIFY:** Physical Android **5G**, manual TalkBack/accessibility traversal, enlarged-font stress test, and broader OEM/WebView coverage.
 - **TO VERIFY:** Release signing and actual Google Play upload require signing material and Play Console access.
 - **TO VERIFY:** Final Play Data Safety selections for IP-derived country and Cloudflare processing.
-- **TO VERIFY:** Exact Canva raster bytes for pixel-identical launcher/splash replacement.
+- **GAP:** Exact Canva raster bytes for pixel-identical launcher/splash replacement. Canva contains the approved icon/splash designs and reports square icon pages plus a **1080×1920** splash, but the connected Canva workflow exposes previews/metadata only and no export bytes. Current Android launcher/splash remain the source-controlled vector fallback; no thumbnail was substituted.
 
 Status: **HARD_BLOCKED_AFTER_SOURCE_GATES**
 Next task: continue only with 5G/accessibility evidence, external measurement/media infrastructure, Play/signing access, exact Canva raster bytes, or a newly reproduced defect.
