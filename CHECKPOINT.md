@@ -226,10 +226,15 @@ The measured numbers above are evidence from individual real runs only. They are
 
 ## Privacy
 
+- **FIX:** bundled `web/privacy.html` and root `PRIVACY_POLICY.md` stale v72 markers were aligned to **v80.0.0**.
+- **PASS (source classification):** current Data Safety preparation maps IP-derived/reported country to Google Play **Approximate location**, purpose **App functionality**.
+- **PASS (conservative sharing classification):** prepared as collected + shared with Cloudflare because current source proves direct transfer to an external provider and does not prove a service-provider exception.
+- **TO VERIFY:** actual Play Console entry, preview, save/submission, and any older active Play artifacts that could broaden the global Data Safety declaration.
+
 - Canonical public policy repo: `dachopol/privacy-policy`.
 - Public URL: https://dachopol.github.io/privacy-policy/
 - Policy source aligned to **v80.0.0** on 2026-09-26.
-- CI privacy-url-check now requires v79 content.
+- CI privacy-url-check requires current v80 content.
 - Play Console field entry/submission remains TO VERIFY.
 
 ## Clear-old cleanup
@@ -245,7 +250,7 @@ The measured numbers above are evidence from individual real runs only. They are
 - **GAP:** True multi-region manual selection needs additional authorized measurement endpoints.
 - **TO VERIFY:** Physical Android **5G**, manual TalkBack/accessibility traversal, enlarged-font stress test, and broader OEM/WebView coverage.
 - **TO VERIFY:** Release signing and actual Google Play upload require signing material and Play Console access.
-- **TO VERIFY:** Final Play Data Safety selections for IP-derived country and Cloudflare processing.
+- **TO VERIFY:** Actual Play Console Data Safety entry/review/submission using the v80 source-grounded preparation.
 - **GAP:** Exact Canva raster bytes for pixel-identical launcher/splash replacement. Canva contains the approved icon/splash designs and reports square icon pages plus a **1080×1920** splash, but the connected Canva workflow exposes previews/metadata only and no export bytes. Current Android launcher/splash remain the source-controlled vector fallback; no thumbnail was substituted.
 
 Status: **HARD_BLOCKED_AFTER_SOURCE_GATES**

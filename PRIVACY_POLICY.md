@@ -1,13 +1,13 @@
 # Privacy Policy — ZIPSPEED by AnakinYoo
 
-Applies to package `com.aistudio.zipspeed.zskt`, version `72.0.0`.
+Applies to package `com.aistudio.zipspeed.zskt`, version `80.0.0`.
 
 This policy mirrors the policy text bundled at `web/privacy.html`.
 
 ## Data used for measurement
 - Download, upload, and HTTP latency probes are sent to enabled endpoints in `web/server-directory.json`; the current endpoint is Cloudflare Network Quality.
 - Network requests inherently disclose the public IP to the destination service.
-- Server-reported trace values (public IP, edge code, country) are displayed as network status. The app does not invent datacenter coordinates.
+- Server-reported trace values (public IP, edge code, country) are displayed as network status. Country is approximate location inferred/reported from network information, not GPS. The app does not invent datacenter coordinates.
 - Missing ISP/ASN or other unverified fields are shown as `--`.
 
 ## Data stored locally
@@ -24,6 +24,7 @@ Result sharing occurs only after user action through the device share/clipboard 
 - No user account system.
 - No Ads SDK.
 - No Billing SDK.
+- No Firebase Analytics SDK.
 - Android permissions: `INTERNET` and `ACCESS_NETWORK_STATE`.
 - No Android camera, microphone, contacts, or location permissions.
 
@@ -43,6 +44,6 @@ Use the public GitHub Issues mechanism for the project: `dachopol/ZIPSPEEDmain`.
 - In-app policy text: PASS
 - Repository policy: PASS
 - Public hosted policy URL deployed: **PASS** — `https://dachopol.github.io/privacy-policy/`
-- Latest GitHub Pages deployment of v72 policy: **PASS** (`a3488acd...`)
+- Public GitHub Pages source currently presents the v80 policy: **PASS** (`dachopol/privacy-policy` main)
 - Public URL entered/saved in Play Console: **TO VERIFY**
 - Play Console Data Safety submission: **TO VERIFY**

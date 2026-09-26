@@ -31,10 +31,10 @@
 - v78 browser idle-gauge placeholder + live-value overlap regression: **PASS**
 - v78 physical idle/live gauge readability: **PASS on RMX3241 / 1080×2400**
 - v78 physical Quick + Single Wi-Fi runtime: **PASS with persisted real-data History/provenance**
-- v80 current source CI #184: **PASS 10/10**, including tab discoverability regression at 320 px
-- v80 physical UI: **TO VERIFY — both connected devices were locked during this pass; no lock bypass was attempted**
+- v80 main CI #187: **PASS 10/10**, including tab discoverability regression at 320 px
+- v80 physical UI: **PASS on RMX3241 / 1080×2400 — right/left tab cues and Ad-free active-tab auto-centering verified**
 - v79 physical home UI: **PASS on RMX3241 / 1080×2400 — sharper gauge/GO depth**
-- v79 physical Quick + Single: **TO VERIFY — ADB tap did not start the test during this inspection**
+- v80 physical Quick + Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**
 - v78 physical Quick + Single Wi-Fi runtime: **PASS retained as prior evidence**
 - v76 browser interaction: **PASS including 320 px secondary-page layout, active-tab visibility, complete TH/EN tabs, and Video threshold hierarchy**
 - v76 physical Video UI: **PASS on RMX3241 / 1080×2400**
@@ -51,7 +51,7 @@
 - Live Play Console state/declarations
 - Successful upload/review/publication
 - Physical Android 5G runtime
-- Xiaomi 2410CRP4CG tablet install/runtime after user restriction is cleared; broader OEM/WebView coverage
+- Broader OEM/WebView coverage beyond the already verified Xiaomi 2410CRP4CG v79 tablet
 - Accessibility on physical device
-- Final Data Safety classification
+- Actual Play Console Data Safety entry/review/submission using the source-grounded v80 preparation
 - Exact Canva raster parity

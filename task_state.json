@@ -24,10 +24,10 @@
     "licensed/owned media endpoint and playback methodology for real video playback measurement",
     "additional authorized regional measurement endpoints",
     "real release signing material/certificate and Play Console access/upload/declarations",
-    "final Play Data Safety classification for IP-derived country and Cloudflare processing",
-    "exact Canva raster export bytes for pixel-identical icon/splash replacement"
+    "exact Canva raster export bytes for pixel-identical icon/splash replacement",
+    "actual Play Console Data Safety entry/review/submission and check for older active Play artifacts"
   ],
-  "next": "Continue only when an external blocker changes: real release signing material, actual 5G service, unlocked Xiaomi for enlarged-font capture, Play Console access, exact Canva raster bytes, or authorized TURN/video/regional measurement infrastructure.",
+  "next": "Run CI for the v80 privacy/Data Safety alignment, then verify bundled privacy on a current build. Remaining external blockers: real signing material, actual 5G service, Xiaomi enlarged-font capture when reconnected/unlocked, Play Console entry/submission, exact Canva raster bytes, or authorized TURN/video/regional measurement infrastructure.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -59,5 +59,8 @@
   "physical_v80_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_HISTORY_2026-09-26T08:42:56.636Z",
   "physical_v80_apk_sha256": "97E8D20F36006AC55F6A6BE962FFE834EF51A773468E097F3B28DE610D0C626A",
   "rule_deduplication": "PASS_PROJECT_RULES_ZIPSPEED_OVERLAY_UNIVERSAL_RULE_SINGLE_MASTER",
-  "duplicate_tracked_blob_scan": "PASS_ZERO_EXACT_DUPLICATE_BLOB_GROUPS"
+  "duplicate_tracked_blob_scan": "PASS_ZERO_EXACT_DUPLICATE_BLOB_GROUPS",
+  "data_safety_source_classification": "PASS_V80_APPROXIMATE_LOCATION_IP_DERIVED_APP_FUNCTIONALITY_COLLECTED_AND_CONSERVATIVELY_SHARED_CLOUDFLARE",
+  "privacy_bundled_version": "80.0.0",
+  "privacy_stale_cleanup": "FIX_WEB_PRIVACY_AND_ROOT_POLICY_V72_TO_V80"
 }

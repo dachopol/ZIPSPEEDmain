@@ -31,7 +31,7 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. CI #184 verifies v80 web/runtime/real-network/Android gates, complete TH/EN tabs, responsive secondary pages, prior idle-gauge regression coverage, and the new narrow-screen tab discoverability cue. v79 remains the latest physical runtime/UI evidence on RMX3241 and Xiaomi 2410CRP4CG; physical v80 visual confirmation is TO VERIFY because the connected devices were locked during this documentation pass.
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #187 passes all 10 gates on main. v80 narrow-screen tab discoverability, active-tab auto-centering, and Quick + Single real-network flow are physically PASS on RMX3241; Xiaomi 2410CRP4CG v79 tablet portrait/landscape and real-network evidence remains retained as prior OEM evidence.
 
 ## Release signing
 Release signing is environment-based and secret-free in Git. See `SIGNING_SETUP.md`. CI verifies the signing contract and unsigned release compilation; a real signed Play-uploadable AAB remains TO VERIFY until the intended keystore/certificate is supplied.

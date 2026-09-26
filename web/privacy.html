@@ -10,14 +10,14 @@
 <main class="app-shell policy-body">
   <header class="topbar"><div><p class="eyebrow">ZIPSPEED</p><h1>Privacy Policy</h1></div><a class="privacy-link" href="./index.html">Back</a></header>
   <article class="empty-card">
-    <p class="policy-meta">Applies to ZIPSPEED by AnakinYoo • package com.aistudio.zipspeed.zskt • version 72.0.0</p>
+    <p class="policy-meta">Applies to ZIPSPEED by AnakinYoo • package com.aistudio.zipspeed.zskt • version 80.0.0</p>
     <h2>ภาษาไทย</h2>
     <p>ZIPSPEED เป็นแอปทดสอบคุณภาพอินเทอร์เน็ตโดยไม่ต้องสร้างบัญชีผู้ใช้ แอปไม่สร้างค่าความเร็ว ตำแหน่ง หรือสถานะเครือข่ายปลอม</p>
     <h2>ข้อมูลที่ใช้ในการทดสอบ</h2>
     <ul>
       <li>แอปส่งคำขอดาวน์โหลด อัปโหลด และ HTTP latency probe ไปยังเซิร์ฟเวอร์ทดสอบที่เปิดใช้งานใน Server Directory ปัจจุบันคือ Cloudflare Network Quality endpoint</li>
       <li>คำขอเครือข่ายย่อมเปิดเผย IP สาธารณะต่อผู้ให้บริการปลายทางตามธรรมชาติของการเชื่อมต่ออินเทอร์เน็ต</li>
-      <li>แอปอ่านข้อมูล trace ที่เซิร์ฟเวอร์รายงาน เช่น IP สาธารณะ รหัส Edge และประเทศ เพื่อแสดงสถานะเครือข่าย โดยไม่สร้างพิกัดศูนย์ข้อมูลขึ้นเอง</li>
+      <li>แอปอ่านข้อมูล trace ที่เซิร์ฟเวอร์รายงาน เช่น IP สาธารณะ รหัส Edge และประเทศ เพื่อแสดงสถานะเครือข่าย ประเทศเป็นข้อมูลตำแหน่งโดยประมาณที่อนุมาน/รายงานจากเครือข่าย ไม่ใช่ GPS และแอปไม่สร้างพิกัดศูนย์ข้อมูลขึ้นเอง</li>
       <li>หากข้อมูล ISP/ASN หรือข้อมูลอื่นไม่มีแหล่งจริง แอปจะแสดง -- แทนการคาดเดา</li>
     </ul>
     <h2>ข้อมูลที่เก็บบนอุปกรณ์</h2>
@@ -39,7 +39,7 @@
     <ul>
       <li>The app sends download, upload, and HTTP latency probes to enabled servers in its Server Directory. The current endpoint is Cloudflare Network Quality.</li>
       <li>Network requests inherently expose the device's public IP address to the destination service.</li>
-      <li>The app reads server-reported trace fields such as public IP, edge code, and country for status display. It does not invent datacenter coordinates.</li>
+      <li>The app reads server-reported trace fields such as public IP, edge code, and country for status display. Country is approximate location inferred/reported from network information, not GPS, and the app does not invent datacenter coordinates.</li>
       <li>If ISP/ASN or another field has no verified source, the app shows -- rather than guessing.</li>
     </ul>
     <h2>Data stored on the device</h2>
