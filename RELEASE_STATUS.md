@@ -26,8 +26,10 @@
 - Release-source evidence: PASS in CI
 - Play-source evidence: PASS in CI
 - Android emulator runtime: PASS
-- v78 browser idle-gauge placeholder regression: **PASS**
-- v78 CI #167: **PASS 10/10**
+- v78 browser idle-gauge placeholder + live-value overlap regression: **PASS**
+- v78 physical idle/live gauge readability: **PASS on RMX3241 / 1080×2400**
+- v78 physical Quick + Single Wi-Fi runtime: **PASS with persisted real-data History/provenance**
+- v78 current HEAD CI #170: **PASS 10/10**
 - v76 browser interaction: **PASS including 320 px secondary-page layout, active-tab visibility, complete TH/EN tabs, and Video threshold hierarchy**
 - v76 physical Video UI: **PASS on RMX3241 / 1080×2400**
 - v77 physical Quick + Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**
@@ -39,7 +41,6 @@
 - Physical Quick Single on 4G/LTE: **PASS with persisted real-data History/provenance**
 
 ## TO VERIFY
-- Physical v78 visual confirmation on a connected device
 - Real signed Play-uploadable AAB + certificate match
 - Live Play Console state/declarations
 - Successful upload/review/publication

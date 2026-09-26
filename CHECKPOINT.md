@@ -9,8 +9,8 @@ versionCode: 78
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `4fe1c32b4accd5de5a9bc0f5df05c6e6ad7f65c2`
-GitHub Actions: **CI #167 — PASS 10/10**
+Validated runtime/source commit: `609f79c839e407673e3e448d52f7544efaae4512`
+GitHub Actions: **CI #170 — PASS 10/10**
 
 Passed gates:
 - web-check
@@ -24,14 +24,21 @@ Passed gates:
 - android-release-compile (`bundleRelease` compile)
 - android-emulator-runtime (API 34 WebView interaction)
 
-## v78 idle-gauge UI refinement
+## v78 gauge UI / motion refinement — physical PASS
 
 - Root cause came from physical v77 evidence: the no-result `--` inherited the large live-speed typography and rendered as two heavy black bars over the gauge hub.
-- v78 keeps `--` as the truthful unknown value but applies a smaller muted placeholder state.
-- `setNeedle()` now removes the placeholder class only when a finite real value exists.
-- Browser regression verifies the initial `--` placeholder class, reduced font size, and muted color.
-- CI #167: **PASS 10/10**.
-- **TO VERIFY:** physical v78 screenshot/runtime. Remote Desktop timed out after the CI artifact was prepared, so no physical v78 PASS is claimed yet.
+- v78 keeps `--` as the truthful unknown value but renders it smaller/muted below the hub, so unknown data remains explicit without obscuring the needle.
+- The current HEAD also adds eased live-value motion and gauge/hub running animation, with `prefers-reduced-motion` respected.
+- Physical RMX3241 screenshot confirms the idle `--` no longer overlaps the hub/needle.
+- Physical live-value screenshot confirms a finite real value renders below the hub without overlap while the needle remains visible.
+- Clean-installed build: **v78.0.0 / versionCode 78 / targetSdk 36**.
+- Quick + Single real-network completion persisted History/provenance: **PASS**.
+- Completed result timestamp: `2026-09-26T05:08:47.818Z`.
+- Download: **11.19 Mbps**; Upload: **4.33 Mbps**; Idle latency: **278.8 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `profile:"quick"`, `connection:"single"`, `serverId:"cloudflare-auto"`.
+- Values are evidence from one real run only, not a performance/ISP-quality claim.
+- Browser regression + CI #170: **PASS 10/10**.
 
 ## v77 physical Wi-Fi runtime — RMX3241
 
@@ -169,7 +176,7 @@ The measured numbers above are evidence from individual real runs only. They are
 ## Clear-old cleanup
 
 - Historical v70 project/data-safety/privacy drafts and the 2026-09-23 competitor snapshots are archived under `docs/archive/`.
-- Root release state is represented by current v77 documents only.
+- Root release state is represented by current v78 documents only.
 - CHANGELOG history remains intentionally retained.
 
 ## Remaining external / real-world blockers
