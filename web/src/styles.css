@@ -252,7 +252,9 @@ button{cursor:pointer}
   box-shadow:0 3px 10px rgba(153,27,27,.25);
   transform-origin:50% 100%;
   transform:translateX(-50%) rotate(-118deg);
-  z-index:3;\n  will-change:transform\n}
+  z-index:3;
+  will-change:transform
+}
 .needle::before{
   content:"";
   position:absolute;
