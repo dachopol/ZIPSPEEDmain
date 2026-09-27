@@ -19,7 +19,7 @@ try{
  const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params}))});
  const evaluate=async expression=>{const out=await send("Runtime.evaluate",{expression,returnByValue:true,awaitPromise:true});if(out.exceptionDetails)throw new Error(out.exceptionDetails.text||"Browser evaluation failed");return out.result?.value};
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
- await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
+ await send("Page.enable");await send("Runtime.enable");await send("Accessibility.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
  await waitEval('document.getElementById("appVersion")?.textContent==="v85.0.0"');
  for(const width of[320,390,768]){
@@ -43,6 +43,10 @@ try{
  if(!gaugeHierarchy)throw new Error("Gauge value/unit/phase hierarchy regressed");
  const primaryMetrics=await evaluate('(()=>{const hero=document.querySelector(".hero-card");return ["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>document.getElementById(id)?.closest(".primary-metrics")&&hero?.contains(document.getElementById(id)))&&document.querySelector("[data-i18n=idleLatency]")?.textContent.includes("Ping")})()');
  if(!primaryMetrics)throw new Error("Primary Download/Upload/Ping/Jitter metrics are not on the main hero");
+ const axThai=await send("Accessibility.getFullAXTree"),axThaiNodes=axThai.nodes||[],axRole=n=>String(n.role?.value??""),axName=n=>String(n.name?.value??"").trim();
+ const axThaiTabs=axThaiNodes.filter(n=>axRole(n)==="tab"&&!n.ignored).map(axName);
+ if(JSON.stringify(axThaiTabs)!==JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"]))throw new Error("Thai accessibility-tree tab names/order invalid: "+JSON.stringify(axThaiTabs));
+ if(!axThaiNodes.some(n=>axRole(n)==="button"&&axName(n)==="GO"&&!n.ignored))throw new Error("GO missing from accessibility tree as named button");
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
  if(shareDisabled!==true)throw new Error("Share must be disabled before result");
  const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
@@ -72,6 +76,10 @@ try{
  await waitEval('document.getElementById("guideTitle")?.textContent==="User guide"',3000);
  const englishGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const ids=[...document.querySelectorAll("[data-guide-section]")].map(x=>x.dataset.guideSection);return ["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"].every(id=>ids.includes(id))&&document.getElementById("guideContent").getAttribute("aria-busy")==="false"})()');
  if(!englishGuide)throw new Error("English user guide incomplete");
+ const axEnglish=await send("Accessibility.getFullAXTree"),axEnglishNodes=axEnglish.nodes||[];
+ const axEnglishTabs=axEnglishNodes.filter(n=>String(n.role?.value??"")==="tab"&&!n.ignored).map(n=>String(n.name?.value??"").trim());
+ if(JSON.stringify(axEnglishTabs)!==JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"]))throw new Error("English accessibility-tree tab names/order invalid: "+JSON.stringify(axEnglishTabs));
+ if(!axEnglishNodes.some(n=>String(n.role?.value??"")==="button"&&String(n.name?.value??"").trim()==="GO"&&!n.ignored))throw new Error("English GO missing from accessibility tree");
  const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
  if(!englishTabs)throw new Error("English tab translations incomplete");
  const englishVideoThreshold=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("Reference ")})()');
@@ -109,7 +117,7 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
