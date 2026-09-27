@@ -1,5 +1,20 @@
 # Changelog
 
+## v84 — 2026-09-27 — APK version integrity + physical UI/runtime proof
+- Fixed a real release-integrity defect discovered while trying to install the exact CI #202 v83 artifact: the APK manifest still reported `versionCode 77` even though Source of Truth was v83.
+- Root cause hardening: Gradle now reads `package.json` through tracked `providers.fileContents` input instead of an untracked configuration-time file read that could reuse stale configuration-cache values.
+- Added a CI `Verify debug APK identity` step that opens the built APK with `aapt` and fails unless package ID, versionCode and versionName exactly match `package.json`.
+- Play/source audit now requires both the tracked Gradle version source and APK identity gate.
+- Bundled in-app privacy version marker was aligned from stale v80 to v84; public privacy policy was aligned to v84 before CI.
+- Local clean Gradle 9.3.1 build produced package `com.aistudio.zipspeed.zskt`, versionCode `84`, versionName `84.0.0`, and bundled `assets/version.json` 84/84.0.0.
+- CI #205 passed all 10 jobs, including the new APK identity verification.
+- Exact CI v84 debug APK was clean-installed on RMX3241 after backing up the installed v82 APK + app data because debug signatures differed.
+- Physical v84 portrait idle/running/completed UI: PASS. GO → STOP → GO is visible; live Download phase and final 2×2 Download / Upload / Ping / Jitter cards remain readable with no observed overlap.
+- One physical result showed Download **13.9 Mbps**, Upload **7.6 Mbps**, Ping **109.4 ms**, Jitter **89.6 ms**. These are single-run validation values only, not performance or ISP-quality claims.
+- No measurement endpoint, algorithm, permission, Ads/Billing dependency, packet-loss claim, or fake-data path was added.
+- Bumped canonical version/versionCode to 84.0.0 / 84.
+
+
 ## v83 — 2026-09-27 — Gauge label spacing + calmer GO depth
 - Refined the gauge phase label after exact v82 emulator evidence showed Speed/Download/Upload copy visually too close to the lower gauge ring.
 - Reduced phase-label size/spacing and tightened GO-button shadow/bloom for a cleaner premium white-clay hierarchy.

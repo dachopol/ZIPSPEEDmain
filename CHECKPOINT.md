@@ -4,8 +4,23 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 83.0.0
-versionCode: 83
+Version: 84.0.0
+versionCode: 84
+
+## v84 APK identity hardening + RMX3241 physical PASS
+
+- Source/runtime commit: `c9af4da4ec26641facf4bced383981e770fb522d`.
+- GitHub Actions CI #205: **PASS 10/10**.
+- CI debug artifact digest: `sha256:3ca13468a1acc66a5f2b1aab1f80851e5563543d7daa8b4755ccdc279e9e45c7`.
+- Defect reproduced from the exact CI #202 v83 artifact: Android reported `versionCode 77`, proving the built APK manifest could lag the canonical package metadata even while source/web gates passed.
+- Fix: Gradle now reads `package.json` through tracked `providers.fileContents(packageJsonFile).asText`; CI additionally runs **Verify debug APK identity** against the built APK using `aapt`.
+- Local clean Gradle 9.3.1 proof: package `com.aistudio.zipspeed.zskt`, versionCode `84`, versionName `84.0.0`, bundled `assets/version.json` = 84/84.0.0.
+- Exact CI v84 APK independently reported package/version **84 / 84.0.0** before installation.
+- RMX3241 pre-upgrade v82 APK + app data were backed up because CI debug signatures differed; clean install of exact CI v84 succeeded.
+- Physical v84 idle UI: **PASS** — premium white/blue hierarchy, truthful `--`, gauge phase, GO and 2×2 primary metrics show no observed overlap at 1080×2400.
+- Physical v84 Quick + Single: **PASS for GO → STOP → GO and visible completed metrics**.
+- Observed one-run values: Download **13.9 Mbps**, Upload **7.6 Mbps**, Ping **109.4 ms**, Jitter **89.6 ms**. Validation evidence only; not a benchmark/ISP-quality claim.
+- No measurement semantics, endpoint, permissions, history schema, Ads/Billing dependency, packet-loss claim or fake-data behavior changed.
 
 ## v83 gauge-label spacing + calmer GO depth — emulator PASS
 
@@ -94,8 +109,8 @@ versionCode: 83
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `7824f0c9a06e5f42a603828b50b060c03507cf8e`
-Runtime CI: **#202 — PASS 10/10**
+Validated runtime/source commit: `c9af4da4ec26641facf4bced383981e770fb522d`
+Runtime CI: **#205 — PASS 10/10**
 Current main documentation/checkpoint commit before this update: `fea304e6c10526d0e7888b7fccc5038e15480063`
 Current-main CI before this update: **#196 — PASS 10/10**
 

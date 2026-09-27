@@ -3,9 +3,10 @@
 ## Current rebuild
 - App: ZIPSPEED by AnakinYoo
 - Package: `com.aistudio.zipspeed.zskt`
-- Version: `83.0.0`
-- versionCode: `83`
+- Version: `84.0.0`
+- versionCode: `84`
 - Active UI/runtime source: `web/` only
+- v84 release-integrity hardening: tracked Gradle package metadata + built-APK package/version verification in CI
 - Native branding: launcher icon + splash resources wired; exact Canva raster export remains TO VERIFY
 - v83 visual refinement: lighter gauge phase label spacing and calmer GO depth while preserving the real-data instrument hierarchy
 - v82 usability refinement: user-visible measurement phases are fully localized for TH/EN instead of mixing Thai UI with raw English phase fragments
@@ -19,6 +20,8 @@
 - Old root UI, `app/applet`, and committed Android web-asset mirrors: removed
 
 ## Gates
+- v84 source CI #205: **PASS 10/10**, including built-APK identity verification
+- v84 physical RMX3241 idle/running/completed UI + Quick Single GO → STOP → GO: **PASS**
 - Source audit: PASS in CI
 - Unit tests: PASS in CI
 - Static build: PASS in CI
@@ -63,5 +66,5 @@
 - Physical Android 5G runtime
 - Broader OEM/WebView coverage beyond the already verified Xiaomi 2410CRP4CG v79 tablet
 - Accessibility on physical device
-- Actual Play Console Data Safety entry/review/submission using the source-grounded v83 preparation
+- Actual Play Console Data Safety entry/review/submission using the source-grounded v84 preparation
 - Exact Canva raster parity

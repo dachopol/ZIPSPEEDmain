@@ -6,8 +6,8 @@ Clean rebuild on the existing Android identity.
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Version: `83.0.0`
-- versionCode: `83`
+- Version: `84.0.0`
+- versionCode: `84`
 - Canonical version source: `package.json`
 
 ## Single-source architecture
@@ -17,7 +17,7 @@ Clean rebuild on the existing Android identity.
 
 ## Branding
 - Android launcher icon and native splash are wired through `app/src/main/res/` and the manifest.
-- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=83` cache revision.
+- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=84` cache revision.
 - Approved Canva references and exact-export status are tracked in `BRAND_ASSETS.md`.
 
 ## Product surface
@@ -31,7 +31,7 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. CI #202 passes all 10 gates on main. v83 keeps the v82 full TH/EN measurement phases, refines the gauge phase-label spacing and reduces GO bloom while preserving the real measurement engine. Physical RMX3241 v83 validation remains TO VERIFY because the device was locked during this pass.
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #205 passes all 10 gates on main. v84 fixes Android artifact version integrity by making Gradle track `package.json` through `providers.fileContents` and by opening the built debug APK in CI to verify package/versionCode/versionName against the canonical package metadata. Exact CI v84 is physically installed on RMX3241 and passes the current premium gauge/GO layout plus Quick + Single GO → STOP → GO runtime.
 
 ## Release signing
 Release signing is environment-based and secret-free in Git. See `SIGNING_SETUP.md`. CI verifies the signing contract and unsigned release compilation; a real signed Play-uploadable AAB remains TO VERIFY until the intended keystore/certificate is supplied.
