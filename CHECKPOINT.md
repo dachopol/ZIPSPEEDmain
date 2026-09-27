@@ -7,6 +7,13 @@ Package: com.aistudio.zipspeed.zskt
 Version: 85.0.0
 versionCode: 85
 
+## v85 privacy alignment cleanup
+
+- Bundled `web/privacy.html`, root `PRIVACY_POLICY.md`, and public policy source are aligned to **v85.0.0**.
+- Bundled/root policy contact path includes the same privacy email already published by the public policy, plus GitHub Issues.
+- IP-derived/reported country remains described as **approximate location**, not GPS.
+- No SDK, permission, endpoint, measurement, retention, or Data Safety behavior changed; this is policy/source consistency cleanup only.
+
 ## v85 multilingual in-app guide + startup readiness — CI PASS
 
 - Guide implementation commit: `e4c41dc28d08804152d16c79780e524aa5a464c5`.

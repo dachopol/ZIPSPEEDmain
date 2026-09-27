@@ -1,6 +1,6 @@
 # Privacy Policy — ZIPSPEED by AnakinYoo
 
-Applies to package `com.aistudio.zipspeed.zskt`, version `80.0.0`.
+Applies to package `com.aistudio.zipspeed.zskt`, version `85.0.0`.
 
 This policy mirrors the policy text bundled at `web/privacy.html`.
 
@@ -38,12 +38,12 @@ History and Monitor logs can be cleared in-app. Clearing app storage or uninstal
 The current measurement endpoint is operated by Cloudflare; its handling of requests is governed by its own policies and terms.
 
 ## Privacy inquiries
-Use the public GitHub Issues mechanism for the project: `dachopol/ZIPSPEEDmain`. Do not submit sensitive personal data in public issues.
+Privacy email: `chenkung12@gmail.com`. Project questions can also use the public GitHub Issues mechanism: `dachopol/ZIPSPEEDmain`. Do not submit sensitive personal data in public issues.
 
 ## Publication status
 - In-app policy text: PASS
 - Repository policy: PASS
 - Public hosted policy URL deployed: **PASS** — `https://dachopol.github.io/privacy-policy/`
-- Public GitHub Pages source currently presents the v80 policy: **PASS** (`dachopol/privacy-policy` main)
+- Public GitHub Pages source currently presents the v85 policy: **PASS** (`dachopol/privacy-policy` main)
 - Public URL entered/saved in Play Console: **TO VERIFY**
 - Play Console Data Safety submission: **TO VERIFY**
