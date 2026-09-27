@@ -13,7 +13,7 @@
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "PARTIAL_PASS_ENLARGED_FONT_1_30_XIAOMI_V80; TALKBACK_TO_VERIFY",
-  "current_task_id": "v85-physical-tablet-5g-talkback-signing-play-canva-infrastructure",
+  "current_task_id": "v85-release-bundle-artifact-then-physical-tablet-5g-talkback-signing-play-canva-infrastructure",
   "status": "HARD_BLOCKED_AFTER_VERIFIED_SOURCE_AND_PHYSICAL_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "privacy_policy_version": "85.0.0",
@@ -27,7 +27,7 @@
     "exact Canva raster export bytes for pixel-identical icon/splash replacement",
     "actual Play Console Data Safety entry/review/submission and check for older active Play artifacts"
   ],
-  "next": "When physical devices reconnect: validate current-v85 guide/layout on Xiaomi tablet and recheck 5G on RMX. Remaining external/manual blockers: TalkBack, real signing/Play upload and Data Safety submission, exact Canva raster bytes, authorized TURN/video/regional endpoints.",
+  "next": "Verify CI uploads unsigned release AAB + SHA-256 + signing status. Then when physical devices reconnect validate current-v85 tablet and recheck 5G. Remaining external/manual blockers: TalkBack, real signing/Play upload and Data Safety submission, exact Canva raster bytes, authorized TURN/video/regional endpoints.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -104,5 +104,6 @@
   "version_metadata_readiness": "PASS_ANDROID_VERSION_EMBEDDED_FROM_PACKAGE_JSON_WEB_DEV_REAL_VERSION_JSON_FALLBACK_CI218",
   "privacy_alignment": "FIX_V85_BUNDLE_ROOT_PUBLIC_CONTACT_AND_VERSION_ALIGNMENT",
   "exact_ci218_apk_sha256": "C68777F24AEEA3BF0732443F22D1029CC72240E1B8123AEF5D51CA9B90C80956",
-  "local_emulator_startup_ci218": "PASS_SPLASH_T0_5_T3_RENDERED_UI_V85_BY_T8_OBSERVED"
+  "local_emulator_startup_ci218": "PASS_SPLASH_T0_5_T3_RENDERED_UI_V85_BY_T8_OBSERVED",
+  "release_bundle_ci_artifact": "PENDING_CI_UPLOAD_UNSIGNED_AAB_SHA256_SIGNING_STATUS_NO_SECRETS"
 }

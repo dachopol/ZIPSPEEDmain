@@ -37,6 +37,7 @@
 - Real-network endpoint smoke: PASS on main
 - Android lint/debug build: PASS in CI
 - Android release bundle compile: PASS in CI
+- Release bundle CI artifact: **PENDING — upload unsigned AAB + SHA-256 + signing status, no secrets**
 - Release signing source contract: **PASS — env-based, partial config fails, secrets ignored/not tracked**
 - CI signing status without real key: **UNCONFIGURED**
 - Release-source evidence: PASS in CI
