@@ -21,7 +21,7 @@ try{
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
- await waitEval('document.getElementById("appVersion")?.textContent==="v84.0.0"');
+ await waitEval('document.getElementById("appVersion")?.textContent==="v85.0.0"');
  for(const width of[320,390,768]){
    await send("Emulation.setDeviceMetricsOverride",{width,height:844,deviceScaleFactor:1,mobile:width<600});
    await sleep(120);
@@ -37,6 +37,8 @@ try{
  if(goInitial!=="GO")throw new Error("GO initial state invalid");
  const idlePlaceholder=await evaluate('(()=>{const e=document.getElementById("liveValue"),s=getComputedStyle(e);return e?.textContent==="--"&&e.classList.contains("placeholder")&&parseFloat(s.fontSize)<48&&s.color!=="rgb(11, 18, 32)"})()');
  if(!idlePlaceholder)throw new Error("Idle gauge placeholder styling regressed");
+ const premiumDensity=await evaluate('(()=>{const go=document.getElementById("goButton"),hero=document.querySelector(".hero-card"),gauge=document.querySelector(".gauge");const gs=getComputedStyle(go),hs=getComputedStyle(hero),ss=getComputedStyle(gauge);return parseFloat(gs.width)<=84&&parseFloat(gs.width)>=82&&parseFloat(hs.minHeight)<=500&&parseFloat(ss.maxWidth||"999")>=0})()');
+ if(!premiumDensity)throw new Error("Premium compactness regression");
  const gaugeHierarchy=await evaluate('(()=>{const unit=document.querySelector(".gauge-unit"),label=document.getElementById("gaugeMetricLabel");return unit?.textContent.trim()==="Mbps"&&!!label&&parseFloat(getComputedStyle(unit).fontSize)<parseFloat(getComputedStyle(document.getElementById("liveValue")).fontSize)&&parseFloat(getComputedStyle(label).fontSize)<24})()');
  if(!gaugeHierarchy)throw new Error("Gauge value/unit/phase hierarchy regressed");
  const primaryMetrics=await evaluate('(()=>{const hero=document.querySelector(".hero-card");return ["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>document.getElementById(id)?.closest(".primary-metrics")&&hero?.contains(document.getElementById(id)))&&document.querySelector("[data-i18n=idleLatency]")?.textContent.includes("Ping")})()');
@@ -101,7 +103,7 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
