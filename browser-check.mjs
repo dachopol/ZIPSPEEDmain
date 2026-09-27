@@ -37,7 +37,7 @@ try{
  if(goInitial!=="GO")throw new Error("GO initial state invalid");
  const idlePlaceholder=await evaluate('(()=>{const e=document.getElementById("liveValue"),s=getComputedStyle(e);return e?.textContent==="--"&&e.classList.contains("placeholder")&&parseFloat(s.fontSize)<48&&s.color!=="rgb(11, 18, 32)"})()');
  if(!idlePlaceholder)throw new Error("Idle gauge placeholder styling regressed");
- const premiumDensity=await evaluate('(()=>{const go=document.getElementById("goButton"),hero=document.querySelector(".hero-card"),gauge=document.querySelector(".gauge");const gs=getComputedStyle(go),hs=getComputedStyle(hero),ss=getComputedStyle(gauge);return parseFloat(gs.width)<=84&&parseFloat(gs.width)>=82&&parseFloat(hs.minHeight)<=500&&parseFloat(ss.maxWidth||"999")>=0})()');
+ const premiumDensity=await evaluate('(()=>{const go=document.getElementById("goButton"),hero=document.querySelector(".hero-card"),gauge=document.querySelector(".gauge");const gr=go?.getBoundingClientRect(),hr=getComputedStyle(hero),gg=gauge?.getBoundingClientRect();return !!gr&&!!gg&&gr.width>=82&&gr.width<=85&&parseFloat(hr.minHeight)<=500&&gg.width<=277})()');
  if(!premiumDensity)throw new Error("Premium compactness regression");
  const gaugeHierarchy=await evaluate('(()=>{const unit=document.querySelector(".gauge-unit"),label=document.getElementById("gaugeMetricLabel");return unit?.textContent.trim()==="Mbps"&&!!label&&parseFloat(getComputedStyle(unit).fontSize)<parseFloat(getComputedStyle(document.getElementById("liveValue")).fontSize)&&parseFloat(getComputedStyle(label).fontSize)<24})()');
  if(!gaugeHierarchy)throw new Error("Gauge value/unit/phase hierarchy regressed");
