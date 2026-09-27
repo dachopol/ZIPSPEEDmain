@@ -71,9 +71,19 @@ public class MainActivityInstrumentedTest {
             WebView webView = webViewRef.get();
             assertNotNull(activity);
             assertNotNull(webView);
+            View startupSplash = activity.findViewById(R.id.startup_splash);
+            assertNotNull(startupSplash);
 
             waitTrue(activity, webView, "document.readyState==='complete'", 10000);
             waitTrue(activity, webView, "document.getElementById('appVersion')?.textContent==='v85.0.0'", 10000);
+            CountDownLatch splashLatch = new CountDownLatch(1);
+            AtomicReference<Integer> splashVisibility = new AtomicReference<>();
+            activity.runOnUiThread(() -> {
+                splashVisibility.set(startupSplash.getVisibility());
+                splashLatch.countDown();
+            });
+            assertTrue("Splash visibility read timed out", splashLatch.await(2, TimeUnit.SECONDS));
+            assertEquals(View.GONE, splashVisibility.get().intValue());
             assertEquals("\"GO\"", eval(activity, webView, "document.getElementById(\'goButton\').textContent"));
             assertEquals("true", eval(activity, webView, "document.getElementById('shareButton').disabled"));
 
@@ -82,10 +92,23 @@ public class MainActivityInstrumentedTest {
                     "return document.getElementById('settings').classList.contains('active')&&" +
                     "document.querySelector('[data-tab=settings]').getAttribute('aria-selected')==='true'})()"));
 
+            eval(activity, webView,
+                    "(()=>{const e=document.getElementById('languageSetting');e.value='th';" +
+                    "e.dispatchEvent(new Event('change',{bubbles:true}));return true})()");
+            waitTrue(activity, webView, "document.getElementById('guideTitle')?.textContent==='คู่มือการใช้งาน'", 5000);
+            assertEquals("true", eval(activity, webView,
+                    "(()=>{document.getElementById('userGuide').open=true;" +
+                    "const ids=[...document.querySelectorAll('[data-guide-section]')].map(x=>x.dataset.guideSection);" +
+                    "return ['getting-started','main-features','permissions','errors','privacy-security','support','accessibility'].every(id=>ids.includes(id))&&" +
+                    "document.getElementById('guideContent').getAttribute('aria-busy')==='false'})()"));
+
             assertEquals("true", eval(activity, webView,
                     "(()=>{const e=document.getElementById('languageSetting');e.value='en';" +
                     "e.dispatchEvent(new Event('change',{bubbles:true}));" +
                     "return document.querySelector('[data-i18n=testProfile]').textContent==='Test profile'})()"));
+            waitTrue(activity, webView, "document.getElementById('guideTitle')?.textContent==='User guide'", 5000);
+            assertEquals("\"Getting started\"", eval(activity, webView,
+                    "document.querySelector('[data-guide-section=getting-started] h3')?.textContent"));
 
             eval(activity, webView, "document.querySelector('[data-tab=speed]').click();document.getElementById('goButton').click();true");
             waitTrue(activity, webView, "document.getElementById('goButton').textContent==='STOP'", 2500);

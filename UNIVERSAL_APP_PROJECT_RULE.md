@@ -339,6 +339,43 @@ Default:
 - ห้ามแสดง exchange rate เก่าเป็น rate ปัจจุบัน
 - ประเทศ/ภูมิภาค/สกุลเงินต้องมี source of truth เดียว
 
+## UNIVERSAL MULTILINGUAL USER GUIDE RULE
+
+ทุกแอปต้องมี **คู่มือการใช้งานภายในแอป** และถือเป็น release requirement ไม่ใช่เอกสารเสริมภายนอกอย่างเดียว
+
+### i18n / locale
+- ข้อความคู่มือต้องแยกเป็น resource / translation keys หรือ locale resource files; ห้าม hardcode เนื้อหาคู่มือหลายภาษาไว้ใน UI component
+- ภาษาคู่มือต้องเปลี่ยนตามภาษาของแอป/ระบบที่โปรเจกต์ใช้เป็น source of truth
+- ต้องมี **English fallback**
+- การเพิ่ม locale ใหม่ต้องทำได้โดยเพิ่ม resource/translation โดยไม่ต้องแก้ core guide-rendering logic
+- ถ้าภาษานั้นใช้ RTL ต้องรองรับ direction/layout ตาม locale จริง
+
+### Minimum guide coverage
+คู่มือต้องครอบคลุมอย่างน้อย:
+1. เริ่มต้นใช้งาน / Getting started
+2. ฟังก์ชันหลัก
+3. สิทธิ์ / Permissions
+4. ข้อผิดพลาดและวิธีแก้
+5. ความเป็นส่วนตัว / ความปลอดภัย
+6. การติดต่อ / ช่วยเหลือ
+7. Accessibility
+
+### Truth / anti-random
+- อธิบายเฉพาะฟีเจอร์ที่ active source มีจริง
+- ห้ามแต่ง capability, permission, endpoint, payment, Ads/Billing, location, playback, packet loss หรือ support channel ที่ไม่มีจริง
+- Feature ที่ยังเป็น GAP / estimate / derived behavior ต้องอธิบายตาม methodology จริง
+- Unknown / unavailable ต้องคงความหมายเดิม ห้ามแปลให้กลายเป็นข้อเท็จจริง
+
+### Release verification
+ก่อน release ต้องตรวจจาก build ปัจจุบันว่า:
+- คู่มือเปิดได้และอ่านข้อความได้จริง
+- เปลี่ยนภาษาแล้วเนื้อหาคู่มือเปลี่ยนจริง
+- English fallback ใช้งานได้
+- ไม่มี overflow/clip บน small phone / phone / tablet / landscape และ font scaling ที่เกี่ยวข้อง
+- semantic structure / focus / screen-reader labels เหมาะสมกับ framework
+- link/action ที่คู่มืออ้างถึงใช้งานได้จริง หรือระบุเป็นข้อความเฉพาะเมื่อไม่มี action
+- เนื้อหาคู่มือตรงกับ Privacy, Permissions, current features และ release behavior
+
 ## SECURITY / PRIVACY
 - ขอ permission เท่าที่ใช้จริง
 - ลบ permission ที่ไม่ได้ใช้
