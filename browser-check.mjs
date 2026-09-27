@@ -21,7 +21,7 @@ try{
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
- await waitEval('document.getElementById("appVersion")?.textContent==="v82.0.0"');
+ await waitEval('document.getElementById("appVersion")?.textContent==="v83.0.0"');
  for(const width of[320,390,768]){
    await send("Emulation.setDeviceMetricsOverride",{width,height:844,deviceScaleFactor:1,mobile:width<600});
    await sleep(120);
@@ -77,6 +77,8 @@ try{
  const gaugeLabelThai=await evaluate('document.getElementById("gaugeMetricLabel")?.textContent==="ความเร็ว"');
  const gaugeCopyNoOverlap=await evaluate('(()=>{const value=document.getElementById("liveValue")?.getBoundingClientRect(),unit=document.querySelector(".gauge-unit")?.getBoundingClientRect(),label=document.getElementById("gaugeMetricLabel")?.getBoundingClientRect(),go=document.getElementById("goButton")?.getBoundingClientRect();return !!value&&!!unit&&!!label&&!!go&&unit.top>=value.bottom-1&&label.top>=unit.bottom-1&&label.bottom<=go.top+1&&unit.height<28&&label.height<32})()');
  if(!gaugeCopyNoOverlap)throw new Error("Gauge metric label overlaps live value or GO");
+  const compactGaugePhase=await evaluate('(()=>{const e=document.getElementById("gaugeMetricLabel"),s=e&&getComputedStyle(e);return !!s&&parseFloat(s.fontSize)<=13&&parseFloat(s.lineHeight)<=15})()');
+  if(!compactGaugePhase)throw new Error("Gauge phase label is too visually heavy");
  if(!gaugeLabelThai)throw new Error("Thai gauge metric label incomplete");
  if(!thaiTabs)throw new Error("Thai tab translations incomplete");
  const privacyHref=await evaluate('document.querySelector(".privacy-link")?.getAttribute("href")');
@@ -99,7 +101,7 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,primaryMetricsOnHero:true,dampedGauge:true};
+ const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
