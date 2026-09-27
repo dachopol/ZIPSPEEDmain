@@ -1,5 +1,15 @@
 # Changelog
 
+## v81 — 2026-09-27 — Gauge value / unit / phase hierarchy
+- Refined the physical gauge copy from a combined `Speed • Mbps` line into a clearer three-level hierarchy: measured value → `Mbps` unit → Speed / Download / Upload phase.
+- Preserved truthful idle `--`, real-byte live download gauge progress, monotonic motion, GO/STOP behavior, and the Download / Upload / Ping / Jitter 2×2 main metrics.
+- Added browser regression checks so value, unit and phase labels remain vertically ordered and clear of GO.
+- No measurement engine, endpoint, permission, Ads/Billing dependency, packet-loss claim, history schema or fake-data path changed.
+- CI #198 passed all 10 quality jobs on source commit `af979c11c69c15c95508309a89079f715d0c1e99`.
+- RMX3241 clean-installed exact CI #198 debug build: **PASS** for idle UI, GO → STOP → GO and persisted Quick + Single real-network History/provenance.
+- Physical result timestamp `2026-09-27T03:10:57.085Z`: Download **22.39 Mbps**, Upload **9.93 Mbps**, Ping **157.1 ms**, Jitter **68.25 ms**, HTTP probe failures **0/3**.
+- Bumped canonical version/versionCode to 81.0.0 / 81.
+
 ## v80 — 2026-09-26 — Tab discoverability polish
 - Added subtle directional edge cues to the horizontally scrollable main tab strip so users can discover History / Settings / Ad-free on narrow screens without a duplicate menu.
 - Kept active-tab auto-centering and keyboard navigation unchanged.

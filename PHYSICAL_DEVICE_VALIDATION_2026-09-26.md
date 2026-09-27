@@ -299,3 +299,26 @@ The measured values are one-run evidence only and are not an ISP-quality, benchm
 - Post-test device settings: **font scale 1.00 / rotation auto**
 - Manual TalkBack traversal: **TO VERIFY**
 - Values above are one-run physical evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+
+## v81 gauge hierarchy + Quick Single Wi-Fi — RMX3241
+
+- Source commit: `af979c11c69c15c95508309a89079f715d0c1e99`
+- CI: **#198 PASS 10/10**
+- Exact CI debug APK SHA-256: `62BE5AB0C8B4D35ABE5476ACD33EDA2B569FE978DAF9B0716DF2C613CFD02F68`
+- Build: **v81.0.0 / versionCode 81 / targetSdk 36**
+- Display: **1080×2400**
+- v80 rollback backup APK + app data were retained before clean installation because debug signatures differed.
+- Idle gauge visual: **PASS** — `--`, `Mbps`, and the Speed phase label are separated and do not overlap the hub/needle/GO.
+- GO → STOP → GO: **PASS**
+- Persisted History/provenance: **PASS**
+- timestamp: `2026-09-27T03:10:57.085Z`
+- download: **22.39 Mbps**
+- upload: **9.93 Mbps**
+- idle latency: **157.1 ms**
+- idle jitter: **68.25 ms**
+- download-loaded latency: **137.15 ms**
+- upload-loaded latency: **89.75 ms**
+- HTTP probe failures: **0 / 3**
+- provenance: `quick / single / cloudflare-auto`
+- Final physical screenshot shows measured Upload **9.9 Mbps** in the gauge while Download / Upload / Ping / Jitter remain readable.
+- Values above are one-run physical evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.

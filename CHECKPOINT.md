@@ -4,8 +4,25 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 80.0.0
-versionCode: 80
+Version: 81.0.0
+versionCode: 81
+
+## v81 gauge hierarchy + physical runtime — PASS
+
+- Source/runtime commit: `af979c11c69c15c95508309a89079f715d0c1e99`.
+- GitHub Actions CI #198: **PASS 10/10**.
+- Exact CI #198 debug APK SHA-256: `62BE5AB0C8B4D35ABE5476ACD33EDA2B569FE978DAF9B0716DF2C613CFD02F68`.
+- RMX3241 pre-upgrade v80 APK + app data were backed up before clean replacement because CI debug signatures differed.
+- Clean-installed build: **v81.0.0 / versionCode 81 / targetSdk 36**.
+- Physical idle gauge: **PASS**. Unknown `--`, `Mbps` unit and `ความเร็ว` phase are visually separated and do not overlap the needle, hub or GO.
+- Physical Quick + Single GO → STOP → GO: **PASS**.
+- Completed result timestamp: `2026-09-27T03:10:57.085Z`.
+- Download: **22.39 Mbps**; Upload: **9.93 Mbps**; Ping: **157.1 ms**; Jitter: **68.25 ms**.
+- Download-loaded latency: **137.15 ms**; Upload-loaded latency: **89.75 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `quick / single / cloudflare-auto`.
+- Final physical screenshot shows measured Upload **9.9 Mbps** in the gauge with four main metrics readable and no observed overlap.
+- Measured values are one-run validation evidence only, not ISP-quality, benchmark-accuracy or marketing claims.
 
 ## v80 current-build QA refresh — Xiaomi 2410CRP4CG
 
@@ -47,8 +64,8 @@ versionCode: 80
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `b793bfa4e3be5e1cc411a05d24b775471b5439ca`
-Runtime CI: **#195 — PASS 10/10**
+Validated runtime/source commit: `af979c11c69c15c95508309a89079f715d0c1e99`
+Runtime CI: **#198 — PASS 10/10**
 Current main documentation/checkpoint commit before this update: `fea304e6c10526d0e7888b7fccc5038e15480063`
 Current-main CI before this update: **#196 — PASS 10/10**
 
