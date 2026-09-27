@@ -59,9 +59,7 @@ public class MainActivity extends Activity {
                 return !("https".equals(uri.getScheme()) && APP_ORIGIN.equals(uri.getHost()));
             }
 
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
+            private void hideStartupSplashIfAppPage(String url) {
                 Uri uri = Uri.parse(url);
                 if ("https".equals(uri.getScheme())
                         && APP_ORIGIN.equals(uri.getHost())
@@ -69,6 +67,18 @@ public class MainActivity extends Activity {
                         && startupSplash != null) {
                     startupSplash.setVisibility(View.GONE);
                 }
+            }
+
+            @Override
+            public void onPageCommitVisible(WebView view, String url) {
+                super.onPageCommitVisible(view, url);
+                hideStartupSplashIfAppPage(url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                hideStartupSplashIfAppPage(url);
             }
 
             @Override
