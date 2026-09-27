@@ -322,3 +322,26 @@ The measured values are one-run evidence only and are not an ISP-quality, benchm
 - provenance: `quick / single / cloudflare-auto`
 - Final physical screenshot shows measured Upload **9.9 Mbps** in the gauge while Download / Upload / Ping / Jitter remain readable.
 - Values above are one-run physical evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.
+
+## v82 localized measurement phases + Quick Single Wi-Fi — RMX3241
+
+- Source commit: `5c20de07458a00007262c1c3998ff63b7c6bfbcf`
+- CI: **#200 PASS 10/10**
+- Exact CI debug APK SHA-256: `FA52AF171C5D952296FA7225558E73FB0D03E799F03C70BF4ACBDB7F4152F805`
+- Build: **v82.0.0 / versionCode 82 / targetSdk 36**
+- Display: **1080×2400**
+- v81 rollback APK + app data were retained before clean installation because debug signatures differed.
+- Thai running phase visual: **PASS** — observed `กำลังวัด • ดาวน์โหลด + ค่าหน่วงขณะโหลด`; no raw English `download + loaded latency` remained.
+- GO → STOP: **PASS**
+- Persisted History/provenance: **PASS**
+- timestamp: `2026-09-27T03:23:45.549Z`
+- download: **17.86 Mbps**
+- upload: **11.95 Mbps**
+- idle latency: **69.5 ms**
+- idle jitter: **3.55 ms**
+- download-loaded latency: **178.7 ms**
+- upload-loaded latency: **137.1 ms**
+- HTTP probe failures: **0 / 3**
+- provenance: `quick / single / cloudflare-auto`
+- A different app became foreground later, so final completion is evidenced by persisted Zipspeed data rather than the unrelated later screenshot.
+- Values above are one-run physical evidence only and are not an ISP-quality, benchmark-accuracy, or marketing claim.

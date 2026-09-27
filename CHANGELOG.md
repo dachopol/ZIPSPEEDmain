@@ -1,5 +1,15 @@
 # Changelog
 
+## v82 — 2026-09-27 — Full TH/EN measurement phase localization
+- Replaced raw English measurement-phase fragments with localized TH/EN strings for server directory, server health, metadata, idle latency, download/upload loaded-latency phases, stage labels and timeout.
+- Preserved v81 gauge value/unit/phase hierarchy, real-byte live gauge progress, monotonic motion, GO/STOP behavior and 2×2 primary metrics.
+- Added audit guards that fail if raw English phase calls such as `download + loaded latency` or `server health` are reintroduced.
+- No measurement engine, endpoint, permission, Ads/Billing dependency, history schema, packet-loss claim or fake-data behavior changed.
+- CI #200 passed all 10 quality jobs on source commit `5c20de07458a00007262c1c3998ff63b7c6bfbcf`.
+- RMX3241 clean-installed exact CI #200 debug build: **PASS** for Thai running-phase UI and Quick + Single real-network completion.
+- Persisted result timestamp `2026-09-27T03:23:45.549Z`: Download **17.86 Mbps**, Upload **11.95 Mbps**, Ping **69.5 ms**, Jitter **3.55 ms**, HTTP probe failures **0/3**.
+- Bumped canonical version/versionCode to 82.0.0 / 82.
+
 ## v81 — 2026-09-27 — Gauge value / unit / phase hierarchy
 - Refined the physical gauge copy from a combined `Speed • Mbps` line into a clearer three-level hierarchy: measured value → `Mbps` unit → Speed / Download / Upload phase.
 - Preserved truthful idle `--`, real-byte live download gauge progress, monotonic motion, GO/STOP behavior, and the Download / Upload / Ping / Jitter 2×2 main metrics.

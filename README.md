@@ -6,8 +6,8 @@ Clean rebuild on the existing Android identity.
 - Repository: `dachopol/ZIPSPEEDmain`
 - Branch: `main`
 - Package/Application ID: `com.aistudio.zipspeed.zskt`
-- Version: `81.0.0`
-- versionCode: `81`
+- Version: `82.0.0`
+- versionCode: `82`
 - Canonical version source: `package.json`
 
 ## Single-source architecture
@@ -17,7 +17,7 @@ Clean rebuild on the existing Android identity.
 
 ## Branding
 - Android launcher icon and native splash are wired through `app/src/main/res/` and the manifest.
-- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=81` cache revision.
+- Web uses `web/assets/zipspeed-mark.svg` with deterministic `?v=82` cache revision.
 - Approved Canva references and exact-export status are tracked in `BRAND_ASSETS.md`.
 
 ## Product surface
@@ -31,7 +31,7 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. CI #198 passes all 10 gates on main. v81 refines the gauge value/unit/phase hierarchy and is physically PASS on RMX3241 with Quick + Single real-network completion; prior v80 phone/tablet responsive evidence remains retained.
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #200 passes all 10 gates on main. v82 keeps the v81 gauge hierarchy and fully localizes user-visible measurement phases for TH/EN; physical RMX3241 Quick + Single runtime remains PASS.
 
 ## Release signing
 Release signing is environment-based and secret-free in Git. See `SIGNING_SETUP.md`. CI verifies the signing contract and unsigned release compilation; a real signed Play-uploadable AAB remains TO VERIFY until the intended keystore/certificate is supplied.

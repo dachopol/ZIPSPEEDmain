@@ -3,10 +3,11 @@
 ## Current rebuild
 - App: ZIPSPEED by AnakinYoo
 - Package: `com.aistudio.zipspeed.zskt`
-- Version: `81.0.0`
-- versionCode: `81`
+- Version: `82.0.0`
+- versionCode: `82`
 - Active UI/runtime source: `web/` only
 - Native branding: launcher icon + splash resources wired; exact Canva raster export remains TO VERIFY
+- v82 usability refinement: user-visible measurement phases are fully localized for TH/EN instead of mixing Thai UI with raw English phase fragments
 - v81 visual refinement: gauge now separates measured value, Mbps unit and Speed/Download/Upload phase for clearer instrument hierarchy
 - v80 usability refinement: narrow-screen tab strip now gives subtle left/right scroll discoverability cues without adding duplicate navigation
 - v79 visual refinement: reduced excessive blue bloom around gauge/GO for sharper premium white-clay depth
@@ -29,6 +30,8 @@
 - Release-source evidence: PASS in CI
 - Play-source evidence: PASS in CI
 - Android emulator runtime: PASS
+- v82 source CI #200: **PASS 10/10**, including localized-phase audit plus emulator/runtime gates
+- v82 physical Thai running-phase + Quick Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**
 - v81 source CI #198: **PASS 10/10**, including gauge hierarchy browser regression and emulator runtime
 - v81 physical gauge hierarchy + Quick Single Wi-Fi runtime: **PASS on RMX3241 with persisted real-data History/provenance**
 - Exact bundled privacy v80 alignment: **PASS — CI #188 APK contains v80 policy, no v72 marker; RMX3241 cold launch PASS**
@@ -57,5 +60,5 @@
 - Physical Android 5G runtime
 - Broader OEM/WebView coverage beyond the already verified Xiaomi 2410CRP4CG v79 tablet
 - Accessibility on physical device
-- Actual Play Console Data Safety entry/review/submission using the source-grounded v81 preparation
+- Actual Play Console Data Safety entry/review/submission using the source-grounded v82 preparation
 - Exact Canva raster parity

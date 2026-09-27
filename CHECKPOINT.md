@@ -4,8 +4,25 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 81.0.0
-versionCode: 81
+Version: 82.0.0
+versionCode: 82
+
+## v82 full TH/EN measurement phases — physical PASS
+
+- Source/runtime commit: `5c20de07458a00007262c1c3998ff63b7c6bfbcf`.
+- GitHub Actions CI #200: **PASS 10/10**.
+- Exact CI #200 debug APK SHA-256: `FA52AF171C5D952296FA7225558E73FB0D03E799F03C70BF4ACBDB7F4152F805`.
+- RMX3241 v81 APK + app data were backed up before clean replacement because CI debug signatures differed.
+- Clean-installed build: **v82.0.0 / versionCode 82 / targetSdk 36**.
+- Physical Thai running phase: **PASS**. The observed Download phase renders `กำลังวัด • ดาวน์โหลด + ค่าหน่วงขณะโหลด`; raw `download + loaded latency` is no longer shown.
+- GO → STOP during measurement: **PASS**.
+- Completion verified from persisted WebView History/provenance because a different foreground app appeared later; no completion claim is based on the unrelated screenshot.
+- Completed result timestamp: `2026-09-27T03:23:45.549Z`.
+- Download: **17.86 Mbps**; Upload: **11.95 Mbps**; Ping: **69.5 ms**; Jitter: **3.55 ms**.
+- Download-loaded latency: **178.7 ms**; Upload-loaded latency: **137.1 ms**.
+- HTTP probe failures: **0 / 3**.
+- Provenance: `quick / single / cloudflare-auto`.
+- Measured values are one-run validation evidence only, not ISP-quality, benchmark-accuracy or marketing claims.
 
 ## v81 gauge hierarchy + physical runtime — PASS
 
@@ -64,8 +81,8 @@ versionCode: 81
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `af979c11c69c15c95508309a89079f715d0c1e99`
-Runtime CI: **#198 — PASS 10/10**
+Validated runtime/source commit: `5c20de07458a00007262c1c3998ff63b7c6bfbcf`
+Runtime CI: **#200 — PASS 10/10**
 Current main documentation/checkpoint commit before this update: `fea304e6c10526d0e7888b7fccc5038e15480063`
 Current-main CI before this update: **#196 — PASS 10/10**
 
