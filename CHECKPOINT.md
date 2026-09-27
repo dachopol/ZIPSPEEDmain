@@ -7,6 +7,19 @@ Package: com.aistudio.zipspeed.zskt
 Version: 85.0.0
 versionCode: 85
 
+## v85 accessibility tree — CI PASS
+
+- Accessibility regression commit: `e9f2bc67e7a871259ea0005ac93b578b3f6c9d0f`.
+- GitHub Actions CI #225: **PASS 10/10**.
+- Browser artifact verifies Chrome Accessibility Tree directly, not only DOM/ARIA source markers.
+- Thai: all seven tabs expose role `tab`, correct accessible names, and `ignored:false`.
+- English: all seven tabs expose role `tab`, correct accessible names, and `ignored:false`.
+- GO exposes role `button`, accessible name `GO`, and `ignored:false` when the Speed panel is visible in both TH/EN.
+- Existing keyboard tab navigation, focus semantics, 320/390/768 responsive checks, reduced-motion support, GO/STOP/Escape, privacy link, and main Download/Upload/Ping/Jitter layout remain PASS.
+- CI #222/#223 failures were test-gate design issues, not app accessibility defects: the initial English check inspected GO while the Video panel was active, so Chrome correctly marked the hidden GO node ignored. Diagnostic artifact from CI #224 proved the tab AX nodes were already correct.
+- Manual TalkBack traversal on a physical device remains **TO VERIFY**.
+- TalkBack was temporarily enabled on the **local emulator only** for an attempted smoke test. Desktop Commander hit its monthly quota before a restore could be verified, so local-emulator TalkBack restore is **TO VERIFY**. No physical-device TalkBack setting was changed in this attempt.
+
 ## v85 release bundle evidence — CI artifact PASS
 
 - CI #220 produces a release bundle artifact named `zipspeed-release-bundle`.
@@ -15,6 +28,9 @@ versionCode: 85
 - Exact AAB SHA-256: `7E16F11C8768E309F11D258CFB943102A7DB211C8BB5CB8B387A9D479805293A`.
 - SHA-256 recorded by CI matches the downloaded AAB bytes.
 - Signing evidence: `ZIPSPEED_RELEASE_SIGNING=UNCONFIGURED`.
+- Independent downloaded-AAB verification: **PASS** — SHA-256 matches CI record; `jarsigner -verify` reports **jar is unsigned**.
+- Archive entry scan found no `.jks`, `.keystore`, `.p12`, `.pfx`, `.pem`, `.key`, or obvious signing-secret/password entry.
+- Local SDK/Gradle cache contained no `bundletool` binary, so no independent AAB manifest dump is claimed; package/version evidence remains source/CI-grounded.
 - This proves the release bundle compiles and is preserved as an artifact, but it is **not Play-uploadable yet** because no real release signing material is configured.
 - No signing key/password was generated, guessed, or committed.
 

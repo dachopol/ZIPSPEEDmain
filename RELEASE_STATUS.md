@@ -26,6 +26,7 @@
 - Android version readiness: **PASS — Android bundle embeds package.json version into index.html deterministically; web/dev retains bounded real version.json fallback**
 - Cross-project package identity audit: **PASS for current tracked QR/CAPCUT/Zipspeed repos; no QR/YooClip package collision found**
 - v85 current source CI #218: **PASS 10/10**, including deterministic Android version embedding, native splash lifecycle, multilingual guide, browser, real-network and Android emulator interaction
+- v85 accessibility-tree CI #225: **PASS 10/10** — Chrome AX tree exposes all seven TH/EN tabs with role/name and visible GO as a named button; manual physical TalkBack remains TO VERIFY
 - v85 physical RMX3241 idle/running/completed UI + Quick Single GO → STOP → GO: **PASS**
 - v85 bundled privacy marker: **85.0.0**, guarded by source audit
 - v84 source CI #205: **PASS 10/10**, including built-APK identity verification
@@ -38,6 +39,7 @@
 - Android lint/debug build: PASS in CI
 - Android release bundle compile: PASS in CI
 - Release bundle CI artifact: **PASS — CI #220 preserves unsigned AAB + SHA-256 + signing status; SHA-256 `7E16F11C…5293A`, signing UNCONFIGURED**
+- Independent AAB verification: **PASS — downloaded bytes match CI SHA-256; jarsigner confirms unsigned; no keystore/private-key/secret-like archive entries found**
 - Release signing source contract: **PASS — env-based, partial config fails, secrets ignored/not tracked**
 - CI signing status without real key: **UNCONFIGURED**
 - Release-source evidence: PASS in CI
