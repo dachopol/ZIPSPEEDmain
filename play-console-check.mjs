@@ -16,15 +16,16 @@ const checks={
   packageMatchesCanonical:applicationId===pkg.zipspeed.packageId,
   targetSdk36:targetSdk===36,
   compileSdk36:compileSdk===36,
-  versionCode83:pkg.zipspeed.versionCode===83,
-  versionName83:pkg.version==="83.0.0",
+  versionCode84:pkg.zipspeed.versionCode===84,
+  versionName84:pkg.version==="84.0.0",
   brandingWired:manifest.includes('android:icon="@mipmap/ic_launcher"')&&manifest.includes('android:theme="@style/Theme.Zipspeed.Launcher"'),
   cleartextDisabled:manifest.includes('android:usesCleartextTraffic="false"'),
   bundleCompileGatePresent:ci.includes(":app:bundleRelease"),
   signingStatusGatePresent:ci.includes(":app:zipspeedSigningStatus"),
   releaseSigningContract:signingEnv.every(x=>gradle.includes(x))&&gradle.includes("releaseSigningReady"),
   secretIgnoreRules:["*.jks","*.keystore","*.p12","keystore.properties","signing.properties"].every(x=>gitignore.includes(x)),
-  privacyUrlGatePresent:ci.includes("npm run privacy:check")
+  privacyUrlGatePresent:ci.includes("npm run privacy:check"),
+  apkIdentityGatePresent:ci.includes("Verify debug APK identity")&&ci.includes("APK versionCode mismatch")&&ci.includes("APK versionName mismatch")
 };
 for(const [k,v] of Object.entries(checks))if(!v)throw new Error("Play source gate failed: "+k);
 
