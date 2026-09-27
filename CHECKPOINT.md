@@ -7,6 +7,17 @@ Package: com.aistudio.zipspeed.zskt
 Version: 85.0.0
 versionCode: 85
 
+## v85 release bundle evidence — CI artifact PASS
+
+- CI #220 produces a release bundle artifact named `zipspeed-release-bundle`.
+- Artifact contents verified from the run: `app-release.aab`, `app-release.aab.sha256`, and `signing-status.txt`.
+- Exact AAB size: **677,082 bytes**.
+- Exact AAB SHA-256: `7E16F11C8768E309F11D258CFB943102A7DB211C8BB5CB8B387A9D479805293A`.
+- SHA-256 recorded by CI matches the downloaded AAB bytes.
+- Signing evidence: `ZIPSPEED_RELEASE_SIGNING=UNCONFIGURED`.
+- This proves the release bundle compiles and is preserved as an artifact, but it is **not Play-uploadable yet** because no real release signing material is configured.
+- No signing key/password was generated, guessed, or committed.
+
 ## v85 deterministic Android startup/version — CI + exact emulator PASS
 
 - Startup commit: `08f918a93e925a542723f2694f43ef35db18f746` hides the native splash on the first visible WebView commit, with page-finished fallback.
