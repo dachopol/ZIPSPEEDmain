@@ -36,6 +36,8 @@ val prepareZipspeedAssets = tasks.register("prepareZipspeedAssets") {
         val out = generatedAssetsDir.get().asFile
         delete(out)
         copy { from(rootProject.file("web")); into(out) }
+        val indexFile = out.resolve("index.html")
+        indexFile.writeText(indexFile.readText().replace("__ZIPSPEED_VERSION__", versionNameFromPackage))
         file(out.resolve("version.json")).writeText("{\"version\":\"$versionNameFromPackage\",\"versionCode\":$versionCodeFromPackage}")
     }
 }
