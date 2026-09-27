@@ -80,6 +80,7 @@ try{
  await waitEval('document.getElementById("guideTitle")?.textContent==="User guide"',3000);
  const englishGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const ids=[...document.querySelectorAll("[data-guide-section]")].map(x=>x.dataset.guideSection);return ["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"].every(id=>ids.includes(id))&&document.getElementById("guideContent").getAttribute("aria-busy")==="false"})()');
  if(!englishGuide)throw new Error("English user guide incomplete");
+ await evaluate('document.querySelector("[data-tab=speed]").click()');await sleep(80);
  const englishAxExpected=[["speed","Speed"],["video","Video"],["status","Status"],["map","Map"],["history","History"],["settings","Settings"],["adfree","Ad-free"]];
  const englishAxObserved=[];for(const [id,name] of englishAxExpected){const n=await axNode(`[data-tab=${id}]`);englishAxObserved.push({id,expected:name,role:n?.role?.value??null,name:n?.name?.value??null,ignored:n?.ignored??null})}
  const axGoEnglish=await axNode("#goButton"),englishGoObserved={role:axGoEnglish?.role?.value??null,name:axGoEnglish?.name?.value??null,ignored:axGoEnglish?.ignored??null};
