@@ -3,18 +3,21 @@ const read=p=>fs.readFile(p,"utf8");
 const [html,css,app,measurement,serverText,gradle,manifest,activity,pkgText]=await Promise.all(["web/index.html","web/src/styles.css","web/src/app.mjs","web/src/measurement.mjs","web/server-directory.json","app/build.gradle.kts","app/src/main/AndroidManifest.xml","app/src/main/java/com/aistudio/zipspeed/zskt/MainActivity.java","package.json"].map(read));
 const pkg=JSON.parse(pkgText),directory=JSON.parse(serverText);
 for(const old of["index.html","src/app.mjs","src/styles.css","app/applet","app/src/main/assets/index.html"]){try{await fs.access(old);throw new Error("Legacy active source still exists: "+old)}catch(e){if(e.message?.startsWith("Legacy"))throw e}}
-if(pkg.version!=="81.0.0"||pkg.zipspeed?.versionCode!==81)throw new Error("Version drift");
+if(pkg.version!=="82.0.0"||pkg.zipspeed?.versionCode!==82)throw new Error("Version drift");
 if(pkg.zipspeed?.packageId!=="com.aistudio.zipspeed.zskt")throw new Error("Package drift");
 if(!gradle.includes('applicationId = "com.aistudio.zipspeed.zskt"')||!gradle.includes("versionCodeFromPackage")||!gradle.includes("versionNameFromPackage"))throw new Error("Gradle identity/version source invalid");if(!["ZIPSPEED_KEYSTORE_FILE","ZIPSPEED_KEYSTORE_PASSWORD","ZIPSPEED_KEY_ALIAS","ZIPSPEED_KEY_PASSWORD"].every(x=>gradle.includes(x))||!gradle.includes("releaseSigningReady"))throw new Error("Release signing contract missing");
 if(!manifest.includes('android:label="ZIPSPEED by AnakinYoo"')||!manifest.includes('android:usesCleartextTraffic="false"'))throw new Error("Manifest hardening/brand missing");
 if(!manifest.includes('android:icon="@mipmap/ic_launcher"')||!manifest.includes('android:roundIcon="@mipmap/ic_launcher"')||!manifest.includes('android:theme="@style/Theme.Zipspeed.Launcher"'))throw new Error("Android launcher/splash branding not wired");
 const [brandSvg,baseTheme,splashTheme31,launcherIcon]=await Promise.all(["web/assets/zipspeed-mark.svg","app/src/main/res/values/styles.xml","app/src/main/res/values-v31/styles.xml","app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"].map(read));
-if(!html.includes('href="./assets/zipspeed-mark.svg?v=81"')||!brandSvg.includes("#3B82F6"))throw new Error("Web brand mark/cache revision missing");
+if(!html.includes('href="./assets/zipspeed-mark.svg?v=82"')||!brandSvg.includes("#3B82F6"))throw new Error("Web brand mark/cache revision missing");
 if(!baseTheme.includes("Theme.Zipspeed.Launcher")||!baseTheme.includes("@drawable/zipspeed_splash")||!splashTheme31.includes("windowSplashScreenAnimatedIcon")||!launcherIcon.includes("<adaptive-icon"))throw new Error("Native splash/adaptive icon resources incomplete");
 if(!activity.includes("zipspeedStopForLifecycle")||!activity.includes("MIXED_CONTENT_NEVER_ALLOW"))throw new Error("Android lifecycle/security hook missing");
 if((html.match(/id="goButton"/g)||[]).length!==1)throw new Error("GO control must be unique");if(!html.includes('role="tablist"')||!html.includes('role="tabpanel"')||!html.includes('aria-live="polite"')||!html.includes('tabindex="-1"')||!app.includes("ArrowRight")||!app.includes("activateTab"))throw new Error("Accessibility semantics missing");
 if(!html.includes('href="./privacy.html"'))throw new Error("In-app privacy link missing");
 if(!html.includes('id="gaugeMetricLabel"')||!app.includes('gaugeDownload:"ดาวน์โหลด"')||!app.includes('gaugeUpload:"อัปโหลด"'))throw new Error("Gauge Download/Upload phase label missing");
+if(!["phaseServerDirectory","phaseServerHealth","phaseMetadata","phaseIdleLatency","phaseDownloadLoaded","phaseUploadLoaded","phaseTimeout"].every(k=>app.includes(k)))throw new Error("Localized measurement phase keys missing");
+for(const raw of ['phase(t("failed")+" • server directory")','phase(t("running")+" • server health")','phase(t("running")+" • metadata")','phase(t("running")+" • idle latency")','phase(t("running")+" • download + loaded latency")','phase(t("running")+" • upload + loaded latency")'])if(app.includes(raw))throw new Error("Raw English measurement phase leaked: "+raw);
+
 const privacy=await read("web/privacy.html");if(!privacy.includes("Privacy Policy")||!privacy.includes("Cloudflare")||!privacy.includes("Retention and deletion"))throw new Error("Privacy policy content incomplete");
 for(const tab of["speed","video","status","map","history","settings","adfree"])if(!html.includes(`id="${tab}"`))throw new Error("Missing tab "+tab);
 for(const id of["downLoadedLatencyValue","upLoadedLatencyValue","serverValue","serverHealthValue","serverSetting","payloadValue","latencyGraph","monitorButton","monitorIntervalSetting","monitorLog"])if(!html.includes(`id="${id}"`))throw new Error("Missing rebuilt measurement control "+id);
@@ -29,4 +32,4 @@ if(/packetLoss|packet_loss|packetLossPct/i.test(app+measurement))throw new Error
 if(!html.includes("HTTP probe ≠ packet loss"))throw new Error("Probe disclaimer missing");
 if(!css.includes("--blue:#3B82F6")||!/@media\(max-width:(?:3[0-8]0)px\)/.test(css)||!css.includes("prefers-reduced-motion"))throw new Error("Responsive visual system missing");
 if(!app.includes("navigator.share")||!app.includes("localStorage"))throw new Error("Share/history flow missing");
-console.log("AUDIT PASS — single-source ZIPSPEED v81 + native branding + loaded latency");
+console.log("AUDIT PASS — single-source ZIPSPEED v82 + native branding + loaded latency");
