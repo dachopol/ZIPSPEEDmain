@@ -319,13 +319,25 @@ button{cursor:pointer}
   letter-spacing:.12em;
   text-shadow:none
 }
-.gauge-copy #gaugeMetricLabel{font:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;text-shadow:none;white-space:nowrap;will-change:auto}
-.gauge-copy small{
-  margin-top:7px;
-  color:#8290a3;
-  font-weight:850;
-  letter-spacing:.08em;
+.gauge-copy .gauge-unit{
+  margin-top:5px;
+  color:#64748b;
+  font-size:.78rem;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.12em;
   text-transform:uppercase
+}
+.gauge-copy #gaugeMetricLabel{
+  margin-top:5px;
+  color:#8290a3;
+  font-size:.86rem;
+  line-height:1.2;
+  font-weight:850;
+  letter-spacing:.04em;
+  white-space:nowrap;
+  text-shadow:none;
+  will-change:auto
 }
 
 .primary-metrics{

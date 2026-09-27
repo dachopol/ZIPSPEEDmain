@@ -21,7 +21,7 @@ try{
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
- await waitEval('document.getElementById("appVersion")?.textContent==="v80.0.0"');
+ await waitEval('document.getElementById("appVersion")?.textContent==="v81.0.0"');
  for(const width of[320,390,768]){
    await send("Emulation.setDeviceMetricsOverride",{width,height:844,deviceScaleFactor:1,mobile:width<600});
    await sleep(120);
@@ -37,6 +37,8 @@ try{
  if(goInitial!=="GO")throw new Error("GO initial state invalid");
  const idlePlaceholder=await evaluate('(()=>{const e=document.getElementById("liveValue"),s=getComputedStyle(e);return e?.textContent==="--"&&e.classList.contains("placeholder")&&parseFloat(s.fontSize)<48&&s.color!=="rgb(11, 18, 32)"})()');
  if(!idlePlaceholder)throw new Error("Idle gauge placeholder styling regressed");
+ const gaugeHierarchy=await evaluate('(()=>{const unit=document.querySelector(".gauge-unit"),label=document.getElementById("gaugeMetricLabel");return unit?.textContent.trim()==="Mbps"&&!!label&&parseFloat(getComputedStyle(unit).fontSize)<parseFloat(getComputedStyle(document.getElementById("liveValue")).fontSize)&&parseFloat(getComputedStyle(label).fontSize)<24})()');
+ if(!gaugeHierarchy)throw new Error("Gauge value/unit/phase hierarchy regressed");
  const primaryMetrics=await evaluate('(()=>{const hero=document.querySelector(".hero-card");return ["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>document.getElementById(id)?.closest(".primary-metrics")&&hero?.contains(document.getElementById(id)))&&document.querySelector("[data-i18n=idleLatency]")?.textContent.includes("Ping")})()');
  if(!primaryMetrics)throw new Error("Primary Download/Upload/Ping/Jitter metrics are not on the main hero");
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
@@ -73,7 +75,7 @@ try{
  if(!thai)throw new Error("Thai switch failed");
  const thaiTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"])');
  const gaugeLabelThai=await evaluate('document.getElementById("gaugeMetricLabel")?.textContent==="ความเร็ว"');
- const gaugeCopyNoOverlap=await evaluate('(()=>{const value=document.getElementById("liveValue")?.getBoundingClientRect(),label=document.getElementById("gaugeMetricLabel")?.getBoundingClientRect(),go=document.getElementById("goButton")?.getBoundingClientRect();return !!value&&!!label&&!!go&&label.top>=value.bottom-1&&label.bottom<=go.top+1&&label.height<40})()');
+ const gaugeCopyNoOverlap=await evaluate('(()=>{const value=document.getElementById("liveValue")?.getBoundingClientRect(),unit=document.querySelector(".gauge-unit")?.getBoundingClientRect(),label=document.getElementById("gaugeMetricLabel")?.getBoundingClientRect(),go=document.getElementById("goButton")?.getBoundingClientRect();return !!value&&!!unit&&!!label&&!!go&&unit.top>=value.bottom-1&&label.top>=unit.bottom-1&&label.bottom<=go.top+1&&unit.height<28&&label.height<32})()');
  if(!gaugeCopyNoOverlap)throw new Error("Gauge metric label overlaps live value or GO");
  if(!gaugeLabelThai)throw new Error("Thai gauge metric label incomplete");
  if(!thaiTabs)throw new Error("Thai tab translations incomplete");
