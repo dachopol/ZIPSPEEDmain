@@ -4,8 +4,21 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 82.0.0
-versionCode: 82
+Version: 83.0.0
+versionCode: 83
+
+## v83 gauge-label spacing + calmer GO depth — emulator PASS
+
+- Source/runtime commit: `7824f0c9a06e5f42a603828b50b060c03507cf8e`.
+- GitHub Actions CI #202: **PASS 10/10**.
+- Exact CI #202 debug artifact digest: `sha256:fa1dab53351852b65a0908e14fd2d928cbda9b44bb3f6bb779b09b334faee0cf`.
+- Visual root cause came from the exact v82 CI build on the local Android emulator: the Speed/Download/Upload phase label sat visually tight against the lower gauge ring and the GO button still carried more blue bloom than the target premium white-clay hierarchy.
+- v83 keeps the same real-data gauge values, needle, GO/STOP behavior and metric layout but reduces the phase-label weight/spacing and tightens the GO shadow.
+- Browser regression now requires the phase label to remain compact in addition to the existing gauge value/unit/phase no-overlap checks.
+- Local Android emulator clean-installed **v83.0.0 / versionCode 83 / targetSdk 36** and visually renders the refined idle gauge/GO hierarchy.
+- Physical RMX3241 v83 visual/runtime validation is **TO VERIFY** because the device was locked during this pass; no lock bypass was attempted.
+- During emulator QA, an unrelated old app UI was found installed under `com.aistudio.zipspeed.zskt` at version 1.0. It was removed only from the emulator to install the exact v82/v83 CI APK. This is logged as a **cross-project package-identity TO VERIFY**, not as evidence that the current QuickQR source still uses the Zipspeed package.
+- No measurement engine, endpoint, permission, history schema, Ads/Billing dependency, packet-loss claim or fake-data behavior changed.
 
 ## v82 full TH/EN measurement phases — physical PASS
 
@@ -81,8 +94,8 @@ versionCode: 82
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `5c20de07458a00007262c1c3998ff63b7c6bfbcf`
-Runtime CI: **#200 — PASS 10/10**
+Validated runtime/source commit: `7824f0c9a06e5f42a603828b50b060c03507cf8e`
+Runtime CI: **#202 — PASS 10/10**
 Current main documentation/checkpoint commit before this update: `fea304e6c10526d0e7888b7fccc5038e15480063`
 Current-main CI before this update: **#196 — PASS 10/10**
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## v83 — 2026-09-27 — Gauge label spacing + calmer GO depth
+- Refined the gauge phase label after exact v82 emulator evidence showed Speed/Download/Upload copy visually too close to the lower gauge ring.
+- Reduced phase-label size/spacing and tightened GO-button shadow/bloom for a cleaner premium white-clay hierarchy.
+- Preserved the truthful idle `--`, live real-byte gauge progress, monotonic needle motion, localized TH/EN phases, 2×2 primary metrics and GO/STOP behavior.
+- Added browser regression coverage that rejects an overly heavy gauge phase label while retaining the existing no-overlap checks.
+- No measurement engine, endpoint, permission, Ads/Billing dependency, history schema, packet-loss claim or fake-data behavior changed.
+- CI #202 passed all 10 quality jobs on source commit `7824f0c9a06e5f42a603828b50b060c03507cf8e`.
+- Exact CI #202 v83 build was clean-installed on the local Android emulator and visually confirmed for the idle gauge/GO hierarchy.
+- Physical RMX3241 v83 validation remains TO VERIFY because the device was locked; no lock bypass was attempted.
+- Bumped canonical version/versionCode to 83.0.0 / 83.
+
 ## v82 — 2026-09-27 — Full TH/EN measurement phase localization
 - Replaced raw English measurement-phase fragments with localized TH/EN strings for server directory, server health, metadata, idle latency, download/upload loaded-latency phases, stage labels and timeout.
 - Preserved v81 gauge value/unit/phase hierarchy, real-byte live gauge progress, monotonic motion, GO/STOP behavior and 2×2 primary metrics.
