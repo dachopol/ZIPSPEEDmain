@@ -21,7 +21,9 @@
 - Old root UI, `app/applet`, and committed Android web-asset mirrors: removed
 
 ## Gates
-- v85 source CI #208: **PASS 10/10**
+- v85 startup blank-screen fix: **PASS — native Zipspeed splash remains visible until bundled WebView content is ready**
+- Cross-project package identity audit: **PASS for current tracked QR/CAPCUT/Zipspeed repos; no QR/YooClip package collision found**
+- v85 current source CI #210: **PASS 10/10**, including startup-splash instrumentation
 - v85 physical RMX3241 idle/running/completed UI + Quick Single GO → STOP → GO: **PASS**
 - v85 bundled privacy marker: **85.0.0**, guarded by source audit
 - v84 source CI #205: **PASS 10/10**, including built-APK identity verification
@@ -68,7 +70,7 @@
 - Live Play Console state/declarations
 - Successful upload/review/publication
 - Physical Android 5G runtime
-- Broader OEM/WebView coverage beyond the already verified Xiaomi 2410CRP4CG v79 tablet
-- Accessibility on physical device
+- Current-v85 broader OEM/WebView coverage beyond RMX3241; Xiaomi tablet current-v85 remains TO VERIFY
+- Manual TalkBack traversal on a physical device
 - Actual Play Console Data Safety entry/review/submission using the source-grounded v85 preparation
 - Exact Canva raster parity

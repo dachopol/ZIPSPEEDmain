@@ -4,8 +4,8 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "85.0.0",
   "version_code": 85,
-  "validated_source_commit": "76c8558e66a98f447e4ee909f34f7851be3e261c",
-  "validated_ci_run": 208,
+  "validated_source_commit": "2c6216a9b15ef992b0358e4f9b3afc47e0eae566",
+  "validated_ci_run": 210,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -13,11 +13,11 @@
   "physical_quick_multi": "PASS_WIFI_RMX3241_REAL_NETWORK_HISTORY",
   "accessibility_source_browser": "PASS_ARIA_KEYBOARD_TOUCH_TARGET_REDUCED_MOTION",
   "accessibility_physical": "PARTIAL_PASS_ENLARGED_FONT_1_30_XIAOMI_V80; TALKBACK_TO_VERIFY",
-  "current_task_id": "v85-premium-physical-ui-signing-5g-talkback-play-canva-raster",
+  "current_task_id": "v85-signing-5g-talkback-play-canva-raster-infrastructure",
   "status": "HARD_BLOCKED_AFTER_VERIFIED_SOURCE_AND_PHYSICAL_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "privacy_policy_version": "85.0.0",
-  "emulator_runtime": "PASS_API_34",
+  "emulator_runtime": "PASS_CI210_NATIVE_SPLASH_OVERLAY_UNTIL_WEBVIEW_READY",
   "browser_interaction": "PASS_V83_CI202_COMPACT_GAUGE_PHASE_PLUS_V82_FULL_TH_EN_PHASE_LOCALIZATION",
   "blockers": [
     "authorized TURN service/configuration for real packet loss",
@@ -25,10 +25,9 @@
     "additional authorized regional measurement endpoints",
     "real release signing material/certificate and Play Console access/upload/declarations",
     "exact Canva raster export bytes for pixel-identical icon/splash replacement",
-    "actual Play Console Data Safety entry/review/submission and check for older active Play artifacts",
-    "cross-project package identity verification because an unrelated old emulator app used com.aistudio.zipspeed.zskt"
+    "actual Play Console Data Safety entry/review/submission and check for older active Play artifacts"
   ],
-  "next": "Continue with real signing material/certificate verification, 5G runtime, manual TalkBack evidence, Play Console access, exact Canva raster bytes, cross-project package identity cleanup, or external packet-loss/video/server infrastructure.",
+  "next": "Continue with physical v85 tablet when device reconnects, 5G runtime, manual TalkBack evidence, real signing material/Play upload, exact Canva raster bytes, or authorized TURN/video/regional measurement infrastructure.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -89,7 +88,7 @@
   "v82_phase_localization": "PASS_TH_EN_SOURCE_AUDIT_CI200_AND_PHYSICAL_THAI_DOWNLOAD_PHASE",
   "physical_v83_ui": "TO_VERIFY_RMX3241_LOCKED",
   "emulator_v83_ui": "PASS_IDLE_GAUGE_PHASE_AND_GO_DEPTH",
-  "cross_project_package_identity": "TO_VERIFY_LOCAL_EMULATOR_OLD_V1_APP_USED_ZIPSPEED_PACKAGE",
+  "cross_project_package_identity": "PASS_RESOLVED_NO_QR_YOO_CAPCUT_COLLISION_SUPERSEDED_ZIPSPEED_V71_ONLY",
   "physical_v84_ui": "PASS_RMX3241_1080x2400_IDLE_RUNNING_COMPLETED_NO_OVERLAP",
   "physical_v84_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_GO_STOP_GO_VISIBLE_METRICS",
   "android_apk_identity": "PASS_CI205_PACKAGE_VERSIONCODE_VERSIONNAME_MATCH_PACKAGE_JSON",
@@ -97,5 +96,7 @@
   "stale_apk_version_defect": "FIXED_V83_CI202_ARTIFACT_REPORTED_CODE77_CI205_GATE_PREVENTS_RECURRENCE",
   "bundled_privacy_version": "85.0.0",
   "physical_v85_ui": "PASS_RMX3241_1080x2400_IDLE_RUNNING_COMPLETED_PREMIUM_COMPACT",
-  "physical_v85_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_GO_STOP_GO_HISTORY"
+  "physical_v85_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_GO_STOP_GO_HISTORY",
+  "startup_blank_screen": "FIXED_V85_NATIVE_SPLASH_T0_T3_THEN_RENDERED_UI",
+  "exact_ci210_apk_sha256": "547B98A9C0BB5F92815EC1EBD432E2DC0AED1A9D38788B4CB61A53A31B5112F4"
 }

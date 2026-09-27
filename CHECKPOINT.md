@@ -7,6 +7,21 @@ Package: com.aistudio.zipspeed.zskt
 Version: 85.0.0
 versionCode: 85
 
+## v85 startup splash + emulator identity cleanup — PASS
+
+- Source commit: `2c6216a9b15ef992b0358e4f9b3afc47e0eae566`.
+- GitHub Actions CI #210: **PASS 10/10**.
+- Exact CI #210 debug APK SHA-256: `547B98A9C0BB5F92815EC1EBD432E2DC0AED1A9D38788B4CB61A53A31B5112F4`.
+- Defect reproduced on a clean local emulator: Activity became ready in about 1.5 s, but the WebView replaced the native window background before bundled HTML/CSS rendered, exposing a blank app surface for several seconds.
+- Root-cause fix: `MainActivity` now keeps the native Zipspeed splash overlay above the WebView until the local `/assets/index.html` page finishes loading; the WebView/root background also uses the splash background color.
+- Android instrumentation now asserts that the startup splash exists and becomes `GONE` after the bundled web app reports `document.readyState==='complete'`.
+- Exact CI #210 emulator validation: immediate/t+3 s screenshots show the Zipspeed splash instead of a blank surface; the fully rendered v85 UI appears afterward. **Startup blank-screen defect: FIXED**.
+- Measurement engine, endpoint, permissions, Ads/Billing behavior, history schema and real-data semantics were unchanged.
+- Cross-project package audit: `QR-Scanners`, `-QRCODE-`, and `CAPCUTauto` contain no `com.aistudio.zipspeed.zskt` match. The same package ID exists in superseded `dachopol/Zipspeed` v71, which is the same Zipspeed product lineage.
+- Local emulator old packages `com.aistudio.zipspeed.myapplication` (My Application v1.0) and `com.example.zipspeed` (Zipspeed v1.0) were backed up and removed; both use different package IDs.
+- Local emulator now retains only `com.aistudio.zipspeed.zskt` for the Zipspeed test line and was clean-installed to exact v85.
+- Historical emulator evidence that an unknown v1.0 once used the current package is not reproduced by current source/repository audit; **cross-project package collision: RESOLVED for current tracked projects**.
+
 ## v85 premium depth/density + physical runtime PASS
 
 - Source/UI commit: `bb31f93160899e7fc38b7a0b37a7c7b95c2e9f83`.
@@ -127,10 +142,8 @@ versionCode: 85
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `c9af4da4ec26641facf4bced383981e770fb522d`
-Runtime CI: **#205 — PASS 10/10**
-Current main documentation/checkpoint commit before this update: `fea304e6c10526d0e7888b7fccc5038e15480063`
-Current-main CI before this update: **#196 — PASS 10/10**
+Validated runtime/source commit: `2c6216a9b15ef992b0358e4f9b3afc47e0eae566`
+Runtime CI: **#210 — PASS 10/10**
 
 Passed gates:
 - web-check
