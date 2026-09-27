@@ -7,6 +7,23 @@ Package: com.aistudio.zipspeed.zskt
 Version: 85.0.0
 versionCode: 85
 
+## v85 multilingual in-app guide + startup readiness — CI PASS
+
+- Guide implementation commit: `e4c41dc28d08804152d16c79780e524aa5a464c5`.
+- Splash/guide Android gate commit: `89ab4abdc69404c4ac8ca5157e4018ccad87760b`.
+- Version-readiness hardening commit: `1e04dabef25a6e334470d503ddeb1d6cf6431494`.
+- GitHub Actions CI #214: **PASS 10/10**.
+- Settings now contains an in-app expandable User Guide instead of relying only on external documentation.
+- Guide text is stored in locale resources: `web/i18n/guide.th.json` and `web/i18n/guide.en.json`; rendering logic is locale-neutral and has English fallback.
+- Required guide coverage is present for Getting started, Main features, Permissions, Errors/fixes, Privacy/security, Support, and Accessibility.
+- Guide claims are source-grounded: Video remains a throughput-derived estimate, no fake packet-loss/playback/Ads/Billing/location capability is introduced, and unknown values remain truthful.
+- Browser CI verifies TH/EN guide switching, required section IDs, responsive page behavior, and guide resource loading.
+- Android instrumentation CI verifies the bundled guide loads in Thai, switches to English, contains all seven required sections, and the startup splash becomes `GONE` only after bundled WebView content is ready.
+- CI #213 exposed a pre-existing flaky single-attempt `version.json` readiness path before the new guide assertions were reached. Current source retries the **local bundled** version metadata up to three bounded attempts and still falls back to `v--` if all real reads fail; no version is fabricated or hardcoded into UI.
+- `UNIVERSAL_APP_PROJECT_RULE.md` now contains the locked **UNIVERSAL MULTILINGUAL USER GUIDE RULE** for future app releases.
+- Exact duplicate scan after guide assets: **PASS — 64 tracked files, zero exact duplicate Git blob groups**.
+- Current-v85 physical tablet guide/readability remains **TO VERIFY** until a physical tablet reconnects; prior v80 tablet portrait/landscape/font-1.30 evidence remains historical only.
+
 ## v85 startup splash + emulator identity cleanup — PASS
 
 - Source commit: `2c6216a9b15ef992b0358e4f9b3afc47e0eae566`.
@@ -142,8 +159,8 @@ versionCode: 85
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `2c6216a9b15ef992b0358e4f9b3afc47e0eae566`
-Runtime CI: **#210 — PASS 10/10**
+Validated runtime/source commit: `1e04dabef25a6e334470d503ddeb1d6cf6431494`
+Runtime CI: **#214 — PASS 10/10**
 
 Passed gates:
 - web-check

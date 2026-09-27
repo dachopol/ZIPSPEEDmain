@@ -21,9 +21,11 @@
 - Old root UI, `app/applet`, and committed Android web-asset mirrors: removed
 
 ## Gates
+- Multilingual in-app user guide: **PASS in source/browser/Android emulator — TH/EN, English fallback architecture, seven required sections; current-v85 physical tablet TO VERIFY**
 - v85 startup blank-screen fix: **PASS — native Zipspeed splash remains visible until bundled WebView content is ready**
+- Bounded bundled-version readiness: **PASS — up to three real local version.json reads, then truthful v-- fallback**
 - Cross-project package identity audit: **PASS for current tracked QR/CAPCUT/Zipspeed repos; no QR/YooClip package collision found**
-- v85 current source CI #210: **PASS 10/10**, including startup-splash instrumentation
+- v85 current source CI #214: **PASS 10/10**, including version readiness, native splash lifecycle, multilingual guide browser gates and Android emulator interaction
 - v85 physical RMX3241 idle/running/completed UI + Quick Single GO → STOP → GO: **PASS**
 - v85 bundled privacy marker: **85.0.0**, guarded by source audit
 - v84 source CI #205: **PASS 10/10**, including built-APK identity verification
