@@ -18,6 +18,7 @@ try{
  ws.addEventListener("message",event=>{const msg=JSON.parse(typeof event.data==="string"?event.data:Buffer.from(event.data).toString());if(msg.id&&pending.has(msg.id)){const{resolve,reject}=pending.get(msg.id);pending.delete(msg.id);msg.error?reject(new Error(msg.error.message)):resolve(msg.result)}});
  const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params}))});
  const evaluate=async expression=>{const out=await send("Runtime.evaluate",{expression,returnByValue:true,awaitPromise:true});if(out.exceptionDetails)throw new Error(out.exceptionDetails.text||"Browser evaluation failed");return out.result?.value};
+ const axNode=async selector=>{const out=await send("Runtime.evaluate",{expression:`document.querySelector(${JSON.stringify(selector)})`,returnByValue:false,awaitPromise:true});const objectId=out.result?.objectId;if(!objectId)throw new Error("AX target missing: "+selector);const ax=await send("Accessibility.getPartialAXTree",{objectId,fetchRelatives:false});return (ax.nodes||[]).find(n=>!n.ignored)||ax.nodes?.[0]||null};
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Accessibility.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
@@ -43,10 +44,9 @@ try{
  if(!gaugeHierarchy)throw new Error("Gauge value/unit/phase hierarchy regressed");
  const primaryMetrics=await evaluate('(()=>{const hero=document.querySelector(".hero-card");return ["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>document.getElementById(id)?.closest(".primary-metrics")&&hero?.contains(document.getElementById(id)))&&document.querySelector("[data-i18n=idleLatency]")?.textContent.includes("Ping")})()');
  if(!primaryMetrics)throw new Error("Primary Download/Upload/Ping/Jitter metrics are not on the main hero");
- const axThai=await send("Accessibility.getFullAXTree"),axThaiNodes=axThai.nodes||[],axRole=n=>String(n.role?.value??""),axName=n=>String(n.name?.value??"").trim();
- const axThaiTabs=axThaiNodes.filter(n=>axRole(n)==="tab"&&!n.ignored).map(axName);
- if(JSON.stringify(axThaiTabs)!==JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"]))throw new Error("Thai accessibility-tree tab names/order invalid: "+JSON.stringify(axThaiTabs));
- if(!axThaiNodes.some(n=>axRole(n)==="button"&&axName(n)==="GO"&&!n.ignored))throw new Error("GO missing from accessibility tree as named button");
+ const thaiAxExpected=[["speed","ความเร็ว"],["video","วิดีโอ"],["status","สถานะ"],["map","แผนที่"],["history","ประวัติ"],["settings","ตั้งค่า"],["adfree","ไม่มีโฆษณา"]];
+ for(const [id,name] of thaiAxExpected){const n=await axNode(`[data-tab=${id}]`);if(n?.ignored||String(n?.role?.value??"")!=="tab"||String(n?.name?.value??"").trim()!==name)throw new Error("Thai AX tab invalid: "+id+" "+JSON.stringify({role:n?.role?.value,name:n?.name?.value,ignored:n?.ignored}))}
+ const axGoThai=await axNode("#goButton");if(axGoThai?.ignored||String(axGoThai?.role?.value??"")!=="button"||String(axGoThai?.name?.value??"").trim()!=="GO")throw new Error("GO AX node invalid in Thai");
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
  if(shareDisabled!==true)throw new Error("Share must be disabled before result");
  const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
@@ -76,10 +76,9 @@ try{
  await waitEval('document.getElementById("guideTitle")?.textContent==="User guide"',3000);
  const englishGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const ids=[...document.querySelectorAll("[data-guide-section]")].map(x=>x.dataset.guideSection);return ["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"].every(id=>ids.includes(id))&&document.getElementById("guideContent").getAttribute("aria-busy")==="false"})()');
  if(!englishGuide)throw new Error("English user guide incomplete");
- const axEnglish=await send("Accessibility.getFullAXTree"),axEnglishNodes=axEnglish.nodes||[];
- const axEnglishTabs=axEnglishNodes.filter(n=>String(n.role?.value??"")==="tab"&&!n.ignored).map(n=>String(n.name?.value??"").trim());
- if(JSON.stringify(axEnglishTabs)!==JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"]))throw new Error("English accessibility-tree tab names/order invalid: "+JSON.stringify(axEnglishTabs));
- if(!axEnglishNodes.some(n=>String(n.role?.value??"")==="button"&&String(n.name?.value??"").trim()==="GO"&&!n.ignored))throw new Error("English GO missing from accessibility tree");
+ const englishAxExpected=[["speed","Speed"],["video","Video"],["status","Status"],["map","Map"],["history","History"],["settings","Settings"],["adfree","Ad-free"]];
+ for(const [id,name] of englishAxExpected){const n=await axNode(`[data-tab=${id}]`);if(n?.ignored||String(n?.role?.value??"")!=="tab"||String(n?.name?.value??"").trim()!==name)throw new Error("English AX tab invalid: "+id+" "+JSON.stringify({role:n?.role?.value,name:n?.name?.value,ignored:n?.ignored}))}
+ const axGoEnglish=await axNode("#goButton");if(axGoEnglish?.ignored||String(axGoEnglish?.role?.value??"")!=="button"||String(axGoEnglish?.name?.value??"").trim()!=="GO")throw new Error("GO AX node invalid in English");
  const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
  if(!englishTabs)throw new Error("English tab translations incomplete");
  const englishVideoThreshold=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("Reference ")})()');
