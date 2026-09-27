@@ -1,11 +1,13 @@
 plugins { id("com.android.application") }
 
-val packageJson = rootProject.file("package.json").readText()
+val packageJsonFile = rootProject.layout.projectDirectory.file("package.json")
+val packageJsonText = providers.fileContents(packageJsonFile).asText
 fun packageValue(key: String): String {
-    val prefix = "\"" + key + "\""
-    val line = packageJson.lineSequence().map { it.trim() }.firstOrNull { it.startsWith(prefix) }
+    val json = packageJsonText.get()
+    val match = Regex("\\\"" + Regex.escape(key) + "\\\"\\s*:\\s*(?:\\\"([^\\\"]+)\\\"|(\\d+))").find(json)
         ?: error("Missing " + key + " in package.json")
-    return line.substringAfter(":").trim().removeSuffix(",").trim().trim('"')
+    return match.groups[1]?.value ?: match.groups[2]?.value
+        ?: error("Invalid " + key + " in package.json")
 }
 val versionNameFromPackage = packageValue("version")
 val versionCodeFromPackage = packageValue("versionCode").toInt()

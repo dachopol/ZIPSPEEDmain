@@ -129,6 +129,20 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: '9.3.1' }
       - run: gradle :app:lintDebug :app:assembleDebug :app:assembleDebugAndroidTest --stacktrace
+      - name: Verify debug APK identity
+        shell: bash
+        run: |
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          EXPECTED_VERSION="$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")"
+          EXPECTED_CODE="$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).zipspeed.versionCode")"
+          EXPECTED_PACKAGE="$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).zipspeed.packageId")"
+          AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt -print | sort -V | tail -n1)"
+          test -n "$AAPT" || { echo "::error::aapt not found"; exit 1; }
+          BADGING="$("$AAPT" dump badging "$APK" | head -n1)"
+          echo "$BADGING"
+          [[ "$BADGING" == *"name='$EXPECTED_PACKAGE'"* ]] || { echo "::error::APK package mismatch"; exit 1; }
+          [[ "$BADGING" == *"versionCode='$EXPECTED_CODE'"* ]] || { echo "::error::APK versionCode mismatch"; exit 1; }
+          [[ "$BADGING" == *"versionName='$EXPECTED_VERSION'"* ]] || { echo "::error::APK versionName mismatch"; exit 1; }
       - uses: actions/upload-artifact@v4
         with: { name: zipspeed-debug-apk, path: app/build/outputs/apk/debug/app-debug.apk, if-no-files-found: error, retention-days: 14 }
   android-release-compile:
