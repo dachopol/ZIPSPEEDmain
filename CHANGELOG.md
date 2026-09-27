@@ -1,5 +1,15 @@
 # Changelog
 
+## v85 — 2026-09-27 — premium depth/density + physical runtime proof
+- Reduced excess blue bloom around hero/gauge/GO while preserving the premium white-clay visual language.
+- Compacted hero min-height from 520→500 px, gauge max footprint from 285→276 px, and GO from 88→84 px; 2×2 primary metrics remain on the main Speed hero.
+- Added browser regression for compact GO/hero/gauge geometry; corrected the first assertion implementation after it incorrectly read an unused CSS max-width.
+- CI #208: PASS 10/10, including browser interaction, real-network smoke, Android debug/release, emulator runtime, Privacy and Play-source gates.
+- Exact CI v85 debug APK clean-installed on RMX3241 after v84 APK + app-data backup; physical Quick + Single GO → STOP → GO PASS.
+- Persisted provenance: quick / single / cloudflare-auto; HTTP probe failures 0/3.
+- Bundled privacy marker aligned to 85.0.0 and source audit now rejects stale v84 marker.
+- No fake/random measurement data, endpoint semantics, permissions, Ads/Billing dependency, history schema, or packet-loss claim changed.
+
 ## v84 — 2026-09-27 — APK version integrity + physical UI/runtime proof
 - Fixed a real release-integrity defect discovered while trying to install the exact CI #202 v83 artifact: the APK manifest still reported `versionCode 77` even though Source of Truth was v83.
 - Root cause hardening: Gradle now reads `package.json` through tracked `providers.fileContents` input instead of an untracked configuration-time file read that could reuse stale configuration-cache values.

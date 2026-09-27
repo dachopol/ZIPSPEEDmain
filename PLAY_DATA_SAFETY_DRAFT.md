@@ -2,7 +2,7 @@
 
 App: ZIPSPEED by AnakinYoo  
 Package: `com.aistudio.zipspeed.zskt`  
-Version: `84.0.0`
+Version: `85.0.0`
 
 This document records source-grounded form preparation. It does **not** claim that the Play Console Data safety form has been entered, saved, reviewed, or submitted.
 
@@ -31,7 +31,7 @@ This document records source-grounded form preparation. It does **not** claim th
 
 Google Play defines collection as transmitting user data off the device, including data transmitted by app-controlled WebView code. It explicitly says approximate location inferred from an IP address must be disclosed as Approximate location. Google also states that user-initiated transfers can qualify for a sharing exception, and that ephemeral processing has specific conditions.
 
-## Prepared Data safety answers for current v84 source
+## Prepared Data safety answers for current v85 source
 
 ### Does the app collect or share user data?
 

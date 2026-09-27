@@ -4,8 +4,26 @@ Project: ZIPSPEED by AnakinYoo
 Repository: dachopol/ZIPSPEEDmain
 Branch: main
 Package: com.aistudio.zipspeed.zskt
-Version: 84.0.0
-versionCode: 84
+Version: 85.0.0
+versionCode: 85
+
+## v85 premium depth/density + physical runtime PASS
+
+- Source/UI commit: `bb31f93160899e7fc38b7a0b37a7c7b95c2e9f83`.
+- Browser-gate fix commit: `76c8558e66a98f447e4ee909f34f7851be3e261c`.
+- GitHub Actions CI #208: **PASS 10/10**.
+- v85 keeps the v84 APK identity hardening and real-data measurement semantics unchanged.
+- Visual change is Smallest Safe Change only: hero min-height 520→500 px, gauge max footprint 285→276 px, GO 88→84 px, and blue outer glow/shadows reduced.
+- Browser regression locks compact GO/hero/gauge geometry alongside existing 320/390/768 responsive, TH/EN, GO/STOP, tab, privacy and measurement-setting gates.
+- Exact CI v85 debug APK clean-installed on RMX3241 after backing up the installed v84 APK + app data because debug signatures differed.
+- Physical v85 portrait idle UI: **PASS** — premium white/blue hierarchy, truthful `--`, gauge phase, GO and 2×2 primary metrics remain readable without observed overlap.
+- Physical v85 Quick + Single: **PASS** for GO → STOP → GO.
+- Persisted result: `2026-09-27T08:34:53.272Z`.
+- Download **16.55 Mbps**; Upload **3.89 Mbps**; Ping **125.2 ms**; Jitter **44.85 ms**.
+- Download-loaded latency **105.1 ms**; Upload-loaded latency **92.45 ms**; HTTP probe failures **0 / 3**.
+- Provenance: `quick / single / cloudflare-auto`.
+- Values above are one-run validation evidence only, not a benchmark, ISP-quality or marketing claim.
+- Bundled `web/privacy.html` is aligned to **85.0.0** and audit now fails on stale v84 marker.
 
 ## v84 APK identity hardening + RMX3241 physical PASS
 
