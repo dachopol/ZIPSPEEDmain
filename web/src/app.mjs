@@ -88,7 +88,36 @@ async function runTest(){
     running=false;controller=null;runTimedOut=false;setGaugeRunning(false);setMeasurementSettingsDisabled(false);$("goButton").textContent=t("go")
   }
 }
-function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});setGaugeMetric(gaugeMetricKey);phase(running?t("running"):t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog()}
+const guideCache=new Map();let guideLoadGeneration=0;
+async function fetchGuide(locale){
+  const key=String(locale||"en").trim().toLowerCase()||"en";
+  if(guideCache.has(key))return guideCache.get(key);
+  const response=await fetch("./i18n/guide."+encodeURIComponent(key)+".json",{cache:"no-store"});
+  if(!response.ok)throw new Error("Guide locale unavailable: "+key);
+  const data=await response.json();
+  if(!data?.title||!Array.isArray(data.sections))throw new Error("Guide locale invalid: "+key);
+  guideCache.set(key,data);return data
+}
+function renderGuide(data){
+  const title=$("guideTitle"),content=$("guideContent");if(!title||!content)return;
+  title.textContent=data.title;content.replaceChildren();
+  if(data.summary){const intro=document.createElement("p");intro.className="guide-intro";intro.textContent=data.summary;content.append(intro)}
+  for(const section of data.sections){
+    const card=document.createElement("section");card.className="guide-section";card.dataset.guideSection=section.id||"";
+    const heading=document.createElement("h3");heading.textContent=section.title||"";card.append(heading);
+    if(section.body){const body=document.createElement("p");body.textContent=section.body;card.append(body)}
+    if(Array.isArray(section.items)&&section.items.length){const list=document.createElement("ul");for(const item of section.items){const li=document.createElement("li");li.textContent=item;list.append(li)}card.append(list)}
+    content.append(card)
+  }
+  content.setAttribute("aria-busy","false")
+}
+async function loadGuide(){
+  const generation=++guideLoadGeneration;
+  $("guideContent")?.setAttribute("aria-busy","true");
+  let data;try{data=await fetchGuide(state.lang)}catch{try{data=await fetchGuide("en")}catch{return}}
+  if(generation!==guideLoadGeneration)return;renderGuide(data)
+}
+function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});setGaugeMetric(gaugeMetricKey);phase(running?t("running"):t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog();loadGuide()}
 function updateTabScrollCue(){
   const strip=document.querySelector(".tabs");if(!strip)return;
   const max=Math.max(0,strip.scrollWidth-strip.clientWidth);

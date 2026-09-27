@@ -69,12 +69,18 @@ try{
 
  const english=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="Test profile"})()');
  if(!english)throw new Error("English switch failed");
+ await waitEval('document.getElementById("guideTitle")?.textContent==="User guide"',3000);
+ const englishGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const ids=[...document.querySelectorAll("[data-guide-section]")].map(x=>x.dataset.guideSection);return ["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"].every(id=>ids.includes(id))&&document.getElementById("guideContent").getAttribute("aria-busy")==="false"})()');
+ if(!englishGuide)throw new Error("English user guide incomplete");
  const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
  if(!englishTabs)throw new Error("English tab translations incomplete");
  const englishVideoThreshold=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("Reference ")})()');
  if(!englishVideoThreshold)throw new Error("English video threshold translation incomplete");
  const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
  if(!thai)throw new Error("Thai switch failed");
+ await waitEval('document.getElementById("guideTitle")?.textContent==="คู่มือการใช้งาน"',3000);
+ const thaiGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const first=document.querySelector("[data-guide-section=getting-started] h3");return first?.textContent==="เริ่มต้นใช้งาน"&&document.documentElement.scrollWidth<=window.innerWidth+1})()');
+ if(!thaiGuide)throw new Error("Thai user guide or responsive layout incomplete");
  const thaiTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["ความเร็ว","วิดีโอ","สถานะ","แผนที่","ประวัติ","ตั้งค่า","ไม่มีโฆษณา"])');
  const gaugeLabelThai=await evaluate('document.getElementById("gaugeMetricLabel")?.textContent==="ความเร็ว"');
  const gaugeCopyNoOverlap=await evaluate('(()=>{const value=document.getElementById("liveValue")?.getBoundingClientRect(),unit=document.querySelector(".gauge-unit")?.getBoundingClientRect(),label=document.getElementById("gaugeMetricLabel")?.getBoundingClientRect(),go=document.getElementById("goButton")?.getBoundingClientRect();return !!value&&!!unit&&!!label&&!!go&&unit.top>=value.bottom-1&&label.top>=unit.bottom-1&&label.bottom<=go.top+1&&unit.height<28&&label.height<32})()');

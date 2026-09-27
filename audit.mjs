@@ -1,6 +1,6 @@
 import fs from"node:fs/promises";
 const read=p=>fs.readFile(p,"utf8");
-const [html,css,app,measurement,serverText,gradle,manifest,activity,pkgText]=await Promise.all(["web/index.html","web/src/styles.css","web/src/app.mjs","web/src/measurement.mjs","web/server-directory.json","app/build.gradle.kts","app/src/main/AndroidManifest.xml","app/src/main/java/com/aistudio/zipspeed/zskt/MainActivity.java","package.json"].map(read));
+const [html,css,app,measurement,serverText,gradle,manifest,activity,pkgText,guideEnText,guideThText]=await Promise.all(["web/index.html","web/src/styles.css","web/src/app.mjs","web/src/measurement.mjs","web/server-directory.json","app/build.gradle.kts","app/src/main/AndroidManifest.xml","app/src/main/java/com/aistudio/zipspeed/zskt/MainActivity.java","package.json","web/i18n/guide.en.json","web/i18n/guide.th.json"].map(read));
 const pkg=JSON.parse(pkgText),directory=JSON.parse(serverText);
 for(const old of["index.html","src/app.mjs","src/styles.css","app/applet","app/src/main/assets/index.html"]){try{await fs.access(old);throw new Error("Legacy active source still exists: "+old)}catch(e){if(e.message?.startsWith("Legacy"))throw e}}
 if(pkg.version!=="85.0.0"||pkg.zipspeed?.versionCode!==85)throw new Error("Version drift");
@@ -14,6 +14,11 @@ if(!baseTheme.includes("Theme.Zipspeed.Launcher")||!baseTheme.includes("@drawabl
 if(!activity.includes("zipspeedStopForLifecycle")||!activity.includes("MIXED_CONTENT_NEVER_ALLOW"))throw new Error("Android lifecycle/security hook missing");
 if((html.match(/id="goButton"/g)||[]).length!==1)throw new Error("GO control must be unique");if(!html.includes('role="tablist"')||!html.includes('role="tabpanel"')||!html.includes('aria-live="polite"')||!html.includes('tabindex="-1"')||!app.includes("ArrowRight")||!app.includes("activateTab"))throw new Error("Accessibility semantics missing");
 if(!html.includes('href="./privacy.html"'))throw new Error("In-app privacy link missing");
+const guideEn=JSON.parse(guideEnText),guideTh=JSON.parse(guideThText),requiredGuideSections=["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"];
+if(!html.includes('id="userGuide"')||!html.includes('id="guideTitle"')||!html.includes('id="guideContent"'))throw new Error("In-app user guide shell missing");
+if(!app.includes("async function fetchGuide")||!app.includes('fetchGuide("en")')||!app.includes("loadGuide()"))throw new Error("Guide locale loading or English fallback missing");
+for(const [locale,guide] of [["en",guideEn],["th",guideTh]]){if(!guide?.title||!Array.isArray(guide.sections))throw new Error("Guide "+locale+" invalid");const ids=guide.sections.map(x=>x.id);if(requiredGuideSections.some(id=>!ids.includes(id)))throw new Error("Guide "+locale+" missing required section");}
+
 if(!html.includes('id="gaugeMetricLabel"')||!app.includes('gaugeDownload:"ดาวน์โหลด"')||!app.includes('gaugeUpload:"อัปโหลด"'))throw new Error("Gauge Download/Upload phase label missing");
 if(!["phaseServerDirectory","phaseServerHealth","phaseMetadata","phaseIdleLatency","phaseDownloadLoaded","phaseUploadLoaded","phaseTimeout"].every(k=>app.includes(k)))throw new Error("Localized measurement phase keys missing");
 for(const raw of ['phase(t("failed")+" • server directory")','phase(t("running")+" • server health")','phase(t("running")+" • metadata")','phase(t("running")+" • idle latency")','phase(t("running")+" • download + loaded latency")','phase(t("running")+" • upload + loaded latency")'])if(app.includes(raw))throw new Error("Raw English measurement phase leaked: "+raw);

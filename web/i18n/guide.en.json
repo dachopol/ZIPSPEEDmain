@@ -1,0 +1,73 @@
+{
+  "title": "User guide",
+  "summary": "ZIPSPEED measures internet speed and network health from real measurements. Values that are not measured or unavailable stay as -- instead of being fabricated.",
+  "sections": [
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "items": [
+        "Open Speed. In Settings, choose Quick or Standard and Single or Multi to match the amount of data and test style you want.",
+        "Tap GO to start. While a test is running the button becomes STOP and can cancel the current test.",
+        "Keep the app open until the test completes; leaving the app stops active measurement and foreground monitoring.",
+        "A -- value means there is no verified measurement yet or that value is unavailable."
+      ]
+    },
+    {
+      "id": "main-features",
+      "title": "Main features",
+      "items": [
+        "Speed shows measured Download, Upload, Ping (HTTP) and Jitter on the main screen, with loaded-latency details below.",
+        "Video gives a suitability estimate from measured download speed. It is not a real video-playback test.",
+        "Status and Map show network metadata reported by the measurement provider, such as public IP, edge code and country. They do not invent GPS or datacenter coordinates.",
+        "History stores completed measurement results locally on the device.",
+        "Monitor checks availability only while the app is open and records incident/recovery events after confirmation checks.",
+        "This test build has no Ads or Billing dependency, so Ad-free does not simulate a purchase or VIP entitlement."
+      ]
+    },
+    {
+      "id": "permissions",
+      "title": "Permissions",
+      "items": [
+        "Android permissions used by the current build are Internet and Network state.",
+        "The app does not request Android camera, microphone, contacts or location permission.",
+        "Country shown from network trace is approximate network metadata, not GPS."
+      ]
+    },
+    {
+      "id": "errors",
+      "title": "Errors and fixes",
+      "items": [
+        "No healthy measurement server: confirm internet access and retry. ZIPSPEED requires a real successful server check and does not create a fake fallback result.",
+        "Timeout or test failed: try Quick first, keep the connection stable, then retry. Results are shown only after real measurement succeeds.",
+        "Unknown or -- means the source did not provide enough verified data; it is not replaced with a guessed value."
+      ]
+    },
+    {
+      "id": "privacy-security",
+      "title": "Privacy and security",
+      "items": [
+        "Measurement requests use HTTPS to the configured provider. The destination can see the public IP needed for network communication.",
+        "Server-reported country is treated as approximate location metadata; the app does not request GPS permission.",
+        "Measurement history keeps speed/latency results locally and does not store public IP, country or edge in History.",
+        "Android cleartext traffic is disabled. Open Privacy policy in Settings for the current disclosure."
+      ]
+    },
+    {
+      "id": "support",
+      "title": "Support",
+      "items": [
+        "Report reproducible problems through GitHub Issues for dachopol/ZIPSPEEDmain. Include the app version, Android version and steps to reproduce.",
+        "For measurement problems, include the time, Quick/Standard profile and Single/Multi mode when useful. Do not post passwords, keys or other secrets."
+      ]
+    },
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "items": [
+        "Tabs and status areas use semantic roles and live-status labels; keyboard tab navigation supports arrow keys when a keyboard is available.",
+        "The layout adapts to phone, tablet, landscape and enlarged system text, and the app respects reduced-motion preference where supported.",
+        "If a screen reader does not announce a control correctly on your Android WebView version, report it through the support channel."
+      ]
+    }
+  ]
+}

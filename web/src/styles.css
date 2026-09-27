@@ -625,6 +625,52 @@ button{cursor:pointer}
   filter:drop-shadow(0 2px 3px rgba(37,99,235,.22))
 }
 
+/* In-app multilingual user guide */
+.guide-card{
+  border:1px solid rgba(147,197,253,.48);
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(247,250,255,.88));
+  box-shadow:0 12px 30px rgba(51,65,85,.08),inset 0 1px 0 rgba(255,255,255,.95);
+  overflow:hidden
+}
+.guide-card summary{
+  min-height:78px;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  list-style:none;
+  color:var(--ink-2);
+  font-weight:900
+}
+.guide-card summary::-webkit-details-marker{display:none}
+.guide-card summary::after{
+  content:"+";
+  min-width:32px;
+  text-align:center;
+  color:var(--blue);
+  font-size:1.55rem;
+  line-height:1;
+  transition:transform .18s ease
+}
+.guide-card[open] summary::after{transform:rotate(45deg)}
+.guide-card summary:focus-visible{outline:3px solid rgba(59,130,246,.24);outline-offset:-4px}
+.guide-content{display:grid;gap:12px;padding:0 16px 16px}
+.guide-intro{margin:0;padding:0 4px;color:var(--ink-2);line-height:1.55}
+.guide-section{
+  border:1px solid rgba(191,219,254,.62);
+  border-radius:20px;
+  padding:15px 16px;
+  background:rgba(255,255,255,.72)
+}
+.guide-section h3{margin:0 0 8px;color:var(--ink);font-size:1rem;line-height:1.35}
+.guide-section p{margin:0;color:var(--ink-2);line-height:1.55}
+.guide-section ul{margin:0;padding-inline-start:1.25rem;color:var(--ink-2);line-height:1.55}
+.guide-section li+li{margin-top:6px}
+@media (prefers-reduced-motion:reduce){.guide-card summary::after{transition:none}}
+
 /* Privacy */
 .privacy-link{
   display:inline-flex;
