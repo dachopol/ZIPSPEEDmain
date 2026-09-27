@@ -4,8 +4,8 @@
   "package_id": "com.aistudio.zipspeed.zskt",
   "version": "85.0.0",
   "version_code": 85,
-  "validated_source_commit": "1e04dabef25a6e334470d503ddeb1d6cf6431494",
-  "validated_ci_run": 214,
+  "validated_source_commit": "e2011ca1c5420a7a42dd764b6a9c32017198add5",
+  "validated_ci_run": 218,
   "validated_ci_jobs": "10/10 PASS",
   "physical_android_wifi": "PASS_RMX3241_2026-09-26",
   "physical_android_4g": "PASS_XIAOMI_23078PND5G_ANDROID16_2026-09-26",
@@ -17,8 +17,8 @@
   "status": "HARD_BLOCKED_AFTER_VERIFIED_SOURCE_AND_PHYSICAL_GATES",
   "privacy_policy_url": "https://dachopol.github.io/privacy-policy/",
   "privacy_policy_version": "85.0.0",
-  "emulator_runtime": "PASS_CI214_VERSION_SPLASH_GUIDE_TH_EN_WEBVIEW_INTERACTION",
-  "browser_interaction": "PASS_V85_CI214_MULTILINGUAL_GUIDE_TH_EN_RESPONSIVE_PLUS_EXISTING_UI_GATES",
+  "emulator_runtime": "PASS_CI218_EMBEDDED_VERSION_SPLASH_GUIDE_TH_EN_WEBVIEW_INTERACTION",
+  "browser_interaction": "PASS_V85_CI218_MULTILINGUAL_GUIDE_TH_EN_RESPONSIVE_PLUS_EXISTING_UI_GATES",
   "blockers": [
     "authorized TURN service/configuration for real packet loss",
     "licensed/owned media endpoint and playback methodology for real video playback measurement",
@@ -97,10 +97,12 @@
   "bundled_privacy_version": "85.0.0",
   "physical_v85_ui": "PASS_RMX3241_1080x2400_IDLE_RUNNING_COMPLETED_PREMIUM_COMPACT",
   "physical_v85_go_real_network": "PASS_RMX3241_WIFI_QUICK_SINGLE_GO_STOP_GO_HISTORY",
-  "startup_blank_screen": "FIXED_V85_NATIVE_SPLASH_T0_T3_THEN_RENDERED_UI",
+  "startup_blank_screen": "FIXED_V85_SPLASH_VISIBLE_UNTIL_FIRST_WEBVIEW_COMMIT_EXACT_CI218_EMULATOR_PASS",
   "exact_ci210_apk_sha256": "547B98A9C0BB5F92815EC1EBD432E2DC0AED1A9D38788B4CB61A53A31B5112F4",
   "multilingual_user_guide": "PASS_SOURCE_BROWSER_ANDROID_EMULATOR_TH_EN_7_SECTIONS_EN_FALLBACK_PHYSICAL_V85_TABLET_TO_VERIFY",
   "multilingual_user_guide_rule": "PASS_LOCKED_IN_UNIVERSAL_APP_PROJECT_RULE",
-  "version_metadata_readiness": "FIXED_BOUNDED_3_ATTEMPT_LOCAL_BUNDLED_VERSION_JSON_REAL_READS_ONLY",
-  "privacy_alignment": "FIX_V85_BUNDLE_ROOT_PUBLIC_CONTACT_AND_VERSION_ALIGNMENT"
+  "version_metadata_readiness": "PASS_ANDROID_VERSION_EMBEDDED_FROM_PACKAGE_JSON_WEB_DEV_REAL_VERSION_JSON_FALLBACK_CI218",
+  "privacy_alignment": "FIX_V85_BUNDLE_ROOT_PUBLIC_CONTACT_AND_VERSION_ALIGNMENT",
+  "exact_ci218_apk_sha256": "C68777F24AEEA3BF0732443F22D1029CC72240E1B8123AEF5D51CA9B90C80956",
+  "local_emulator_startup_ci218": "PASS_SPLASH_T0_5_T3_RENDERED_UI_V85_BY_T8_OBSERVED"
 }

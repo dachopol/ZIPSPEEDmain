@@ -7,6 +7,21 @@ Package: com.aistudio.zipspeed.zskt
 Version: 85.0.0
 versionCode: 85
 
+## v85 deterministic Android startup/version — CI + exact emulator PASS
+
+- Startup commit: `08f918a93e925a542723f2694f43ef35db18f746` hides the native splash on the first visible WebView commit, with page-finished fallback.
+- Version embedding commit: `e2011ca1c5420a7a42dd764b6a9c32017198add5`.
+- CI #217 exposed a real readiness regression: 9/10 jobs passed, but Android instrumentation timed out waiting for the v85 badge because the local `version.json` fetch could lag even after `document.readyState==='complete'`.
+- Current Android packaging replaces `__ZIPSPEED_VERSION__` in bundled `index.html` with the version read from canonical `package.json`; web/dev keeps the bounded real `version.json` fallback. No competing hardcoded version source was introduced.
+- GitHub Actions CI #218: **PASS 10/10**, including Android emulator runtime, browser, real-network smoke, privacy, Play-source, debug APK identity, and release compile.
+- Exact CI #218 debug APK SHA-256: `C68777F24AEEA3BF0732443F22D1029CC72240E1B8123AEF5D51CA9B90C80956`.
+- Exact APK badging: **com.aistudio.zipspeed.zskt / versionCode 85 / versionName 85.0.0 / targetSdk 36**.
+- Exact APK bundled `assets/index.html`: embedded v85 meta **present**; `__ZIPSPEED_VERSION__` placeholder **absent**.
+- Local emulator clean-install of the exact CI #218 APK: **PASS**.
+- Cold-start observation on that emulator: t≈0.5 s = native Zipspeed splash, t≈3 s = splash, t≈8 s = fully rendered v85 UI with version badge. This is local-emulator evidence only, not a universal startup-time guarantee.
+- Earlier CI #216 artifact on the same emulator took roughly 15 s to expose the UI; the first-visible-commit path reduced the observed wait while preserving a branded splash instead of a blank screen.
+- Measurement engine, endpoints, permissions, history schema, Ads/Billing state, and real-data semantics were unchanged.
+
 ## v85 privacy alignment cleanup
 
 - Bundled `web/privacy.html`, root `PRIVACY_POLICY.md`, and public policy source are aligned to **v85.0.0**.
@@ -166,8 +181,8 @@ versionCode: 85
 
 ## Latest validated runtime/source
 
-Validated runtime/source commit: `1e04dabef25a6e334470d503ddeb1d6cf6431494`
-Runtime CI: **#214 — PASS 10/10**
+Validated runtime/source commit: `e2011ca1c5420a7a42dd764b6a9c32017198add5`
+Runtime CI: **#218 — PASS 10/10**
 
 Passed gates:
 - web-check
