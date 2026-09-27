@@ -5,6 +5,7 @@ async function waitHttp(url,timeout=30000){const end=Date.now()+timeout;while(Da
 let server=null,chrome=null,ws=null;
 try{
  await fs.rm("browser-artifacts",{recursive:true,force:true});await fs.mkdir("browser-artifacts",{recursive:true});
+ const axDiagnostics={stage:"init"};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
  server=spawn(process.execPath,["server.mjs"],{env:{...process.env,PORT:String(appPort)},stdio:["ignore","pipe","pipe"]});
  await waitHttp(base+"/health");
  const chromeBin=chromePath(),profile=path.join("/tmp","zipspeed-browser-"+process.pid);
@@ -45,8 +46,11 @@ try{
  const primaryMetrics=await evaluate('(()=>{const hero=document.querySelector(".hero-card");return ["downloadValue","uploadValue","latencyValue","jitterValue"].every(id=>document.getElementById(id)?.closest(".primary-metrics")&&hero?.contains(document.getElementById(id)))&&document.querySelector("[data-i18n=idleLatency]")?.textContent.includes("Ping")})()');
  if(!primaryMetrics)throw new Error("Primary Download/Upload/Ping/Jitter metrics are not on the main hero");
  const thaiAxExpected=[["speed","ความเร็ว"],["video","วิดีโอ"],["status","สถานะ"],["map","แผนที่"],["history","ประวัติ"],["settings","ตั้งค่า"],["adfree","ไม่มีโฆษณา"]];
- for(const [id,name] of thaiAxExpected){const n=await axNode(`[data-tab=${id}]`);if(n?.ignored||String(n?.role?.value??"")!=="tab"||String(n?.name?.value??"").trim()!==name)throw new Error("Thai AX tab invalid: "+id+" "+JSON.stringify({role:n?.role?.value,name:n?.name?.value,ignored:n?.ignored}))}
- const axGoThai=await axNode("#goButton");if(axGoThai?.ignored||String(axGoThai?.role?.value??"")!=="button"||String(axGoThai?.name?.value??"").trim()!=="GO")throw new Error("GO AX node invalid in Thai");
+ const thaiAxObserved=[];for(const [id,name] of thaiAxExpected){const n=await axNode(`[data-tab=${id}]`);thaiAxObserved.push({id,expected:name,role:n?.role?.value??null,name:n?.name?.value??null,ignored:n?.ignored??null})}
+ const axGoThai=await axNode("#goButton"),thaiGoObserved={role:axGoThai?.role?.value??null,name:axGoThai?.name?.value??null,ignored:axGoThai?.ignored??null};
+ axDiagnostics.stage="thai";axDiagnostics.thai={tabs:thaiAxObserved,go:thaiGoObserved};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
+ for(const o of thaiAxObserved)if(o.ignored||String(o.role??"")!=="tab"||String(o.name??"").trim()!==o.expected)throw new Error("Thai AX tab invalid: "+o.id+" "+JSON.stringify(o));
+ if(thaiGoObserved.ignored||String(thaiGoObserved.role??"")!=="button"||String(thaiGoObserved.name??"").trim()!=="GO")throw new Error("GO AX node invalid in Thai: "+JSON.stringify(thaiGoObserved));
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
  if(shareDisabled!==true)throw new Error("Share must be disabled before result");
  const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
@@ -77,8 +81,11 @@ try{
  const englishGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const ids=[...document.querySelectorAll("[data-guide-section]")].map(x=>x.dataset.guideSection);return ["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"].every(id=>ids.includes(id))&&document.getElementById("guideContent").getAttribute("aria-busy")==="false"})()');
  if(!englishGuide)throw new Error("English user guide incomplete");
  const englishAxExpected=[["speed","Speed"],["video","Video"],["status","Status"],["map","Map"],["history","History"],["settings","Settings"],["adfree","Ad-free"]];
- for(const [id,name] of englishAxExpected){const n=await axNode(`[data-tab=${id}]`);if(n?.ignored||String(n?.role?.value??"")!=="tab"||String(n?.name?.value??"").trim()!==name)throw new Error("English AX tab invalid: "+id+" "+JSON.stringify({role:n?.role?.value,name:n?.name?.value,ignored:n?.ignored}))}
- const axGoEnglish=await axNode("#goButton");if(axGoEnglish?.ignored||String(axGoEnglish?.role?.value??"")!=="button"||String(axGoEnglish?.name?.value??"").trim()!=="GO")throw new Error("GO AX node invalid in English");
+ const englishAxObserved=[];for(const [id,name] of englishAxExpected){const n=await axNode(`[data-tab=${id}]`);englishAxObserved.push({id,expected:name,role:n?.role?.value??null,name:n?.name?.value??null,ignored:n?.ignored??null})}
+ const axGoEnglish=await axNode("#goButton"),englishGoObserved={role:axGoEnglish?.role?.value??null,name:axGoEnglish?.name?.value??null,ignored:axGoEnglish?.ignored??null};
+ axDiagnostics.stage="english";axDiagnostics.english={tabs:englishAxObserved,go:englishGoObserved};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
+ for(const o of englishAxObserved)if(o.ignored||String(o.role??"")!=="tab"||String(o.name??"").trim()!==o.expected)throw new Error("English AX tab invalid: "+o.id+" "+JSON.stringify(o));
+ if(englishGoObserved.ignored||String(englishGoObserved.role??"")!=="button"||String(englishGoObserved.name??"").trim()!=="GO")throw new Error("GO AX node invalid in English: "+JSON.stringify(englishGoObserved));
  const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
  if(!englishTabs)throw new Error("English tab translations incomplete");
  const englishVideoThreshold=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("Reference ")})()');
