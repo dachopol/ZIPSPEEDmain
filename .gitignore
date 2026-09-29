@@ -9,8 +9,10 @@ local.properties
 **/build/
 
 # Release signing material must never be committed.
+.signing/
 *.jks
 *.keystore
 *.p12
+*.pfx
 keystore.properties
 signing.properties
