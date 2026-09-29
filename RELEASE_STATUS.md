@@ -41,6 +41,7 @@
 - Release bundle CI artifact: **PASS — CI #220 preserves unsigned AAB + SHA-256 + signing status; SHA-256 `7E16F11C…5293A`, signing UNCONFIGURED**
 - Independent AAB verification: **PASS — downloaded bytes match CI SHA-256; jarsigner confirms unsigned; no keystore/private-key/secret-like archive entries found**
 - Release signing source contract: **PASS — env-based, partial config fails, secrets ignored/not tracked**
+- Manual signed-release workflow: **READY IN SOURCE — requires real ZIPSPEED GitHub Secrets; verifies AAB signature + SHA-256 + upload-certificate fingerprint**
 - CI signing status without real key: **UNCONFIGURED**
 - Release-source evidence: PASS in CI
 - Play-source evidence: PASS in CI

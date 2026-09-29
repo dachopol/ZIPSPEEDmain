@@ -27,7 +27,7 @@
     "exact Canva raster export bytes for pixel-identical icon/splash replacement",
     "actual Play Console Data Safety entry/review/submission and check for older active Play artifacts"
   ],
-  "next": "First local-computer action when Desktop Commander quota returns: verify/restore local emulator TalkBack to its original disabled state. When physical devices reconnect: validate current-v85 guide/layout on Xiaomi tablet and recheck 5G on RMX. External blockers remain real signing/Play upload and Data Safety submission, physical TalkBack, exact Canva raster export bytes, authorized TURN/video/regional endpoints.",
+  "next": "When real ZIPSPEED upload-key secrets are available, configure the four repository secrets and manually run ZIPSPEED signed release; then compare the artifact certificate fingerprint with Play Console before upload. Physical-device blockers remain current-v85 Xiaomi tablet, RMX 5G and physical TalkBack when ADB returns.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -112,5 +112,7 @@
   "validated_current_main_commit": "e9f2bc67e7a871259ea0005ac93b578b3f6c9d0f",
   "emulator_talkback_local": "TO_VERIFY_RESTORE_LOCAL_EMULATOR_TALKBACK_TEMP_ENABLED_BEFORE_DESKTOP_COMMANDER_QUOTA",
   "release_bundle_independent_verification": "PASS_CI220_SHA256_MATCH_JARSIGNER_UNSIGNED_NO_KEYSTORE_OR_SECRET_ARCHIVE_ENTRIES",
-  "play_console_connector_discovery": "NO_DIRECT_GOOGLE_PLAY_CONSOLE_PLUGIN_FOUND"
+  "play_console_connector_discovery": "NO_DIRECT_GOOGLE_PLAY_CONSOLE_PLUGIN_FOUND",
+  "manual_signed_release_workflow": "PASS_SOURCE_WORKFLOW_DISPATCH_SECRETS_FAIL_SAFE_JARSIGNER_SHA256_CERT_FINGERPRINT",
+  "signed_release_secret_contract": "ZIPSPEED_KEYSTORE_BASE64_PLUS_PASSWORD_ALIAS_KEY_PASSWORD"
 }
