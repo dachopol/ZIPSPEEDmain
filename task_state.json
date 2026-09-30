@@ -27,7 +27,7 @@
     "exact Canva raster export bytes for pixel-identical icon/splash replacement",
     "actual Play Console Data Safety entry/review/submission and check for older active Play artifacts"
   ],
-  "next": "When real ZIPSPEED upload-key secrets are available, configure the four repository secrets and manually run ZIPSPEED signed release; then compare the artifact certificate fingerprint with Play Console before upload. Physical-device blockers remain current-v85 Xiaomi tablet, RMX 5G and physical TalkBack when ADB returns.",
+  "next": "When real ZIPSPEED upload-key secrets are available, configure the four repository secrets and manually run ZIPSPEED signed release. The workflow now requires the signed AAB signer certificate SHA-256 to exactly match the configured upload-key SHA-256 before artifact upload. Physical-device blockers remain current-v85 Xiaomi tablet, RMX 5G and physical TalkBack when ADB/Desktop Commander access returns.",
   "physical_v74_ui": "PASS_RMX3241_PORTRAIT_1080x2400_FONT_SCALE_1.15",
   "physical_v74_cold_start": "PASS_SHELL_1.5S_FULL_UI_3S_OBSERVED",
   "physical_v75_home_ui": "PASS_RMX3241_1080x2400",
@@ -109,10 +109,14 @@
   "release_bundle_ci220_aab_sha256": "7E16F11C8768E309F11D258CFB943102A7DB211C8BB5CB8B387A9D479805293A",
   "release_bundle_ci220_size_bytes": 677082,
   "release_bundle_ci220_signing": "UNCONFIGURED",
-  "validated_current_main_commit": "e9f2bc67e7a871259ea0005ac93b578b3f6c9d0f",
+  "validated_current_main_commit": "da6e3ec7e2e8a9f4ee481e4162b7cfc7ff8553f5",
   "emulator_talkback_local": "TO_VERIFY_RESTORE_LOCAL_EMULATOR_TALKBACK_TEMP_ENABLED_BEFORE_DESKTOP_COMMANDER_QUOTA",
   "release_bundle_independent_verification": "PASS_CI220_SHA256_MATCH_JARSIGNER_UNSIGNED_NO_KEYSTORE_OR_SECRET_ARCHIVE_ENTRIES",
   "play_console_connector_discovery": "NO_DIRECT_GOOGLE_PLAY_CONSOLE_PLUGIN_FOUND",
-  "manual_signed_release_workflow": "PASS_SOURCE_WORKFLOW_DISPATCH_SECRETS_FAIL_SAFE_JARSIGNER_SHA256_CERT_FINGERPRINT",
-  "signed_release_secret_contract": "ZIPSPEED_KEYSTORE_BASE64_PLUS_PASSWORD_ALIAS_KEY_PASSWORD"
+  "manual_signed_release_workflow": "PASS_SOURCE_WORKFLOW_DISPATCH_SECRETS_FAIL_SAFE_JARSIGNER_SHA256_AAB_SIGNER_MATCH_UPLOAD_CERT",
+  "signed_release_secret_contract": "ZIPSPEED_KEYSTORE_BASE64_PLUS_PASSWORD_ALIAS_KEY_PASSWORD",
+  "signed_release_certificate_match_gate": "PASS_SOURCE_REQUIRES_EXACT_AAB_SIGNER_SHA256_EQUALS_UPLOAD_KEY_SHA256",
+  "latest_current_main_ci_run": 228,
+  "latest_current_main_ci_jobs": "10/10 PASS",
+  "signed_release_workflow_runs_observed": "NONE_REPOSITORY_WORKFLOW_DISPATCH_QUERY_RETURNED_EMPTY"
 }

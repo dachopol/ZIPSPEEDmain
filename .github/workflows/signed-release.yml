@@ -71,8 +71,14 @@ jobs:
           cp "$AAB" signed-release-evidence/app-release.aab
           sha256sum "$AAB" > signed-release-evidence/app-release.aab.sha256
           cp signing-status.txt signed-release-evidence/signing-status.txt
-          keytool -list -v             -keystore "$ZIPSPEED_KEYSTORE_FILE"             -storepass "$ZIPSPEED_KEYSTORE_PASSWORD"             -alias "$ZIPSPEED_KEY_ALIAS"             | grep 'SHA256:'             > signed-release-evidence/upload-certificate-sha256.txt
+          keytool -list -v             -keystore "$ZIPSPEED_KEYSTORE_FILE"             -storepass "$ZIPSPEED_KEYSTORE_PASSWORD"             -alias "$ZIPSPEED_KEY_ALIAS"             | awk '/^[[:space:]]*SHA256:/{print $2; exit}'             > signed-release-evidence/upload-certificate-sha256.txt
+          keytool -printcert -jarfile "$AAB"             | awk '/^[[:space:]]*SHA256:/{print $2; exit}'             > signed-release-evidence/aab-signer-certificate-sha256.txt
           test -s signed-release-evidence/upload-certificate-sha256.txt || { echo "::error::Upload certificate SHA-256 missing"; exit 1; }
+          test -s signed-release-evidence/aab-signer-certificate-sha256.txt || { echo "::error::AAB signer certificate SHA-256 missing"; exit 1; }
+          cmp -s signed-release-evidence/upload-certificate-sha256.txt signed-release-evidence/aab-signer-certificate-sha256.txt || {
+            echo "::error::Signed AAB certificate does not match configured upload key"
+            exit 1
+          }
 
       - uses: actions/upload-artifact@v4
         with:
