@@ -1,5 +1,6 @@
 import fs from"node:fs/promises";import path from"node:path";import{spawn}from"node:child_process";
-const pkg=JSON.parse(await fs.readFile("package.json","utf8"));\nconst port=4173,base=`http://127.0.0.1:${port}`,artifacts="runtime-artifacts";const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const pkg=JSON.parse(await fs.readFile("package.json","utf8"));
+const port=4173,base=`http://127.0.0.1:${port}`,artifacts="runtime-artifacts";const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 await fs.rm(artifacts,{recursive:true,force:true});await fs.mkdir(artifacts,{recursive:true});
 const server=spawn(process.execPath,["server.mjs"],{env:{...process.env,PORT:String(port)},stdio:["ignore","pipe","pipe"]});
 try{
