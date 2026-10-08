@@ -1,5 +1,6 @@
 import{spawn,spawnSync}from"node:child_process";import fs from"node:fs/promises";import path from"node:path";
-const pkg=JSON.parse(await fs.readFile("package.json","utf8"));\nconst appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const pkg=JSON.parse(await fs.readFile("package.json","utf8"));
+const appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function chromePath(){for(const name of["google-chrome","google-chrome-stable","chromium","chromium-browser"]){const r=spawnSync("which",[name],{encoding:"utf8"});if(r.status===0&&r.stdout.trim())return r.stdout.trim()}throw new Error("Chrome/Chromium not found")}
 async function waitHttp(url,timeout=30000){const end=Date.now()+timeout;while(Date.now()<end){try{const r=await fetch(url);if(r.ok)return r}catch{}await sleep(150)}throw new Error("Timeout waiting for "+url)}
 let server=null,chrome=null,ws=null;
