@@ -1,5 +1,5 @@
 import{spawn,spawnSync}from"node:child_process";import fs from"node:fs/promises";import path from"node:path";
-const appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const pkg=JSON.parse(await fs.readFile("package.json","utf8"));\nconst appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function chromePath(){for(const name of["google-chrome","google-chrome-stable","chromium","chromium-browser"]){const r=spawnSync("which",[name],{encoding:"utf8"});if(r.status===0&&r.stdout.trim())return r.stdout.trim()}throw new Error("Chrome/Chromium not found")}
 async function waitHttp(url,timeout=30000){const end=Date.now()+timeout;while(Date.now()<end){try{const r=await fetch(url);if(r.ok)return r}catch{}await sleep(150)}throw new Error("Timeout waiting for "+url)}
 let server=null,chrome=null,ws=null;
@@ -23,7 +23,7 @@ try{
  const waitEval=async(expr,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expr))return true;await sleep(120)}throw new Error("Browser condition timeout: "+expr)};
  await send("Page.enable");await send("Runtime.enable");await send("Accessibility.enable");await send("Page.navigate",{url:base+"/"});
  await waitEval('document.readyState==="complete"');
- await waitEval('document.getElementById("appVersion")?.textContent==="v85.0.0"');
+ await waitEval(`document.getElementById("appVersion")?.textContent===${JSON.stringify("v"+pkg.version)}`);
  for(const width of[320,390,768]){
    await send("Emulation.setDeviceMetricsOverride",{width,height:844,deviceScaleFactor:1,mobile:width<600});
    await sleep(120);
