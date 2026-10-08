@@ -31,7 +31,7 @@ npm run runtime:check
 npm run release:check
 npm run play:check
 ```
-Android CI runs lint/debug assembly and release bundle compilation separately. CI #228 passes all 10 gates on main. v85 retains the v84 APK-identity hardening and refines the premium white-clay presentation by reducing excess blue bloom, slightly compacting the hero/gauge/GO footprint, and keeping the 2×2 Download / Upload / Ping / Jitter cards readable. Exact CI v85 is physically installed on RMX3241 and passes Quick + Single GO → STOP → GO with persisted real-data provenance.
+Android CI runs lint/debug assembly and release bundle compilation separately. CI #231 passes all 10 gates on main. v85 retains the v84 APK-identity hardening and refines the premium white-clay presentation by reducing excess blue bloom, slightly compacting the hero/gauge/GO footprint, and keeping the 2×2 Download / Upload / Ping / Jitter cards readable. Exact CI v85 is physically installed on RMX3241 and passes Quick + Single GO → STOP → GO with persisted real-data provenance.
 
 ## Release signing
 Release signing is environment-based and secret-free in Git. See `SIGNING_SETUP.md`. CI verifies the signing contract and unsigned release compilation; a real signed Play-uploadable AAB remains TO VERIFY until the intended keystore/certificate is supplied.
