@@ -36,6 +36,7 @@ The workflow creates a `zipspeed-signed-release` artifact containing:
 - `app-release.aab.sha256`
 - `signing-status.txt`
 - `upload-certificate-sha256.txt`
+- `aab-signer-certificate-sha256.txt`
 
 The workflow verifies the AAB signature before upload.
 
