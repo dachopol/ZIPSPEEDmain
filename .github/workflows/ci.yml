@@ -32,7 +32,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with: { name: zipspeed-web-runtime, path: runtime-artifacts/, if-no-files-found: error, retention-days: 14 }
   real-network-smoke:
-    if: github.event_name == 'push'
+    # All critical runtime gates must validate the PR head before merge.
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with: { name: zipspeed-real-network-smoke, path: runtime-artifacts/, if-no-files-found: error, retention-days: 14 }
   browser-interaction:
-    if: github.event_name == 'push'
+    # All critical runtime gates must validate the PR head before merge.
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -58,7 +58,7 @@ jobs:
         if: always()
         with: { name: zipspeed-browser-interaction, path: browser-artifacts/, if-no-files-found: error, retention-days: 14 }
   privacy-url-check:
-    if: github.event_name == 'push'
+    # All critical runtime gates must validate the PR head before merge.
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with: { name: zipspeed-play-console-evidence, path: play-console-evidence/, if-no-files-found: error, retention-days: 14 }
   android-emulator-runtime:
-    if: github.event_name == 'push'
+    # All critical runtime gates must validate the PR head before merge.
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
