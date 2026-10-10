@@ -14,3 +14,34 @@ test("server health selects only the fastest healthy server",()=>{const best=sel
 test("server directory only accepts enabled HTTPS endpoints",()=>{const v=validateServerDirectory({servers:[{id:"a",name:"A",baseUrl:"https://example.com/",enabled:true},{id:"b",name:"B",baseUrl:"http://example.com",enabled:true},{id:"c",name:"C",baseUrl:"https://x.test",enabled:false}]});assert.equal(v.length,1);assert.equal(v[0].baseUrl,"https://example.com")});
 test("server directory lists each country primary before backup stations",()=>{const v=validateServerDirectory({servers:[{id:"th-backup",name:"TH Backup",baseUrl:"https://th-backup.test",enabled:true,countryCode:"TH",isPrimary:false,priority:2},{id:"jp-main",name:"JP Main",baseUrl:"https://jp-main.test",enabled:true,countryCode:"jp",isPrimary:true,priority:1},{id:"global",name:"Global Anycast",baseUrl:"https://global.test",enabled:true},{id:"th-main",name:"TH Main",baseUrl:"https://th-main.test",enabled:true,countryCode:"TH",isPrimary:true,priority:1},{id:"jp-backup",name:"JP Backup",baseUrl:"https://jp-backup.test",enabled:true,countryCode:"JP",isPrimary:false,priority:2}]});assert.deepEqual(v.map(x=>x.id),["jp-main","th-main","jp-backup","th-backup","global"])});
 test("video suitability is derived only from measured download",()=>{const v=videoSuitability(6);assert.equal(v.find(x=>x.label==="1080p").suitable,true);assert.equal(v.find(x=>x.label==="4K").suitable,false)});
+
+
+test("real data unknowns must never normalize to zero",()=>{
+  const h=normalizeHistoryEntry({downloadMbps:null,uploadMbps:"",idleLatencyMs:null,idleJitterMs:undefined,downloadLoadedLatencyMs:" ",downloadLoadedJitterMs:false,uploadLoadedLatencyMs:"invalid",uploadLoadedJitterMs:-1,payloadBytes:null});
+  for(const field of["downloadMbps","uploadMbps","idleLatencyMs","idleJitterMs","downloadLoadedLatencyMs","downloadLoadedJitterMs","uploadLoadedLatencyMs","uploadLoadedJitterMs","payloadBytes"])assert.equal(h[field],null,field);
+});
+test("genuine measured zero and numeric legacy values remain distinguishable",()=>{
+  const h=normalizeHistoryEntry({downloadMbps:0,uploadMbps:"0",idleLatencyMs:0,idleJitterMs:0,downloadLoadedLatencyMs:0,payloadBytes:0});
+  for(const field of["downloadMbps","uploadMbps","idleLatencyMs","idleJitterMs","downloadLoadedLatencyMs","payloadBytes"])assert.equal(h[field],0,field);
+  const old=normalizeHistoryEntry({latencyMs:"12.5",jitterMs:"2.1",idleLatencyMs:null,idleJitterMs:""});
+  assert.equal(old.idleLatencyMs,12.5);assert.equal(old.idleJitterMs,2.1);
+});
+test("jitter requires at least two valid latency samples, not an invented zero",()=>{
+  assert.equal(latencyJitter([]),null);
+  assert.equal(latencyJitter([42]),null);
+  assert.equal(latencyJitter([-1,42]),null);
+  assert.deepEqual(summarizeLatency([]),{latency:null,jitter:null,samples:0});
+  assert.deepEqual(summarizeLatency([42]),{latency:42,jitter:null,samples:1});
+  assert.deepEqual(summarizeLatency([42,42]),{latency:42,jitter:0,samples:2});
+});
+test("Speed measurement never substitutes planned payload or fabricated idle zero",async()=>{
+  const {readFile}=await import("node:fs/promises");
+  const app=await readFile(new URL("../web/src/app.mjs",import.meta.url),"utf8");
+  assert.ok(app.includes("idleLatencyMs:idle.latency,idleJitterMs:idle.jitter"));
+  assert.ok(app.includes("const payloadBytes=down.bytes+up.bytes;"));
+  assert.ok(app.includes('throw new Error(t("phaseIncomplete"))'));
+  assert.ok(app.includes("formatNumber(lastResult.idleLatencyMs)"));
+  assert.ok(!app.includes("idle.latency??0"));
+  assert.ok(!app.includes("down.bytes||profile.downloadBytes"));
+  assert.ok(!app.includes("lastResult.idleLatencyMs.toFixed(1)"));
+});
