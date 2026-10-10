@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "project": "Zipspeed by AnakinYoo",
+  "owner": "ZIPSPEEDmain QA / Issue #4",
+  "candidate": {
+    "source_sha": null,
+    "artifact_sha256": null,
+    "package_id": "com.aistudio.zipspeed.zskt",
+    "version_code": 85
+  },
+  "gates": {
+    "source_ci": {
+      "status": "TO_VERIFY",
+      "evidence": [],
+      "reason": "Prior PR-head CI is historical and cannot authorize a later SHA"
+    },
+    "browser_runtime": {
+      "status": "TO_VERIFY",
+      "evidence": [],
+      "reason": "Browser screenshot reviews must bind exact candidate identity"
+    },
+    "emulator_runtime": {
+      "status": "TO_VERIFY",
+      "evidence": [],
+      "reason": "Current source/artifact and emulator run identity not yet bound"
+    },
+    "physical_android": {
+      "status": "TO_VERIFY",
+      "evidence": [],
+      "reason": "No physical device artifact hash and real GO/STOP logs on merged candidate"
+    },
+    "physical_visual_th_en": {
+      "status": "TO_VERIFY",
+      "evidence": [],
+      "reason": "All required page/state/locale physical screenshots unreviewed"
+    },
+    "real_measurement": {
+      "status": "TO_VERIFY",
+      "evidence": [],
+      "reason": "Current device network accuracy and error flow not assessed"
+    },
+    "security_privacy": {
+      "status": "TO_VERIFY",
+      "evidence": [],
+      "reason": "Current Release Data Safety/Privacy acceptance not established"
+    },
+    "signed_release": {
+      "status": "BLOCKED",
+      "evidence": [],
+      "reason": "Signed upload AAB, cert and Play review unverified"
+    }
+  },
+  "reviews": {
+    "visual_ux": {
+      "status": "TO_VERIFY",
+      "scores": null,
+      "reviewer": null,
+      "captures": []
+    },
+    "benefit": {
+      "status": "TO_VERIFY",
+      "scores": null,
+      "reviewer": null
+    }
+  },
+  "test_matrix": [
+    {
+      "scope": "Historical PR #5 source CI",
+      "status": "PASS_HISTORICAL",
+      "evidence": "https://github.com/dachopol/ZIPSPEEDmain/actions/runs/38014506824",
+      "commit": "06ffe407e2236b8f30bb1dfbcd281acb6fc5915c",
+      "notes": "10/10 successful CI jobs; NOT physical Android acceptance"
+    },
+    {
+      "scope": "Current SHA physical Android",
+      "status": "TO_VERIFY",
+      "evidence": null,
+      "notes": "GO-STOP-GO/offline/history/share and TH/EN full screenshots"
+    }
+  ],
+  "defects": [
+    {
+      "id": "#4",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "owner": "ZIPSPEEDmain QA",
+      "cause": "Current physical-app evidence and all-states visuals absent",
+      "fix": "Run device QA with exact artifact",
+      "verification": "TO_VERIFY"
+    }
+  ],
+  "remaining_risks": [
+    "Physical runtime on merged candidate unverified",
+    "Android TH/EN required states not visually reviewed",
+    "Play signing and policy gate incomplete"
+  ],
+  "next_action": "Bind exact source SHA and APK hash to authorized device; record actual interactions and page-state/locale screenshots; obtain human review; run final gates before closing Issue #4."
+}
