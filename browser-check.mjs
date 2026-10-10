@@ -133,6 +133,8 @@ try{
  for(const locale of ["th","en"]){
    const localeApplied=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value='+JSON.stringify(locale)+';e.dispatchEvent(new Event("change",{bubbles:true}));return document.documentElement.lang==='+JSON.stringify(locale)+'})()');
    if(!localeApplied)throw new Error("Visual QA locale switch failed: "+locale);
+   // A guide opened by interaction tests is NOT the default Settings page.
+   await evaluate('document.getElementById("userGuide").open=false');
    for(const pageId of visualTabs){
      const selected=await evaluate('(()=>{document.querySelector("[data-tab='+pageId+']").click();const panel=document.getElementById("'+pageId+'");return panel?.classList.contains("active") && document.documentElement.scrollWidth<=window.innerWidth+1})()');
      if(!selected)throw new Error("Visual QA page missing or clipped: "+locale+"/"+pageId);
@@ -144,9 +146,19 @@ try{
      await fs.writeFile("browser-artifacts/"+filename,bytes);
      visualEvidence.push({file:filename,locale,page_id:pageId,state:pageId==="speed"?"ready":"default",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(bytes).digest("hex"),bytes:bytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version});
    }
+   const guidePage=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();const guide=document.getElementById("userGuide");guide.open=true;return guide.open&&document.getElementById("settings").classList.contains("active")})()');
+   if(!guidePage)throw new Error("Visual QA guide cannot open: "+locale);
+   await waitEval('document.getElementById("guideContent").getAttribute("aria-busy")==="false"',8000);
+   await sleep(140);
+   const guideShot=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:true,fromSurface:true});
+   const guideBytes=Buffer.from(guideShot.data||"","base64");
+   if(guideBytes.length<2500||!guideBytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error("Visual QA guide screenshot invalid: "+locale);
+   const guideFile="visual-"+locale+"-settings-guide-open.png";
+   await fs.writeFile("browser-artifacts/"+guideFile,guideBytes);
+   visualEvidence.push({file:guideFile,locale,page_id:"settings",state:"guide-open",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(guideBytes).digest("hex"),bytes:guideBytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version});
  }
- if(visualEvidence.length!==14)throw new Error("Incomplete baseline TH/EN visual evidence");
- await fs.writeFile("browser-artifacts/visual-manifest.json",JSON.stringify({generatedAt:new Date().toISOString(),source:"real browser render",scope:"seven baseline tabs in TH/EN (not error/loading/device)",candidate_version:pkg.version,visualCoverage:visualEvidence},null,2));
+ if(visualEvidence.length!==16)throw new Error("Incomplete 7-tab baseline + guide TH/EN visual evidence");
+ await fs.writeFile("browser-artifacts/visual-manifest.json",JSON.stringify({generatedAt:new Date().toISOString(),source:"real browser render",scope:"seven baseline tabs + expanded Settings guide in TH/EN (not error/loading/device)",candidate_version:pkg.version,visualCoverage:visualEvidence},null,2));
  await send("Emulation.clearDeviceMetricsOverride");
  const evidence={visualBaselineScreenshots:visualEvidence.length,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
