@@ -125,7 +125,30 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
- const evidence={generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
+ // Capture real browser-rendered baseline UI evidence (NOT a mobile-device QA pass).
+ // Keep full provenance and do not assign aesthetic scores from test code.
+ await send("Emulation.setDeviceMetricsOverride",{width:390,height:844,deviceScaleFactor:1,mobile:true});
+ const {createHash}=await import("node:crypto"),visualEvidence=[];
+ const visualTabs=["speed","video","status","map","history","settings","adfree"];
+ for(const locale of ["th","en"]){
+   const localeApplied=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value='+JSON.stringify(locale)+';e.dispatchEvent(new Event("change",{bubbles:true}));return document.documentElement.lang==='+JSON.stringify(locale)+'})()');
+   if(!localeApplied)throw new Error("Visual QA locale switch failed: "+locale);
+   for(const pageId of visualTabs){
+     const selected=await evaluate('(()=>{document.querySelector("[data-tab='+pageId+']").click();const panel=document.getElementById("'+pageId+'");return panel?.classList.contains("active") && document.documentElement.scrollWidth<=window.innerWidth+1})()');
+     if(!selected)throw new Error("Visual QA page missing or clipped: "+locale+"/"+pageId);
+     await sleep(160);
+     const result=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:true,fromSurface:true});
+     const bytes=Buffer.from(result.data||"","base64");
+     if(bytes.length<2500||!bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error("Visual QA browser screenshot invalid: "+locale+"/"+pageId);
+     const filename="visual-"+locale+"-"+pageId+"-baseline.png";
+     await fs.writeFile("browser-artifacts/"+filename,bytes);
+     visualEvidence.push({file:filename,locale,page_id:pageId,state:pageId==="speed"?"ready":"default",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(bytes).digest("hex"),bytes:bytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version});
+   }
+ }
+ if(visualEvidence.length!==14)throw new Error("Incomplete baseline TH/EN visual evidence");
+ await fs.writeFile("browser-artifacts/visual-manifest.json",JSON.stringify({generatedAt:new Date().toISOString(),source:"real browser render",scope:"seven baseline tabs in TH/EN (not error/loading/device)",candidate_version:pkg.version,visualCoverage:visualEvidence},null,2));
+ await send("Emulation.clearDeviceMetricsOverride");
+ const evidence={visualBaselineScreenshots:visualEvidence.length,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
