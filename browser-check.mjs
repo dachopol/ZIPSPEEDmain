@@ -1,5 +1,20 @@
 import{spawn,spawnSync}from"node:child_process";import fs from"node:fs/promises";import path from"node:path";
 const pkg=JSON.parse(await fs.readFile("package.json","utf8"));
+// GitHub pull_request checks out a synthetic merge commit; retain both exact identities.
+const gitHead=spawnSync("git",["rev-parse","HEAD"],{encoding:"utf8"});
+const checkoutSha=gitHead.status===0?gitHead.stdout.trim():null;
+const validSha=value=>typeof value==="string"&&/^[a-f0-9]{40}$/.test(value);
+if(!validSha(checkoutSha))throw new Error("Cannot establish checked-out source SHA");
+const eventName=process.env.GITHUB_EVENT_NAME||null,runId=process.env.GITHUB_RUN_ID||null;
+if(runId!==null&&!/^[0-9]+$/.test(runId))throw new Error("Invalid GitHub run ID");
+if(process.env.GITHUB_ACTIONS==="true"&&!runId)throw new Error("GitHub Actions run ID missing");
+let sourceSha=checkoutSha;
+if(eventName==="pull_request"){
+  if(!process.env.GITHUB_EVENT_PATH)throw new Error("PR event provenance missing");
+  const event=JSON.parse(await fs.readFile(process.env.GITHUB_EVENT_PATH,"utf8"));
+  sourceSha=event.pull_request?.head?.sha;
+  if(!validSha(sourceSha))throw new Error("PR head SHA missing or invalid");
+}
 const appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function chromePath(){for(const name of["google-chrome","google-chrome-stable","chromium","chromium-browser"]){const r=spawnSync("which",[name],{encoding:"utf8"});if(r.status===0&&r.stdout.trim())return r.stdout.trim()}throw new Error("Chrome/Chromium not found")}
 async function waitHttp(url,timeout=30000){const end=Date.now()+timeout;while(Date.now()<end){try{const r=await fetch(url);if(r.ok)return r}catch{}await sleep(150)}throw new Error("Timeout waiting for "+url)}
@@ -106,6 +121,8 @@ try{
 
  const english=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="Test profile"})()');
  if(!english)throw new Error("English switch failed");
+ const enOptions=await evaluate('(()=>{const q=(sel)=>document.querySelector(sel)?.textContent?.trim();return q("#profileSetting option[value=quick]")==="Quick (≈4 MiB)"&&q("#connectionSetting option[value=single]")==="Single"&&q("#connectionSetting option[value=multi]")==="Multi (4)"&&q("#serverSetting option[value=auto]")==="Auto"})()');
+ if(!enOptions)throw new Error("English Settings option labels not localized");
  await waitEval('document.getElementById("guideTitle")?.textContent==="User guide"',3000);
  const englishGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const ids=[...document.querySelectorAll("[data-guide-section]")].map(x=>x.dataset.guideSection);return ["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"].every(id=>ids.includes(id))&&document.getElementById("guideContent").getAttribute("aria-busy")==="false"})()');
  if(!englishGuide)throw new Error("English user guide incomplete");
@@ -130,6 +147,8 @@ try{
  if(!englishVideoThreshold)throw new Error("English video threshold translation incomplete");
  const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
  if(!thai)throw new Error("Thai switch failed");
+ const thOptions=await evaluate('(()=>{const q=(sel)=>document.querySelector(sel)?.textContent?.trim();return q("#profileSetting option[value=quick]")==="เร็ว (≈4 MiB)"&&q("#profileSetting option[value=standard]")==="มาตรฐาน (≤122 MiB)"&&q("#connectionSetting option[value=single]")==="ทางเดียว"&&q("#connectionSetting option[value=multi]")==="หลายทาง (4)"&&q("#serverSetting option[value=auto]")==="อัตโนมัติ"})()');
+ if(!thOptions)throw new Error("Thai Settings option labels not localized");
  await waitEval('document.getElementById("guideTitle")?.textContent==="คู่มือการใช้งาน"',3000);
  const thaiGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const first=document.querySelector("[data-guide-section=getting-started] h3");return first?.textContent==="เริ่มต้นใช้งาน"&&document.documentElement.scrollWidth<=window.innerWidth+1})()');
  if(!thaiGuide)throw new Error("Thai user guide or responsive layout incomplete");
@@ -191,7 +210,7 @@ try{
      if(bytes.length<2500||!bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error("Visual QA browser screenshot invalid: "+locale+"/"+pageId);
      const filename="visual-"+locale+"-"+pageId+"-baseline.png";
      await fs.writeFile("browser-artifacts/"+filename,bytes);
-     visualEvidence.push({file:filename,locale,page_id:pageId,state:pageId==="speed"?"ready":"default",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(bytes).digest("hex"),bytes:bytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version});
+     visualEvidence.push({file:filename,locale,page_id:pageId,state:pageId==="speed"?"ready":"default",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(bytes).digest("hex"),bytes:bytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version,source_sha:sourceSha,checked_out_sha:checkoutSha,run_id:runId});
    }
    const guidePage=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();const guide=document.getElementById("userGuide");guide.open=true;return guide.open&&document.getElementById("settings").classList.contains("active")})()');
    if(!guidePage)throw new Error("Visual QA guide cannot open: "+locale);
@@ -202,10 +221,15 @@ try{
    if(guideBytes.length<2500||!guideBytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error("Visual QA guide screenshot invalid: "+locale);
    const guideFile="visual-"+locale+"-settings-guide-open.png";
    await fs.writeFile("browser-artifacts/"+guideFile,guideBytes);
-   visualEvidence.push({file:guideFile,locale,page_id:"settings",state:"guide-open",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(guideBytes).digest("hex"),bytes:guideBytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version});
+   visualEvidence.push({file:guideFile,locale,page_id:"settings",state:"guide-open",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(guideBytes).digest("hex"),bytes:guideBytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version,source_sha:sourceSha,checked_out_sha:checkoutSha,run_id:runId});
  }
  if(visualEvidence.length!==16)throw new Error("Incomplete 7-tab baseline + guide TH/EN visual evidence");
- await fs.writeFile("browser-artifacts/visual-manifest.json",JSON.stringify({generatedAt:new Date().toISOString(),source:"real browser render",scope:"seven baseline tabs + expanded Settings guide in TH/EN (not error/loading/device)",candidate_version:pkg.version,visualCoverage:visualEvidence},null,2));
+ await fs.writeFile("browser-artifacts/visual-manifest.json",JSON.stringify({generatedAt:new Date().toISOString(),source:"real browser render",scope:"seven baseline tabs + expanded Settings guide in TH/EN (not error/loading/device)",candidate_version:pkg.version,candidate_source_sha:sourceSha,checked_out_sha:checkoutSha,github_run_id:runId,github_event_name:eventName,github_repository:process.env.GITHUB_REPOSITORY||null,visualCoverage:visualEvidence},null,2));
+ const manifest=JSON.parse(await fs.readFile("browser-artifacts/visual-manifest.json","utf8"));
+ if(manifest.candidate_source_sha!==sourceSha||manifest.checked_out_sha!==checkoutSha||
+    manifest.github_run_id!==runId||manifest.visualCoverage.length!==16||
+    manifest.visualCoverage.some(x=>x.source_sha!==sourceSha||x.checked_out_sha!==checkoutSha||x.run_id!==runId))
+   throw new Error("Browser visual evidence source/run provenance mismatch");
  await send("Emulation.clearDeviceMetricsOverride");
  // Security/UX negative fixture: only in disposable headless Chromium, never a real measurement or screenshot.
  // A hostile directory label and locally stored history value must remain literal TEXT, never parsed HTML.
@@ -234,7 +258,7 @@ try{
  const changedLocale=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.documentElement.lang==="th"})()');
  if(!changedLocale)throw new Error("Guide offline fixture could not switch to Thai");
  await waitEval('document.getElementById("guideContent")?.getAttribute("aria-busy")==="false" && document.getElementById("guideTitle")?.textContent==="คู่มือการใช้งาน" && document.getElementById("guideContent")?.textContent.startsWith("ไม่สามารถโหลดคู่มือได้")',12000);
- const evidence={visualBaselineScreenshots:visualEvidence.length,safeDynamicTextRendering:true,guideNetworkFailureSettledThEn:true,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,allSevenTabpanelsKeyboardReachable:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
+ const evidence={visualBaselineScreenshots:visualEvidence.length,safeDynamicTextRendering:true,guideNetworkFailureSettledThEn:true,localizedSettingsChoicesThEn:true,manifestProvenanceVerified:true,source_sha:sourceSha,checked_out_sha:checkoutSha,run_id:runId,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,allSevenTabpanelsKeyboardReachable:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
