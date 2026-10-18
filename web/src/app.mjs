@@ -16,7 +16,7 @@ async function loadVersion(){const embedded=document.querySelector('meta[name="z
 async function loadServers(){try{const r=await fetch("./server-directory.json",{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);servers=validateServerDirectory(await r.json());if(!servers.length)throw new Error("No enabled server");activeServer=state.server==="auto"?servers[0]:servers.find(s=>s.id===state.server)||servers[0];renderServerOptions();renderServerStatus();refreshServerHealth()}catch{servers=[];serverHealth=[];activeServer=null;renderServerOptions();renderServerStatus();lastFailure={translation:"phaseServerDirectory"};phase(t("failed")+" • "+t("phaseServerDirectory"))}}
 async function probeServerHealth(server,parentSignal=null){for(let attempt=0;attempt<HEALTH_CHECK_ATTEMPTS;attempt++){if(parentSignal?.aborted)return{id:server.id,ok:false,latencyMs:null};const local=new AbortController(),onAbort=()=>local.abort(),timer=setTimeout(()=>local.abort(),HEALTH_CHECK_TIMEOUT_MS),start=performance.now();parentSignal?.addEventListener("abort",onAbort,{once:true});try{const r=await fetch(server.baseUrl+"/__down?bytes=0&health=1",{cache:"no-store",signal:local.signal});if(!r.ok)throw new Error("HTTP "+r.status);return{id:server.id,ok:true,latencyMs:performance.now()-start}}catch{}finally{clearTimeout(timer);parentSignal?.removeEventListener("abort",onAbort)}if(attempt+1<HEALTH_CHECK_ATTEMPTS&&!parentSignal?.aborted)await sleep(150*(attempt+1))}return{id:server.id,ok:false,latencyMs:null}}
 async function refreshServerHealth(signal=null){if(!servers.length)return null;const generation=++serverHealthGeneration,healthEl=$("serverHealthValue");if(healthEl)healthEl.textContent=t("healthChecking");const results=await Promise.all(servers.map(server=>probeServerHealth(server,signal)));if(signal?.aborted||generation!==serverHealthGeneration)return activeServer;serverHealth=results;if(state.server==="auto"){const best=selectBestServerHealth(serverHealth);activeServer=best?servers.find(s=>s.id===best.id)||null:null}else{const selected=servers.find(s=>s.id===state.server)||null,health=selected?serverHealth.find(x=>x.id===selected.id):null;activeServer=health?.ok?selected:null}renderServerStatus();return activeServer}
-function renderServerOptions(){const select=$("serverSetting");if(!select)return;select.innerHTML=['<option value="auto">Auto</option>',...servers.map(s=>`<option value="${s.id}">${s.name}</option>`)].join("");select.value=state.server==="auto"||servers.some(s=>s.id===state.server)?state.server:"auto"}
+function renderServerOptions(){const select=$("serverSetting");if(!select)return;select.replaceChildren(new Option("Auto","auto"),...servers.map(s=>new Option(s.name,s.id)));select.value=state.server==="auto"||servers.some(s=>s.id===state.server)?state.server:"auto"}
 function renderServerStatus(){if($("serverValue"))$("serverValue").textContent=activeServer?.name||"--";if($("routingValue"))$("routingValue").textContent=activeServer?.selection==="anycast-auto"?"Anycast / BGP":"--";const health=$("serverHealthValue");if(health){const h=activeServer?serverHealth.find(x=>x.id===activeServer.id):null;health.textContent=h?.ok?`${t("healthReady")} • ${h.latencyMs.toFixed(1)} ms`:(serverHealth.length?t("healthFailed"):"--")}}
 function setGaugeRunning(active){const gauge=document.querySelector(".gauge");if(gauge)gauge.classList.toggle("is-running",Boolean(active))}
 function setGaugeMetric(key){gaugeMetricKey=key;const el=$("gaugeMetricLabel");if(el)el.textContent=t(key)}
@@ -51,7 +51,31 @@ function renderMeta(m,stamp){$("ipValue").textContent=m.clientIp?m.clientIp+(m.i
 function renderVideo(d){const list=videoSuitability(d),known=Number.isFinite(d);$("videoHeadline").textContent=known?`${d.toFixed(1)} Mbps`:"--";$("videoList").innerHTML=list.map(x=>{const stateClass=!known?"video-unknown":x.suitable?"video-ready":"video-fail",status=!known?"--":x.suitable?(state.lang==="th"?"พร้อมใช้งาน":"Ready"):(state.lang==="th"?"ไม่ผ่าน":"Below target");return `<article class="status-card video-card ${stateClass}"><span>${x.label}<small>${t("videoThreshold")} ${x.threshold} Mbps</small></span><strong>${status}</strong></article>`}).join("")}
 function history(){try{const raw=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");return Array.isArray(raw)?raw.map(normalizeHistoryEntry):[]}catch{return[]}}
 function saveHistory(r){const next=[r,...history()].slice(0,20);localStorage.setItem(HISTORY_KEY,JSON.stringify(next));renderHistory()}
-function renderHistory(){const h=history();$("historyList").innerHTML=h.length?h.map(r=>`<article class="metric-card history-card"><header class="history-head"><strong>${r.timestamp?new Date(r.timestamp).toLocaleString():"--"}</strong><span>${r.profile||"--"} • ${r.connection||"--"}</span></header><div class="history-grid"><div><b>${formatNumber(r.downloadMbps)}</b><small>Down Mbps</small></div><div><b>${formatNumber(r.uploadMbps)}</b><small>Up Mbps</small></div><div><b>${formatNumber(r.idleLatencyMs)}</b><small>Idle ms</small></div><div><b>${formatNumber(r.downloadLoadedLatencyMs)}</b><small>Loaded ↓ ms</small></div></div></article>`).join(""):'<p class="history-empty">--</p>'}
+function renderHistory(){
+  const list=$("historyList"),items=history();
+  if(!items.length){
+    const empty=document.createElement("p");empty.className="history-empty";empty.textContent="--";
+    list.replaceChildren(empty);return;
+  }
+  const cards=items.map(r=>{
+    const card=document.createElement("article");card.className="metric-card history-card";
+    const header=document.createElement("header");header.className="history-head";
+    const when=document.createElement("strong");when.textContent=r.timestamp?new Date(r.timestamp).toLocaleString():"--";
+    const profile=document.createElement("span");profile.textContent=`${r.profile||"--"} • ${r.connection||"--"}`;
+    header.append(when,profile);card.append(header);
+    const grid=document.createElement("div");grid.className="history-grid";
+    for(const [value,label] of [
+      [r.downloadMbps,"Down Mbps"],[r.uploadMbps,"Up Mbps"],
+      [r.idleLatencyMs,"Idle ms"],[r.downloadLoadedLatencyMs,"Loaded ↓ ms"]
+    ]){
+      const cell=document.createElement("div"),valueNode=document.createElement("b"),unit=document.createElement("small");
+      valueNode.textContent=formatNumber(value);unit.textContent=label;
+      cell.append(valueNode,unit);grid.append(cell);
+    }
+    card.append(grid);return card;
+  });
+  list.replaceChildren(...cards);
+}
 async function runTest(){
   if(running){controller?.abort();return}
   lastFailure=null;
