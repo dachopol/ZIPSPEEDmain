@@ -125,6 +125,17 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
+ // Real browser regression: a failed Speed test must not be rewritten as "Ready" on TH/EN switch.
+ // Failure is forced only inside the isolated test browser; it is NOT real outage evidence.
+ await evaluate('(()=>{window.__qaOriginalFetch=window.fetch;window.fetch=(input,...args)=>String(input).includes("health=1")?Promise.reject(new Error("QA forced health failure")):window.__qaOriginalFetch(input,...args);return true})()');
+ await evaluate('document.getElementById("goButton").click()');
+ await waitEval('document.getElementById("phaseText").textContent.includes("ทดสอบไม่สำเร็จ")&&document.getElementById("goButton").textContent==="GO"',12000);
+ const failedAfterLocale=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.getElementById("phaseText").textContent.startsWith("Test failed")&&!document.getElementById("phaseText").textContent.includes("Ready for a real-data test")})()');
+ if(!failedAfterLocale)throw new Error("Locale switch concealed a failed Speed test");
+ const resetAfterFailure=await evaluate('(()=>{window.fetch=window.__qaOriginalFetch;delete window.__qaOriginalFetch;const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));document.getElementById("goButton").click();return document.getElementById("goButton").textContent==="STOP"})()');
+ if(!resetAfterFailure)throw new Error("Restart after failed Speed test is unavailable");
+ await evaluate('document.getElementById("goButton").click()');
+ await waitEval('document.getElementById("goButton").textContent==="GO"&&document.getElementById("phaseText").textContent.includes("พร้อมทดสอบ")',7000);
  // Capture real browser-rendered baseline UI evidence (NOT a mobile-device QA pass).
  // Keep full provenance and do not assign aesthetic scores from test code.
  await send("Emulation.setDeviceMetricsOverride",{width:390,height:844,deviceScaleFactor:1,mobile:true});
