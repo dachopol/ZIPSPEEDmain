@@ -1,5 +1,20 @@
 import{spawn,spawnSync}from"node:child_process";import fs from"node:fs/promises";import path from"node:path";
 const pkg=JSON.parse(await fs.readFile("package.json","utf8"));
+// GitHub pull_request checks out a synthetic merge commit; retain both exact identities.
+const gitHead=spawnSync("git",["rev-parse","HEAD"],{encoding:"utf8"});
+const checkoutSha=gitHead.status===0?gitHead.stdout.trim():null;
+const validSha=value=>typeof value==="string"&&/^[a-f0-9]{40}$/.test(value);
+if(!validSha(checkoutSha))throw new Error("Cannot establish checked-out source SHA");
+const eventName=process.env.GITHUB_EVENT_NAME||null,runId=process.env.GITHUB_RUN_ID||null;
+if(runId!==null&&!/^[0-9]+$/.test(runId))throw new Error("Invalid GitHub run ID");
+if(process.env.GITHUB_ACTIONS==="true"&&!runId)throw new Error("GitHub Actions run ID missing");
+let sourceSha=checkoutSha;
+if(eventName==="pull_request"){
+  if(!process.env.GITHUB_EVENT_PATH)throw new Error("PR event provenance missing");
+  const event=JSON.parse(await fs.readFile(process.env.GITHUB_EVENT_PATH,"utf8"));
+  sourceSha=event.pull_request?.head?.sha;
+  if(!validSha(sourceSha))throw new Error("PR head SHA missing or invalid");
+}
 const appPort=4180,debugPort=9223,base=`http://127.0.0.1:${appPort}`,sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function chromePath(){for(const name of["google-chrome","google-chrome-stable","chromium","chromium-browser"]){const r=spawnSync("which",[name],{encoding:"utf8"});if(r.status===0&&r.stdout.trim())return r.stdout.trim()}throw new Error("Chrome/Chromium not found")}
 async function waitHttp(url,timeout=30000){const end=Date.now()+timeout;while(Date.now()<end){try{const r=await fetch(url);if(r.ok)return r}catch{}await sleep(150)}throw new Error("Timeout waiting for "+url)}
@@ -52,6 +67,34 @@ try{
  axDiagnostics.stage="thai";axDiagnostics.thai={tabs:thaiAxObserved,go:thaiGoObserved};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
  for(const o of thaiAxObserved)if(o.ignored||String(o.role??"")!=="tab"||String(o.name??"").trim()!==o.expected)throw new Error("Thai AX tab invalid: "+o.id+" "+JSON.stringify(o));
  if(thaiGoObserved.ignored||String(thaiGoObserved.role??"")!=="button"||String(thaiGoObserved.name??"").trim()!=="GO")throw new Error("GO AX node invalid in Thai: "+JSON.stringify(thaiGoObserved));
+ // Accessibility names must follow the selected language; verify the browser AX tree, not only the DOM.
+ const namedGroups=[[ ".tabs", "เมนูหลัก", "tablist"],[".primary-metrics","ค่าการวัดเครือข่ายหลัก","group"],["#latencyGraph","ตัวอย่างค่าหน่วงแบบสด","img"]];
+ for(const [selector,label,role] of namedGroups){
+   const node=await axNode(selector);
+   const dom=await evaluate('document.querySelector('+JSON.stringify(selector)+')?.getAttribute("aria-label")');
+   if(dom!==label||node?.ignored||String(node?.name?.value??"").trim()!==label||
+      (role==="img"?!["image","img"].includes(String(node?.role?.value??"")):String(node?.role?.value??"")!==role))
+     throw new Error("Thai AX accessible label mismatch: "+selector+" "+JSON.stringify({dom,node:node&&{role:node.role?.value,name:node.name?.value,ignored:node.ignored}}));
+ }
+ // W3C APG: keyboard Tab from the selected tab reaches the Speed panel's initial non-focusable gauge content.
+ const speedFocusReady=await evaluate('(()=>{const panel=document.getElementById("speed"),status=document.getElementById("phaseText"),tab=document.getElementById("tab-speed");tab.focus();return panel?.getAttribute("role")==="tabpanel"&&panel.tabIndex===0&&status?.getAttribute("aria-atomic")==="true"&&document.activeElement===tab})()');
+ if(!speedFocusReady)throw new Error("Speed panel is not keyboard-focusable or status is not atomic");
+ await send("Input.dispatchKeyEvent",{type:"keyDown",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+ await send("Input.dispatchKeyEvent",{type:"keyUp",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+ const tabReachedSpeed=await evaluate('document.activeElement?.id==="speed"');
+ if(!tabReachedSpeed)throw new Error("Keyboard Tab skipped Speed panel and its non-interactive gauge");
+
+ // W3C APG: all seven tabpanels must be keyboard reachable.
+ // Dispatch real Chromium Tab events; focusing the tabpanel directly is not proof.
+ for(const pageId of ["video","status","map","history","settings","adfree"]){
+   const prepared=await evaluate('(()=>{const tab=document.getElementById("tab-'+pageId+'"),panel=document.getElementById("'+pageId+'");tab.click();tab.focus();return !!panel&&panel.tabIndex===0&&panel.getAttribute("role")==="tabpanel"&&panel.getAttribute("aria-labelledby")==="tab-'+pageId+'"&&panel.classList.contains("active")&&document.activeElement===tab})()');
+   if(!prepared)throw new Error("Tabpanel keyboard prerequisites failed: "+pageId);
+   await send("Input.dispatchKeyEvent",{type:"keyDown",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+   await send("Input.dispatchKeyEvent",{type:"keyUp",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+   if(!await evaluate('document.activeElement?.id==='+JSON.stringify(pageId)))
+      throw new Error("Keyboard Tab bypassed "+pageId+" panel");
+ }
+ await evaluate('document.getElementById("tab-speed").click()');
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
  if(shareDisabled!==true)throw new Error("Share must be disabled before result");
  const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
@@ -78,6 +121,8 @@ try{
 
  const english=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="Test profile"})()');
  if(!english)throw new Error("English switch failed");
+ const enOptions=await evaluate('(()=>{const q=(sel)=>document.querySelector(sel)?.textContent?.trim();return q("#profileSetting option[value=quick]")==="Quick (≈4 MiB)"&&q("#connectionSetting option[value=single]")==="Single"&&q("#connectionSetting option[value=multi]")==="Multi (4)"&&q("#serverSetting option[value=auto]")==="Auto"})()');
+ if(!enOptions)throw new Error("English Settings option labels not localized");
  await waitEval('document.getElementById("guideTitle")?.textContent==="User guide"',3000);
  const englishGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const ids=[...document.querySelectorAll("[data-guide-section]")].map(x=>x.dataset.guideSection);return ["getting-started","main-features","permissions","errors","privacy-security","support","accessibility"].every(id=>ids.includes(id))&&document.getElementById("guideContent").getAttribute("aria-busy")==="false"})()');
  if(!englishGuide)throw new Error("English user guide incomplete");
@@ -88,12 +133,22 @@ try{
  axDiagnostics.stage="english";axDiagnostics.english={tabs:englishAxObserved,go:englishGoObserved};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
  for(const o of englishAxObserved)if(o.ignored||String(o.role??"")!=="tab"||String(o.name??"").trim()!==o.expected)throw new Error("English AX tab invalid: "+o.id+" "+JSON.stringify(o));
  if(englishGoObserved.ignored||String(englishGoObserved.role??"")!=="button"||String(englishGoObserved.name??"").trim()!=="GO")throw new Error("GO AX node invalid in English: "+JSON.stringify(englishGoObserved));
+ const englishGroups=[[".tabs","Main navigation","tablist"],[".primary-metrics","Primary network metrics","group"],["#latencyGraph","Live latency samples","img"]];
+ for(const [selector,label,role] of englishGroups){
+   const node=await axNode(selector);
+   const dom=await evaluate('document.querySelector('+JSON.stringify(selector)+')?.getAttribute("aria-label")');
+   if(dom!==label||node?.ignored||String(node?.name?.value??"").trim()!==label||
+      (role==="img"?!["image","img"].includes(String(node?.role?.value??"")):String(node?.role?.value??"")!==role))
+     throw new Error("English AX accessible label mismatch: "+selector+" "+JSON.stringify({dom,node:node&&{role:node.role?.value,name:node.name?.value,ignored:node.ignored}}));
+ }
  const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
  if(!englishTabs)throw new Error("English tab translations incomplete");
  const englishVideoThreshold=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("Reference ")})()');
  if(!englishVideoThreshold)throw new Error("English video threshold translation incomplete");
  const thai=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.querySelector("[data-i18n=testProfile]").textContent==="รูปแบบการทดสอบ"})()');
  if(!thai)throw new Error("Thai switch failed");
+ const thOptions=await evaluate('(()=>{const q=(sel)=>document.querySelector(sel)?.textContent?.trim();return q("#profileSetting option[value=quick]")==="เร็ว (≈4 MiB)"&&q("#profileSetting option[value=standard]")==="มาตรฐาน (≤122 MiB)"&&q("#connectionSetting option[value=single]")==="ทางเดียว"&&q("#connectionSetting option[value=multi]")==="หลายทาง (4)"&&q("#serverSetting option[value=auto]")==="อัตโนมัติ"})()');
+ if(!thOptions)throw new Error("Thai Settings option labels not localized");
  await waitEval('document.getElementById("guideTitle")?.textContent==="คู่มือการใช้งาน"',3000);
  const thaiGuide=await evaluate('(()=>{const d=document.getElementById("userGuide");d.open=true;const first=document.querySelector("[data-guide-section=getting-started] h3");return first?.textContent==="เริ่มต้นใช้งาน"&&document.documentElement.scrollWidth<=window.innerWidth+1})()');
  if(!thaiGuide)throw new Error("Thai user guide or responsive layout incomplete");
@@ -125,6 +180,17 @@ try{
  await waitEval('document.getElementById("goButton").textContent==="STOP"',1500);
  await evaluate('document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))');
  await waitEval('document.getElementById("goButton").textContent==="GO"',7000);
+ // Real browser regression: a failed Speed test must not be rewritten as "Ready" on TH/EN switch.
+ // Failure is forced only inside the isolated test browser; it is NOT real outage evidence.
+ await evaluate('(()=>{window.__qaOriginalFetch=window.fetch;window.fetch=(input,...args)=>String(input).includes("health=1")?Promise.reject(new Error("QA forced health failure")):window.__qaOriginalFetch(input,...args);return true})()');
+ await evaluate('document.getElementById("goButton").click()');
+ await waitEval('document.getElementById("phaseText").textContent.includes("ทดสอบไม่สำเร็จ")&&document.getElementById("goButton").textContent==="GO"',12000);
+ const failedAfterLocale=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="en";e.dispatchEvent(new Event("change",{bubbles:true}));return document.getElementById("phaseText").textContent.startsWith("Test failed")&&!document.getElementById("phaseText").textContent.includes("Ready for a real-data test")})()');
+ if(!failedAfterLocale)throw new Error("Locale switch concealed a failed Speed test");
+ const resetAfterFailure=await evaluate('(()=>{window.fetch=window.__qaOriginalFetch;delete window.__qaOriginalFetch;const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));document.getElementById("goButton").click();return document.getElementById("goButton").textContent==="STOP"})()');
+ if(!resetAfterFailure)throw new Error("Restart after failed Speed test is unavailable");
+ await evaluate('document.getElementById("goButton").click()');
+ await waitEval('document.getElementById("goButton").textContent==="GO"&&document.getElementById("phaseText").textContent.includes("พร้อมทดสอบ")',7000);
  // Capture real browser-rendered baseline UI evidence (NOT a mobile-device QA pass).
  // Keep full provenance and do not assign aesthetic scores from test code.
  await send("Emulation.setDeviceMetricsOverride",{width:390,height:844,deviceScaleFactor:1,mobile:true});
@@ -144,7 +210,7 @@ try{
      if(bytes.length<2500||!bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error("Visual QA browser screenshot invalid: "+locale+"/"+pageId);
      const filename="visual-"+locale+"-"+pageId+"-baseline.png";
      await fs.writeFile("browser-artifacts/"+filename,bytes);
-     visualEvidence.push({file:filename,locale,page_id:pageId,state:pageId==="speed"?"ready":"default",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(bytes).digest("hex"),bytes:bytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version});
+     visualEvidence.push({file:filename,locale,page_id:pageId,state:pageId==="speed"?"ready":"default",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(bytes).digest("hex"),bytes:bytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version,source_sha:sourceSha,checked_out_sha:checkoutSha,run_id:runId});
    }
    const guidePage=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();const guide=document.getElementById("userGuide");guide.open=true;return guide.open&&document.getElementById("settings").classList.contains("active")})()');
    if(!guidePage)throw new Error("Visual QA guide cannot open: "+locale);
@@ -155,12 +221,44 @@ try{
    if(guideBytes.length<2500||!guideBytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))throw new Error("Visual QA guide screenshot invalid: "+locale);
    const guideFile="visual-"+locale+"-settings-guide-open.png";
    await fs.writeFile("browser-artifacts/"+guideFile,guideBytes);
-   visualEvidence.push({file:guideFile,locale,page_id:"settings",state:"guide-open",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(guideBytes).digest("hex"),bytes:guideBytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version});
+   visualEvidence.push({file:guideFile,locale,page_id:"settings",state:"guide-open",viewport:{width:390,height:844,deviceScaleFactor:1},sha256:createHash("sha256").update(guideBytes).digest("hex"),bytes:guideBytes.length,capturedAt:new Date().toISOString(),environment:"headless-chromium-browser-not-android-device",source_version:pkg.version,source_sha:sourceSha,checked_out_sha:checkoutSha,run_id:runId});
  }
  if(visualEvidence.length!==16)throw new Error("Incomplete 7-tab baseline + guide TH/EN visual evidence");
- await fs.writeFile("browser-artifacts/visual-manifest.json",JSON.stringify({generatedAt:new Date().toISOString(),source:"real browser render",scope:"seven baseline tabs + expanded Settings guide in TH/EN (not error/loading/device)",candidate_version:pkg.version,visualCoverage:visualEvidence},null,2));
+ await fs.writeFile("browser-artifacts/visual-manifest.json",JSON.stringify({generatedAt:new Date().toISOString(),source:"real browser render",scope:"seven baseline tabs + expanded Settings guide in TH/EN (not error/loading/device)",candidate_version:pkg.version,candidate_source_sha:sourceSha,checked_out_sha:checkoutSha,github_run_id:runId,github_event_name:eventName,github_repository:process.env.GITHUB_REPOSITORY||null,visualCoverage:visualEvidence},null,2));
+ const manifest=JSON.parse(await fs.readFile("browser-artifacts/visual-manifest.json","utf8"));
+ if(manifest.candidate_source_sha!==sourceSha||manifest.checked_out_sha!==checkoutSha||
+    manifest.github_run_id!==runId||manifest.visualCoverage.length!==16||
+    manifest.visualCoverage.some(x=>x.source_sha!==sourceSha||x.checked_out_sha!==checkoutSha||x.run_id!==runId))
+   throw new Error("Browser visual evidence source/run provenance mismatch");
  await send("Emulation.clearDeviceMetricsOverride");
- const evidence={visualBaselineScreenshots:visualEvidence.length,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
+ // Security/UX negative fixture: only in disposable headless Chromium, never a real measurement or screenshot.
+ // A hostile directory label and locally stored history value must remain literal TEXT, never parsed HTML.
+ const unsafeLabel='<img data-qa-unsafe src=x>';
+ const injectedFixture=`(()=>{const name=${JSON.stringify(unsafeLabel)};
+   localStorage.setItem("zipspeed_history_v72",JSON.stringify([{timestamp:null,profile:name,connection:"QA-only fixture"}]));
+   const realFetch=window.fetch.bind(window);
+   window.fetch=(url,options)=>{
+     const request=String(url);
+     if(request.includes("i18n/guide."))return Promise.reject(new Error("QA-only guide fetch failure"));
+     if(request.includes("server-directory.json"))
+       return Promise.resolve(new Response(JSON.stringify({schemaVersion:1,servers:[{id:"qa-safe",name,baseUrl:"https://speed.cloudflare.com",enabled:true}]}),
+         {status:200,headers:{"Content-Type":"application/json"}}));
+     return realFetch(url,options);
+   };
+ })()`;
+ await send("Page.addScriptToEvaluateOnNewDocument",{source:injectedFixture});
+ await send("Page.reload",{ignoreCache:true});
+ await waitEval(`(()=>{const opt=document.querySelector("#serverSetting option[value=qa-safe]"),entry=document.querySelector("#historyList .history-head span");return opt?.textContent===${JSON.stringify(unsafeLabel)}&&entry?.textContent.includes("data-qa-unsafe")})()`,12000);
+ const safeDom=await evaluate('(()=>{const option=document.querySelector("#serverSetting option[value=qa-safe]"),entry=document.querySelector("#historyList .history-head span");return !!option&&!!entry&&option.textContent.includes("<img")&&entry.textContent.includes("<img")&&!document.querySelector("#serverSetting img")&&!document.querySelector("#historyList img")&&!document.querySelector("[data-qa-unsafe]")})()');
+ if(!safeDom)throw new Error("Untrusted directory/history text became DOM markup");
+ // Synthetic offline guide fixture: prove no permanently busy accessible region on failure.
+ // This test runs after the 16 baseline screenshots; it never labels the fixture as device evidence.
+ const englishGuideFailure=await waitEval('document.getElementById("guideContent")?.getAttribute("aria-busy")==="false" && document.getElementById("guideTitle")?.textContent==="User guide" && document.getElementById("guideContent")?.textContent.startsWith("Could not load the user guide.")',12000);
+ if(!englishGuideFailure)throw new Error("English guide failure did not settle accessibility busy state");
+ const changedLocale=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.documentElement.lang==="th"})()');
+ if(!changedLocale)throw new Error("Guide offline fixture could not switch to Thai");
+ await waitEval('document.getElementById("guideContent")?.getAttribute("aria-busy")==="false" && document.getElementById("guideTitle")?.textContent==="คู่มือการใช้งาน" && document.getElementById("guideContent")?.textContent.startsWith("ไม่สามารถโหลดคู่มือได้")',12000);
+ const evidence={visualBaselineScreenshots:visualEvidence.length,safeDynamicTextRendering:true,guideNetworkFailureSettledThEn:true,localizedSettingsChoicesThEn:true,manifestProvenanceVerified:true,source_sha:sourceSha,checked_out_sha:checkoutSha,run_id:runId,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,allSevenTabpanelsKeyboardReachable:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}

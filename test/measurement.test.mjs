@@ -45,3 +45,14 @@ test("Speed measurement never substitutes planned payload or fabricated idle zer
   assert.ok(!app.includes("down.bytes||profile.downloadBytes"));
   assert.ok(!app.includes("lastResult.idleLatencyMs.toFixed(1)"));
 });
+
+// Static contract only; real assistive-technology/device QA remains required.
+test("Animated Speed gauge must not flood ARIA live announcements",async()=>{
+  const {readFile}=await import("node:fs/promises");
+  const html=await readFile(new URL("../web/index.html",import.meta.url),"utf8");
+  const app=await readFile(new URL("../web/src/app.mjs",import.meta.url),"utf8");
+  assert.match(html,/<div class="gauge">/);
+  assert.doesNotMatch(html,/<div class="gauge"[^>]*aria-live=/);
+  assert.match(html,/<p id="phaseText"[^>]*role="status"[^>]*aria-live="polite"/);
+  assert.match(app,/gaugeAnimationFrame=requestAnimationFrame\(runGaugeMotion\)/);
+});
