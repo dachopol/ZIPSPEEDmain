@@ -68,6 +68,18 @@ try{
  await send("Input.dispatchKeyEvent",{type:"keyUp",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
  const tabReachedSpeed=await evaluate('document.activeElement?.id==="speed"');
  if(!tabReachedSpeed)throw new Error("Keyboard Tab skipped Speed panel and its non-interactive gauge");
+
+ // W3C APG: all seven tabpanels must be keyboard reachable.
+ // Dispatch real Chromium Tab events; focusing the tabpanel directly is not proof.
+ for(const pageId of ["video","status","map","history","settings","adfree"]){
+   const prepared=await evaluate('(()=>{const tab=document.getElementById("tab-'+pageId+'"),panel=document.getElementById("'+pageId+'");tab.click();tab.focus();return !!panel&&panel.tabIndex===0&&panel.getAttribute("role")==="tabpanel"&&panel.getAttribute("aria-labelledby")==="tab-'+pageId+'"&&panel.classList.contains("active")&&document.activeElement===tab})()');
+   if(!prepared)throw new Error("Tabpanel keyboard prerequisites failed: "+pageId);
+   await send("Input.dispatchKeyEvent",{type:"keyDown",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+   await send("Input.dispatchKeyEvent",{type:"keyUp",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+   if(!await evaluate('document.activeElement?.id==='+JSON.stringify(pageId)))
+      throw new Error("Keyboard Tab bypassed "+pageId+" panel");
+ }
+ await evaluate('document.getElementById("tab-speed").click()');
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
  if(shareDisabled!==true)throw new Error("Share must be disabled before result");
  const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
@@ -211,7 +223,7 @@ try{
  await waitEval(`(()=>{const opt=document.querySelector("#serverSetting option[value=qa-safe]"),entry=document.querySelector("#historyList .history-head span");return opt?.textContent===${JSON.stringify(unsafeLabel)}&&entry?.textContent.includes("data-qa-unsafe")})()`,12000);
  const safeDom=await evaluate('(()=>{const option=document.querySelector("#serverSetting option[value=qa-safe]"),entry=document.querySelector("#historyList .history-head span");return !!option&&!!entry&&option.textContent.includes("<img")&&entry.textContent.includes("<img")&&!document.querySelector("#serverSetting img")&&!document.querySelector("#historyList img")&&!document.querySelector("[data-qa-unsafe]")})()');
  if(!safeDom)throw new Error("Untrusted directory/history text became DOM markup");
- const evidence={visualBaselineScreenshots:visualEvidence.length,safeDynamicTextRendering:true,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
+ const evidence={visualBaselineScreenshots:visualEvidence.length,safeDynamicTextRendering:true,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,allSevenTabpanelsKeyboardReachable:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
