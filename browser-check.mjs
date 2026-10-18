@@ -52,6 +52,13 @@ try{
  axDiagnostics.stage="thai";axDiagnostics.thai={tabs:thaiAxObserved,go:thaiGoObserved};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
  for(const o of thaiAxObserved)if(o.ignored||String(o.role??"")!=="tab"||String(o.name??"").trim()!==o.expected)throw new Error("Thai AX tab invalid: "+o.id+" "+JSON.stringify(o));
  if(thaiGoObserved.ignored||String(thaiGoObserved.role??"")!=="button"||String(thaiGoObserved.name??"").trim()!=="GO")throw new Error("GO AX node invalid in Thai: "+JSON.stringify(thaiGoObserved));
+ // W3C APG: keyboard Tab from the selected tab reaches the Speed panel's initial non-focusable gauge content.
+ const speedFocusReady=await evaluate('(()=>{const panel=document.getElementById("speed"),status=document.getElementById("phaseText"),tab=document.getElementById("tab-speed");tab.focus();return panel?.getAttribute("role")==="tabpanel"&&panel.tabIndex===0&&status?.getAttribute("aria-atomic")==="true"&&document.activeElement===tab})()');
+ if(!speedFocusReady)throw new Error("Speed panel is not keyboard-focusable or status is not atomic");
+ await send("Input.dispatchKeyEvent",{type:"keyDown",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+ await send("Input.dispatchKeyEvent",{type:"keyUp",key:"Tab",code:"Tab",windowsVirtualKeyCode:9});
+ const tabReachedSpeed=await evaluate('document.activeElement?.id==="speed"');
+ if(!tabReachedSpeed)throw new Error("Keyboard Tab skipped Speed panel and its non-interactive gauge");
  const shareDisabled=await evaluate('document.getElementById("shareButton").disabled');
  if(shareDisabled!==true)throw new Error("Share must be disabled before result");
  const settingsActive=await evaluate('(()=>{document.querySelector("[data-tab=settings]").click();return document.getElementById("settings").classList.contains("active")&&document.querySelector("[data-tab=settings]").getAttribute("aria-selected")==="true"})()');
