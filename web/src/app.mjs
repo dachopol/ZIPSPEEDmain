@@ -2,6 +2,7 @@ import{TEST_PROFILES,CONNECTION_MODES,calculateMbps,summarizeLatency,summarizeBa
 const $=id=>document.getElementById(id);
 const HISTORY_KEY="zipspeed_history_v72",MONITOR_KEY="zipspeed_monitor_events_v72";
 let controller=null,running=false,runTimedOut=false,runTimeoutTimer=null,runRequestTimeoutMs=30000,lastResult=null,servers=[],activeServer=null,serverHealth=[],serverHealthGeneration=0,graphSamples=[],monitorTimer=null,monitorRunning=false,monitorRequestController=null,monitorState={failures:0,down:false},monitorDisplay={kind:"stopped",latency:null};
+let lastFailure=null;
 const state={profile:localStorage.getItem("zipspeed_profile")||"quick",connection:localStorage.getItem("zipspeed_connection")||"single",lang:localStorage.getItem("zipspeed_lang")||"th",server:localStorage.getItem("zipspeed_server")||"auto",monitorInterval:Number(localStorage.getItem("zipspeed_monitor_interval")||5000)};
 let gaugeAnimationFrame=null,displayedGaugeValue=null,gaugeTargetValue=null,gaugeLastFrame=0,gaugeMetricKey="gaugeSpeed";
 const text={
@@ -12,7 +13,7 @@ function t(k){return text[state.lang]?.[k]??text.th[k]??k}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const HEALTH_CHECK_TIMEOUT_MS=5000,HEALTH_CHECK_ATTEMPTS=2;
 async function loadVersion(){const embedded=document.querySelector('meta[name="zipspeed-version"]')?.content?.trim();if(embedded&&embedded!=="__ZIPSPEED_VERSION__"){$("appVersion").textContent="v"+embedded;return}for(let attempt=0;attempt<3;attempt++){try{const r=await fetch("./version.json",{cache:"no-store"});if(!r.ok)throw 0;const v=await r.json();if(!v?.version)throw 0;$("appVersion").textContent="v"+v.version;return}catch{if(attempt<2)await new Promise(resolve=>setTimeout(resolve,120*(attempt+1)))}}$("appVersion").textContent="v--"}
-async function loadServers(){try{const r=await fetch("./server-directory.json",{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);servers=validateServerDirectory(await r.json());if(!servers.length)throw new Error("No enabled server");activeServer=state.server==="auto"?servers[0]:servers.find(s=>s.id===state.server)||servers[0];renderServerOptions();renderServerStatus();refreshServerHealth()}catch{servers=[];serverHealth=[];activeServer=null;renderServerOptions();renderServerStatus();phase(t("failed")+" • "+t("phaseServerDirectory"))}}
+async function loadServers(){try{const r=await fetch("./server-directory.json",{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);servers=validateServerDirectory(await r.json());if(!servers.length)throw new Error("No enabled server");activeServer=state.server==="auto"?servers[0]:servers.find(s=>s.id===state.server)||servers[0];renderServerOptions();renderServerStatus();refreshServerHealth()}catch{servers=[];serverHealth=[];activeServer=null;renderServerOptions();renderServerStatus();lastFailure={translation:"phaseServerDirectory"};phase(t("failed")+" • "+t("phaseServerDirectory"))}}
 async function probeServerHealth(server,parentSignal=null){for(let attempt=0;attempt<HEALTH_CHECK_ATTEMPTS;attempt++){if(parentSignal?.aborted)return{id:server.id,ok:false,latencyMs:null};const local=new AbortController(),onAbort=()=>local.abort(),timer=setTimeout(()=>local.abort(),HEALTH_CHECK_TIMEOUT_MS),start=performance.now();parentSignal?.addEventListener("abort",onAbort,{once:true});try{const r=await fetch(server.baseUrl+"/__down?bytes=0&health=1",{cache:"no-store",signal:local.signal});if(!r.ok)throw new Error("HTTP "+r.status);return{id:server.id,ok:true,latencyMs:performance.now()-start}}catch{}finally{clearTimeout(timer);parentSignal?.removeEventListener("abort",onAbort)}if(attempt+1<HEALTH_CHECK_ATTEMPTS&&!parentSignal?.aborted)await sleep(150*(attempt+1))}return{id:server.id,ok:false,latencyMs:null}}
 async function refreshServerHealth(signal=null){if(!servers.length)return null;const generation=++serverHealthGeneration,healthEl=$("serverHealthValue");if(healthEl)healthEl.textContent=t("healthChecking");const results=await Promise.all(servers.map(server=>probeServerHealth(server,signal)));if(signal?.aborted||generation!==serverHealthGeneration)return activeServer;serverHealth=results;if(state.server==="auto"){const best=selectBestServerHealth(serverHealth);activeServer=best?servers.find(s=>s.id===best.id)||null:null}else{const selected=servers.find(s=>s.id===state.server)||null,health=selected?serverHealth.find(x=>x.id===selected.id):null;activeServer=health?.ok?selected:null}renderServerStatus();return activeServer}
 function renderServerOptions(){const select=$("serverSetting");if(!select)return;select.innerHTML=['<option value="auto">Auto</option>',...servers.map(s=>`<option value="${s.id}">${s.name}</option>`)].join("");select.value=state.server==="auto"||servers.some(s=>s.id===state.server)?state.server:"auto"}
@@ -53,6 +54,7 @@ function saveHistory(r){const next=[r,...history()].slice(0,20);localStorage.set
 function renderHistory(){const h=history();$("historyList").innerHTML=h.length?h.map(r=>`<article class="metric-card history-card"><header class="history-head"><strong>${r.timestamp?new Date(r.timestamp).toLocaleString():"--"}</strong><span>${r.profile||"--"} • ${r.connection||"--"}</span></header><div class="history-grid"><div><b>${formatNumber(r.downloadMbps)}</b><small>Down Mbps</small></div><div><b>${formatNumber(r.uploadMbps)}</b><small>Up Mbps</small></div><div><b>${formatNumber(r.idleLatencyMs)}</b><small>Idle ms</small></div><div><b>${formatNumber(r.downloadLoadedLatencyMs)}</b><small>Loaded ↓ ms</small></div></div></article>`).join(""):'<p class="history-empty">--</p>'}
 async function runTest(){
   if(running){controller?.abort();return}
+  lastFailure=null;
   if(monitorRunning)stopMonitor();
   running=true;runTimedOut=false;controller=new AbortController();setMeasurementSettingsDisabled(true);resetResult();setGaugeRunning(true);$("goButton").textContent=t("stop");
   const profile=TEST_PROFILES[state.profile]||TEST_PROFILES.quick;
@@ -81,8 +83,13 @@ async function runTest(){
     lastResult={timestamp:stamp,downloadMbps:down.speed,uploadMbps:up.speed,idleLatencyMs:idle.latency,idleJitterMs:idle.jitter,downloadLoadedLatencyMs:down.latency,downloadLoadedJitterMs:down.jitter,uploadLoadedLatencyMs:up.latency,uploadLoadedJitterMs:up.jitter,payloadBytes,downloadStages:down.stages??1,uploadStages:up.stages??1,httpProbeFailed:idle.failed,httpProbeTotal:idle.total,profile:state.profile,connection:state.connection,serverId:activeServer.id};
     renderMeta(meta,stamp);renderVideo(down.speed);saveHistory(lastResult);$("shareButton").disabled=false;phase(t("ready"))
   }catch(e){
-    if(e?.name==="AbortError")phase(runTimedOut?t("failed")+" • "+t("phaseTimeout"):t("ready"));
-    else phase(t("failed")+" • "+(e?.message||"Error"))
+    if(e?.name==="AbortError"){
+      if(runTimedOut){lastFailure={translation:"phaseTimeout"};phase(t("failed")+" • "+t("phaseTimeout"))}
+      else phase(t("ready"));
+    }else{
+      lastFailure={translation:e?.message===t("phaseIncomplete")?"phaseIncomplete":null,message:e?.message||"Error"};
+      phase(t("failed")+" • "+lastFailure.message);
+    }
   }finally{
     if(runTimeoutTimer){clearTimeout(runTimeoutTimer);runTimeoutTimer=null}
     running=false;controller=null;runTimedOut=false;setGaugeRunning(false);setMeasurementSettingsDisabled(false);$("goButton").textContent=t("go")
@@ -117,7 +124,7 @@ async function loadGuide(){
   let data;try{data=await fetchGuide(state.lang)}catch{try{data=await fetchGuide("en")}catch{return}}
   if(generation!==guideLoadGeneration)return;renderGuide(data)
 }
-function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});setGaugeMetric(gaugeMetricKey);phase(running?t("running"):t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog();loadGuide()}
+function setLanguage(){document.documentElement.lang=state.lang;document.querySelectorAll("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(text[state.lang]?.[key])el.textContent=text[state.lang][key]});setGaugeMetric(gaugeMetricKey);phase(running?t("running"):lastFailure?t("failed")+" • "+(lastFailure.translation?t(lastFailure.translation):lastFailure.message):t("ready"));$("goButton").textContent=running?t("stop"):t("go");$("mapMessage").textContent=t("map");renderVideo(lastResult?.downloadMbps??null);renderMonitor();renderMonitorLog();loadGuide()}
 function updateTabScrollCue(){
   const strip=document.querySelector(".tabs");if(!strip)return;
   const max=Math.max(0,strip.scrollWidth-strip.clientWidth);
