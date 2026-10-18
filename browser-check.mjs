@@ -52,6 +52,15 @@ try{
  axDiagnostics.stage="thai";axDiagnostics.thai={tabs:thaiAxObserved,go:thaiGoObserved};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
  for(const o of thaiAxObserved)if(o.ignored||String(o.role??"")!=="tab"||String(o.name??"").trim()!==o.expected)throw new Error("Thai AX tab invalid: "+o.id+" "+JSON.stringify(o));
  if(thaiGoObserved.ignored||String(thaiGoObserved.role??"")!=="button"||String(thaiGoObserved.name??"").trim()!=="GO")throw new Error("GO AX node invalid in Thai: "+JSON.stringify(thaiGoObserved));
+ // Accessibility names must follow the selected language; verify the browser AX tree, not only the DOM.
+ const namedGroups=[[ ".tabs", "เมนูหลัก", "tablist"],[".primary-metrics","ค่าการวัดเครือข่ายหลัก","group"],["#latencyGraph","ตัวอย่างค่าหน่วงแบบสด","img"]];
+ for(const [selector,label,role] of namedGroups){
+   const node=await axNode(selector);
+   const dom=await evaluate('document.querySelector('+JSON.stringify(selector)+')?.getAttribute("aria-label")');
+   if(dom!==label||node?.ignored||String(node?.name?.value??"").trim()!==label||
+      (role==="img"?!["image","img"].includes(String(node?.role?.value??"")):String(node?.role?.value??"")!==role))
+     throw new Error("Thai AX accessible label mismatch: "+selector+" "+JSON.stringify({dom,node:node&&{role:node.role?.value,name:node.name?.value,ignored:node.ignored}}));
+ }
  // W3C APG: keyboard Tab from the selected tab reaches the Speed panel's initial non-focusable gauge content.
  const speedFocusReady=await evaluate('(()=>{const panel=document.getElementById("speed"),status=document.getElementById("phaseText"),tab=document.getElementById("tab-speed");tab.focus();return panel?.getAttribute("role")==="tabpanel"&&panel.tabIndex===0&&status?.getAttribute("aria-atomic")==="true"&&document.activeElement===tab})()');
  if(!speedFocusReady)throw new Error("Speed panel is not keyboard-focusable or status is not atomic");
@@ -95,6 +104,14 @@ try{
  axDiagnostics.stage="english";axDiagnostics.english={tabs:englishAxObserved,go:englishGoObserved};await fs.writeFile("browser-artifacts/accessibility-debug.json",JSON.stringify(axDiagnostics,null,2));
  for(const o of englishAxObserved)if(o.ignored||String(o.role??"")!=="tab"||String(o.name??"").trim()!==o.expected)throw new Error("English AX tab invalid: "+o.id+" "+JSON.stringify(o));
  if(englishGoObserved.ignored||String(englishGoObserved.role??"")!=="button"||String(englishGoObserved.name??"").trim()!=="GO")throw new Error("GO AX node invalid in English: "+JSON.stringify(englishGoObserved));
+ const englishGroups=[[".tabs","Main navigation","tablist"],[".primary-metrics","Primary network metrics","group"],["#latencyGraph","Live latency samples","img"]];
+ for(const [selector,label,role] of englishGroups){
+   const node=await axNode(selector);
+   const dom=await evaluate('document.querySelector('+JSON.stringify(selector)+')?.getAttribute("aria-label")');
+   if(dom!==label||node?.ignored||String(node?.name?.value??"").trim()!==label||
+      (role==="img"?!["image","img"].includes(String(node?.role?.value??"")):String(node?.role?.value??"")!==role))
+     throw new Error("English AX accessible label mismatch: "+selector+" "+JSON.stringify({dom,node:node&&{role:node.role?.value,name:node.name?.value,ignored:node.ignored}}));
+ }
  const englishTabs=await evaluate('JSON.stringify([...document.querySelectorAll(".tab")].map(x=>x.textContent.trim()))===JSON.stringify(["Speed","Video","Status","Map","History","Settings","Ad-free"])');
  if(!englishTabs)throw new Error("English tab translations incomplete");
  const englishVideoThreshold=await evaluate('(()=>{document.querySelector("[data-tab=video]").click();const s=document.querySelector("#videoList .video-card span small");return !!s&&s.textContent.startsWith("Reference ")})()');
