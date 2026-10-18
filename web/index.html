@@ -27,7 +27,7 @@
       <button id="tab-adfree" class="tab" role="tab" aria-selected="false" aria-controls="adfree" tabindex="-1" data-tab="adfree" data-i18n="tabAdfree">Ad-free</button>
     </nav>
 
-    <section id="speed" class="page active" role="tabpanel" aria-labelledby="tab-speed">
+    <section id="speed" class="page active" role="tabpanel" aria-labelledby="tab-speed" tabindex="0">
       <article class="hero-card">
         <div class="gauge">
           <div class="gauge-ring"><div id="needle" class="needle"></div><div class="hub"></div></div>
@@ -40,7 +40,7 @@
           <article class="primary-metric"><span data-i18n="idleLatency">Ping (HTTP)</span><div><strong id="latencyValue">--</strong><small>ms</small></div></article>
           <article class="primary-metric"><span data-i18n="idleJitter">Jitter</span><div><strong id="jitterValue">--</strong><small>ms</small></div></article>
         </div>
-        <p id="phaseText" class="muted" role="status" aria-live="polite" data-i18n="ready">พร้อมทดสอบด้วยข้อมูลจริง</p>
+        <p id="phaseText" class="muted" role="status" aria-live="polite" aria-atomic="true" data-i18n="ready">พร้อมทดสอบด้วยข้อมูลจริง</p>
       </article>
 
       <div class="card-list detail-metrics">
