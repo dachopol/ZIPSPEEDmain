@@ -213,17 +213,28 @@ try{
  const injectedFixture=`(()=>{const name=${JSON.stringify(unsafeLabel)};
    localStorage.setItem("zipspeed_history_v72",JSON.stringify([{timestamp:null,profile:name,connection:"QA-only fixture"}]));
    const realFetch=window.fetch.bind(window);
-   window.fetch=(url,options)=>String(url).includes("server-directory.json")
-     ? Promise.resolve(new Response(JSON.stringify({schemaVersion:1,servers:[{id:"qa-safe",name,baseUrl:"https://speed.cloudflare.com",enabled:true}]}),
-       {status:200,headers:{"Content-Type":"application/json"}}))
-     : realFetch(url,options);
+   window.fetch=(url,options)=>{
+     const request=String(url);
+     if(request.includes("i18n/guide."))return Promise.reject(new Error("QA-only guide fetch failure"));
+     if(request.includes("server-directory.json"))
+       return Promise.resolve(new Response(JSON.stringify({schemaVersion:1,servers:[{id:"qa-safe",name,baseUrl:"https://speed.cloudflare.com",enabled:true}]}),
+         {status:200,headers:{"Content-Type":"application/json"}}));
+     return realFetch(url,options);
+   };
  })()`;
  await send("Page.addScriptToEvaluateOnNewDocument",{source:injectedFixture});
  await send("Page.reload",{ignoreCache:true});
  await waitEval(`(()=>{const opt=document.querySelector("#serverSetting option[value=qa-safe]"),entry=document.querySelector("#historyList .history-head span");return opt?.textContent===${JSON.stringify(unsafeLabel)}&&entry?.textContent.includes("data-qa-unsafe")})()`,12000);
  const safeDom=await evaluate('(()=>{const option=document.querySelector("#serverSetting option[value=qa-safe]"),entry=document.querySelector("#historyList .history-head span");return !!option&&!!entry&&option.textContent.includes("<img")&&entry.textContent.includes("<img")&&!document.querySelector("#serverSetting img")&&!document.querySelector("#historyList img")&&!document.querySelector("[data-qa-unsafe]")})()');
  if(!safeDom)throw new Error("Untrusted directory/history text became DOM markup");
- const evidence={visualBaselineScreenshots:visualEvidence.length,safeDynamicTextRendering:true,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,allSevenTabpanelsKeyboardReachable:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
+ // Synthetic offline guide fixture: prove no permanently busy accessible region on failure.
+ // This test runs after the 16 baseline screenshots; it never labels the fixture as device evidence.
+ const englishGuideFailure=await waitEval('document.getElementById("guideContent")?.getAttribute("aria-busy")==="false" && document.getElementById("guideTitle")?.textContent==="User guide" && document.getElementById("guideContent")?.textContent.startsWith("Could not load the user guide.")',12000);
+ if(!englishGuideFailure)throw new Error("English guide failure did not settle accessibility busy state");
+ const changedLocale=await evaluate('(()=>{const e=document.getElementById("languageSetting");e.value="th";e.dispatchEvent(new Event("change",{bubbles:true}));return document.documentElement.lang==="th"})()');
+ if(!changedLocale)throw new Error("Guide offline fixture could not switch to Thai");
+ await waitEval('document.getElementById("guideContent")?.getAttribute("aria-busy")==="false" && document.getElementById("guideTitle")?.textContent==="คู่มือการใช้งาน" && document.getElementById("guideContent")?.textContent.startsWith("ไม่สามารถโหลดคู่มือได้")',12000);
+ const evidence={visualBaselineScreenshots:visualEvidence.length,safeDynamicTextRendering:true,guideNetworkFailureSettledThEn:true,generatedAt:new Date().toISOString(),chrome:chromeBin,version,tabSwitch:true,keyboardTabNavigation:true,allSevenTabpanelsKeyboardReachable:true,activeTabAutoScroll:true,tabScrollDiscoverabilityCue:true,secondaryPagesResponsive:true,videoThresholdHierarchy:true,responsiveViewportWidths:[320,390,768],languageSwitch:true,fullTabTranslations:true,accessibilityTreeTabsThEn:true,accessibilityTreeGoButton:true,measurementSettingsLock:true,stopPreflightLatencyMs:stopLatencyMs,privacyLink:true,goStopPreflight:true,escapeAbort:true,shareDisabledBeforeResult:true,idleGaugePlaceholder:true,premiumCompactness:true,primaryMetricsOnHero:true,dampedGauge:true,compactGaugePhase:true};
  await fs.writeFile("browser-artifacts/browser-interaction.json",JSON.stringify(evidence,null,2));
  console.log("BROWSER INTERACTION PASS — tabs/language/GO-STOP/Escape/privacy");
 }finally{try{ws?.close()}catch{};try{chrome?.kill("SIGTERM")}catch{};try{server?.kill("SIGTERM")}catch{}}
